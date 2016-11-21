@@ -1,0 +1,423 @@
+@media (max-width: 991px) {
+	.lang-bar {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+	}
+}
+
+@media (max-width: 400px) {
+	.masthead h3 img {
+		position: absolute;
+		top: -2px;
+    	left: -9px;
+		height: 35px !important;
+	}
+	
+	.masthead .company-name {
+		height: 88px;
+	}
+	
+	.masthead .company-name li:nth-child(1) {
+		font-size: 25px !important;
+	}
+	
+	.masthead .company-name li:nth-child(2) {
+		font-size: 18px !important;
+	}
+}
+
+/*Master Header*/
+.masthead {
+	display: inline-block;
+	background-color: #3471a7;
+	width: 100%;
+
+	position: relative;
+
+	background-image: url("img/header_background.jpg");
+}
+
+/*top left block*/
+.masthead h3 {
+	display: inline-block;
+	padding: 10px 10px 20px;
+}
+
+/*company logo*/
+.masthead h3 img {
+	float: left;
+	height: 75px;
+	padding-left: 25px;
+	padding-top: 10px;
+}
+
+/*company name*/
+.masthead .company-name {
+	float: left;
+}
+
+.masthead .company-name {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.masthead .company-name li {
+	padding-left: 20px;
+	padding-top: 10px;
+	color: #FFFFFF;
+}
+
+/*Main Title*/
+.masthead .company-name li:nth-child(1) {
+	font-size: 40px;
+    text-shadow: 4px 4px 4px #0b487b;
+}
+
+/*Sub Title*/
+.masthead .company-name li:nth-child(2) {
+	padding-left: 27px;
+	font-size: 21px;
+}
+
+/*Header Right*/
+.header-right {
+	float: right;
+}
+
+/*top right*/
+.lang-bar {
+	float: right;
+	color: #FFFFFF;
+	padding: 10px 16px 0px;
+}
+
+.lang-bar {
+	list-style: none;
+}
+
+.lang-bar li {
+	float: left;
+	padding: 0px 5px;
+}
+
+.lang-bar a {
+	color: #FFFFFF;
+}
+
+.lang-bar a:hover {
+	color: #fdff6c;
+	text-decoration: none;
+}
+
+/*Login Block*/
+.login-block {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+
+	background-color: #2d318a;
+	color: #FFFFFF;
+	font-size: 20px;
+	font-weight: bold;
+	
+	margin: 0px;
+	margin-bottom: 0px;
+
+	padding: 9px 25px 9px 44px;
+	
+	list-style: none;
+
+	-webkit-border-top-left-radius: 18px;
+	-moz-border-radius-topleft: 18px;
+	border-top-left-radius: 18px;
+}
+
+/*Navigation Bar*/
+.main_navbar {
+    border: 0px;
+    border-radius: 0;
+    background-color: #2e4571;
+    margin-bottom: 0px;
+    min-height: 40px
+}
+
+.main_navbar li {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.main_navbar li a {
+	color: #FFFFFF !important;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+/*Banner*/
+.main_banner img {
+	/*height: 350px !important;
+	width: 200px;*/
+}
+
+/*breadcrumb*/
+.breadcrumb {
+	padding: 15px 0px 0px;
+	background-color: #FFFFFF;
+}
+
+/*Page Navigation*/
+.page-title {
+	/*padding-top: 25px;*/
+	padding-bottom: 15px;
+	color: #3471a7;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+/*Trading Platform*/
+.trading-platform .row {
+	margin: 0px 0px;
+}
+
+.trading-platform {
+	padding: 0px 15px;
+}
+
+.trading-platform h3 {
+	color: #3471a7;
+}
+
+.trading-platform .title {
+	padding: 25px 0px 0px;
+	color: #3471a7;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.trading-platform img {
+	height: 200px;
+}
+
+.trading-platform .app-trading {
+	padding: 25px 0px;
+}
+
+.trading-platform .app-trading .qr-code {
+	text-align: center;
+}
+
+.trading-platform .app-trading .qr-code img {
+	height: 100px;
+}
+
+.trading-platform .app-trading .qr-code p {
+	text-align: center;
+	padding-top: 10px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.trading-platform .app-trading .left {
+	/*padding-top: 40px;*/
+}
+
+.trading-platform .app-trading .left ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.trading-platform .app-trading .left ul li:nth-child(1) {
+	padding-bottom: 25px;
+}
+
+.trading-platform .app-trading .left ul li:nth-child(2) {
+	text-align: right;
+}
+
+.trading-platform .online-trading {
+	padding: 25px 0px;
+}
+
+.trading-platform .online-trading .col-md-7 img {
+	height: auto;
+	width: 100%;
+}
+
+.trading-platform .online-trading .login-btn {
+	font-size: 30px;
+}
+
+.trading-platform .online-trading .right {
+	/*padding-top: 40px;*/
+}
+
+.trading-platform .online-trading .right ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.trading-platform .online-trading .right ul li:nth-child(1) {
+	padding-bottom: 25px;
+}
+
+.trading-platform .online-trading .right ul li:nth-child(2) {
+	text-align: right;
+}
+
+.service-block .img-block {
+	text-align: center;
+}
+
+.service-block p {
+	min-height: 85px;
+}
+
+.service-block .img-block img {
+	width: 90%; 
+	padding-top: 10px;
+	height: 225px;
+}
+
+.stock-block {
+	padding-top: 25px;
+}
+
+.stock-block .glyphicon-arrow-up {
+	color: green;
+}
+
+.stock-block .glyphicon-arrow-down {
+	color: red;
+}
+
+.stock-block .index-table thead th {
+	color: #3471a7;
+	font-weight: bold;
+}
+
+.service-block h2 {
+	color: #3471a7;
+	font-weight: bold;
+}
+
+/*About Us*/
+.about-us-block .page-title {
+	padding-bottom: 0px;	
+}
+
+.about-us-block ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px 15px;
+}
+
+.about-us-block .stock-block {
+	padding: 15px 15px 0px;
+}
+
+/*Contact US*/
+.contact-us-block .information .row {
+	padding: 0px 15px;
+}
+
+.contact-us-block .information h2 {
+	margin-top: 0px;
+}
+
+.contact-us-block .information .title, .contact-us-block .information .content {
+	padding-bottom: 10px;
+	font-size: 15px;
+}
+
+.contact-us-block .information .title {
+	font-weight: bold;
+}
+
+.contact-us-block .information input {
+	width: 100%;
+	font-size: 15px;
+	padding: 2px 7px;
+}
+
+.contact-us-block .information textarea {
+	font-size: 15px;
+	width: 100%;
+	height: 100px;
+	padding: 5px 7px;
+}
+
+.contact-us-block .information .submit {
+	width: auto;
+}
+
+.contact-us-block .information i {
+	width: 25px;
+	padding-right: 10px;
+}
+
+/*download-block*/
+.download-block h3 {
+	font-weight: bold;
+	color: #3471a7;	
+}
+
+/*
+.download-block ul {
+	list-style: none;
+}
+*/
+
+.download-block li {
+	padding: 10px 0px;
+}
+
+.download-block .download-table {
+	margin-bottom: 30px;
+}
+
+.download-block .download-table a {
+	font-weight: bold;
+}
+
+.download-block .download-table a:hover {
+	text-decoration: none;
+}
+
+/*Footer*/
+.footer p {
+	float: left;	
+}
+
+.footer a {
+	color: #000000;
+	/*text-decoration: underline;*/
+}
+
+.footer ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px 0px;
+	float: right;
+}
+
+.footer li {
+	float: left;
+	padding: 0px 5px;
+}
+
+.footer .weixin_qr {
+	float: right;
+	margin-bottom: 15px;
+}
+
+.footer .weixin_qr li{
+	float: none;
+}
+
+.stock-block .index-temp {
+    display: none;
+}
+
