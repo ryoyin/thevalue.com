@@ -7,11 +7,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      網站文章平台
+      Photo Library
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li class="active">網站文章平台</li>
+      <li class="active">Photo Library</li>
     </ol>
   </section>
 
@@ -32,23 +32,36 @@
         @endif
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">站內文章</h3> <a href="{{ action('PhotoController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">新增</a>
+            <h3 class="box-title">List</h3> <a href="{{ action('PhotoController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
           </div><!-- /.box-header -->
           <div class="box-body">
             <table id="research" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>標題</th>
-                <th>分析師</th>
-                {{--<th>標籤</th>--}}
-                <th>發佈日期</th>
-                <th>狀態</th>
-                <th>建立日期</th>
-                <th>最後更新</th>
-                <th align="center">行動</th>
+                <th>Title</th>
+                <th>Caption</th>
+                <th>Alt</th>
+                <th>Path</th>
+                <th style="text-align: center;">Status</th>
+                <th style="text-align: center;">Created At</th>
+                <th style="text-align: center;">Updated At</th>
+                <th style="text-align: center;">Action</th>
               </tr>
               </thead>
               <tbody>
+
+              @foreach($photos as $photo)
+                <tr>
+                  <td>{{ $photo->title }}</td>
+                  <td>{{ $photo->caption }}</td>
+                  <td>{{ $photo->alt }}</td>
+                  <td>{{ $photo->filePath }}</td>
+                  <td align="center">{{ $photo->status }}</td>
+                  <td align="center">{{ $photo->created_at }}</td>
+                  <td align="center">{{ $photo->updated_at }}</td>
+                  <td align="center"><a href="{{ url('tvadmin/edit') }}" class="btn btn-warning">Modify</a> <button class="btn btn-danger">Delete</button></td>
+                </tr>
+              @endforeach
 
               </tbody>
               {{--<tfoot>

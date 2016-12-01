@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Photo;
 
 class PhotoController extends Controller
 {
@@ -13,12 +14,14 @@ class PhotoController extends Controller
      */
     public function index()
     {
+        $photos = Photo::all();
+
         $data = array(
-            'menu' => array('blog', 'blog.list'),
-//            'researches' => $research->getResearch(50, NULL)
+            'menu' => array('photo', 'photo.list'),
+            'photos' => $photos,
         );
 
-        return view('backend.blog.index', $data);
+        return view('backend.photo.index', $data);
     }
 
     /**
@@ -28,7 +31,20 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
+        $data = array(
+            'menu' => array('photo', 'photo.create'),
+            'title' => 'Add Photo',
+            'action' => url('tvadmin/photo'),
+            'photo' => array(
+                'title' => old('title'),
+                'caption' => old('caption'),
+                'alt' => old('alt'),
+                'filePath' => old('filePath'),
+                'status' => old('status'),
+            ),
+        );
+
+        return view('backend.photo.form', $data);
     }
 
     /**

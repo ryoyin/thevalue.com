@@ -32,11 +32,11 @@
       <li class="header">文章</li>
       <!-- Optionally, you can add icons to the links -->
       {{--<li><a href="{{ route('admin-blog') }}"><i class="fa fa-camera-retro"></i> <span>圖片庫   </span></a></li>--}}
-      <li class="treeview {{ isActiveMenu('blog', $menu) }}">
-        <a href="#"><i class="fa fa-file-text-o"></i> <span>網站文章平台</span> <i class="fa fa-angle-left pull-right"></i></a>
+      <li class="treeview {{ isActiveMenu('photo', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Photo Library</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
-          <li class="{{ isActiveMenu('blog.list', $menu) }}"><a href="#"><a href="{{ action('PhotoController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>文章列表   </span></a></a></li>
-          <li class="{{ isActiveMenu('blog.create', $menu) }}"><a href="{{ action('PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>新增文章   </span></a></li>
+          <li class="{{ isActiveMenu('photo.list', $menu) }}"><a href="#"><a href="{{ action('PhotoController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Photo List   </span></a></a></li>
+          <li class="{{ isActiveMenu('photo.create', $menu) }}"><a href="{{ action('PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Photo   </span></a></li>
         </ul>
       </li>
 
