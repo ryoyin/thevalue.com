@@ -12,9 +12,58 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/test', function() {
+Route::get('/listapi', function() {
+    $list = array(
+        url('api/testtranslate'),
+        url('api/categories/html'),
+        url('api/categories/array')
+    );
+
+    echo '<pre>';
+    print_r($list);
+});
+
+Route::get('/testtranslate', function() {
    return trans('general.test');
 });
+
+use App\Category;
+Route::get('categories/html', function() {
+    return getCategoriesHTML(null);
+});
+
+Route::get('categories/array', function() {
+    dd(getCategoriesArray(null));
+});
+
+function getCategoriesHTML($parent_id)
+{
+    $categories = Category::where('parent_id', $parent_id)->get();
+    $html = "<ul>";
+    foreach($categories as $category) {
+        $html .= "<li>{$category->name}";
+        $html .= getCategoriesHTML($category->id);
+        $html .= "</li>";
+    }
+    $html .= "</ul>";
+
+    return $html;
+}
+
+function getCategoriesArray($parent_id)
+{
+    $categories = Category::where('parent_id', $parent_id)->get();
+
+    $array = array();
+    foreach($categories as $category) {
+        $array[$category->name] = array(
+            'url'   => 'hyperlink',
+            'child' => getCategoriesArray($category->id)
+        );
+    }
+
+    return $array;
+}
 
 
 Route::get('/user', function (Request $request) {
