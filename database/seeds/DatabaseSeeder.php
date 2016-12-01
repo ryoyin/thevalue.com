@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
         DB::table('categories')->insert(['id' => 8, 'name' => 'Samsung Note 7', 'parent_id' => 7]);
 
         //title caption alt status
-        DB::table('photos')->insert('title'=>'');
+//        DB::table('photos')->insert('title'=>'');
     }
 }
