@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhotosTable extends Migration
+class CreateArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreatePhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('photos', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('alt');
-            $table->longText('image_path');
-            $table->enum('size', ['original', 'medium', 'small']);
+            $table->string('slug');
+            $table->enum('status', ['draft', 'pending', 'published', 'suspend']);
+            $table->dateTime('start_at');
+            $table->dateTime('end_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
-
-
 
     /**
      * Reverse the migrations.
@@ -31,6 +31,6 @@ class CreatePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photos');
+        Schema::dropIfExists('articles');
     }
 }

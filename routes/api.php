@@ -62,6 +62,46 @@ function getCategoriesArray($parent_id)
         );
     }
 
+    /*
+    array:3 [
+        "TV" => array:2 [
+        "url" => "hyperlink"
+        "child" => array:2 [
+        "LCD" => array:2 [
+        "url" => "hyperlink"
+            "child" => []
+          ]
+          "Plasma" => array:2 [
+        "url" => "hyperlink"
+            "child" => []
+          ]
+        ]
+      ]
+      "Cell Phone" => array:2 [
+        "url" => "hyperlink"
+        "child" => array:2 [
+        "iPhone" => array:2 [
+        "url" => "hyperlink"
+            "child" => []
+          ]
+          "Android" => array:2 [
+        "url" => "hyperlink"
+            "child" => array:1 [
+        "Samsung Note 7" => array:2 [
+        "url" => "hyperlink"
+                "child" => []
+              ]
+            ]
+          ]
+        ]
+      ]
+      "Computer" => array:2 [
+        "url" => "hyperlink"
+        "child" => []
+      ]
+    ]
+    */
+
     return $array;
 }
 
