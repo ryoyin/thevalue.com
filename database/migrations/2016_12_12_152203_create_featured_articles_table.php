@@ -16,7 +16,7 @@ class CreateFeaturedArticlesTable extends Migration
         Schema::create('featured_articles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('article_id');
-            $table->integer('category_id');
+            $table->integer('category_id')->nullable();
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
             $table->string('slug');
             $table->enum('status', ['draft', 'pending', 'published', 'suspend']);
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
+            $table->dateTime('start_at')->nullable();
+            $table->dateTime('end_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
