@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::get('/listapi', function() {
     $list = array(
         url('api/testtranslate'),
@@ -41,7 +42,7 @@ function getCategoriesHTML($parent_id)
     $categories = Category::where('parent_id', $parent_id)->get();
     $html = "<ul>";
     foreach($categories as $category) {
-        $html .= "<li>{$category->name}";
+        $html .= "<li>{$category->slug}";
         $html .= getCategoriesHTML($category->id);
         $html .= "</li>";
     }
@@ -52,14 +53,25 @@ function getCategoriesHTML($parent_id)
 
 function getCategoriesArray($parent_id)
 {
+    $locale = App::getLocale();
     $categories = Category::where('parent_id', $parent_id)->get();
 
     $array = array();
     foreach($categories as $category) {
-        $array[$category->name] = array(
+        $categoryDetail = $category->details()->where('lang', $locale)->first();
+
+        if(sizeof($categoryDetail) == 0) {
+            $categoryDetail = $category->details()->where('lang', 'en')->first();
+        }
+
+        $categoryName = $categoryDetail->name;
+
+        $array[$categoryName] = array(
             'url'   => 'hyperlink',
             'child' => getCategoriesArray($category->id)
         );
+
+//        break;
     }
 
     /*

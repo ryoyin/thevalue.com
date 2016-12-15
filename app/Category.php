@@ -15,4 +15,15 @@ class Category extends Model
     {
         return $this->hasMany('Category', 'parent_id');
     }
+
+    public function details()
+    {
+        return $this->hasMany('App\CategoryDetail');
+    }
+
+    public function articles()
+    {
+        return $this->hasMany('App\Article');
+    }
+
 }
