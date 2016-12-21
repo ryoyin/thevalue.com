@@ -15,6 +15,7 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('category_id');
             $table->string('slug');
             $table->enum('status', ['draft', 'pending', 'published', 'suspend']);
             $table->dateTime('start_at')->nullable();

@@ -12,9 +12,9 @@ class ArticlesTableSeeder extends Seeder
     public function run()
     {
         # create article
-        DB::table('articles')->insert(['id' => 1, 'slug' => 'Testing Article 1', 'status' => 'published']);
-        DB::table('articles')->insert(['id' => 2, 'slug' => 'Testing Article 2', 'status' => 'published']);
-        DB::table('articles')->insert(['id' => 3, 'slug' => 'Testing Article 3', 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 1, 'category_id' => 1, 'slug' => 'Testing-Article-1', 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 2, 'category_id' => 1, 'slug' => 'Testing-Article-2', 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 3, 'category_id' => 2,'slug' => 'Testing-Article-3', 'status' => 'published']);
 
         # create article detail
         # lang	title	short_desc	description	status	article_id
@@ -69,6 +69,9 @@ class ArticlesTableSeeder extends Seeder
 
         # Featured Article
         DB::table('featured_articles')->insert(['article_id' => 1]);
+
+        # Tag
+
 
     }
 }
