@@ -13,7 +13,7 @@ class Article extends Model
 
     public function details()
     {
-        return $this->hasMany('App\ArticleDetail');
+        return $this->hasMany('App\CategoryDetail');
     }
 
     public function featuredArticle()
