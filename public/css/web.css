@@ -1,12 +1,20 @@
+body {
+  font-family: arial;
+}
+
 .ul-clean {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+#header-bar {
+  font-weight: bold;
+}
+
 #header-bar #header-bar-misc li {
   float: right;
-  padding-left: 7px;
+  padding-left: 10px;
 }
 
 #header-bar .pull-left, #header-bar .pull-right {
@@ -14,18 +22,131 @@
 }
 
 #header-bar .pull-center {
-  font-family: impact;
+  font-family: 'Helvetica';
   font-size: 35px;
   padding: 10px 0;
 }
 
 #header-menu {
-  padding-bottom: 10px;
+  padding-bottom: 12px;
+  font-weight: bold;
 }
 
 #header-menu .ul-clean li {
   float: left;
   padding-right: 20px;
+}
+
+#news-brief {
+  padding-top: 20px;
+}
+
+#news-brief ul {
+  padding: 15px 10px;
+  font-weight: bold;
+}
+
+#news-brief ul li:first-child {
+  padding-bottom: 10px;
+}
+
+#news-brief ul li:nth-child(2) {
+  color: #2aabd2;
+}
+
+#news-brief ul img {
+  width: 100%;
+}
+
+#home-content {
+  padding-top: 25px;
+  font-size: 16px;
+}
+
+#home-content #left {
+  padding-right: 30px;
+}
+
+#home-content #left #head li {
+  padding: 15px 30px;
+  color: #8c8c8c;
+}
+
+#home-content #left #head li:first-child {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+#home-content #left #head li:last-child {
+  padding: 24px 0 0;
+}
+
+#home-content #left #block {
+  border-top: 1px solid #000000;
+  padding-bottom: 25px;
+}
+
+#home-content #left #block .news {
+  padding-top: 30px;
+}
+
+#home-content #left #block .news .left {
+  padding-right: 25px;
+  padding-bottom: 10px;
+}
+
+#home-content #left #block .news .right .cate {
+  color: #2aabd2;
+  font-size: 10px;
+}
+
+#home-content #left #block .news .right .title {
+  font-weight: bold;
+  font-size: 18px;
+  padding-top: 3px;
+}
+
+#home-content #left #block .news .right .misc {
+  font-size: 9px;
+  padding-top: 7px;
+}
+
+#home-content #left #block .news .right .misc li:first-child span {
+  font-weight: bold;
+  color: #000000;
+}
+
+#home-content #left #block .news .right .misc li:last-child li {
+  float: right;
+  padding-left: 7px;
+}
+
+#home-content #left #block .news .right .misc li:last-child li span {
+  font-weight: bold;
+}
+
+#home-content #left #block .news .right .desc {
+  padding-top: 8px;
+}
+
+.fa-envelope {
+  color: #0d6aad;
+}
+
+.fa-facebook-f {
+  color: #3b5998;
+}
+
+.fa-twitter {
+  color: #00aced;
+}
+
+.fa-weibo {
+  color: #df2029;
+}
+
+.fa-wechat {
+  color: #09b93e;
 }
 
 /*# sourceMappingURL=web.css.map */

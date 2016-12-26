@@ -13,9 +13,7 @@
 
 
 
-Route::get('/', function () {
-    return view('frontend.template.layout');
-});
+Route::get('/', 'Frontend\HomepageController@index');
 
 Auth::routes();
 

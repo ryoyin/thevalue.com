@@ -1,3 +1,7 @@
+body {
+  font-family: arial;
+}
+
 .ul-clean {
   margin: 0;
   padding: 0;
@@ -5,10 +9,12 @@
 }
 
 #header-bar {
+  font-weight: bold;
+
   #header-bar-misc {
     li {
       float: right;
-      padding-left: 7px;
+      padding-left: 10px;
     }
   }
 
@@ -17,18 +23,131 @@
   }
 
   .pull-center {
-    font-family: impact;
+    font-family: 'Helvetica';
     font-size: 35px;
     padding: 10px 0;
   }
 }
 
 #header-menu {
-  padding-bottom: 10px;
+  padding-bottom: 12px;
+  font-weight: bold;
   .ul-clean {
     li {
       float: left;
       padding-right: 20px;
     }
   }
+}
+
+#news-brief {
+  padding-top: 20px;
+  ul {
+    padding: 15px 10px;
+    font-weight: bold;
+
+    li {
+      &:first-child {
+        padding-bottom: 10px;
+      }
+      &:nth-child(2) {
+        color: #2aabd2;;
+      }
+    }
+    img {
+      width: 100%
+    }
+  }
+}
+
+#home-content {
+  padding-top: 25px;
+  font-size: 16px;
+  #left {
+    padding-right: 30px;
+    #head {
+      li {
+        padding: 15px 30px;
+        color: #8c8c8c;
+
+        &:first-child {
+          background-color: #000000;
+          color: #FFFFFF;
+        }
+        &:last-child {
+          padding: 24px 0 0;
+        }
+      }
+    }
+    #block {
+      border-top: 1px solid #000000;
+      padding-bottom: 25px;
+
+      .news {
+        padding-top: 30px;
+
+        .left {
+          padding-right: 25px;
+          padding-bottom: 10px;
+        }
+
+        .right {
+          .cate {
+            color: #2aabd2;
+            font-size: 10px;
+          }
+          .title {
+            font-weight: bold;
+            font-size: 18px;
+            padding-top: 3px;
+          }
+          .misc {
+            font-size: 9px;
+            padding-top: 7px;
+            li {
+              &:first-child {
+                //color: #8c8c8c;
+                span {
+                  font-weight: bold;
+                  color: #000000;
+                }
+              }
+              &:last-child {
+                li {
+                  float:right;
+                  padding-left: 7px;
+                  span {
+                    font-weight: bold;
+                  }
+                }
+              }
+            }
+          }
+          .desc {
+            padding-top: 8px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.fa-envelope {
+  color: #0d6aad;
+}
+
+.fa-facebook-f {
+  color: #3b5998
+}
+
+.fa-twitter {
+  color: #00aced;
+}
+
+.fa-weibo {
+  color: #df2029;
+}
+
+.fa-wechat {
+  color: #09b93e;
 }

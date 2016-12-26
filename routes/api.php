@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/listapi', function() {
+Route::get('/listapi', function () {
     $list = array(
         url('api/testtranslate'),
         url('api/categories/html'),
@@ -24,16 +24,17 @@ Route::get('/listapi', function() {
     print_r($list);
 });
 
-Route::get('/testtranslate', function() {
-   return trans('general.test');
+Route::get('/testtranslate', function () {
+    return trans('general.test');
 });
 
 use App\Category;
-Route::get('categories/html', function() {
+
+Route::get('categories/html', function () {
     return getCategoriesHTML(null);
 });
 
-Route::get('categories/array', function() {
+Route::get('categories/array', function () {
     dd(getCategoriesArray(null));
 });
 
@@ -41,7 +42,7 @@ function getCategoriesHTML($parent_id)
 {
     $categories = Category::where('parent_id', $parent_id)->get();
     $html = "<ul>";
-    foreach($categories as $category) {
+    foreach ($categories as $category) {
         $html .= "<li>{$category->slug}";
         $html .= getCategoriesHTML($category->id);
         $html .= "</li>";
@@ -51,70 +52,81 @@ function getCategoriesHTML($parent_id)
     return $html;
 }
 
-function getCategoriesArray($parent_id)
+function getCategoriesArray()
 {
+
     $locale = App::getLocale();
-    $categories = Category::where('parent_id', $parent_id)->get();
+    $categories = Category::orderBy('parent_id')->orderBy('sorting')->get();
 
     $array = array();
-    foreach($categories as $category) {
-        $categoryDetail = $category->details()->where('lang', $locale)->first();
+    foreach ($categories as $category) {
 
-        if(sizeof($categoryDetail) == 0) {
-            $categoryDetail = $category->details()->where('lang', 'en')->first();
-        }
-
+        $categoryDetail = getCategory($category, $locale);
         $categoryName = $categoryDetail->name;
 
-        $array[$categoryName] = array(
-            'url'   => 'hyperlink',
-            'child' => getCategoriesArray($category->id)
+//        dd($category);
+
+        // get parent detail
+        $parent = null;
+        if($category->parent_id != null) {
+            $parent = Category::where('id', $category->parent_id)->first();
+            $parentDetail = getCategory($parent, $locale);
+            $parent = array(
+                'id' => $category->parent_id,
+                'slug' => $parent->slug,
+                'name' => $parentDetail->name
+            );
+        }
+
+        //get child detail
+        $child = null;
+        $children = Category::where('parent_id', $category->id)->orderBy('sorting')->get();
+
+//        dd($chil)
+
+        if(count($children)) {
+            $child = array();
+            foreach($children as $cate) {
+                $childDetail = getCategory($cate, $locale);
+                $child[] = array(
+                    'id' => $cate->id,
+                    'slug' => $childDetail->slug,
+                    'name' => $childDetail->name
+                );
+            }
+        }
+
+        $array[] = array(
+            'id' => $category->id,
+            'slug' => $category->slug,
+            'name' => $categoryName,
+            'url' => 'hyperlink',
+            'parent' => $parent,
+            'child' => $child
         );
 
 //        break;
     }
 
-    /*
-    array:3 [
-        "TV" => array:2 [
-        "url" => "hyperlink"
-        "child" => array:2 [
-        "LCD" => array:2 [
-        "url" => "hyperlink"
-            "child" => []
-          ]
-          "Plasma" => array:2 [
-        "url" => "hyperlink"
-            "child" => []
-          ]
-        ]
-      ]
-      "Cell Phone" => array:2 [
-        "url" => "hyperlink"
-        "child" => array:2 [
-        "iPhone" => array:2 [
-        "url" => "hyperlink"
-            "child" => []
-          ]
-          "Android" => array:2 [
-        "url" => "hyperlink"
-            "child" => array:1 [
-        "Samsung Note 7" => array:2 [
-        "url" => "hyperlink"
-                "child" => []
-              ]
-            ]
-          ]
-        ]
-      ]
-      "Computer" => array:2 [
-        "url" => "hyperlink"
-        "child" => []
-      ]
-    ]
-    */
-
     return $array;
+}
+
+function getCategory($category, $locale)
+{
+
+    $categoryDetail = $category->details()->where('lang', $locale)->first();
+
+    if (sizeof($categoryDetail) == 0) {
+        $categoryDetail = $category->details()->where('lang', 'en')->first();
+    }
+
+    return $categoryDetail;
+
+}
+
+function getChild()
+{
+
 }
 
 
