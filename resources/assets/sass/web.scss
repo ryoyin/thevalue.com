@@ -36,11 +36,18 @@ body {
     li {
       float: left;
       padding-right: 20px;
+      a {
+        text-decoration: none;
+        color: #000000;
+        &:hover {
+          color: #73a0ff;
+        }
+      }
     }
   }
 }
 
-#news-brief {
+#featured-news {
   padding-top: 20px;
   ul {
     padding: 15px 10px;

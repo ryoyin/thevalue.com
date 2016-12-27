@@ -24,6 +24,8 @@ Route::get('/listapi', function () {
     print_r($list);
 });
 
+Route::get('/index', 'API\IndexController@index');
+
 Route::get('/testtranslate', function () {
     return trans('general.test');
 });
@@ -111,23 +113,23 @@ function getCategoriesArray()
     return $array;
 }
 
-function getCategory($category, $locale)
-{
+    function getCategory($category, $locale)
+    {
 
-    $categoryDetail = $category->details()->where('lang', $locale)->first();
+        $categoryDetail = $category->details()->where('lang', $locale)->first();
 
-    if (sizeof($categoryDetail) == 0) {
-        $categoryDetail = $category->details()->where('lang', 'en')->first();
+        if (sizeof($categoryDetail) == 0) {
+            $categoryDetail = $category->details()->where('lang', 'en')->first();
+        }
+
+        return $categoryDetail;
+
     }
 
-    return $categoryDetail;
+    function getChild()
+    {
 
-}
-
-function getChild()
-{
-
-}
+    }
 
 
 Route::get('/user', function (Request $request) {

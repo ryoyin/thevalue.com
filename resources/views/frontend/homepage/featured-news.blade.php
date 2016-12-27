@@ -1,7 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Roy Ho
- * Date: 2016/12/27
- * Time: 下午 09:15
- */
+<div class="row" id="featured-news">
+    <ul class="col-md-3 ul-clean">
+        <li>IMG</li>
+        <li>TITLE</li>
+        <li>DESC</li>
+    </ul>
+</div> <!-- news-brief -->

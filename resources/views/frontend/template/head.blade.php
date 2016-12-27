@@ -9,6 +9,11 @@
 
     <title>TheValue.com</title>
 
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('dist/css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -32,5 +37,6 @@
 
     <!-- custom -->
     <link href="{{ asset('css/web.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/web.js') }}"></script>
 
 </head>
