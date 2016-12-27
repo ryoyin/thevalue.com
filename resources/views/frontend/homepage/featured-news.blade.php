@@ -1,4 +1,4 @@
-<div class="row" id="featured-news">
+<div class="row" id="featured-article">
     <ul class="col-md-3 ul-clean">
         <li><img src="{{ asset('images/articles/temp/article-01.jpg') }}" class="img-responsive"></li>
         <li>Title 標題</li>

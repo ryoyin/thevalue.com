@@ -46,24 +46,24 @@ body {
   color: #73a0ff;
 }
 
-#featured-news {
+#featured-article {
   padding-top: 20px;
 }
 
-#featured-news ul {
+#featured-article ul {
   padding: 15px 10px;
   font-weight: bold;
 }
 
-#featured-news ul li:first-child {
+#featured-article ul li:first-child {
   padding-bottom: 10px;
 }
 
-#featured-news ul li:nth-child(2) {
+#featured-article ul li:nth-child(2) {
   color: #2aabd2;
 }
 
-#featured-news ul img {
+#featured-article ul img {
   width: 100%;
 }
 

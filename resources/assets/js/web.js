@@ -4,6 +4,7 @@ $( document ).ready(function() {
 
 var $categoriesArray;
 var $bannersArray;
+var $featuredArticlesArray;
 
 function getInfo() {
 
@@ -22,6 +23,9 @@ function getInfo() {
                 case 'banners':
                     $bannersArray = val;
                     break;
+                case 'featuredArticles':
+                    $featuredArticlesArray = val;
+                    break;
             }
         });
 
@@ -33,6 +37,7 @@ function getInfo() {
 function showContent() {
     makeCategoriesList();
     makeBanners();
+    makeFeaturedArticles();
 }
 
 function makeCategoriesList() {
@@ -48,7 +53,6 @@ function makeCategoriesList() {
 function makeBanners() {
     var indicators = [];
     var banners = [];
-    console.log($bannersArray);
 
     $.each($bannersArray, function(key, val) {
         var indicatorClass = "";
@@ -64,4 +68,33 @@ function makeBanners() {
     $('.carousel-indicators').children('li').css('margin', '0 3px');
 
     $('.carousel-inner').html(banners.join(""));
+}
+
+function makeFeaturedArticles() {
+
+    var featuredArticles = [];
+    // console.log($featuredArticlesArray);
+    $.each($featuredArticlesArray, function(key, val) {
+        var category = getCategoryByID(val.category_id);
+
+        var categoryName = category.name;
+
+        if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
+
+        featuredArticles.push("<ul class='col-md-3 ul-clean'><li><img src='"+val.photo.image_path+"' class='img-responsive'></li><li>"+categoryName+"</li><li>"+val.title+"</li></ul>");
+    });
+
+    $('#featured-article').html(featuredArticles.join(""));
+
+}
+
+function getCategoryByID(id) {
+    // console.log(id);
+    for(var i = 0; i < $categoriesArray.length; i++ ) {
+
+        if($categoriesArray[i].id == id) {
+            var category = $categoriesArray[i];
+            return category;
+        }
+    }
 }

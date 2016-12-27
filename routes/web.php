@@ -15,6 +15,10 @@
 
 Route::get('/', 'Frontend\HomepageController@index');
 
+Route::get('/demo', function() {
+    return view('frontend.demo');
+});
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {

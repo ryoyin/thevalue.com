@@ -36,7 +36,7 @@ class Category extends Model
         $array = array();
         foreach ($categories as $category) {
 
-            $categoryDetail = getCategory($category, $locale);
+            $categoryDetail = $this->getCategory($category, $locale);
             $categoryName = $categoryDetail->name;
 
 //        dd($category);
@@ -45,7 +45,7 @@ class Category extends Model
             $parent = null;
             if($category->parent_id != null) {
                 $parent = Category::where('id', $category->parent_id)->first();
-                $parentDetail = getCategory($parent, $locale);
+                $parentDetail = $this->getCategory($parent, $locale);
                 $parent = array(
                     'id' => $category->parent_id,
                     'slug' => $parent->slug,
@@ -62,7 +62,7 @@ class Category extends Model
             if(count($children)) {
                 $child = array();
                 foreach($children as $cate) {
-                    $childDetail = getCategory($cate, $locale);
+                    $childDetail = $this->getCategory($cate, $locale);
                     $child[] = array(
                         'id' => $cate->id,
                         'slug' => $childDetail->slug,
@@ -71,11 +71,14 @@ class Category extends Model
                 }
             }
 
+            $defaultCategoryDetail = $this->getCategory($category, 'en');
+
             $array[] = array(
                 'id' => $category->id,
                 'slug' => $category->slug,
+                'default_name' => $defaultCategoryDetail->name,
                 'name' => $categoryName,
-                'url' => 'news',
+                'url' => 'categories',
                 'parent' => $parent,
                 'child' => $child
             );

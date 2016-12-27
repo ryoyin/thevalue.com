@@ -13,7 +13,7 @@ class Article extends Model
 
     public function details()
     {
-        return $this->hasMany('App\CategoryDetail');
+        return $this->hasMany('App\ArticleDetail');
     }
 
     public function featuredArticle()
@@ -24,5 +24,10 @@ class Article extends Model
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
+    }
+
+    public function photo()
+    {
+        return $this->belongsTo('App\Photo');
     }
 }
