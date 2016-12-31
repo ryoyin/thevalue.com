@@ -3,7 +3,8 @@ $( document ).ready(function() {
 });
 
 var $categoriesArray;
-var $bannersArray;
+var $topBannersArray;
+var $sideBannersArray;
 var $featuredArticlesArray;
 var $latestStoriesArray;
 var $popularStoriesArray;
@@ -22,8 +23,11 @@ function getInfo() {
                 case 'categories':
                     $categoriesArray = val;
                     break;
-                case 'banners':
-                    $bannersArray = val;
+                case 'topBanners':
+                    $topBannersArray = val;
+                    break;
+                case 'sideBanners':
+                    $sideBannersArray = val;
                     break;
                 case 'featuredArticles':
                     $featuredArticlesArray = val;
@@ -34,6 +38,7 @@ function getInfo() {
                     break;
                 case 'popularStories':
                     $popularStoriesArray = val;
+                    break;
             }
         });
 
@@ -45,8 +50,11 @@ function getInfo() {
 function showContent() {
     makeCategoriesList();
     makeBanners();
+    makeSideBanners();
     makeFeaturedArticles();
-    showStories('latest');
+
+    var stories = $('#head').children('li:first');
+    showStories(stories, 'latest');
 }
 
 function makeCategoriesList() {
@@ -57,26 +65,37 @@ function makeCategoriesList() {
         }
     });
     $('#categoriesList').html(categoriesItems.join(""));
+    $('#stories-categories').html(categoriesItems.join(""));
 }
 
 function makeBanners() {
     var indicators = [];
-    var banners = [];
+    var topBanners = [];
 
-    $.each($bannersArray, function(key, val) {
+    $.each($topBannersArray, function(key, val) {
         var indicatorClass = "";
         if(key == 0) indicatorClass = "class='active'";
         indicators.push("<li data-target='#carousel-main-banner' data-slide-to='"+key+"' "+indicatorClass+"></li>");
 
         var bannerClass = "";
         if(key == 0) bannerClass = "active";
-        banners.push("<div class='item "+bannerClass+"'><img src='"+val.image_path+"' alt='...'><div class='carousel-caption'>"+val.alt+"</div></div>");
+        topBanners.push("<div class='item "+bannerClass+"'><img src='"+val.image_path+"' alt='...'><div class='carousel-caption'>"+val.alt+"</div></div>");
     });
 
     $('.carousel-indicators').html(indicators.join(""));
     $('.carousel-indicators').children('li').css('margin', '0 3px');
 
-    $('.carousel-inner').html(banners.join(""));
+    $('.carousel-inner').html(topBanners.join(""));
+}
+
+function makeSideBanners() {
+    var sideBanners = [];
+
+    $.each($sideBannersArray, function(key, val) {
+        sideBanners.push("<li><img src='"+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
+    });
+
+    $('#advert').html(sideBanners.join(""));
 }
 
 function makeFeaturedArticles() {
@@ -97,7 +116,7 @@ function makeFeaturedArticles() {
 
 }
 
-function showStories(topic) {
+function showStories(obj, topic) {
 
     var topicList = [];
 
@@ -106,10 +125,12 @@ function showStories(topic) {
     stories['popular'] = $popularStoriesArray;
 
     $.each(stories[topic], function(key, val) {
+
+        $('.stories-active').removeClass('stories-active');
+        $(obj).addClass('stories-active');
+
         var category = getCategoryByID(val.category_id);
-
         var categoryName = category.name;
-
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
         topicList.push("<div class='news'>\
@@ -140,7 +161,7 @@ function showStories(topic) {
         <div style='clear:both'></div>");
     });
 
-    $('#block').html(topicList.join(""));
+    $('#stories').html(topicList.join(""));
 }
 
 function getCategoryByID(id) {
@@ -152,4 +173,8 @@ function getCategoryByID(id) {
             return category;
         }
     }
+}
+
+function showStoryCategories() {
+    $('#stories-categories').toggle();
 }

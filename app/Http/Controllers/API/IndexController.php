@@ -18,8 +18,11 @@ class IndexController extends Controller
         //get categories list
         $categoriesList = $this->getCategoriesList();
 
-        //get banners
-        $bannerList = $this->getBannerList();
+        //get top banners
+        $indexTopBannerList = $this->getBannerList('indexTopBanner');
+
+        //get side banners
+        $indexSideBannerList = $this->getBannerList('indexSideBanner');
 
         //get featured articles
         $featuredArticleList = $this->getFeaturedArticleList();
@@ -32,7 +35,8 @@ class IndexController extends Controller
 
         $result = array(
             'categories' => $categoriesList,
-            'banners' => $bannerList,
+            'topBanners' => $indexTopBannerList,
+            'sideBanners' => $indexSideBannerList,
             'featuredArticles' => $featuredArticleList,
             'latestStories' => $latestStoriesList,
             'popularStories' => $popularStoriesList,
@@ -49,10 +53,10 @@ class IndexController extends Controller
         return $categories->getCategoriesArray();
     }
 
-    public function getBannerList()
+    public function getBannerList($position)
     {
         $bannerList = array();
-        $banners = App\Banner::all();
+        $banners = App\Banner::where('position', $position)->orderBy('sorting')->get();
         foreach($banners as $banner) {
             $photo = $banner->photo;
             $bannerList[] = array(

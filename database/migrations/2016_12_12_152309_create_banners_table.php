@@ -18,6 +18,7 @@ class CreateBannersTable extends Migration
             $table->integer('category_id')->nullable();
             $table->integer('photo_id');
             $table->smallInteger('sorting');
+            $table->string('position');
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->timestamps();

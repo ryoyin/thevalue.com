@@ -37,6 +37,5 @@
 
     <!-- custom -->
     <link href="{{ asset('css/web.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/web.js') }}"></script>
 
 </head>

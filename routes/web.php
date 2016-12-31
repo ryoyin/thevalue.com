@@ -14,6 +14,7 @@
 
 
 Route::get('/', 'Frontend\HomepageController@index');
+Route::get('/article/{slug}', 'Frontend\ArticleController@index');
 
 Route::get('/demo', function() {
     return view('frontend.demo');

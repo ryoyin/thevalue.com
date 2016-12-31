@@ -35,8 +35,8 @@ body {
   .ul-clean {
     li {
       float: left;
-      padding-right: 20px;
       a {
+        padding: 10px 10px;
         text-decoration: none;
         color: #000000;
         &:hover {
@@ -71,71 +71,107 @@ body {
   padding-top: 25px;
   font-size: 16px;
   #left {
+
+    position: relative;
     padding-right: 30px;
+
     #head {
+
+      .stories-active {
+        background-color: #000000;
+        color: #FFFFFF;
+      }
       li {
         padding: 15px 30px;
         color: #8c8c8c;
         cursor: pointer;
 
-        &:first-child {
-          background-color: #000000;
-          color: #FFFFFF;
-        }
         &:last-child {
           padding: 24px 0 0;
         }
       }
+
+
     }
+
     #block {
+
+      position: relative;
+      z-index: 1000;
       border-top: 1px solid #000000;
       padding-bottom: 25px;
 
-      .news {
-        padding-top: 30px;
+      #stories-categories {
+        background-color: #FFFFFF;
+        position: absolute;
+        padding: 0;
+        z-index: 2000;
+        width: 100%;
+        //top: 50px;
 
-        .left {
-          padding-right: 25px;
-          padding-bottom: 10px;
+        li {
+          float: left;
+          padding: 15px;
+
+          a {
+            color: #000000;
+            text-decoration: none;
+            &:hover {
+              color: #000000;
+            }
+          }
         }
 
-        .right {
-          .cate {
-            color: #2aabd2;
-            font-size: 10px;
+      }
+
+      #stories {
+        .news {
+          padding-top: 30px;
+
+          .left {
+            padding-right: 25px;
+            padding-bottom: 10px;
           }
-          .title {
-            font-weight: bold;
-            font-size: 18px;
-            padding-top: 3px;
-          }
-          .misc {
-            font-size: 9px;
-            padding-top: 7px;
-            li {
-              &:first-child {
-                //color: #8c8c8c;
-                span {
-                  font-weight: bold;
-                  color: #000000;
-                }
-              }
-              &:last-child {
-                li {
-                  float:right;
-                  padding-left: 7px;
+
+          .right {
+            .cate {
+              color: #2aabd2;
+              font-size: 10px;
+            }
+            .title {
+              font-weight: bold;
+              font-size: 18px;
+              padding-top: 3px;
+            }
+            .misc {
+              font-size: 9px;
+              padding-top: 7px;
+              li {
+                &:first-child {
+                  //color: #8c8c8c;
                   span {
                     font-weight: bold;
+                    color: #000000;
+                  }
+                }
+                &:last-child {
+                  li {
+                    float:right;
+                    padding-left: 7px;
+                    span {
+                      font-weight: bold;
+                    }
                   }
                 }
               }
             }
-          }
-          .desc {
-            padding-top: 8px;
+            .desc {
+              padding-top: 8px;
+            }
           }
         }
       }
+
     }
   }
 }

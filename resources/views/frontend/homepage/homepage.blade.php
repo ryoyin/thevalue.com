@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <script src="{{ asset('js/web.js') }}"></script>
+
     @include('frontend.homepage.carousel')
 
     <div class="row" id="featured-article"></div>
