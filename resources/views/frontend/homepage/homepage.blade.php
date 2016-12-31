@@ -4,7 +4,7 @@
 
     @include('frontend.homepage.carousel')
 
-    @include('frontend.homepage.featured-news')
+    <div class="row" id="featured-article"></div>
 
     <hr>
 

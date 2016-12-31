@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('slug');
             $table->enum('status', ['draft', 'pending', 'published', 'suspend']);
             $table->integer('photo_id')->nullable();
+            $table->integer('hit_counter')->nullable();
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->softDeletes();

@@ -98,3 +98,7 @@ function getCategoryByID(id) {
         }
     }
 }
+
+function showStories(topic) {
+    console.log(topic);
+}

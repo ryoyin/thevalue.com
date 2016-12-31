@@ -24,11 +24,21 @@ class IndexController extends Controller
         //get featured articles
         $featuredArticleList = $this->getFeaturedArticleList();
 
+        //get latesStories
+        $latestStoriesList = $this->getLatestStories();
+
+        //get popularStories
+        $popularStoriesList = $this->getPopularStories();
+
         $result = array(
             'categories' => $categoriesList,
             'banners' => $bannerList,
-            'featuredArticles' => $featuredArticleList
+            'featuredArticles' => $featuredArticleList,
+            'latestStories' => $latestStoriesList,
+            'popularStories' => $popularStoriesList,
         );
+
+//        dd($result);
 
         return $result;
     }
@@ -55,7 +65,7 @@ class IndexController extends Controller
 
     public function getFeaturedArticleList() {
         $featuredArticleList = array();
-        $featuredArticles = App\FeaturedArticle::all();
+        $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('created_at')->get();
         foreach($featuredArticles as $featuredArticle) {
             $article = $featuredArticle->article;
             $detail = $article->details->where('lang', $this->locale)->first();
@@ -82,5 +92,55 @@ class IndexController extends Controller
 //        dd($featuredArticleList);
 
         return $featuredArticleList;
+    }
+
+    public function getLatestStories() {
+        $articleList = array();
+        $articles = App\Article::limit(4)->orderBy('created_at')->get();
+        foreach($articles as $article) {
+            $detail = $article->details->where('lang', $this->locale)->first();
+
+            $photo = $article->photo;
+
+            $articleList[] = array(
+                'url' => 'article',
+                'slug' => $article->slug,
+                'photo' => array(
+                    'alt' => $photo->alt,
+                    'image_path' => $photo->image_path
+                ),
+                'title' => $detail->title,
+                'short_desc' => $detail->short_desc,
+                'description' => $detail->description,
+                'category_id' => $article->category_id
+            );
+        }
+
+        return $articleList;
+    }
+
+    public function getPopularStories() {
+        $articleList = array();
+        $articles = App\Article::limit(4)->orderBy('hit_counter', 'DESC')->get();
+        foreach($articles as $article) {
+            $detail = $article->details->where('lang', $this->locale)->first();
+
+            $photo = $article->photo;
+
+            $articleList[] = array(
+                'url' => 'article',
+                'slug' => $article->slug,
+                'photo' => array(
+                    'alt' => $photo->alt,
+                    'image_path' => $photo->image_path
+                ),
+                'title' => $detail->title,
+                'short_desc' => $detail->short_desc,
+                'description' => $detail->description,
+                'category_id' => $article->category_id
+            );
+        }
+
+        return $articleList;
     }
 }

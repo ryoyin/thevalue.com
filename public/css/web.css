@@ -79,6 +79,7 @@ body {
 #home-content #left #head li {
   padding: 15px 30px;
   color: #8c8c8c;
+  cursor: pointer;
 }
 
 #home-content #left #head li:first-child {
