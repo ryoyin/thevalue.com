@@ -11,9 +11,7 @@
 |
 */
 
-
-
-Route::get('/', 'Frontend\HomepageController@index');
+Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
 Route::get('/article/{slug}', 'Frontend\ArticleController@index');
 
 Route::get('/demo', function() {

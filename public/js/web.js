@@ -1,3 +1,11 @@
+var site_root = window.location.href;
+var sr_split = site_root.split('/');
+if(sr_split[2] == 'localhost') {
+    site_root = 'http://localhost/public/';
+} else {
+    site_root = 'http://ryoyin.ddns.net/public/';
+}
+
 $( document ).ready(function() {
     getInfo();
 });
@@ -109,7 +117,10 @@ function makeFeaturedArticles() {
 
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
-        featuredArticles.push("<ul class='col-md-3 ul-clean'><li><img src='"+val.photo.image_path+"' class='img-responsive'></li><li>"+categoryName+"</li><li>"+val.title+"</li></ul>");
+        featuredArticles.push("<ul class='col-md-3 ul-clean'>" +
+            "<li><img src='"+val.photo.image_path+"' class='img-responsive'></li>" +
+            "<li>"+categoryName+"</li><li><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>" +
+            "</ul>");
     });
 
     $('#featured-article').html(featuredArticles.join(""));

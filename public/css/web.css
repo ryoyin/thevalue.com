@@ -184,4 +184,39 @@ body {
   color: #09b93e;
 }
 
+#article-content {
+  padding: 20px 0;
+}
+
+#article-content #left .title {
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+#article-content #left .notes {
+  font-size: 16px;
+  color: grey;
+  padding-bottom: 10px;
+}
+
+#article-content #left .misc {
+  padding-bottom: 6px;
+  display: inline-block;
+  width: 100%;
+}
+
+#article-content #left .misc span {
+  font-weight: bold;
+}
+
+#article-content #left .share li {
+  float: right;
+  padding: 0 5px;
+}
+
+#article-content #left .desc {
+  font-size: 20px;
+}
+
 /*# sourceMappingURL=web.css.map */

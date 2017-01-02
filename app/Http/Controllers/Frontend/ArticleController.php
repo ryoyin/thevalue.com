@@ -15,3 +15,4 @@ class ArticleController extends Controller
         return view('frontend.article.article');
     }
 }
+

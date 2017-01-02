@@ -15,7 +15,7 @@
     </div>
 
     <div class="pull-center" style="text-align: center">
-        THE VALUE.COM
+        <a href="/public/">THE VALUE.COM</a>
     </div>
 
 </div> <!--/header-bar-->

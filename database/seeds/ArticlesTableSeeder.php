@@ -12,10 +12,10 @@ class ArticlesTableSeeder extends Seeder
     public function run()
     {
         # create article
-        DB::table('articles')->insert(['id' => 1, 'category_id' => 12, 'slug' => 'Testing Article 1', 'photo_id' => 2, 'hit_counter' => 412, 'status' => 'published']);
-        DB::table('articles')->insert(['id' => 2, 'category_id' => 12,  'slug' => 'Testing Article 2', 'photo_id' => 3, 'hit_counter' => 236, 'status' => 'published']);
-        DB::table('articles')->insert(['id' => 3, 'category_id' => 13,  'slug' => 'Testing Article 3', 'photo_id' => 4, 'hit_counter' => 628, 'status' => 'published']);
-        DB::table('articles')->insert(['id' => 4, 'category_id' => 14,  'slug' => 'Testing Article 3', 'photo_id' => 5, 'hit_counter' => 126, 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 1, 'category_id' => 12, 'slug' => 'Testing-Article-1', 'photo_id' => 2, 'hit_counter' => 412, 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 2, 'category_id' => 12,  'slug' => 'Testing-Article-2', 'photo_id' => 3, 'hit_counter' => 236, 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 3, 'category_id' => 13,  'slug' => 'Testing-Article-3', 'photo_id' => 4, 'hit_counter' => 628, 'status' => 'published']);
+        DB::table('articles')->insert(['id' => 4, 'category_id' => 14,  'slug' => 'Testing-Article-3', 'photo_id' => 5, 'hit_counter' => 126, 'status' => 'published']);
 
         # create article detail
         # lang	title	short_desc	description	status	article_id
@@ -89,6 +89,26 @@ class ArticlesTableSeeder extends Seeder
         DB::table('featured_articles')->insert(['article_id' => 2]);
         DB::table('featured_articles')->insert(['article_id' => 3]);
         DB::table('featured_articles')->insert(['article_id' => 4]);
+
+        DB::table('article_photo')->insert(['article_id' => 1, 'photo_id' => 2]);
+        DB::table('article_photo')->insert(['article_id' => 1, 'photo_id' => 3]);
+        DB::table('article_photo')->insert(['article_id' => 1, 'photo_id' => 4]);
+        DB::table('article_photo')->insert(['article_id' => 1, 'photo_id' => 5]);
+
+        DB::table('article_photo')->insert(['article_id' => 2, 'photo_id' => 2]);
+        DB::table('article_photo')->insert(['article_id' => 2, 'photo_id' => 3]);
+        DB::table('article_photo')->insert(['article_id' => 2, 'photo_id' => 4]);
+        DB::table('article_photo')->insert(['article_id' => 2, 'photo_id' => 5]);
+
+        DB::table('article_photo')->insert(['article_id' => 3, 'photo_id' => 2]);
+        DB::table('article_photo')->insert(['article_id' => 3, 'photo_id' => 3]);
+        DB::table('article_photo')->insert(['article_id' => 3, 'photo_id' => 4]);
+        DB::table('article_photo')->insert(['article_id' => 3, 'photo_id' => 5]);
+
+        DB::table('article_photo')->insert(['article_id' => 4, 'photo_id' => 2]);
+        DB::table('article_photo')->insert(['article_id' => 4, 'photo_id' => 3]);
+        DB::table('article_photo')->insert(['article_id' => 4, 'photo_id' => 4]);
+        DB::table('article_photo')->insert(['article_id' => 4, 'photo_id' => 5]);
 
     }
 }

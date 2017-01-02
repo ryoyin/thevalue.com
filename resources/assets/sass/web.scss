@@ -195,3 +195,36 @@ body {
 .fa-wechat {
   color: #09b93e;
 }
+
+#article-content {
+  padding: 20px 0 ;
+  #left {
+    .title {
+      font-size: 30px;
+      font-weight: bold;
+      padding-bottom: 10px;
+    }
+    .notes {
+      font-size: 16px;
+      color: grey;
+      padding-bottom: 10px;
+    }
+    .misc {
+      span {
+        font-weight: bold;
+      }
+      padding-bottom: 6px;
+      display: inline-block;
+      width: 100%;
+    }
+    .share {
+      li {
+        float:right;
+        padding: 0 5px;
+      }
+    }
+    .desc {
+      font-size: 20px;
+    }
+  }
+}
