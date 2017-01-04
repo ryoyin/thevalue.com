@@ -25,7 +25,7 @@ function getInfo() {
         }
     });
 
-    $.getJSON( "api/index", function( data ) {
+    $.getJSON( site_root+"api/index", function( data ) {
         $.each( data, function( key, val ) {
             switch(key) {
                 case 'categories':
