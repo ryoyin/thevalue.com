@@ -1,18 +1,8 @@
-function getInfo() {
-
-    $.ajaxSetup({
-        headers : {
-            'Content-Language' : 'trad'
-        }
-    });
-
-    $.getJSON( site_root+"api/index", function( data ) {
-        $apiResult = data;
-
-        showContent();
-    });
-
-}
+// get information when ready
+$( document ).ready(function() {
+    var api_path = site_root+"api/index";
+    getInfo(api_path);
+});
 
 function showContent() {
     makeCategoriesList();
@@ -22,18 +12,6 @@ function showContent() {
 
     var stories = $('#head').children('li:first');
     showStories(stories, 'latest');
-}
-
-function makeCategoriesList() {
-    var $categoriesArray = $apiResult.categories;
-    var categoriesItems = [];
-    $.each($categoriesArray, function(key, val) {
-        if(val.parent == null) {
-            categoriesItems.push("<li><a href='category/"+val.slug+"'>"+val.name+"</a></li>")
-        }
-    });
-    $('#categoriesList').html(categoriesItems.join(""));
-    $('#stories-categories').html(categoriesItems.join(""));
 }
 
 function makeBanners() {
@@ -55,17 +33,6 @@ function makeBanners() {
     $('.carousel-indicators').children('li').css('margin', '0 3px');
 
     $('.carousel-inner').html(topBanners.join(""));
-}
-
-function makeSideBanners() {
-    var $sideBannersArray = $apiResult.sideBanners;
-    var sideBanners = [];
-
-    $.each($sideBannersArray, function(key, val) {
-        sideBanners.push("<li><img src='"+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
-    });
-
-    $('#advert').html(sideBanners.join(""));
 }
 
 function makeFeaturedArticles() {
@@ -137,17 +104,7 @@ function showStories(obj, topic) {
     $('#stories').html(topicList.join(""));
 }
 
-function getCategoryByID(id) {
-    // console.log(id);
-    var categories = $apiResult.categories;
-    for(var i = 0; i < categories.length; i++ ) {
 
-        if(categories[i].id == id) {
-            var category = categories[i];
-            return category;
-        }
-    }
-}
 
 function showStoryCategories() {
     $('#stories-categories').toggle();

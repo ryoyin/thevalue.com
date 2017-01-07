@@ -1,21 +1,8 @@
-//get api result
-function getInfo() {
-
-    //set header get content = traditional
-    $.ajaxSetup({
-        headers : {
-            'Content-Language' : 'trad'
-        }
-    });
-
+// get information when ready
+$( document ).ready(function() {
     var api_path = site_root+"api/article/"+slug;
-
-    $.getJSON( api_path, function( data ) {
-        $apiResult = data;
-        showContent();
-    });
-
-}
+    getInfo(api_path);
+});
 
 function showContent() {
     makeCategoriesList();
@@ -23,19 +10,6 @@ function showContent() {
     makeArticle();
     makeTags();
     makePopularStories();
-}
-
-function makeCategoriesList() {
-    var categories = $apiResult.categories;
-
-    var categoriesItems = [];
-    $.each(categories, function(key, val) {
-        if(val.parent == null) {
-            categoriesItems.push("<li><a href='"+site_root+"category/"+val.slug+"'>"+val.name+"</a></li>")
-        }
-    });
-    $('#categoriesList').html(categoriesItems.join(""));
-    $('#stories-categories').html(categoriesItems.join(""));
 }
 
 function makeArticlePhotos() {
@@ -111,16 +85,5 @@ function makePopularStories() {
 
     $('#popular-news').html(popularStoriesList.join(""));
 
-}
-
-function getCategoryByID(id) {
-    var categories = $apiResult.categories;
-    for(var i = 0; i < categories.length; i++ ) {
-
-        if(categories[i].id == id) {
-            var category = categories[i];
-            return category;
-        }
-    }
 }
 

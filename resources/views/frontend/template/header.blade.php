@@ -15,7 +15,7 @@
     </div>
 
     <div class="pull-center" style="text-align: center">
-        <a href="/public/">THE VALUE.COM</a>
+        <a href="{{ route('frontend.index') }}/">THE VALUE.COM</a>
     </div>
 
 </div> <!--/header-bar-->

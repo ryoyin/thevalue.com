@@ -1,19 +1,8 @@
-function getInfo() {
-
-    $.ajaxSetup({
-        headers : {
-            'Content-Language' : 'trad'
-        }
-    });
-
-    $.getJSON( site_root+"api/tag/"+slug, function( data ) {
-
-        $apiResult = data;
-
-        showContent();
-    });
-
-}
+// get information when ready
+$( document ).ready(function() {
+    var api_path = site_root+"api/tag/"+slug;
+    getInfo(api_path);
+});
 
 function showContent() {
     makeCategoriesList();
@@ -24,29 +13,6 @@ function showContent() {
     var tag = $apiResult.tag;
     $('#category-head').html('Home > <span>'+tag.name+'</span>');
     console.log('done');
-}
-
-function makeCategoriesList() {
-    var $categoriesArray = $apiResult.categories;
-    var categoriesItems = [];
-    $.each($categoriesArray, function(key, val) {
-        if(val.parent == null) {
-            categoriesItems.push("<li><a href='"+site_root+"category/"+val.slug+"'>"+val.name+"</a></li>")
-        }
-    });
-    $('#categoriesList').html(categoriesItems.join(""));
-    $('#stories-categories').html(categoriesItems.join(""));
-}
-
-function makeSideBanners() {
-    var $sideBannersArray = $apiResult.sideBanners;
-    var sideBanners = [];
-
-    $.each($sideBannersArray, function(key, val) {
-        sideBanners.push("<li><img src='"+site_root+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
-    });
-
-    $('#advert').html(sideBanners.join(""));
 }
 
 function showStories(obj, topic) {
@@ -96,17 +62,6 @@ function showStories(obj, topic) {
     $('#stories').html(topicList.join(""));
 }
 
-function getCategoryByID(id) {
-    // console.log(id);
-    var $categories = $apiResult.categories;
-    for(var i = 0; i < $categories.length; i++ ) {
-
-        if($categories[i].id == id) {
-            var category = $categories[i];
-            return category;
-        }
-    }
-}
 
 function showStoryCategories() {
     $('#stories-categories').toggle();
