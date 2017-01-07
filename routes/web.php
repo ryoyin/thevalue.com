@@ -12,7 +12,9 @@
 */
 
 Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
-Route::get('/article/{slug}', 'Frontend\ArticleController@index');
+Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
+Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
+Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
 
 Route::get('/demo', function() {
     return view('frontend.demo');

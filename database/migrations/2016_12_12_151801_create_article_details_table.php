@@ -17,6 +17,7 @@ class CreateArticleDetailsTable extends Migration
             $table->increments('id');
             $table->string('lang', 4);
             $table->string('title');
+            $table->string('note');
             $table->longText('short_desc');
             $table->longText('description');
             $table->enum('status', ['draft', 'pending', 'published', 'suspend']);

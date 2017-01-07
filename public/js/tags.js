@@ -6,7 +6,8 @@ function getInfo() {
         }
     });
 
-    $.getJSON( site_root+"api/index", function( data ) {
+    $.getJSON( site_root+"api/tag/"+slug, function( data ) {
+
         $apiResult = data;
 
         showContent();
@@ -16,12 +17,13 @@ function getInfo() {
 
 function showContent() {
     makeCategoriesList();
-    makeBanners();
     makeSideBanners();
-    makeFeaturedArticles();
-
     var stories = $('#head').children('li:first');
-    showStories(stories, 'latest');
+    showStories(stories, 'popular');
+
+    var tag = $apiResult.tag;
+    $('#category-head').html('Home > <span>'+tag.name+'</span>');
+    console.log('done');
 }
 
 function makeCategoriesList() {
@@ -29,32 +31,11 @@ function makeCategoriesList() {
     var categoriesItems = [];
     $.each($categoriesArray, function(key, val) {
         if(val.parent == null) {
-            categoriesItems.push("<li><a href='category/"+val.slug+"'>"+val.name+"</a></li>")
+            categoriesItems.push("<li><a href='"+site_root+"category/"+val.slug+"'>"+val.name+"</a></li>")
         }
     });
     $('#categoriesList').html(categoriesItems.join(""));
     $('#stories-categories').html(categoriesItems.join(""));
-}
-
-function makeBanners() {
-    var $topBannersArray = $apiResult.topBanners;
-    var indicators = [];
-    var topBanners = [];
-
-    $.each($topBannersArray, function(key, val) {
-        var indicatorClass = "";
-        if(key == 0) indicatorClass = "class='active'";
-        indicators.push("<li data-target='#carousel-main-banner' data-slide-to='"+key+"' "+indicatorClass+"></li>");
-
-        var bannerClass = "";
-        if(key == 0) bannerClass = "active";
-        topBanners.push("<div class='item "+bannerClass+"'><img src='"+val.image_path+"' alt='...'><div class='carousel-caption'>"+val.alt+"</div></div>");
-    });
-
-    $('.carousel-indicators').html(indicators.join(""));
-    $('.carousel-indicators').children('li').css('margin', '0 3px');
-
-    $('.carousel-inner').html(topBanners.join(""));
 }
 
 function makeSideBanners() {
@@ -62,31 +43,10 @@ function makeSideBanners() {
     var sideBanners = [];
 
     $.each($sideBannersArray, function(key, val) {
-        sideBanners.push("<li><img src='"+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
+        sideBanners.push("<li><img src='"+site_root+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
     });
 
     $('#advert').html(sideBanners.join(""));
-}
-
-function makeFeaturedArticles() {
-    var $featuredArticlesArray = $apiResult.featuredArticles;
-    var featuredArticles = [];
-    // console.log($featuredArticlesArray);
-    $.each($featuredArticlesArray, function(key, val) {
-        var category = getCategoryByID(val.category_id);
-
-        var categoryName = category.name;
-
-        if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
-
-        featuredArticles.push("<ul class='col-md-3 ul-clean'>" +
-            "<li><img src='"+val.photo.image_path+"' class='img-responsive'></li>" +
-            "<li><a href='"+site_root+"category/"+category.slug+"' class='category_name'>"+categoryName+"</a></li><li><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>" +
-            "</ul>");
-    });
-
-    $('#featured-article').html(featuredArticles.join(""));
-
 }
 
 function showStories(obj, topic) {
@@ -94,8 +54,7 @@ function showStories(obj, topic) {
     var topicList = [];
 
     var stories = [];
-    stories['latest'] = $apiResult.latestStories;
-    stories['popular'] = $apiResult.popularStories;
+    stories['popular'] = $apiResult.tagStories;;
 
     $.each(stories[topic], function(key, val) {
 
@@ -107,10 +66,10 @@ function showStories(obj, topic) {
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
         topicList.push("<div class='news'>\
-        <div class='col-md-5 left'><img src='"+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
+        <div class='col-md-5 left'><img src='"+site_root+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
             <div class='col-md-7 right'>\
             <ul class='ul-clean'>\
-            <li class='cate'><a href='"+site_root+"category/"+category.slug+"'>"+categoryName+"</a></li>\
+            <li class='cate'>"+categoryName+"</li>\
         <li class='title'><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>\
         <!--\
         <ul class='misc ul-clean'>\
@@ -139,11 +98,11 @@ function showStories(obj, topic) {
 
 function getCategoryByID(id) {
     // console.log(id);
-    var categories = $apiResult.categories;
-    for(var i = 0; i < categories.length; i++ ) {
+    var $categories = $apiResult.categories;
+    for(var i = 0; i < $categories.length; i++ ) {
 
-        if(categories[i].id == id) {
-            var category = categories[i];
+        if($categories[i].id == id) {
+            var category = $categories[i];
             return category;
         }
     }

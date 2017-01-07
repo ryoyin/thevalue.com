@@ -10,4 +10,9 @@ class Tag extends Model
     {
         return $this->belongsToMany('App\Article');
     }
+
+    public function details()
+    {
+        return $this->hasMany('App\TagDetail');
+    }
 }

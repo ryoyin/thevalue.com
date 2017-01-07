@@ -30,4 +30,9 @@ class Article extends Model
     {
         return $this->belongsTo('App\Photo');
     }
+
+    public function photos()
+    {
+        return $this->belongsToMany('App\Photo');
+    }
 }

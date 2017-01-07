@@ -2,9 +2,13 @@
 
 @section('content')
 
+    <script>
+        var slug = "{{ $slug }}";
+    </script>
+
     <script src="{{ asset('js/article.js') }}"></script>
 
-    @include('frontend.homepage.carousel')
+    @include('frontend.article.carousel')
 
     <div class="row" id="article-content">
 

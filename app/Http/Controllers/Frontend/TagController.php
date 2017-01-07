@@ -6,7 +6,7 @@ use App;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ArticleController extends Controller
+class TagController extends Controller
 {
     public $locale;
 
@@ -15,7 +15,6 @@ class ArticleController extends Controller
         $data = array(
             'slug' => $slug
         );
-        return view('frontend.article.article', $data);
+        return view('frontend.tags.tags', $data);
     }
 }
-

@@ -27,6 +27,15 @@ body {
   padding: 10px 0;
 }
 
+#header-bar .pull-center a {
+  text-decoration: none;
+  color: #000000;
+}
+
+#header-bar .pull-center a:hover {
+  color: #000000;
+}
+
 #header-menu {
   padding-bottom: 12px;
   font-weight: bold;
@@ -46,6 +55,15 @@ body {
   color: #73a0ff;
 }
 
+.category_name {
+  text-decoration: none;
+  color: #2aabd2 !important;
+}
+
+.category_name:hover {
+  color: #2aabd2 !important;
+}
+
 #featured-article {
   padding-top: 20px;
 }
@@ -61,6 +79,15 @@ body {
 
 #featured-article ul li:nth-child(2) {
   color: #2aabd2;
+}
+
+#featured-article ul li a {
+  text-decoration: none;
+  color: #000000;
+}
+
+#featured-article ul li a:hover {
+  color: #000000;
 }
 
 #featured-article ul img {
@@ -97,6 +124,14 @@ body {
   z-index: 1000;
   border-top: 1px solid #000000;
   padding-bottom: 25px;
+}
+
+#home-content #left #block #category-head {
+  font-size: 14px;
+}
+
+#home-content #left #block #category-head span {
+  font-weight: bold;
 }
 
 #home-content #left #block #stories-categories {
@@ -139,6 +174,15 @@ body {
   font-weight: bold;
   font-size: 18px;
   padding-top: 3px;
+}
+
+#home-content #left #block #stories .news .right .title a {
+  color: #000000;
+  text-decoration: none;
+}
+
+#home-content #left #block #stories .news .right .title a:hover {
+  color: #000000;
 }
 
 #home-content #left #block #stories .news .right .misc {
@@ -234,6 +278,7 @@ body {
   padding: 10px 17px;
   background-color: #D7D7D7;
   color: #000000;
+  text-decoration: none;
 }
 
 #article-content .source, #article-content .tag, #article-content .social, #article-content .subscription {
@@ -353,8 +398,26 @@ body {
   font-size: 10px;
 }
 
+#article-content #right .popular-news-block .right .ul-clean li:nth-child(1) a {
+  color: #2aabd2;
+  text-decoration: none;
+}
+
+#article-content #right .popular-news-block .right .ul-clean li:nth-child(1) a:hover {
+  color: #2aabd2;
+}
+
 #article-content #right .popular-news-block .right .ul-clean li:nth-child(2) {
   font-weight: bold;
+}
+
+#article-content #right .popular-news-block .right .ul-clean li:nth-child(2) a {
+  color: #000000;
+  text-decoration: none;
+}
+
+#article-content #right .popular-news-block .right .ul-clean li:nth-child(2) a:hover {
+  color: #000000;
 }
 
 /*# sourceMappingURL=web.css.map */
