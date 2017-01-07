@@ -219,4 +219,142 @@ body {
   font-size: 20px;
 }
 
+.tag {
+  padding: 25px 0;
+  display: inline-block;
+  width: 100%;
+}
+
+.tag ul li {
+  float: left;
+  padding-right: 15px;
+}
+
+.tag ul li a {
+  padding: 10px 17px;
+  background-color: #D7D7D7;
+  color: #000000;
+}
+
+#article-content .source, #article-content .tag, #article-content .social, #article-content .subscription {
+  font-size: 14px;
+  color: #8aa4af;
+}
+
+#article-content #left .desc {
+  padding-bottom: 15px;
+}
+
+#article-content #left .line {
+  width: 60px;
+  border-top: 1px solid #000000;
+  padding-bottom: 10px;
+}
+
+#article-content #left .source {
+  color: #8aa4af;
+}
+
+#article-content #left .source div:nth-child(1) span {
+  color: #2aabd2;
+}
+
+#article-content #left .source div:nth-child(2) span {
+  font-weight: bold;
+  color: #000000;
+}
+
+#article-content #left .social .share {
+  padding-top: 10px;
+}
+
+#article-content #left .social .share li {
+  float: left;
+}
+
+#article-content #left .social .share li i {
+  color: #FFFFFF;
+  padding: 10px;
+  font-size: 20px;
+}
+
+#article-content #left .social .share li .fa-envelope {
+  background-color: #0d6aad;
+}
+
+#article-content #left .social .share li .fa-facebook-f {
+  background-color: #3b5998;
+  padding: 10px 15px;
+}
+
+#article-content #left .social .share li .fa-twitter {
+  background-color: #00aced;
+}
+
+#article-content #left .social .share li .fa-weibo {
+  background-color: #df2029;
+}
+
+#article-content #left .social .share li .fa-wechat {
+  background-color: #09b93e;
+}
+
+#article-content #left .social .share li:last-child {
+  position: relative;
+  top: 10px;
+}
+
+#article-content #left .subscription .input-group {
+  padding-top: 15px;
+}
+
+#article-content #left .subscription input[type="text"] {
+  height: 36px;
+}
+
+#article-content #left .subscription input[type="button"] {
+  height: 36px;
+  background-color: #00aced;
+}
+
+#article-content #right {
+  padding: 0 15px;
+}
+
+#article-content #right .header {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #EEEEEE;
+  display: inline-block;
+  width: 100%;
+}
+
+#article-content #right .header .news {
+  font-size: 22px;
+}
+
+#article-content #right .header .recent {
+  color: #8aa4af;
+  position: relative;
+  bottom: -7px;
+}
+
+#article-content #right .popular-news-block {
+  padding: 10px 0;
+  display: inline-block;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+#article-content #right .popular-news-block .right {
+  padding-left: 10px;
+}
+
+#article-content #right .popular-news-block .right .ul-clean li:nth-child(1) {
+  color: #2aabd2;
+  font-size: 10px;
+}
+
+#article-content #right .popular-news-block .right .ul-clean li:nth-child(2) {
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=web.css.map */

@@ -228,3 +228,145 @@ body {
     }
   }
 }
+
+.tag {
+  padding: 25px 0;
+  display: inline-block;
+  width: 100%;
+  ul {
+    li {
+      float: left;
+      padding-right: 15px;
+      a {
+        padding: 10px 17px;
+        background-color: #D7D7D7;
+        color: #000000;
+      }
+    }
+  }
+}
+
+#article-content {
+  .source, .tag, .social, .subscription {
+    font-size: 14px;
+    color: #8aa4af;
+  }
+  //padding: 0 10px;
+  #left {
+    .desc {
+      padding-bottom: 15px;
+    }
+    .line {
+      width: 60px;
+      border-top: 1px solid #000000;
+      padding-bottom: 10px;
+    }
+    .source {
+      color: #8aa4af;
+      div {
+        &:nth-child(1) {
+          span {
+            color: #2aabd2;
+          }
+        }
+        &:nth-child(2) {
+          span {
+            font-weight: bold;
+            color: #000000;
+          }
+        }
+      }
+    }
+    .social {
+      .share {
+        padding-top: 10px;
+        li {
+          float: left;
+          i {
+            color: #FFFFFF;
+            padding: 10px;
+            font-size: 20px;
+            //width: 20px;
+          }
+          .fa-envelope {
+            background-color: #0d6aad;
+          }
+
+          .fa-facebook-f {
+            background-color: #3b5998;
+            padding: 10px 15px;
+          }
+
+          .fa-twitter {
+            background-color: #00aced;
+          }
+
+          .fa-weibo {
+            background-color: #df2029;
+          }
+
+          .fa-wechat {
+            background-color: #09b93e;
+          }
+
+          &:last-child {
+            position: relative;
+            top: 10px;
+          }
+        }
+      }
+    }
+    .subscription {
+      .input-group {
+        padding-top: 15px;
+      }
+      input[type="text"] {
+        height: 36px;
+      }
+      input[type="button"] {
+        height: 36px;
+        background-color: #00aced;
+      }
+    }
+
+  }
+  #right {
+    padding: 0 15px;
+
+    .header {
+      .news {
+        font-size: 22px;
+      }
+      .recent {
+        color: #8aa4af;
+        position: relative;
+        bottom: -7px;
+      }
+      padding-bottom: 5px;
+      border-bottom: 1px solid #EEEEEE;
+      display: inline-block;
+      width: 100%
+    }
+
+    .popular-news-block {
+      padding: 10px 0;
+      display: inline-block;
+      border-bottom: 1px solid #EEEEEE;
+
+      .right {
+        padding-left: 10px;
+        .ul-clean {
+          li {
+            &:nth-child(1) {
+              color: #2aabd2;
+              font-size: 10px;
+            }
+            &:nth-child(2) {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}
