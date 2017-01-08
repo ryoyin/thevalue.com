@@ -8,11 +8,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      網站文章平台 - {{ $title }}
+      網站平台 - {{ $title }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="/bjsgadmin/blog/"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li><a href="/bjsgadmin/blog/">網站文章平台</a></li>
+      <li><a href="/tvadmin/photos/"><i class="fa fa-dashboard"></i> 首页</a></li>
+      <li><a href="/tvadmin/photos/">網站平台</a></li>
       <li class="active">Add</li>
     </ol>
   </section>
@@ -47,19 +47,8 @@
               {{ csrf_field() }}
               <!-- text input -->
               <div class="form-group">
-                <label>標題</label>
-                <input name="title" type="text" class="form-control" placeholder="Enter ..." value="{{ $photo['title'] }}">
-              </div>
-
-              <div class="form-group">
-                <label>作者</label>
-                <input name="author" type="text" class="form-control" placeholder="Enter ..." value="{{ $photo['caption'] }}">
-              </div>
-
-              <!-- textarea -->
-              <div class="form-group">
-                <label>簡介</label>
-                  <textarea id="ckeditor1" name="short_desc" rows="10" cols="80">{{ $photo['alt'] }}</textarea>
+                <label>ALT</label>
+                <input name="title" type="text" class="form-control" placeholder="Enter ..." value="{{ $photo['alt'] }}">
               </div>
 
               <div class="form-group">
@@ -80,13 +69,6 @@
         <!-- general form elements disabled -->
         <div class="box box-info">
           <div class="box-body">
-
-
-              <!-- select -->
-              <div class="form-group">
-                <label>狀態</label>
-                  {{ Form::select('status', array( 'pending' => 'pending', 'published' => 'published', 'syspend' => 'syspend'), $photo['status'], array('class' => 'form-control')) }}
-              </div>
 
               <div class="box-foote" style="text-align: right;">
                 <button type="submit" class="btn btn-primary">提交</button>

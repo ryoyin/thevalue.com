@@ -38,11 +38,9 @@
             <table id="research" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th>Title</th>
-                <th>Caption</th>
+                <th>ID</th>
                 <th>Alt</th>
                 <th>Path</th>
-                <th style="text-align: center;">Status</th>
                 <th style="text-align: center;">Created At</th>
                 <th style="text-align: center;">Updated At</th>
                 <th style="text-align: center;">Action</th>
@@ -52,14 +50,13 @@
 
               @foreach($photos as $photo)
                 <tr>
-                  <td>{{ $photo->title }}</td>
-                  <td>{{ $photo->caption }}</td>
+                  <td>{{ $photo->id }}</td>
                   <td>{{ $photo->alt }}</td>
-                  <td>{{ $photo->filePath }}</td>
-                  <td align="center">{{ $photo->status }}</td>
+                  <td>{{ $photo->image_path }}</td>
+                  <td align="center">{{ $photo->size }}</td>
                   <td align="center">{{ $photo->created_at }}</td>
                   <td align="center">{{ $photo->updated_at }}</td>
-                  <td align="center"><a href="{{ url('tvadmin/edit') }}" class="btn btn-warning">Modify</a> <button class="btn btn-danger">Delete</button></td>
+                  <td align="center"><a href="{{ url('tvadmin/photos/'.$photo->id.'/edit') }}" class="btn btn-warning">Modify</a> <button class="btn btn-danger">Delete</button></td>
                 </tr>
               @endforeach
 

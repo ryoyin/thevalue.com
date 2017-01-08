@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App;
 use App\Photo;
 
 class PhotoController extends Controller
@@ -33,14 +34,11 @@ class PhotoController extends Controller
     {
         $data = array(
             'menu' => array('photo', 'photo.create'),
-            'title' => 'Add Photo',
-            'action' => url('tvadmin/photo'),
+            'title' => '增加',
+            'action' => url('tvadmin/photos'),
             'photo' => array(
-                'title' => old('title'),
-                'caption' => old('caption'),
                 'alt' => old('alt'),
                 'filePath' => old('filePath'),
-                'status' => old('status'),
             ),
         );
 
@@ -55,7 +53,57 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate user file
+        $uploaded_file = NULL;
+        $isValidFile = FALSE;
+
+        if ($request->hasFile('uploaded_file')) {
+
+            $uploaded_file = $request->file('uploaded_file');
+
+            $mimeType = $uploaded_file->getMimeType();
+
+            $validFileType = array('png', 'pdf', 'jpeg');
+
+            foreach($validFileType AS $fileType) {
+
+                if(strpos($mimeType, $fileType)) {
+                    $isValidFile = TRUE;
+                }
+
+            }
+
+            if($isValidFile) {
+
+                $alternative_path = 'images/';
+                $destination_path = public_path().'/'.$alternative_path;
+                $filename = $uploaded_file->getClientOriginalName();
+                $fileExtension = $uploaded_file->getClientOriginalExtension();
+
+                $filename = $this->checkFileName($destination_path, $filename, $fileExtension, 0);
+
+                $uploaded_file->move($destination_path, $filename);
+
+            } else {
+
+                return redirect('tvadmin/photos/create')->with('errors', 'File upload failed!');
+
+            }
+
+        } else {
+            return redirect('tvadmin/photos/create')->with('errors', 'File upload failed!');
+        }
+
+        $photo = new App\Photo;
+        $photo->alt = $request->alt;
+
+
+         $photo->file_path = $alternative_path.$filename;
+
+
+        $photo->save();
+
+        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful added!');;
     }
 
     /**
@@ -77,7 +125,7 @@ class PhotoController extends Controller
      */
     public function edit($id)
     {
-        //
+        return 123;
     }
 
     /**

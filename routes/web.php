@@ -16,12 +16,8 @@ Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('fronten
 Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
 Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
 
-Route::get('/demo', function() {
-    return view('frontend.demo');
-});
-
 Auth::routes();
-
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', 'HomeController@index');
@@ -29,45 +25,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tvadmin/photos', 'PhotoController');
 
 });
-
-/*
-use App\Category;
-Route::get('categories/html', function() {
-    return getCategoriesHTML(null);
-});
-
-Route::get('categories/array', function() {
-    dd(getCategoriesArray(null));
-});
-
-function getCategoriesHTML($parent_id)
-{
-    $categories = Category::where('parent_id', $parent_id)->get();
-    $html = "<ul>";
-    foreach($categories as $category) {
-        $html .= "<li>{$category->name}";
-        $html .= getCategoriesHTML($category->id);
-        $html .= "</li>";
-    }
-    $html .= "</ul>";
-
-    return $html;
-}
-
-function getCategoriesArray($parent_id)
-{
-    $categories = Category::where('parent_id', $parent_id)->get();
-
-    $array = array();
-    foreach($categories as $category) {
-        $array[$category->name] = array(
-            'url'   => 'hyperlink',
-            'child' => getCategoriesArray($category->id)
-        );
-    }
-
-    return $array;
-}*/
 
 
 
