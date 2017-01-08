@@ -22,7 +22,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', 'HomeController@index');
 
-    Route::resource('tvadmin/photos', 'PhotoController');
+    Route::resource('tvadmin/photos', 'Backend\PhotoController');
+    Route::resource('tvadmin/banners', 'Backend\BannerController');
 
 });
 

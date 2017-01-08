@@ -23,6 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect()->action('PhotoController@index');
+        return redirect()->action('Backend\PhotoController@index');
     }
 }

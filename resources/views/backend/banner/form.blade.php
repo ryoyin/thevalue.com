@@ -8,11 +8,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Photo - {{ $title }}
+      Banner - {{ $title }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('/tvadmin/photos') }}"><i class="fa fa-dashboard"></i> Homepage</a></li>
-      <li><a href="{{ url('/tvadmin/photos') }}">Photo</a></li>
+      <li><a href="{{ url('/tvadmin/banner') }}"><i class="fa fa-dashboard"></i> Homepage</a></li>
+      <li><a href="{{ url('/tvadmin/banner') }}">Banner</a></li>
       <li class="active">Add</li>
     </ol>
   </section>
@@ -40,16 +40,6 @@
               </div>
           @endif
 
-          @if (session('fileerrors'))
-              <div class="col-xs-12">
-                  <div class="callout callout-warning">
-                      <ul>
-                        <li>{{ session('fileerrors') }}</li>
-                      </ul>
-                  </div>
-              </div>
-          @endif
-
       <div class="col-xs-9">
         <!-- general form elements disabled -->
         <div class="box box-default">
@@ -58,24 +48,8 @@
               <!-- text input -->
               <div class="form-group">
                 <label>ALT</label>
-                <input name="alt" type="text" class="form-control" placeholder="Enter ..." value="{{ $photo['alt'] }}">
+                <input name="alt" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['alt'] }}">
               </div>
-
-              <div class="form-group">
-                <label for="uploadedFile">File</label>
-                <input type="file" id="uploadedFile" name="uploaded_file">
-              </div>
-
-              <div class="form-group">
-                  @if($photo['image_path'] != '')
-                    <a href="{{ asset($photo['image_path']) }}" target="_blank">
-
-                            <img src="{{ url($photo['image_path']) }}" class="img-responsive">
-
-                    </a>
-                  @endif
-              </div>
-
           </div><!-- /.box-body -->
         </div><!-- /.box -->
       </div>

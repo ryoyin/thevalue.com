@@ -187,7 +187,7 @@ class IndexController extends Controller
             $photo = $banner->photo;
             $bannerList[] = array(
                 'alt' => $photo->alt,
-                'image_path' => 'images/'.$photo->image_path
+                'image_path' => $photo->image_path
             );
         }
         return $bannerList;

@@ -10,9 +10,9 @@
         <img src="{{asset('admin/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>系统管理员</p>
+        <p>Administrator</p>
         <!-- Status -->
-        <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
 
@@ -29,14 +29,22 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      <li class="header">文章</li>
+      <li class="header">Main</li>
       <!-- Optionally, you can add icons to the links -->
       {{--<li><a href="{{ route('admin-blog') }}"><i class="fa fa-camera-retro"></i> <span>圖片庫   </span></a></li>--}}
       <li class="treeview {{ isActiveMenu('photo', $menu) }}">
         <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Photo Library</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
-          <li class="{{ isActiveMenu('photo.list', $menu) }}"><a href="#"><a href="{{ action('PhotoController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Photo List   </span></a></a></li>
-          <li class="{{ isActiveMenu('photo.create', $menu) }}"><a href="{{ action('PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Photo   </span></a></li>
+          <li class="{{ isActiveMenu('photo.list', $menu) }}"><a href="#"><a href="{{ action('Backend\PhotoController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Photo List   </span></a></a></li>
+          <li class="{{ isActiveMenu('photo.create', $menu) }}"><a href="{{ action('Backend\PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Photo   </span></a></li>
+        </ul>
+      </li>
+
+      <li class="treeview {{ isActiveMenu('banner', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Banner</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="{{ isActiveMenu('banner.list', $menu) }}"><a href="#"><a href="{{ action('Backend\BannerController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Banner List   </span></a></a></li>
+          <li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>
         </ul>
       </li>
 

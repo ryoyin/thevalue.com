@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>BSG | 後台系統</title>
+    <title>TV | Panel</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -55,9 +55,9 @@
         <!-- Logo -->
         <a href="#" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>B</b>SG</span>
+          <span class="logo-mini"><b>TV</b>P</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>BSG</b>后台</span>
+          <span class="logo-lg"><b>The Value</b> Panel</span>
         </a>
 
         <!-- Header Navbar -->
@@ -166,19 +166,19 @@
                   <!-- The user image in the navbar-->
                   <img src="{{asset('admin/dist/img/avatar5.png')}}" class="user-image" alt="User Image">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs">系统管理员</span>
+                  <span class="hidden-xs">Administrator</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
                   <li class="user-header">
                     <img src="{{asset('admin/dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
                     <p>
-                      系统管理员 - 网站 系统管理员
-                      <small>Member since Sep. 2016</small>
+                      Administrator - Web Admin
+                      {{--<small>Member since Sep. 2016</small>--}}
                     </p>
                   </li>
                   <!-- Menu Body -->
-                  <li class="user-body">
+                  {{--<li class="user-body">
                     <div class="col-xs-4 text-center">
                       <a href="#">Followers</a>
                     </div>
@@ -188,14 +188,14 @@
                     <div class="col-xs-4 text-center">
                       <a href="#">Friends</a>
                     </div>
-                  </li>
+                  </li>--}}
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="{{ url('logout') }}" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

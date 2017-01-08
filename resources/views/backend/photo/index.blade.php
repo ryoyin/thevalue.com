@@ -10,7 +10,7 @@
       Photo Library
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> Homepage</a></li>
       <li class="active">Photo Library</li>
     </ol>
   </section>
@@ -32,17 +32,15 @@
         @endif
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">List</h3> <a href="{{ action('PhotoController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
+            <h3 class="box-title">List</h3> <a href="{{ action('Backend\PhotoController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
           </div><!-- /.box-header -->
           <div class="box-body">
             <table id="research" class="table table-bordered table-striped">
               <thead>
-              <tr>
                 <th>ID</th>
+                <th>Image</th>
                 <th>Alt</th>
                 <th>Path</th>
-                <th style="text-align: center;">Created At</th>
-                <th style="text-align: center;">Updated At</th>
                 <th style="text-align: center;">Action</th>
               </tr>
               </thead>
@@ -51,12 +49,19 @@
               @foreach($photos as $photo)
                 <tr>
                   <td>{{ $photo->id }}</td>
+                  <td><img src="{{ url($photo->image_path) }}" style="height: 100px;"></td>
                   <td>{{ $photo->alt }}</td>
-                  <td>{{ $photo->image_path }}</td>
-                  <td align="center">{{ $photo->size }}</td>
-                  <td align="center">{{ $photo->created_at }}</td>
-                  <td align="center">{{ $photo->updated_at }}</td>
-                  <td align="center"><a href="{{ url('tvadmin/photos/'.$photo->id.'/edit') }}" class="btn btn-warning">Modify</a> <button class="btn btn-danger">Delete</button></td>
+                  <td><span>{{ $photo->image_path }}</span> <a href="#" onclick="copyClipBoard(this);">copy</a></td>
+                  <td align="center">
+                    <a href="{{ url('tvadmin/photos/'.$photo->id.'/edit') }}" class="btn btn-warning">Modify</a>
+                    <form action="{{ url('tvadmin/photos/'.$photo->id) }}" method="POST" style="display: inline-block">
+                      {{ csrf_field() }}
+                      {{ method_field('DELETE') }}
+
+                      <button type="submit" class="btn btn-danger" onclick="return delete_item('{{ $photo['id'] }}');">
+                        <i class="fa fa-trash"></i> Delete
+                      </button>
+                    </form>
                 </tr>
               @endforeach
 
@@ -94,17 +99,22 @@
 <script>
   $(function () {
     $("#research").DataTable({
-      "order": [[5, "desc"]]
+      "order": [[0, "desc"]]
     });
   });
 
-  function delete_research(title) {
-//    alert(title);
-    var cfm = confirm("是否確定刪除文章 \""+title+"\"");
+  function delete_item(id) {
+//    alert(id);
+      var cfm = confirm("Are you sure delete ID: "+id);
 
     if(cfm === false) {
       return false;
     }
+
+  }
+
+  function copyClipBoard(obj) {
+      var copyTarget = $(obj).parent().children('span').html();
 
   }
 </script>

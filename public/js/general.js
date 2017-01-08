@@ -3,7 +3,7 @@ var site_root = window.location.href;
 var sr_split = site_root.split('/');
 
 if(sr_split[2] == 'localhost') {
-    site_root = 'http://localhost/public/';
+    site_root = 'http://localhost/thevalue.com/public/';
 } else {
     site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
 }

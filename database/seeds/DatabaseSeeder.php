@@ -15,5 +15,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ArticlesTableSeeder::class);
         $this->call(PhotosTableSeeder::class);
         $this->call(TagsTableSeeder::class);
+
+        DB::table('users')->insert([
+            'name' => 'Roy Ho',
+            'email' => 'kwanyin2000@gmail.com',
+            'password' => bcrypt('123456'),
+        ]);
     }
 }
