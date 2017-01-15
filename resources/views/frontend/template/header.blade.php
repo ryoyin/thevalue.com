@@ -1,7 +1,12 @@
 <div id="header-bar">
 
-    <div class="pull-left">
-        <i class="fa fa-globe" aria-hidden="true"></i> 香港
+    <div class="pull-left" id="global-lang-block" onclick="showLang();">
+        <i class="fa fa-globe pull-left" aria-hidden="true"></i>
+        <ul id="global-lang" class="ul-clean pull-left close">
+            <li id="global-lang-en"><a href="#" onclick="changeLang(this, 'en');">English</a></li>
+            <li id="global-lang-trad"><a href="#" onclick="changeLang(this, 'trad');">繁體中文</a></li>
+            <li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">簡體</a></li>
+        </ul>
     </div>
 
     <div class="pull-right">

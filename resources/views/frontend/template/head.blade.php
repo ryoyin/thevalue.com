@@ -38,6 +38,8 @@
     <!-- custom -->
     <link href="{{ asset('css/web.css') }}" rel="stylesheet">
 
+    <script src="{{ asset('js/js.cookie.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>
+
 
 </head>

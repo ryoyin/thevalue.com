@@ -25,6 +25,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => 'Marvel’s The Inhumans Series Heads to IMAX Theaters and ABC!',
             'description' => 'description 1 description 1 description 1 description 1 description 1 description 1',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 1
         ]);
@@ -34,6 +37,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => '短句 一 短句 一 短句 一 短句 一 短句 一 短句 一',
             'description' => '內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 1
         ]);
@@ -43,6 +49,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => 'short desc 2 short desc 2 short desc 2 short desc 2 short desc 2 ',
             'description' => 'description 2 description 2 description 2 description 2 description 2 description 2',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 2
         ]);
@@ -52,6 +61,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => '短句 二 短句 二 短句 二 短句 二 短句 二 短句 二',
             'description' => '內容 二 內容 二 內容 二 內容 二 內容 二 內容 二 內容 二 內容 二',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 2
         ]);
@@ -61,6 +73,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => 'short desc 3 short desc 3 short desc 3 short desc 3 short desc 3',
             'description' => 'description 3 description 3 description 3 description 3 description 3 description 3 description 3',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 3
         ]);
@@ -70,6 +85,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => '短句 3 短句 3 短句 3 短句 3',
             'description' => '內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 3
         ]);
@@ -79,6 +97,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => 'short desc 4 short desc 4 short desc 4 short desc 4 short desc 4',
             'description' => 'description 4 description 4 description 4 description 4 description 4 description 4 description 4',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 4
         ]);
@@ -88,6 +109,9 @@ class ArticlesTableSeeder extends Seeder
             'note' => 'note note note note note',
             'short_desc' => '短句 4 短句 4 短句 4 短句 4',
             'description' => '內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
             'status' => 'published',
             'article_id' => 4
         ]);

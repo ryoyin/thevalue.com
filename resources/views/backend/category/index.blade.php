@@ -6,10 +6,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Banner</h1>
+      <h1>Category</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Homepage</a></li>
-        <li class="active">Banner</li>
+        <li class="active">Category</li>
       </ol>
     </section>
 
@@ -30,33 +30,31 @@
           @endif
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List</h3> <a href="{{ action('Backend\BannerController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
+              <h3 class="box-title">List</h3> <a href="{{ action('Backend\CategoryController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
             </div><!-- /.box-header -->
             <div class="box-body">
               <table id="research" class="table table-bordered table-striped">
                 <thead>
                 <th>ID</th>
-                <th>Image</th>
-                <th>Position</th>
+                <th>Slug</th>
                 <th>Sorting</th>
                 <th style="text-align: center;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($banners as $banner)
+                @foreach($categories as $category)
                   <tr>
-                    <td>{{ $banner->id }}</td>
-                    <td><img src="{{ url($banner->photo->image_path) }}" style="height: 100px;"></td>
-                    <td>{{ $banner->position }}</td>
-                    <td>{{ $banner->sorting }}</td>
+                    <td>{{ $category->id }}</td>
+                    <td>{{ $category->slug }}</td>
+                    <td>{{ $category->sorting }}</td>
                     <td align="center">
-                      <a href="{{ url('tvadmin/banners/'.$banner->id.'/edit') }}" class="btn btn-warning">Modify</a>
-                      <form action="{{ url('tvadmin/banners/'.$banner->id) }}" method="POST" style="display: inline-block">
+                      <a href="{{ url('tvadmin/categories/'.$category->id.'/edit') }}" class="btn btn-warning">Modify</a>
+                      <form action="{{ url('tvadmin/categories/'.$category->id) }}" method="POST" style="display: inline-block">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
-                        <button type="submit" class="btn btn-danger" onclick="return delete_research('{{ $banner['id'] }}');">
+                        <button type="submit" class="btn btn-danger" onclick="return delete_research('{{ $category['id'] }}');">
                           <i class="fa fa-trash"></i> Delete
                         </button>
                       </form>

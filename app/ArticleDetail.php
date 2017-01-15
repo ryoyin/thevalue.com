@@ -8,6 +8,6 @@ class ArticleDetail extends Model
 {
     public function article()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Article');
     }
 }

@@ -8,11 +8,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Banner - {{ $title }}
+      Tag - {{ $title }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('/tvadmin/banner') }}"><i class="fa fa-dashboard"></i> Homepage</a></li>
-      <li><a href="{{ url('/tvadmin/banner') }}">Banner</a></li>
+      <li><a href="{{ url('/tvadmin/tags') }}"><i class="fa fa-dashboard"></i> Homepage</a></li>
+      <li><a href="{{ url('/tvadmin/tags') }}">Tag</a></li>
       <li class="active">Add</li>
     </ol>
   </section>
@@ -45,21 +45,26 @@
         <div class="box box-default">
           <div class="box-body">
               {{ csrf_field() }}
+
+              {{--lang, name, category_id--}}
               <!-- text input -->
               <div class="form-group">
-                <label>Photo ID</label>
-                <input name="photo_id" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['photo_id'] }}">
+                  <label>English Name</label>
+                  <input name="name-en" type="text" class="form-control" placeholder="Enter ..." value="{{ $tag['name-en'] }}" required>
               </div>
+
               <!-- text input -->
               <div class="form-group">
-                  <label>Position</label>
-                  <input name="position" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['position'] }}">
+                  <label>Traditional Name</label>
+                  <input name="name-trad" type="text" class="form-control" placeholder="Enter ..." value="{{ $tag['name-trad'] }}" required>
               </div>
+
               <!-- text input -->
               <div class="form-group">
-                  <label>Sorting</label>
-                  <input name="sorting" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['sorting'] }}">
+                  <label>Simplified Name</label>
+                  <input name="name-sim" type="text" class="form-control" placeholder="Enter ..." value="{{ $tag['name-sim'] }}" required>
               </div>
+
           </div><!-- /.box-body -->
         </div><!-- /.box -->
       </div>
@@ -68,7 +73,13 @@
         <div class="box box-info">
           <div class="box-body">
 
-              <div class="box-foote" style="text-align: right;">
+              <!-- text input -->
+              <div class="form-group">
+                  <label>Slug</label>
+                  <input name="slug" type="text" class="form-control" placeholder="Enter ..." value="{{ $tag['slug'] }}" required>
+              </div>
+
+              <div class="box-footer" style="text-align: right;">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
 

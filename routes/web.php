@@ -15,6 +15,7 @@ Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
 Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
 Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
 Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
+Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
@@ -24,6 +25,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::resource('tvadmin/photos', 'Backend\PhotoController');
     Route::resource('tvadmin/banners', 'Backend\BannerController');
+    Route::resource('tvadmin/articles', 'Backend\ArticleController');
+    Route::resource('tvadmin/categories', 'Backend\CategoryController');
+    Route::resource('tvadmin/tags', 'Backend\TagController');
 
 });
 

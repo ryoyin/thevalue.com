@@ -36,7 +36,7 @@
         <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Photo Library</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('photo.list', $menu) }}"><a href="#"><a href="{{ action('Backend\PhotoController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Photo List   </span></a></a></li>
-          <li class="{{ isActiveMenu('photo.create', $menu) }}"><a href="{{ action('Backend\PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Photo   </span></a></li>
+          {{--<li class="{{ isActiveMenu('photo.create', $menu) }}"><a href="{{ action('Backend\PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Photo   </span></a></li>--}}
         </ul>
       </li>
 
@@ -44,7 +44,32 @@
         <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Banner</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('banner.list', $menu) }}"><a href="#"><a href="{{ action('Backend\BannerController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Banner List   </span></a></a></li>
-          <li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>
+          {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
+        </ul>
+      </li>
+
+      <li class="treeview {{ isActiveMenu('article', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Article</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="{{ isActiveMenu('article.list', $menu) }}"><a href="#"><a href="{{ action('Backend\ArticleController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Article List   </span></a></a></li>
+          {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
+        </ul>
+      </li>
+
+      <li class="treeview {{ isActiveMenu('category', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Category</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="{{ isActiveMenu('category.list', $menu) }}"><a href="#"><a href="{{ action('Backend\CategoryController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Categories List   </span></a></a></li>
+          {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
+        </ul>
+      </li>
+
+
+      <li class="treeview {{ isActiveMenu('tag', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Tag</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="{{ isActiveMenu('tag.list', $menu) }}"><a href="#"><a href="{{ action('Backend\TagController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Tags List   </span></a></a></li>
+          {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
         </ul>
       </li>
 

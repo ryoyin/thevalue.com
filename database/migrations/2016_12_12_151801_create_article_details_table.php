@@ -13,6 +13,7 @@ class CreateArticleDetailsTable extends Migration
      */
     public function up()
     {
+        //title, note, short_desc, description, source, author, photographer, status
         Schema::create('article_details', function (Blueprint $table) {
             $table->increments('id');
             $table->string('lang', 4);
@@ -20,6 +21,9 @@ class CreateArticleDetailsTable extends Migration
             $table->string('note');
             $table->longText('short_desc');
             $table->longText('description');
+            $table->string('source');
+            $table->string('author');
+            $table->string('photographer');
             $table->enum('status', ['draft', 'pending', 'published', 'suspend']);
             $table->integer('article_id');
             $table->softDeletes();

@@ -11,16 +11,55 @@ if(sr_split[2] == 'localhost') {
 //global api result
 var $apiResult;
 
+
+var default_language = Cookies.get('lang');
+// console.log(default_language);
+if(typeof default_language == 'undefined') default_language = 'trad';
+// console.log(default_language);
+$(document).ready(function() {
+    $('#global-lang-'+default_language).addClass('lang-active');
+});
+
+
+function showLang() {
+    $('#global-lang').children('li').show();
+    $('#global-lang').removeClass('close').addClass('open');
+}
+
+function changeLang(obj, lang) {
+    if($('#global-lang').hasClass('open')) {
+        Cookies.set('lang', lang);
+        location.reload();
+    }
+}
+
+function showSearchBar() {
+    $('#search-block').slideToggle(function() {
+        $('#search-block').children('input').focus();
+    });
+}
+
+function searchme(obj, e) {
+    if (e.keyCode == 13) {
+        var search = $(obj).val();
+        Cookies.set('search', search);
+        window.location = site_root+"search";
+    }
+}
+
 function getInfo(api_path) {
 
     $.ajaxSetup({
         headers : {
-            'Content-Language' : 'trad'
+            'Content-Language' : default_language
         }
     });
 
+    console.log(api_path);
+
     $.getJSON( api_path, function( data ) {
         $apiResult = data;
+        console.log($apiResult);
 
         showContent();
     });

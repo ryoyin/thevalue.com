@@ -139,6 +139,34 @@ class IndexController extends Controller
 
         return $result;
     }
+    public function search($keyword)
+    {
+        $this->locale = App::getLocale();
+
+        //get categories list
+        $categoriesList = $this->getCategoriesList();
+
+        //get side banners
+        $indexSideBannerList = $this->getBannerList('indexSideBanner');
+
+        //get popularStories
+        $searchStories = $this->getSearchStories($keyword);
+
+        //get search result
+//        $searchDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->where('description', 'like', '%'.$keyword.'%')->get();
+//        dd($searchDetail);
+
+        $result = array(
+            'categories' => $categoriesList,
+            'sideBanners' => $indexSideBannerList,
+            'searchStories' => $searchStories,
+//            'searches' => $searchDetail
+        );
+
+//        dd($result);
+
+        return $result;
+    }
 
     public function getCategoriesList()
     {
@@ -161,7 +189,12 @@ class IndexController extends Controller
     }
 
     public function getArticleDetails($article) {
-        $articleDetails = $article->details->where('lang', $this->locale)->first();;
+        $articleDetails = $article->details->where('lang', $this->locale)->first();
+
+        if(count($articleDetails) == 0) {
+            $articleDetails = $article->details->where('lang', 'en')->first();
+        }
+        
         return $articleDetails;
     }
 
@@ -325,4 +358,30 @@ class IndexController extends Controller
 
         return $articleList;
     }
+
+    public function getSearchStories($keyword) {
+        $articleList = array();
+        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->orWhere('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
+
+        foreach($articleDetail as $detail) {
+            $article = $detail->article;
+            $photo = $article->photo;
+
+            $articleList[] = array(
+                'url' => 'article',
+                'slug' => $article->slug,
+                'photo' => array(
+                    'alt' => $photo->alt,
+                    'image_path' => $photo->image_path
+                ),
+                'title' => $detail->title,
+                'short_desc' => $detail->short_desc,
+                'description' => $detail->description,
+                'category_id' => $article->category_id
+            );
+        }
+
+        return $articleList;
+    }
+
 }

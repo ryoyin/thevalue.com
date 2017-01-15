@@ -35,16 +35,17 @@ class BannerController extends Controller
     public function create()
     {
         $data = array(
-            'menu' => array('photo', 'photo.create'),
+            'menu' => array('banner', 'banner.create'),
             'title' => 'Create',
-            'action' => url('tvadmin/photos'),
-            'photo' => array(
-                'alt' => old('alt'),
-                'image_path' => old('image_path'),
+            'action' => url('tvadmin/banners'),
+            'banner' => array(
+                'photo_id' => old('photo_id'),
+                'position' => old('position'),
+                'sorting' => old('sorting')
             ),
         );
 
-        return view('backend.photo.form', $data);
+        return view('backend.banner.form', $data);
     }
 
     /**
@@ -55,53 +56,13 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        //validate user file
-        $uploaded_file = NULL;
-        $isValidFile = FALSE;
+        $banner = new App\Banner;
+        $banner->photo_id = $request->photo_id;
+        $banner->position = $request->position;
+        $banner->sorting = $request->sorting;
+        $banner->save();
 
-        if ($request->hasFile('uploaded_file')) {
-
-            $uploaded_file = $request->file('uploaded_file');
-
-            $mimeType = $uploaded_file->getMimeType();
-
-            $validFileType = array('png', 'pdf', 'jpeg');
-
-            foreach($validFileType AS $fileType) {
-
-                if(strpos($mimeType, $fileType)) {
-                    $isValidFile = TRUE;
-                }
-
-            }
-
-            if($isValidFile) {
-
-                $alternative_path = 'images/';
-                $destination_path = public_path().'/'.$alternative_path;
-                $filename = $uploaded_file->getClientOriginalName();
-                $fileExtension = $uploaded_file->getClientOriginalExtension();
-
-                $filename = $this->checkFileName($destination_path, $filename, $fileExtension, 0);
-
-                $uploaded_file->move($destination_path, $filename);
-
-            } else {
-
-                return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
-
-            }
-
-        } else {
-            return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
-        }
-
-        $photo = new App\Photo;
-        $photo->alt = $request->alt;
-        $photo->image_path = $alternative_path.$filename;
-        $photo->save();
-
-        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful added!');;
+        return redirect('tvadmin/banners')->with('alert-success', 'Banner was successful added!');;
     }
 
     /**
@@ -123,29 +84,31 @@ class BannerController extends Controller
      */
     public function edit($id)
     {
-        $photo = App\Photo::find($id);
+        $banner = App\Banner::find($id);
 
-        if(old('alt') === NULL) {
-            $photo = array(
-                'alt' => $photo->alt,
-                'image_path' => $photo->image_path
+        if(old('photo_id') === NULL) {
+            $banner = array(
+                'photo_id' => $banner->photo_id,
+                'position' => $banner->position,
+                'sorting' => $banner->sorting
             );
         } else {
-            $photo = array(
-                'alt' => old('alt'),
-                'image_path' => $photo->image_path
+            $banner = array(
+                'photo_id' => old('photo_id'),
+                'position' => old('position'),
+                'sorting' => old('sorting')
             );
         }
 
         $data = array(
             'title' => 'Modify',
-            'menu' => array('photo', 'photo.list'),
-            'photo' => $photo,
+            'menu' => array('banner', 'banner.list'),
+            'banner' => $banner,
             'formMethod' => 'PUT',
-            'action' => 'tvadmin/photos/'.$id
+            'action' => 'tvadmin/banners/'.$id
         );
 
-        return view('backend.photo.form', $data);
+        return view('backend.banner.form', $data);
     }
 
     /**
@@ -157,59 +120,14 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //validate user file
-        $uploaded_file = NULL;
-        $isValidFile = FALSE;
 
-        if ($request->hasFile('uploaded_file')) {
+        $banner = App\Banner::find($id);
+        $banner->photo_id = $request->photo_id;
+        $banner->position = $request->position;
+        $banner->sorting = $request->sorting;
+        $banner->save();
 
-            $uploaded_file = $request->file('uploaded_file');
-
-            $mimeType = $uploaded_file->getMimeType();
-
-            $validFileType = array('png', 'pdf', 'jpeg');
-
-            foreach($validFileType AS $fileType) {
-
-                if(strpos($mimeType, $fileType)) {
-                    $isValidFile = TRUE;
-                }
-
-            }
-
-            if($isValidFile) {
-
-                $alternative_path = 'document/research/';
-                $destination_path = public_path().'/'.$alternative_path;
-                $filename = $uploaded_file->getClientOriginalName();
-                $fileExtension = $uploaded_file->getClientOriginalExtension();
-
-                $filename = $this->checkFileName($destination_path, $filename, $fileExtension, 0);
-
-                $uploaded_file->move($destination_path, $filename);
-
-            } else {
-
-                return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
-
-            }
-
-        } else {
-
-            return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
-
-        }
-
-        $photo = App\Photo::find($id);
-        $photo->alt = $request->alt;
-
-        if($isValidFile) {
-            $photo->image_path = $alternative_path.$filename;
-        }
-
-        $photo->save();
-
-        return redirect('tvadmin/photos')->with('alert-success', 'Research was successful updated!');;
+        return redirect('tvadmin/banners')->with('alert-success', 'Banner was successful updated!');;
     }
 
     /**
@@ -220,11 +138,11 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        $photo = App\Photo::findOrFail($id);
-        $alt = $photo->alt;
-        $photo->delete();
+        $banner = App\Banner::findOrFail($id);
+        $alt = $banner->alt;
+        $banner->delete();
 
-        return redirect('tvadmin/photos')->with('alert-warning', '"<b>'.$alt.'<b>" have been removed');
+        return redirect('tvadmin/banners')->with('alert-warning', '"<b>'.$alt.'<b>" have been removed');
     }
 
     public function checkFileName($destination_path, $filename, $fileExtension, $count = 0) {

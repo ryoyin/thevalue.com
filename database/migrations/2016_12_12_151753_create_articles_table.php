@@ -13,6 +13,7 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
+        //category_id, slug, photo_id, hit_counter, share_counter
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('category_id');
@@ -21,6 +22,7 @@ class CreateArticlesTable extends Migration
 //            $table->string('source');
             $table->integer('photo_id')->nullable();
             $table->integer('hit_counter')->nullable();
+            $table->integer('share_counter')->nullable();
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->softDeletes();

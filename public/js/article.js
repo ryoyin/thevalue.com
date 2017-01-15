@@ -41,8 +41,9 @@ function makeArticle() {
     $('#article-title').html(article.title);
     $('#article-note').html(article.note);
     $('#article-desc').html(article.description);
-    $('#article-title').html(article.title);
-    $('#article-title').html(article.title);
+    $('#article-author').html(article.author);
+    $('#article-source').html(article.source);
+    $('#article-photographer').html(article.photographer);
 }
 
 function makeTags() {

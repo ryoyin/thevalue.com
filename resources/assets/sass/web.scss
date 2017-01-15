@@ -10,6 +10,41 @@ body {
 
 #header-bar {
   font-weight: bold;
+  color: #000000;
+
+  #global-lang-block {
+    position: relative;
+    top: -20px;
+    z-index: 1000;
+
+    #global-lang {
+      i {
+        position: relative;
+        z-index: 1000;
+      }
+      li {
+        //float:none;
+        position: relative;
+        top: -6px;
+        z-index: 1000;
+        background-color: #FFFFFF;
+        color: #000000 !important;
+        display: none;
+
+        a {
+          font-size: 10px;
+          color: #000000 !important;
+          text-decoration: none;
+          &:hover {
+            color: #000000 !important;
+          }
+        }
+      }
+      .lang-active {
+        display: inline-block;
+      }
+    }
+  }
 
   #header-bar-misc {
     li {
@@ -38,6 +73,8 @@ body {
 }
 
 #header-menu {
+  position: relative;
+  z-index: 10;
   padding-bottom: 12px;
   font-weight: bold;
   .ul-clean {
@@ -53,6 +90,15 @@ body {
       }
     }
   }
+}
+
+#search-block {
+  padding-bottom: 12px;
+  input {
+    width: 100%;
+    padding: 3px 10px;
+  }
+  display: none;
 }
 
 .category_name {

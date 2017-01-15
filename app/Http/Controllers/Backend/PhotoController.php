@@ -178,7 +178,7 @@ class PhotoController extends Controller
 
             if($isValidFile) {
 
-                $alternative_path = 'document/research/';
+                $alternative_path = 'images/';
                 $destination_path = public_path().'/'.$alternative_path;
                 $filename = $uploaded_file->getClientOriginalName();
                 $fileExtension = $uploaded_file->getClientOriginalExtension();
@@ -208,7 +208,7 @@ class PhotoController extends Controller
 
         $photo->save();
 
-        return redirect('tvadmin/photos')->with('alert-success', 'Research was successful updated!');;
+        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful updated!');;
     }
 
     /**

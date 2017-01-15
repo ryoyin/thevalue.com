@@ -229,7 +229,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
     ],
 
-    'supported_languages' => ['en' => 'en', 'trad' => 'trad'],
+    'supported_languages' => ['en' => 'en', 'trad' => 'trad', 'sim' => 'sim'],
+    'status' => ['draft' => 'Draft', 'pending' => 'Pending', 'published' => 'Published', 'suspend' => 'Suspend']
 
 
 ];
