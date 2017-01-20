@@ -16,8 +16,10 @@ class TagsTableSeeder extends Seeder
 
         DB::table('tag_details')->insert(['id' => 1, 'lang' => 'en', 'name' => 'Tag 1', 'tag_id' => 1]);
         DB::table('tag_details')->insert(['id' => 2, 'lang' => 'trad', 'name' => '標示 1', 'tag_id' => 1]);
-        DB::table('tag_details')->insert(['id' => 3, 'lang' => 'en', 'name' => 'Tag 2', 'tag_id' => 2]);
-        DB::table('tag_details')->insert(['id' => 4, 'lang' => 'trad', 'name' => '標示 2', 'tag_id' => 2]);
+        DB::table('tag_details')->insert(['id' => 3, 'lang' => 'sim', 'name' => '標示 1', 'tag_id' => 1]);
+        DB::table('tag_details')->insert(['id' => 4, 'lang' => 'en', 'name' => 'Tag 2', 'tag_id' => 2]);
+        DB::table('tag_details')->insert(['id' => 5, 'lang' => 'trad', 'name' => '標示 2', 'tag_id' => 2]);
+        DB::table('tag_details')->insert(['id' => 6, 'lang' => 'sim', 'name' => '標示 2', 'tag_id' => 2]);
 
         DB::table('article_tag')->insert(['article_id' => 1, 'tag_id'=> 1]);
         DB::table('article_tag')->insert(['article_id' => 1, 'tag_id'=> 2]);

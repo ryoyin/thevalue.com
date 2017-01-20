@@ -233,6 +233,10 @@ class IndexController extends Controller
             $article = $featuredArticle->article;
             $detail = $article->details->where('lang', $this->locale)->first();
 
+            if(count($detail) == 0) {
+                $detail = $article->details->where('lang', 'en')->first();
+            }
+
             $photo = $article->photo;
 
 //            dd($article);
@@ -263,6 +267,10 @@ class IndexController extends Controller
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
+            if(count($detail) == 0) {
+                $detail = $article->details->where('lang', 'en')->first();
+            }
+
             $photo = $article->photo;
 
             $articleList[] = array(
@@ -287,6 +295,10 @@ class IndexController extends Controller
         $articles = App\Article::limit(4)->orderBy('hit_counter', 'DESC')->get();
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
+
+            if(count($detail) == 0) {
+                $detail = $article->details->where('lang', 'en')->first();
+            }
 
             $photo = $article->photo;
 

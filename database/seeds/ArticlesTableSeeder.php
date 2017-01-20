@@ -44,6 +44,18 @@ class ArticlesTableSeeder extends Seeder
             'article_id' => 1
         ]);
         DB::table('article_details')->insert([
+            'lang' => 'sim',
+            'title' => 'Marvel’s The Inhumans Series Heads to IMAX Theaters and ABC!',
+            'note' => 'note note note note note',
+            'short_desc' => '短句 一 短句 一 短句 一 短句 一 短句 一 短句 一',
+            'description' => '內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一 內容 一',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
+            'status' => 'published',
+            'article_id' => 1
+        ]);
+        DB::table('article_details')->insert([
             'lang' => 'en',
             'title' => 'Marvel’s Defenders Cast is Coming Together in New Photos',
             'note' => 'note note note note note',
@@ -57,6 +69,18 @@ class ArticlesTableSeeder extends Seeder
         ]);
         DB::table('article_details')->insert([
             'lang' => 'trad',
+            'title' => 'Marvel’s Defenders Cast is Coming Together in New Photos',
+            'note' => 'note note note note note',
+            'short_desc' => '短句 二 短句 二 短句 二 短句 二 短句 二 短句 二',
+            'description' => '內容 二 內容 二 內容 二 內容 二 內容 二 內容 二 內容 二 內容 二',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
+            'status' => 'published',
+            'article_id' => 2
+        ]);
+        DB::table('article_details')->insert([
+            'lang' => 'sim',
             'title' => 'Marvel’s Defenders Cast is Coming Together in New Photos',
             'note' => 'note note note note note',
             'short_desc' => '短句 二 短句 二 短句 二 短句 二 短句 二 短句 二',
@@ -92,6 +116,18 @@ class ArticlesTableSeeder extends Seeder
             'article_id' => 3
         ]);
         DB::table('article_details')->insert([
+            'lang' => 'sim',
+            'title' => 'Full Justice League Movie Cast Revealed',
+            'note' => 'note note note note note',
+            'short_desc' => '短句 3 短句 3 短句 3 短句 3',
+            'description' => '內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3 內容 3',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
+            'status' => 'published',
+            'article_id' => 3
+        ]);
+        DB::table('article_details')->insert([
             'lang' => 'en',
             'title' => 'Explore the Multiverse with Our Benedict Cumberbatch Doctor Strange Video Interview',
             'note' => 'note note note note note',
@@ -105,6 +141,18 @@ class ArticlesTableSeeder extends Seeder
         ]);
         DB::table('article_details')->insert([
             'lang' => 'trad',
+            'title' => 'Explore the Multiverse with Our Benedict Cumberbatch Doctor Strange Video Interview',
+            'note' => 'note note note note note',
+            'short_desc' => '短句 4 短句 4 短句 4 短句 4',
+            'description' => '內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4 內容 4',
+            'source' => 'The Value',
+            'author' => 'Kim Cheung',
+            'photographer' => 'Eric Lee',
+            'status' => 'published',
+            'article_id' => 4
+        ]);
+        DB::table('article_details')->insert([
+            'lang' => 'sim',
             'title' => 'Explore the Multiverse with Our Benedict Cumberbatch Doctor Strange Video Interview',
             'note' => 'note note note note note',
             'short_desc' => '短句 4 短句 4 短句 4 短句 4',
