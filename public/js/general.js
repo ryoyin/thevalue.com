@@ -2,15 +2,19 @@
 var site_root = window.location.href;
 var sr_split = site_root.split('/');
 
-if(sr_split[2] == 'localhost') {
-    site_root = 'http://localhost/thevalue.com/public/';
-} else {
-    site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
+switch(sr_split[2]) {
+    case 'localhost':
+        site_root = 'http://localhost/thevalue.com/public/';
+        break;
+    case 'ryoyin':
+        break;
+        site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
+    default:
+        site_root = 'http://ec2-54-179-151-86.ap-southeast-1.compute.amazonaws.com/www.thevalue.com/public/';
 }
 
 //global api result
 var $apiResult;
-
 
 var default_language = Cookies.get('lang');
 // console.log(default_language);
