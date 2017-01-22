@@ -10,7 +10,7 @@ switch(sr_split[2]) {
         break;
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
     default:
-        site_root = 'http://ec2-54-179-151-86.ap-southeast-1.compute.amazonaws.com/www.thevalue.com/public/';
+        site_root = 'http://www.thevalue.com/';
 }
 
 //global api result
