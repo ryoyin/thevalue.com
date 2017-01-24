@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/listapi', function () {
+/*Route::get('/listapi', function () {
     $list = array(
         url('api/index'),
         url('api/categories')
@@ -21,7 +21,7 @@ Route::get('/listapi', function () {
 
     echo '<pre>';
     print_r($list);
-});
+});*/
 
 Route::get('/index', 'API\IndexController@index');
 Route::get('/category/{slug}', 'API\IndexController@category');

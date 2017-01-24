@@ -57,6 +57,7 @@ class ArticleController extends Controller
                 'photo_id' => old('photo_id'),
                 'hit_counter' => old('hit_counter'),
                 'share_counter' => old('share_counter'),
+                'published_at' => old('published_at'),
                 'status' => old('status'),
             ),
             'langs' => $langs,
@@ -106,6 +107,7 @@ class ArticleController extends Controller
         $article->photo_id = $request->photo_id;
         $article->hit_counter = $request->hit_counter;
         $article->share_counter = $request->share_counter;
+        $article->published_at = $request->published_at;
         $article->status = $request->status;
         $article->save();
 
@@ -173,6 +175,7 @@ class ArticleController extends Controller
                 'photo_id' => $article->photo_id,
                 'hit_counter' => $article->hit_counter,
                 'share_counter' => $article->share_counter,
+                'published_at' => $article->published_at,
                 'status' => $article->status
             );
 
@@ -192,6 +195,8 @@ class ArticleController extends Controller
                 'slug' => old('slug'),
                 'photo_id' => old('photo_id'),
                 'hit_counter' => old('hit_counter'),
+                'share_counter' => old('share_counter'),
+                'published_at' => old('published_at'),
                 'status' => old('status')
             );
         }
@@ -254,6 +259,7 @@ class ArticleController extends Controller
         $article->photo_id = $request->photo_id;
         $article->hit_counter = $request->hit_counter;
         $article->share_counter = $request->share_counter;
+        $article->published_at = $request->published_at;
         $article->status = $request->status;
         $article->save();
 

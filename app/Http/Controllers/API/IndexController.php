@@ -73,6 +73,7 @@ class IndexController extends Controller
         $result = array(
             'categories' => $categoriesList,
             'articleSlug' => $article->slug,
+            'published_at' => $article->published_at->format('M d, Y'),
             'articleDetails' => $articleDetails,
             'articlePhotos' => $articlePhotoList,
             'tags' => $tagsList,
@@ -265,7 +266,7 @@ class IndexController extends Controller
 
     public function getLatestStories() {
         $articleList = array();
-        $articles = App\Article::limit(4)->orderBy('created_at')->get();
+        $articles = App\Article::limit(4)->orderBy('published_at', 'desc')->get();
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
@@ -294,7 +295,7 @@ class IndexController extends Controller
 
     public function getPopularStories() {
         $articleList = array();
-        $articles = App\Article::limit(4)->orderBy('hit_counter', 'DESC')->get();
+        $articles = App\Article::limit(4)->orderBy('hit_counter', 'desc')->get();
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
@@ -323,7 +324,7 @@ class IndexController extends Controller
 
     public function getCategoryStories($category) {
         $articleList = array();
-        $articles = $category->articles;
+        $articles = $category->articles()->orderBy('published_at', 'desc')->get();
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 

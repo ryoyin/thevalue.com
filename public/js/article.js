@@ -40,6 +40,7 @@ function makeArticle() {
 
     $('#article-title').html(article.title);
     $('#article-note').html(article.note);
+    $('#article-date').html($apiResult.published_at);
     $('#article-desc').html(article.description);
     $('#article-author').html(article.author);
     $('#article-source').html(article.source);

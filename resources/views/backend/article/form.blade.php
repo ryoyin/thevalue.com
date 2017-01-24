@@ -176,6 +176,11 @@
                   <label>Share Counter</label>
                   <input name="share_counter" type="text" class="form-control" placeholder="Enter ..." value="{{ $article['share_counter'] }}" required>
               </div>
+              <!-- text input -->
+              <div class="form-group">
+                  <label>Publish Date</label>
+                  <input name="published_at" type="text" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS" value="{{ $article['published_at'] }}" required>
+              </div>
               <!-- select -->
               <div class="form-group">
                   <label>Status</label>
