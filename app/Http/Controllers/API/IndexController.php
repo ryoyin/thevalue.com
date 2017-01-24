@@ -72,6 +72,7 @@ class IndexController extends Controller
 
         $result = array(
             'categories' => $categoriesList,
+            'articleSlug' => $article->slug,
             'articleDetails' => $articleDetails,
             'articlePhotos' => $articlePhotoList,
             'tags' => $tagsList,
@@ -139,6 +140,7 @@ class IndexController extends Controller
 
         return $result;
     }
+
     public function search($keyword)
     {
         $this->locale = App::getLocale();
