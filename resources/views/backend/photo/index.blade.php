@@ -51,7 +51,7 @@
                   <td>{{ $photo->id }}</td>
                   <td><img src="{{ url($photo->image_path) }}" style="height: 100px;"></td>
                   <td>{{ $photo->alt }}</td>
-                  <td><span>{{ $photo->image_path }}</span> <a href="#" onclick="copyClipBoard(this);">copy</a></td>
+                  <td><input type="text" value = "{{ url($photo->image_path) }}"> <a href="#" onclick="copyClipBoard(this);">copy</a></td>
                   <td align="center">
                     <a href="{{ url('tvadmin/photos/'.$photo->id.'/edit') }}" class="btn btn-warning">Modify</a>
                     <form action="{{ url('tvadmin/photos/'.$photo->id) }}" method="POST" style="display: inline-block">
@@ -114,8 +114,14 @@
   }
 
   function copyClipBoard(obj) {
-      var copyTarget = $(obj).parent().children('span').html();
-
+      $(obj).parent().children('input').select();
+      try {
+          var successful = document.execCommand('copy');
+          var msg = successful ? 'successful' : 'unsuccessful';
+//          console.log('Copying text command was ' + msg);
+      } catch (err) {
+//          console.log('Oops, unable to copy');
+      }
   }
 </script>
 @endsection

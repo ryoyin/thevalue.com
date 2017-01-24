@@ -50,7 +50,7 @@
                 @foreach($articles as $article)
                   <tr>
                     <td>{{ $article->id }}</td>
-                    <td>{{ $article->category_id }}</td>
+                    <td>{{ $article->category->slug }}</td>
                     <td>{{ $article->slug }}</td>
                     <td><img src="{{ url($article->photo->image_path) }}" style="height: 100px;"></td>
                     <td>{{ $article->hit_counter }}</td>
