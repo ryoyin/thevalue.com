@@ -228,7 +228,9 @@
   </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+<script src="https://cdn.ckeditor.com/4.4.3/full/ckeditor.js"></script>
 <script>
+
 function changeLang(obj) {
     var $lang = $(obj).val();
     $(".article-lang").removeClass("active");
@@ -236,13 +238,52 @@ function changeLang(obj) {
 }
 
     $(function () {
-        CKEDITOR.replace('description-en');
-        CKEDITOR.replace('description-trad');
-        CKEDITOR.replace('description-sim');
+        CKEDITOR.replace('description-en', {
+            height: 600,
+            toolbar: [
+
+                { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+                { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
+                '/',
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+                '/',
+                { name: 'styles', items: [ 'Styles', 'Format' ] },
+                { name: 'tools', items: [ 'Maximize' ] },
+                { name: 'others', items: [ '-' ] },
+                { name: 'about', items: [ 'About' ] }
+            ],
+            toolbarGroups: [
+                { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+                { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
+                { name: 'forms' },
+                '/',
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+                { name: 'links' },
+                { name: 'insert' },
+                '/',
+                { name: 'styles' },
+                { name: 'colors' },
+                { name: 'tools' },
+                { name: 'others' },
+                { name: 'about' }
+            ]
+        });
+        CKEDITOR.replace('description-trad', {
+            height: 600,
+        });
+        CKEDITOR.replace('description-sim', {
+            height: 600,
+        });
         $(".textarea").wysihtml5();
     });
 </script>
-<script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+
 
 
 

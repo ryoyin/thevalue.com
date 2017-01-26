@@ -12,7 +12,7 @@
                     <li><i class='fa fa-weibo' aria-hidden='true'></i></li>
                     <li><i class='fa fa-twitter' aria-hidden='true'></i></li>
                     <li><i class='fa fa-facebook-f' aria-hidden='true'></i></li>
-                    <li><span>416 shares</span></li>
+                    <li><span class="article-shares">416 shares</span></li>
                 </ul>
             </li>
         </ul>
@@ -43,7 +43,7 @@
                 <li><i class='fa fa-weibo' aria-hidden='true'></i></li>
                 <li><i class='fa fa-wechat' aria-hidden='true'></i></li>
                 <li><i class='fa fa-envelope' aria-hidden='true'></i></li>
-                <li><span>416 shares</span></li>
+                <li><span class="article-shares">416 shares</span></li>
             </ul>
         </div>
         <div class="col-md-6 subscription">

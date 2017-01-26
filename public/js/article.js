@@ -36,7 +36,8 @@ function makeArticlePhotos() {
 
 function makeArticle() {
     var article = $apiResult.articleDetails;
-    console.log(article);
+    // console.log(article);
+    // console.log($apiResult.article);
 
     $('#article-title').html(article.title);
     $('#article-note').html(article.note);
@@ -45,6 +46,7 @@ function makeArticle() {
     $('#article-author').html(article.author);
     $('#article-source').html(article.source);
     $('#article-photographer').html(article.photographer);
+    $('.article-shares').html($apiResult.article['shares']+ ' shares');
 }
 
 function makeTags() {

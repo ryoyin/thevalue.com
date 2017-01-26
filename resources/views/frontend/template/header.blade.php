@@ -5,7 +5,7 @@
         <ul id="global-lang" class="ul-clean pull-left close">
             <li id="global-lang-en"><a href="#" onclick="changeLang(this, 'en');">English</a></li>
             <li id="global-lang-trad"><a href="#" onclick="changeLang(this, 'trad');">繁體中文</a></li>
-            <li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">簡體</a></li>
+            <li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">简体</a></li>
         </ul>
     </div>
 

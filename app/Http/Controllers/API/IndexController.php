@@ -74,6 +74,10 @@ class IndexController extends Controller
             'categories' => $categoriesList,
             'articleSlug' => $article->slug,
             'published_at' => $article->published_at->format('M d, Y'),
+            'article' => array(
+                'shares' => $article->share_counter,
+                'hit' => $article->hit_counter
+            ),
             'articleDetails' => $articleDetails,
             'articlePhotos' => $articlePhotoList,
             'tags' => $tagsList,
