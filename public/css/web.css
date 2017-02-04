@@ -1,3 +1,17 @@
+@media only screen and (max-width: 460px) {
+  #header-bar .pull-center {
+    font-size: 24px !important;
+    float: none;
+    text-align: left !important;
+  }
+  #header-bar #global-lang-block {
+    float: right !important;
+  }
+  #header-bar .pull-right {
+    display: none;
+  }
+}
+
 body {
   font-family: arial;
 }
@@ -17,6 +31,13 @@ body {
   position: relative;
   top: -20px;
   z-index: 1000;
+  width: 70px;
+}
+
+#header-bar #global-lang-block #global-lang {
+  position: absolute;
+  width: 70px;
+  padding-left: 15px;
 }
 
 #header-bar #global-lang-block #global-lang i {
@@ -26,7 +47,7 @@ body {
 
 #header-bar #global-lang-block #global-lang li {
   position: relative;
-  top: -6px;
+  top: -4px;
   z-index: 1000;
   background-color: #FFFFFF;
   color: #000000 !important;

@@ -380,7 +380,7 @@ class IndexController extends Controller
 
     public function getSearchStories($keyword) {
         $articleList = array();
-        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->orWhere('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
+        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
 
         foreach($articleDetail as $detail) {
             $article = $detail->article;
