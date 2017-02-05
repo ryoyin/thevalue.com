@@ -13,22 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::get('/listapi', function () {
-    $list = array(
-        url('api/index'),
-        url('api/categories')
-    );
-
-    echo '<pre>';
-    print_r($list);
-});*/
-
 Route::get('/index', 'API\IndexController@index');
 Route::get('/category/{slug}', 'API\IndexController@category');
 //Route::get('/categories', 'API\IndexController@getCategoriesList');
 Route::get('/article/{slug}', 'API\IndexController@article');
 Route::get('/tag/{slug}', 'API\IndexController@tag');
 Route::get('/search/{keyword}', 'API\IndexController@search');
+Route::get('/about-us', 'API\IndexController@aboutUS');
 
 Route::get('/user', function (Request $request) {
     return $request->user();

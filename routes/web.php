@@ -16,6 +16,7 @@ Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('fronten
 Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
 Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
 Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
+Route::get('/about-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

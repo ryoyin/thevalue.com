@@ -59,11 +59,11 @@ function getInfo(api_path) {
         }
     });
 
-    console.log(api_path);
+    // console.log(api_path);
 
     $.getJSON( api_path, function( data ) {
         $apiResult = data;
-        console.log($apiResult);
+        // console.log($apiResult);
 
         showContent();
     });
@@ -72,6 +72,7 @@ function getInfo(api_path) {
 
 function makeCategoriesList() {
     var categories = $apiResult.categories;
+    // console.log(categories);
 
     var categoriesItems = [];
     $.each(categories, function(key, val) {

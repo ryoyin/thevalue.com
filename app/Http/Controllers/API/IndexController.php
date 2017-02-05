@@ -403,4 +403,29 @@ class IndexController extends Controller
         return $articleList;
     }
 
+    public function aboutUS() {
+
+        $this->locale = App::getLocale();
+
+        $categoriesList = $this->getCategoriesList();
+
+
+        $aboutUS = array(
+            'content' => trans('thevalue.aboutUSContent'),
+            'address' => '中環威靈頓街1號荊威廣場',
+            'tel' => '(852) 1234 5678',
+            'fax' => '(852) 8765 4321',
+            'email' => 'itsupport@thevalue.com',
+            'googleMap' => trans('thevalue.googleMap')
+        );
+
+        $result = array(
+            'categories' => $categoriesList,
+            'aboutUS' => $aboutUS
+        );
+
+        return $result;
+
+    }
+
 }
