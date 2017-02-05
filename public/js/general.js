@@ -3,12 +3,15 @@ var site_root = window.location.href;
 var sr_split = site_root.split('/');
 
 switch(sr_split[2]) {
+    case '192.168.88.102':
+        site_root = 'http://192.168.88.102/thevalue.com/public/';
+        break;
     case 'localhost':
         site_root = 'http://localhost/thevalue.com/public/';
         break;
     case 'ryoyin':
-        break;
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
+        break;
     default:
         site_root = 'http://www.thevalue.com/';
 }

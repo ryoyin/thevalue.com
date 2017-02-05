@@ -10,6 +10,105 @@
   #header-bar .pull-right {
     display: none;
   }
+  #home-content {
+    padding-top: 25px;
+    font-size: 16px;
+  }
+  #home-content #left {
+    position: relative;
+    padding-right: 30px;
+  }
+  #home-content #left #head .stories-active {
+    background-color: #000000;
+    color: #FFFFFF;
+  }
+  #home-content #left #head li {
+    padding: 8px 10px !important;
+    color: #8c8c8c;
+    cursor: pointer;
+    font-size: 10px !important;
+  }
+  #home-content #left #head li:last-child {
+    padding: 24px 0 0;
+  }
+  #home-content #left #block {
+    position: relative;
+    z-index: 1000;
+    border-top: 1px solid #000000;
+    padding-bottom: 25px;
+  }
+  #home-content #left #block #category-head {
+    font-size: 14px;
+  }
+  #home-content #left #block #category-head span {
+    font-weight: bold;
+  }
+  #home-content #left #block #stories-categories {
+    background-color: #FFFFFF;
+    position: absolute;
+    padding: 0;
+    z-index: 2000;
+    width: 100%;
+  }
+  #home-content #left #block #stories-categories li {
+    float: left;
+    padding: 15px;
+  }
+  #home-content #left #block #stories-categories li a {
+    color: #000000;
+    text-decoration: none;
+  }
+  #home-content #left #block #stories-categories li a:hover {
+    color: #000000;
+  }
+  #home-content #left #block #stories .news {
+    padding-top: 30px;
+  }
+  #home-content #left #block #stories .news .left {
+    padding-right: 25px;
+    padding-bottom: 10px;
+  }
+  #home-content #left #block #stories .news .right .cate {
+    color: #2aabd2;
+    font-size: 10px;
+  }
+  #home-content #left #block #stories .news .right .title {
+    font-weight: bold;
+    font-size: 14px !important;
+    padding-top: 3px;
+  }
+  #home-content #left #block #stories .news .right .title a {
+    color: #000000;
+    text-decoration: none;
+  }
+  #home-content #left #block #stories .news .right .title a:hover {
+    color: #000000;
+  }
+  #home-content #left #block #stories .news .right .misc {
+    font-size: 9px;
+    padding-top: 7px;
+  }
+  #home-content #left #block #stories .news .right .misc li:first-child span {
+    font-weight: bold;
+    color: #000000;
+  }
+  #home-content #left #block #stories .news .right .misc li:last-child li {
+    float: right;
+    padding-left: 7px;
+  }
+  #home-content #left #block #stories .news .right .misc li:last-child li span {
+    font-weight: bold;
+  }
+  #home-content #left #block #stories .news .right .desc {
+    padding-top: 8px;
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  #home-content #left #head .pull-right {
+    display: none;
+  }
 }
 
 body {
