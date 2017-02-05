@@ -46,7 +46,7 @@ function makeFeaturedArticles() {
 
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
-        featuredArticles.push("<ul class='col-md-3 ul-clean'>" +
+        featuredArticles.push("<ul class='col-xs-6 col-md-3 ul-clean'>" +
             "<li><img src='"+val.photo.image_path+"' class='img-responsive'></li>" +
             "<li><a href='"+site_root+"category/"+category.slug+"' class='category_name'>"+categoryName+"</a></li><li><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>" +
             "</ul>");
@@ -74,8 +74,8 @@ function showStories(obj, topic) {
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
         topicList.push("<div class='news'>\
-        <div class='col-md-5 left'><img src='"+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
-            <div class='col-md-7 right'>\
+        <div class='col-xs-5 col-md-5 left'><img src='"+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
+            <div class='col-xs-5 col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+"category/"+category.slug+"'>"+categoryName+"</a></li>\
         <li class='title'><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>\
