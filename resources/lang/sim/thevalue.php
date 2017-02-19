@@ -24,6 +24,12 @@ return [
     'address-title' => '地址',
     'tel-title' => '电话',
     'fax-title' => '传真',
-    'email-title' => 'Email'
+    'email-title' => 'Email',
+    'share-the-value' => '分享 TheValue.com',
+    'share-please-enter-email' => '请输入电邮地址',
+    'share-invalid-email' => '无效的邮件地址',
+    'share-sent-email' => '邮件已发送',
+    'share' => '分享',
+    'search' => '搜寻',
 
 ];

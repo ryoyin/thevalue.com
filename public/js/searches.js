@@ -7,10 +7,10 @@ $( document ).ready(function() {
 
     if(typeof search != 'undefined') {
         $('#search-block').show();
-        $('#search-block').children('input').val(search);
+        $('#sim_search').val(search);
     } else {
         $('#search-block').show();
-        $('#search-block').children('input').val(search);
+        $('#sim_search').val(search);
     }
 
     var api_path = site_root+"api/search/"+search;

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: LinBiolinum_R;
+  src: url("../css/LinBiolinum_R.otf") format("opentype");
+}
+
 @media only screen and (max-width: 460px) {
 
   #header-bar {
@@ -221,7 +226,7 @@ body {
   }
 
   .pull-center {
-    font-family: 'Helvetica';
+    font-family: 'LinBiolinum_R';
     font-size: 35px;
     padding: 10px 0;
     a {
@@ -634,4 +639,8 @@ body {
       }
     }
   }
+}
+
+.fa-envelope {
+  cursor: pointer;
 }

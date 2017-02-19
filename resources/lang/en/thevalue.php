@@ -28,6 +28,14 @@ return [
     'address-title' => 'Address',
     'tel-title' => 'Tel.',
     'fax-title' => 'Fax',
-    'email-title' => 'Email'
+    'email-title' => 'Email',
+    'share-the-value' => 'Share TheValue.com',
+    'share-please-enter-email' => 'Please enter email.',
+    'share-invalid-email' => 'Invalid Email Address',
+    'share-sent-email' => 'Email Sent',
+    'share' => 'Share',
+    'search' => 'Search',
+
+
 
 ];

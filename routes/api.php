@@ -24,3 +24,10 @@ Route::get('/about-us', 'API\IndexController@aboutUS');
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+Route::post('/share-the-value', function(Request $request) {
+
+    $share = new App\ShareEmail;
+    $share->email = $request->email;
+    $share->save();
+});

@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 class PageController extends Controller
 {
     public function search() {
+        $lang = $_COOKIE['lang'];
+        App::setLocale($lang);
         return view('frontend.searches.searches');
     }
 

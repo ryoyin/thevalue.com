@@ -23,6 +23,12 @@ return [
     'address-title' => '地址',
     'tel-title' => '電話',
     'fax-title' => '傳真',
-    'email-title' => 'Email'
+    'email-title' => 'Email',
+    'share-the-value' => '分享 TheValue.com',
+    'share-please-enter-email' => '請輸入電郵地址',
+    'share-invalid-email' => '無效的郵件地址',
+    'share-sent-email' => '郵件已發送',
+    'share' => '分享',
+    'search' => '搜尋',
 
 ];

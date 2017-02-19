@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
             \App\Http\Middleware\Localization::class,
+//            \App\Http\Middleware\VerifyCsrfToken::class,
         ],
     ];
 
@@ -53,5 +54,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+//        'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 }

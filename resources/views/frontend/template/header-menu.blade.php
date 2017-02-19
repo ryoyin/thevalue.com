@@ -8,5 +8,11 @@
 </div> <!-- /header-menu-->
 
 <div class="row" id="search-block">
-    <input type="text" class="pull-right" onkeypress="searchme(this, event)">
+    {{--<input type="text" class="pull-right" onkeypress="searchme(this, event)">--}}
+    <div class="input-group">
+        <input id="sim_search" type="text" class="form-control" placeholder="keywords..." onkeypress="searchme(this, event)">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="simple_search();return false;">@lang('thevalue.search')</button>
+        </span>
+    </div><!-- /input-group -->
 </div>

@@ -11,7 +11,7 @@
 
     <div class="pull-right">
         <ul id="header-bar-misc" class="ul-clean">
-            <li><i class="fa fa-envelope" aria-hidden="true"></i></li>
+            <li><i class="fa fa-envelope" aria-hidden="true" data-toggle="modal" data-target="#share-the-value"></i></li>
             {{--<li><i class="fa fa-wechat" aria-hidden="true"></i></li>
             <li><i class="fa fa-weibo" aria-hidden="true"></i></li>
             <li><i class="fa fa-twitter" aria-hidden="true"></i></li>
@@ -24,3 +24,30 @@
     </div>
 
 </div> <!--/header-bar-->
+
+<!-- Modal -->
+<div id="share-the-value" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@lang('thevalue.share-the-value')</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div class="input-group">
+                        <input type="text" id="share-email" class="form-control" placeholder="@lang('thevalue.share-please-enter-email').....">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="shareme();return false;">@lang('thevalue.share')</button>
+                        </span>
+                    </div><!-- /input-group -->
+                </p>
+                <p id="share-the-value-invalid-email" style="color: red; display:none;">@lang('thevalue.share-invalid-email')</p>
+                <p id="share-the-value-sent-email" style="display:none;">@lang('thevalue.share-sent-email')</p>
+            </div>
+        </div>
+
+    </div>
+</div>

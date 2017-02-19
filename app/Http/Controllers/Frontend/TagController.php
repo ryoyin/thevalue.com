@@ -12,6 +12,8 @@ class TagController extends Controller
 
     public function index($slug)
     {
+        $lang = $_COOKIE['lang'];
+        App::setLocale($lang);
         $data = array(
             'slug' => $slug
         );

@@ -54,6 +54,12 @@ function searchme(obj, e) {
     }
 }
 
+function simple_search() {
+    var search = $('#sim_search').val();
+    Cookies.set('search', search);
+    window.location = site_root+"search";
+}
+
 function getInfo(api_path) {
 
     $.ajaxSetup({
@@ -110,3 +116,29 @@ function getCategoryByID(id) {
     }
 }
 
+function shareme() {
+    var email = $('#share-email').val();
+    $('#share-the-value-invalid-email').hide();
+    if(validate_email(email) && email.trim() != '') {
+        var api_email_path = site_root+"api/share-the-value";
+        $.ajax({
+            method: "POST",
+            url: api_email_path,
+            data: { email: email }
+        }).done(function() {
+            $('#share-the-value-sent-email').fadeIn(3000, function() {
+                $('#share-the-value').modal('toggle');
+            });
+        });
+    } else {
+        $('#share-the-value-invalid-email').fadeIn();
+    }
+}
+
+function validate_email(email) {
+    var input = document.createElement('input');
+    input.type='email';
+    input.value=email;
+
+    return input.checkValidity();
+}

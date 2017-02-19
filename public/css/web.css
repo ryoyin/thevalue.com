@@ -1,3 +1,8 @@
+@font-face {
+  font-family: LinBiolinum_R;
+  src: url("../css/LinBiolinum_R.otf") format("opentype");
+}
+
 @media only screen and (max-width: 460px) {
   #header-bar .pull-center {
     font-size: 24px !important;
@@ -177,7 +182,7 @@ body {
 }
 
 #header-bar .pull-center {
-  font-family: 'Helvetica';
+  font-family: 'LinBiolinum_R';
   font-size: 35px;
   padding: 10px 0;
 }
@@ -585,6 +590,10 @@ body {
 
 #article-content #right .popular-news-block .right .ul-clean li:nth-child(2) a:hover {
   color: #000000;
+}
+
+.fa-envelope {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=web.css.map */
