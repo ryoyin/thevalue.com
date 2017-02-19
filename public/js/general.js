@@ -128,6 +128,8 @@ function shareme() {
         }).done(function() {
             $('#share-the-value-sent-email').fadeIn(3000, function() {
                 $('#share-the-value').modal('toggle');
+                $('#share-email').val('');
+                $('#share-the-value-sent-email').hide();
             });
         });
     } else {
