@@ -9,7 +9,7 @@ switch(sr_split[2]) {
     case 'localhost':
         site_root = 'http://localhost/thevalue.com/public/';
         break;
-    case 'ryoyin':
+    case 'ryoyin.ddns.net':
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
         break;
     default:
