@@ -270,7 +270,7 @@ class IndexController extends Controller
 
     public function getLatestStories() {
         $articleList = array();
-        $articles = App\Article::limit(4)->orderBy('published_at', 'desc')->get();
+        $articles = App\Article::limit(20)->orderBy('published_at', 'desc')->get();
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
@@ -299,7 +299,7 @@ class IndexController extends Controller
 
     public function getPopularStories() {
         $articleList = array();
-        $articles = App\Article::limit(4)->orderBy('hit_counter', 'desc')->get();
+        $articles = App\Article::limit(20)->orderBy('hit_counter', 'desc')->get();
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
