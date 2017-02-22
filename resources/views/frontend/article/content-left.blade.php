@@ -49,7 +49,7 @@
         <div class="col-md-6 subscription">
             <div class="line"></div>
             <div>訂閱 THE VALUE</div>
-            <div>收取我們鞋類、時尚、音樂、創意生活的最新資訊</div>
+            <div>收取我們最新資訊</div>
             <div class="input-group">
                 <input type="text" class="form-control" aria-label="your email address">
                 <div class="input-group-btn">
