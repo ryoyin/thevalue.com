@@ -259,7 +259,8 @@ class IndexController extends Controller
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
-                'category_id' => $article->category_id
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at
             );
         }
 
@@ -290,7 +291,8 @@ class IndexController extends Controller
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
-                'category_id' => $article->category_id
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at
             );
         }
 
@@ -319,7 +321,8 @@ class IndexController extends Controller
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
-                'category_id' => $article->category_id
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at
             );
         }
 
@@ -344,7 +347,8 @@ class IndexController extends Controller
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
-                'category_id' => $article->category_id
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at
             );
         }
 
@@ -371,7 +375,8 @@ class IndexController extends Controller
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
-                'category_id' => $article->category_id
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at
             );
         }
 
@@ -396,7 +401,8 @@ class IndexController extends Controller
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
-                'category_id' => $article->category_id
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at
             );
         }
 
