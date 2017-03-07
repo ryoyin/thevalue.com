@@ -24,7 +24,7 @@ class ArticleController extends Controller
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com",
+            'url' => "http://www.thevalue.com/article/".$slug,
             'type' => "article",
             'title' => $articleDetails->title,
             "description" => $articleDetails->short_desc,
