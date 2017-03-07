@@ -60,7 +60,7 @@
     <meta property="og:description" content="The Value 收取我們最新資訊">
     <meta property="og:image" content="http://www.thevalue.com/images/rocketfellercenter.jpg">
     <meta property="fb:app_id" content="1149533345170108">
-    {{--<meta property="fb:admins" content="579622216,709634581">--}}
+    <meta property="fb:admins" content="1136380453091512">
 
 
 </head>
