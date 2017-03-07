@@ -52,15 +52,7 @@
         ga('send', 'pageview');
     </script>
 
-    <meta property="og:site_name" content="TheValue">
-    <meta property="og:url" content="http://www.thevalue.com">
-    <meta property="og:type" content="website">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="The Value">
-    <meta property="og:description" content="The Value 收取我們最新資訊">
-    <meta property="og:image" content="http://www.thevalue.com/images/rocketfellercenter.jpg">
-    <meta property="fb:app_id" content="1149533345170108">
-    <meta property="fb:admins" content="1136380453091512">
+
 
 
 </head>
