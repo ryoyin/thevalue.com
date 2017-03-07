@@ -17,8 +17,20 @@ class TagController extends Controller
         }
         $lang = $_COOKIE['lang'];
         App::setLocale($lang);
+
+        $fbMetaArray = array(
+            'site_name' => "TheValue",
+            'url' => "http://www.thevalue.com",
+            'type' => "website",
+            'title' => "TheValue",
+            "description" => "The Value 收取我們最新資訊",
+            "image" => "http://www.thevalue.com/images/rocketfellercenter.jpg",
+            "app_id" => "1149533345170108"
+        );
+
         $data = array(
-            'slug' => $slug
+            'slug' => $slug,
+            'fbMeta' => $fbMetaArray
         );
         return view('frontend.tags.tags', $data);
     }

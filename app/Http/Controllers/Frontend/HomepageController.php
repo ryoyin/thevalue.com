@@ -18,7 +18,7 @@ class HomepageController extends Controller
             'url' => "http://www.thevalue.com",
             'type' => "website",
             'title' => "TheValue",
-            "description" => "The Value 收取我們最新資訊123",
+            "description" => "The Value 收取我們最新資訊",
             "image" => "http://www.thevalue.com/images/rocketfellercenter.jpg",
             "app_id" => "1149533345170108"
         );
