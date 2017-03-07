@@ -52,7 +52,14 @@
         ga('send', 'pageview');
     </script>
 
-
+    <meta property="og:site_name" content="{{ $fbMeta['site_name'] }}">
+    <meta property="og:url" content="{{ $fbMeta['url'] }}">
+    <meta property="og:type" content="{{ $fbMeta['type'] }}">
+    <meta property="og:title" content="{{ $fbMeta['title'] }}">
+    <meta property="og:description" content="{{ $fbMeta['description'] }}">
+    <meta property="og:image" content="{{ $fbMeta['image'] }}">
+    <meta property="fb:app_id" content="{{ $fbMeta['app_id'] }}">
+    {{--<meta property="fb:admins" content="1136380453091512">--}}
 
 
 </head>

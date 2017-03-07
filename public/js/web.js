@@ -9,7 +9,7 @@ function showContent() {
     makeBanners();
     makeSideBanners();
     makeFeaturedArticles();
-    makeFBMeta();
+    // makeFBMeta();
 
     var stories = $('#head').children('li:first');
     showStories(stories, 'latest');
