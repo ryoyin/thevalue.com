@@ -13,7 +13,7 @@ class HomepageController extends Controller
             $lang = $_COOKIE['lang'];
             App::setLocale($lang);
         } else {
-            echo "laravel change";
+//            echo "laravel change";
             $lang = App::getLocale();
             $_COOKIE['lang'] = $lang;
         }
