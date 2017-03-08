@@ -11,12 +11,27 @@
 |
 */
 
-Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
-Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
-Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
-Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
-Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
-Route::get('/about-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
+Route::group(
+[
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
+],
+function()
+{
+    /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
+    Route::get('test',function(){
+        return View::make('frontend.test');
+    });
+
+    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
+    Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
+    Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
+    Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
+    Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
+    Route::get('/about-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
+
+});
+
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

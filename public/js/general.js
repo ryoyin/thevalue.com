@@ -36,7 +36,7 @@ function showLang() {
 function changeLang(obj, lang) {
     if($('#global-lang').hasClass('open')) {
         Cookies.set('lang', lang);
-        location.reload();
+        window.location.href = site_root+lang;
     }
 }
 
