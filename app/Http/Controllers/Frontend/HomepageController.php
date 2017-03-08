@@ -13,9 +13,12 @@ class HomepageController extends Controller
             $_COOKIE['lang'] = 'trad';
         }
 
+        $lang = $_COOKIE['lang'];
+        App::setLocale($lang);
+
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com",
+            'url' => "http://www.thevalue.com/".$lang,
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",
@@ -27,8 +30,7 @@ class HomepageController extends Controller
             'fbMeta' => $fbMetaArray,
         );
 
-        $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
+
         return view('frontend.homepage.homepage', $data);
     }
 }

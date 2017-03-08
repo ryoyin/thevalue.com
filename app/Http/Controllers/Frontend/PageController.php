@@ -17,7 +17,7 @@ class PageController extends Controller
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com",
+            'url' => "http://www.thevalue.com".$lang,
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",
@@ -38,6 +38,21 @@ class PageController extends Controller
         }
         $lang = $_COOKIE['lang'];
         App::setLocale($lang);
-        return view('frontend.aboutUS.aboutUS');
+
+        $fbMetaArray = array(
+            'site_name' => "TheValue",
+            'url' => "http://www.thevalue.com".$lang,
+            'type' => "website",
+            'title' => "TheValue",
+            "description" => "The Value 收取我們最新資訊",
+            "image" => "http://www.thevalue.com/images/rocketfellercenter.jpg",
+            "app_id" => "1149533345170108"
+        );
+
+        $data = array(
+            'fbMeta' => $fbMetaArray,
+        );
+
+        return view('frontend.aboutUS.aboutUS', $data);
     }
 }
