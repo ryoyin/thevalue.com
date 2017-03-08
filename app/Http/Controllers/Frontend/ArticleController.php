@@ -22,7 +22,7 @@ class ArticleController extends Controller
 
         $article = App\Article::where('slug', $slug)->first();
 
-        echo $lang;
+//        echo "article: ".$lang;
 
         $articleDetails = $this->getArticleDetails($article);
 
@@ -44,8 +44,8 @@ class ArticleController extends Controller
     }
 
     public function getArticleDetails($article) {
-        echo $this->locale;
-        $articleDetails = $article->details->where('lang', $this->locale)->first();
+        $lang = App::getLocale();
+        $articleDetails = $article->details->where('lang',  $lang)->first();
 
         if(count($articleDetails) == 0) {
             $articleDetails = $article->details->where('lang', 'en')->first();
