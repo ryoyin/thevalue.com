@@ -6,7 +6,7 @@
         var slug = "{{ $slug }}";
     </script>
 
-    <script src="{{ asset('js/article.js') }}"></script>
+    <script src="{{ asset('js/article.js') }}?refresh=20170308"></script>
 
     @include('frontend.article.carousel')
 

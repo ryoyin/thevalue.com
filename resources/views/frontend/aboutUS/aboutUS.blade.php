@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <script src="{{ asset('js/aboutus.js') }}"></script>
+    <script src="{{ asset('js/aboutus.js') }}?refresh=20170308"></script>
 
     <hr style="padding: 0; margin:0">
 
