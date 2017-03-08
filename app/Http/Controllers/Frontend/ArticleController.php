@@ -12,11 +12,13 @@ class ArticleController extends Controller
 
     public function index($slug)
     {
-        if(!isset($_COOKIE['lang'])) {
+        /*if(!isset($_COOKIE['lang'])) {
             $_COOKIE['lang'] = 'trad';
         }
         $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
+        App::setLocale($lang);*/
+
+        $lang = App::getLocale();
 
         $article = App\Article::where('slug', $slug)->first();
 
