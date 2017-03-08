@@ -12,14 +12,16 @@ class ArticleController extends Controller
 
     public function index($slug)
     {
-        if(isset($_COOKIE['lang'])) {
+        /*if(isset($_COOKIE['lang'])) {
             $lang = $_COOKIE['lang'];
             App::setLocale($lang);
         } else {
-            echo "laravel change";
+//            echo "laravel change";
             $lang = App::getLocale();
             $_COOKIE['lang'] = $lang;
-        }
+        }*/
+
+        $lang = App::getLocale();
 
 //        echo $lang;
 
