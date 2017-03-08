@@ -22,6 +22,8 @@ class ArticleController extends Controller
 
         $article = App\Article::where('slug', $slug)->first();
 
+        echo $lang;
+
         $articleDetails = $this->getArticleDetails($article);
 
         $fbMetaArray = array(
@@ -42,6 +44,7 @@ class ArticleController extends Controller
     }
 
     public function getArticleDetails($article) {
+        echo $this->locale;
         $articleDetails = $article->details->where('lang', $this->locale)->first();
 
         if(count($articleDetails) == 0) {
