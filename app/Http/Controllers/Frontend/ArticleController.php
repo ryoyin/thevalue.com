@@ -20,6 +20,8 @@ class ArticleController extends Controller
 
         $lang = App::getLocale();
 
+//        echo $lang;
+
         $article = App\Article::where('slug', $slug)->first();
 
 //        echo "article: ".$lang;

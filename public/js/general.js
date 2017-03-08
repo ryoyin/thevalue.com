@@ -5,23 +5,35 @@ var sr_split = site_root.split('/');
 switch(sr_split[2]) {
     case '192.168.88.102':
         site_root = 'http://192.168.88.102/thevalue.com/public/';
+        var site_lang = (sr_split[5]);
         break;
     case 'localhost':
         site_root = 'http://localhost/thevalue.com/public/';
+        var site_lang = (sr_split[5]);
         break;
     case 'ryoyin.ddns.net':
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
+        var site_lang = (sr_split[5]);
         break;
     default:
         site_root = 'http://www.thevalue.com/';
+        var site_lang = (sr_split[3]);
 }
 
 //global api result
 var $apiResult;
 
+/*
 var default_language = Cookies.get('lang');
 // console.log(default_language);
 if(typeof default_language == 'undefined') default_language = 'trad';
+*/
+
+console.log(site_lang);
+
+default_language = site_lang;
+Cookies.set('lang', default_language);
+
 // console.log(default_language);
 $(document).ready(function() {
     $('#global-lang-'+default_language).addClass('lang-active');
