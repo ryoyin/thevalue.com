@@ -1,0 +1,1 @@
+@lang('thevalue.share-invalid-email')
