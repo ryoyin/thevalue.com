@@ -29,7 +29,7 @@ var default_language = Cookies.get('lang');
 if(typeof default_language == 'undefined') default_language = 'trad';
 */
 
-console.log(site_lang);
+// console.log(site_lang);
 
 default_language = site_lang;
 Cookies.set('lang', default_language);
@@ -49,6 +49,7 @@ function changeLang(obj, lang) {
     if($('#global-lang').hasClass('open')) {
         Cookies.set('lang', lang);
         window.location.href = site_root+lang;
+        // console.log(site_root+lang);
     }
 }
 

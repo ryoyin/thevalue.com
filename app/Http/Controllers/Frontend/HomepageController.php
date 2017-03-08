@@ -9,12 +9,14 @@ use App\Http\Controllers\Controller;
 class HomepageController extends Controller
 {
     public function index() {
-        if(!isset($_COOKIE['lang'])) {
-            $_COOKIE['lang'] = 'trad';
+        if(isset($_COOKIE['lang'])) {
+            $lang = $_COOKIE['lang'];
+            App::setLocale($lang);
+        } else {
+            echo "laravel change";
+            $lang = App::getLocale();
+            $_COOKIE['lang'] = $lang;
         }
-
-        $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
 
         $fbMetaArray = array(
             'site_name' => "TheValue",

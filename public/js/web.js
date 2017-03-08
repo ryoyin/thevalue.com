@@ -49,7 +49,7 @@ function makeFeaturedArticles() {
 
         featuredArticles.push("<ul class='col-xs-6 col-md-3 ul-clean'>" +
             "<li><img src='"+val.photo.image_path+"' class='img-responsive'></li>" +
-            "<li><a href='"+site_root+"category/"+category.slug+"' class='category_name'>"+categoryName+"</a></li><li><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>" +
+            "<li><a href='"+site_root+default_language+"/category/"+category.slug+"' class='category_name'>"+categoryName+"</a></li><li><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>" +
             "</ul>");
     });
 
@@ -78,8 +78,8 @@ function showStories(obj, topic) {
         <div class='col-xs-5 col-md-5 left'><img src='"+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
             <div class='col-xs-7 col-md-7 right'>\
             <ul class='ul-clean'>\
-            <li class='cate'><a href='"+site_root+"category/"+category.slug+"'>"+categoryName+"</a></li>\
-        <li class='title'><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>\
+            <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
+        <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
         <!--\
         <ul class='misc ul-clean'>\
             <li class='pull-left'>by <span>Stan</span> Nov 24, 2016 </li>\

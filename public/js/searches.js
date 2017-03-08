@@ -45,11 +45,11 @@ function showStories(obj, topic) {
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
         topicList.push("<div class='news'>\
-        <div class='col-md-5 left'><a href='"+site_root+"article/"+val.slug+"'><img src='"+site_root+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
+        <div class='col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+site_root+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
             <div class='col-md-7 right'>\
             <ul class='ul-clean'>\
-            <li class='cate'><a href='"+site_root+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
-        <li class='title'><a href='"+site_root+"article/"+val.slug+"'>"+val.title+"</a></li>\
+            <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
+        <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
         <!--\
         <ul class='misc ul-clean'>\
             <li class='pull-left'>by <span>Stan</span> Nov 24, 2016 </li>\

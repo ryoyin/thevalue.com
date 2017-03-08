@@ -54,7 +54,7 @@ function makeTags() {
 
     var tagsli = [];
     $.each(tags, function(key, val) {
-        tagsli.push('<li><a href="'+site_root+'tag/'+val.slug+'">'+val.name+'</a></li>')
+        tagsli.push('<li><a href="'+site_root+default_language+'/tag/'+val.slug+'">'+val.name+'</a></li>')
     });
 
     $('.tag').children('ul').html(tagsli.join(""));
@@ -79,8 +79,8 @@ function makePopularStories() {
             <div class="col-md-5 left"><img src="'+site_root+val.photo.image_path+'" class="img-responsive"></div>\
             <div class="col-md-7 right">\
             <ul class="ul-clean">\
-            <li><a href="'+site_root+'category/'+category.slug+'">'+categoryName+'</a></li>\
-        <li><a href="'+site_root+'article/'+val.slug+'">'+val.title+'</a></li>\
+            <li><a href="'+site_root+default_language+'/category/'+category.slug+'">'+categoryName+'</a></li>\
+        <li><a href="'+site_root+default_language+'/article/'+val.slug+'">'+val.title+'</a></li>\
         </ul>\
         </div>\
         </div>\
