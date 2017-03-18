@@ -444,6 +444,7 @@ body {
 .tag ul li {
   float: left;
   padding-right: 15px;
+  height: 50px;
 }
 
 .tag ul li a {
