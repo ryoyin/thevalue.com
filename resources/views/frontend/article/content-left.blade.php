@@ -22,8 +22,8 @@
 
     <div class="source">
         <div class="line"></div>
-        <div>資料來源 <span id="article-source">HYPEBEAST JAPAN</span></div>
-        <div>PHOTOGRAPHER <span id="article-photographer">AKIHARU ICHIKAWA/HYPEBEAST</span></div>
+        <div>資料來源 <span id="article-source"></span></div>
+        <div>PHOTOGRAPHER <span id="article-photographer"></span></div>
     </div>
 
     <div class="tag">
