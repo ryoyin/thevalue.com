@@ -187,6 +187,35 @@ class IndexController extends Controller
         return $result;
     }
 
+    public function video()
+    {
+        $this->locale = App::getLocale();
+
+        //get categories list
+        $categoriesList = $this->getCategoriesList();
+
+        //get side banners
+        $indexSideBannerList = $this->getBannerList('indexSideBanner');
+
+        //get popularStories
+        $searchVideo = $this->getSearchVideo();
+
+        //get search result
+//        $searchDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->where('description', 'like', '%'.$keyword.'%')->get();
+//        dd($searchDetail);
+
+        $result = array(
+            'categories' => $categoriesList,
+            'sideBanners' => $indexSideBannerList,
+            'searchVideo' => $searchVideo,
+//            'searches' => $searchDetail
+        );
+
+//        dd($result);
+
+        return $result;
+    }
+
     public function getCategoriesList()
     {
         $categories = New Category();
@@ -398,6 +427,32 @@ class IndexController extends Controller
     public function getSearchStories($keyword) {
         $articleList = array();
         $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
+
+        foreach($articleDetail as $detail) {
+            $article = $detail->article;
+            $photo = $article->photo;
+
+            $articleList[] = array(
+                'url' => 'article',
+                'slug' => $article->slug,
+                'photo' => array(
+                    'alt' => $photo->alt,
+                    'image_path' => $photo->image_path
+                ),
+                'title' => $detail->title,
+                'short_desc' => $detail->short_desc,
+                'description' => $detail->description,
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at->format('M d, Y')
+            );
+        }
+
+        return $articleList;
+    }
+
+    public function getSearchVideo() {
+        $articleList = array();
+        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('description', 'like', '%iframe%')->get();
 
         foreach($articleDetail as $detail) {
             $article = $detail->article;

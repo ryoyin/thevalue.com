@@ -19,6 +19,7 @@ Route::get('/category/{slug}', 'API\IndexController@category');
 Route::get('/article/{slug}', 'API\IndexController@article');
 Route::get('/tag/{slug}', 'API\IndexController@tag');
 Route::get('/search/{keyword}', 'API\IndexController@search');
+Route::get('/video', 'API\IndexController@video');
 Route::get('/about-us', 'API\IndexController@aboutUS');
 
 Route::get('/user', function (Request $request) {
