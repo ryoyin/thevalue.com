@@ -28,7 +28,7 @@ function()
     Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
     Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
     Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
-    Route::get('/about-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
+    Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
 
 });
 
