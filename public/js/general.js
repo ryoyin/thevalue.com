@@ -2,6 +2,8 @@
 var site_root = window.location.href;
 var sr_split = site_root.split('/');
 
+// console.log(sr_split[2]);
+
 switch(sr_split[2]) {
     case '192.168.88.102':
         site_root = 'http://192.168.88.102/thevalue.com/public/';
@@ -14,6 +16,9 @@ switch(sr_split[2]) {
     case 'ryoyin.ddns.net':
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
         var site_lang = (sr_split[5]);
+        break;
+    case 'http://thevalue.com/':
+        window.location.href = "http://www.thevalue.com";
         break;
     default:
         site_root = 'http://www.thevalue.com/';
