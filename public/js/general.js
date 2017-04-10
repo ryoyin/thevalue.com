@@ -24,6 +24,7 @@ switch(sr_split[2]) {
     default:
         site_root = 'http://www.thevalue.com/';
         var site_lang = (sr_split[3]);
+        var cat_slug = (sr_split[5]);
 }
 // console.log(cat_slug);
 
