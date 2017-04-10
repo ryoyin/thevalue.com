@@ -104,7 +104,7 @@ function makeCategoriesList() {
     var categoriesItems = [];
     $.each(categories, function(key, val) {
         if(val.parent == null) {
-            categoriesItems.push("<li><a href='"+site_root+"category/"+val.slug+"'>"+val.name+"</a></li>")
+            categoriesItems.push("<li><a href='"+site_root+site_lang+"/category/"+val.slug+"'>"+val.name+"</a></li>")
         }
     });
     $('#categoriesList').html(categoriesItems.join(""));
