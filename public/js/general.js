@@ -12,6 +12,7 @@ switch(sr_split[2]) {
     case 'localhost':
         site_root = 'http://localhost/thevalue.com/public/';
         var site_lang = (sr_split[5]);
+        var cat_slug = (sr_split[7]);
         break;
     case 'ryoyin.ddns.net':
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
@@ -23,6 +24,20 @@ switch(sr_split[2]) {
     default:
         site_root = 'http://www.thevalue.com/';
         var site_lang = (sr_split[3]);
+}
+// console.log(cat_slug);
+
+var video_loc = '';
+switch (site_lang) {
+    case 'en':
+        video_loc = 'Videos';
+        break;
+    case 'trad':
+        video_loc = '視頻';
+        break;
+    case 'sim':
+        video_loc = '视频';
+        break;
 }
 
 //global api result
@@ -107,6 +122,9 @@ function makeCategoriesList() {
             categoriesItems.push("<li><a href='"+site_root+site_lang+"/category/"+val.slug+"'>"+val.name+"</a></li>")
         }
     });
+
+    categoriesItems.push("<li><a href='"+site_root+site_lang+"/category/videos'>"+video_loc+"</a></li>")
+
     $('#categoriesList').html(categoriesItems.join(""));
     $('#stories-categories').html(categoriesItems.join(""));
 }

@@ -1,6 +1,14 @@
 // get information when ready
 $( document ).ready(function() {
-    var api_path = site_root+"api/category/"+slug;
+    switch (cat_slug) {
+        case 'videos':
+        case 'videos#':
+            var api_path = site_root+"api/video";
+            break;
+        default:
+            var api_path = site_root+"api/category/"+slug;
+    }
+
     getInfo(api_path);
 });
 
@@ -11,8 +19,16 @@ function showContent() {
     showStories(stories, 'popular');
 
     var category = $apiResult.category;
-    $('#category-head').html('Home > <span>'+category.name+'</span>');
-    console.log('done');
+
+    switch (cat_slug) {
+        case 'videos':
+        case 'videos#':
+            $('#category-head').html('Home > <span>'+video_loc+'</span>');
+            break;
+        default:
+            $('#category-head').html('Home > <span>'+category.name+'</span>');
+    }
+    // console.log('done');
 }
 
 function showStories(obj, topic) {
@@ -20,7 +36,15 @@ function showStories(obj, topic) {
     var topicList = [];
 
     var stories = [];
-    stories['popular'] = $apiResult.categoryStories;;
+
+    switch (cat_slug) {
+        case 'videos':
+        case 'videos#':
+            stories['popular'] = $apiResult.searchVideo;
+            break;
+        default:
+            stories['popular'] = $apiResult.categoryStories;
+    }
 
     $.each(stories[topic], function(key, val) {
 
@@ -37,21 +61,6 @@ function showStories(obj, topic) {
             <ul class='ul-clean'>\
             <li class='cate'>"+categoryName+"</li>\
         <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-        <!--\
-        <ul class='misc ul-clean'>\
-            <li class='pull-left'>by <span>Stan</span> Nov 24, 2016 </li>\
-        <li class='pull-right'>\
-            <ul class='ul-clean share'>\
-            <li><i class='fa fa-envelope' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-wechat' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-weibo' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-twitter' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-facebook-f' aria-hidden='true'></i></li>\
-            <li><span>416 shares</span></li>\
-        </ul>\
-        </li>\
-        </ul>\
-        -->\
         <li class='desc' style='clear:both'>"+val.short_desc+"</li>\
         </ul>\
         </div>\
