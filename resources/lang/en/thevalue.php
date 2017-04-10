@@ -35,7 +35,8 @@ return [
     'share-sent-email' => 'Email Sent',
     'share' => 'Share',
     'search' => 'Search',
-
+    'contact-us' => 'Contact Us',
+    'disclaimer' => 'Disclaimer'
 
 
 ];

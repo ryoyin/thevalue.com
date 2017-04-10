@@ -175,6 +175,17 @@ body {
 #header-bar #header-bar-misc li {
   float: right;
   padding-left: 10px;
+  font-size: 10px;
+  font-weight: 100;
+}
+
+#header-bar #header-bar-misc li a {
+  color: #8c8c8c;
+  text-decoration: none;
+}
+
+#header-bar #header-bar-misc li ahover {
+  color: #8c8c8c;
 }
 
 #header-bar .pull-left, #header-bar .pull-right {

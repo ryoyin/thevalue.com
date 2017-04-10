@@ -31,5 +31,7 @@ return [
     'share-sent-email' => '邮件已发送',
     'share' => '分享',
     'search' => '搜寻',
+    'contact-us' => '联络我们',
+    'disclaimer' => '免责声明'
 
 ];

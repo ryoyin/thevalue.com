@@ -30,5 +30,6 @@ return [
     'share-sent-email' => '郵件已發送',
     'share' => '分享',
     'search' => '搜尋',
-
+    'contact-us' => '聯絡我們',
+    'disclaimer' => '免責聲明'
 ];

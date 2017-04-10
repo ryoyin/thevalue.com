@@ -12,6 +12,8 @@
     <div class="pull-right">
         <ul id="header-bar-misc" class="ul-clean">
             <li><i class="fa fa-envelope" aria-hidden="true" data-toggle="modal" data-target="#share-the-value"></i></li>
+            {{--<li><a href="">@lang('thevalue.disclaimer')</li>--}}
+            <li><a href="{{ route('frontend.aboutus') }}">@lang('thevalue.contact-us')</li>
             {{--<li><i class="fa fa-wechat" aria-hidden="true"></i></li>
             <li><i class="fa fa-weibo" aria-hidden="true"></i></li>
             <li><i class="fa fa-twitter" aria-hidden="true"></i></li>
