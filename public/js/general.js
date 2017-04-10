@@ -17,7 +17,7 @@ switch(sr_split[2]) {
         site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
         var site_lang = (sr_split[5]);
         break;
-    case 'http://thevalue.com/':
+    case 'thevalue.com':
         window.location.href = "http://www.thevalue.com";
         break;
     default:
