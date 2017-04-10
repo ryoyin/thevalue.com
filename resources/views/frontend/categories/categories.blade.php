@@ -6,7 +6,7 @@
         var slug = "{{ $slug }}";
     </script>
 
-    <script src="{{ asset('js/categories.js') }}?refresh=20170308"></script>
+    <script src="{{ asset('js/categories.js') }}?refresh=20170410"></script>
 
     {{--<div class="row" id="featured-article"></div>--}}
 
