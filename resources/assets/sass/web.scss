@@ -666,3 +666,28 @@ body {
 
   }
 }
+
+.head-dropdown-menu {
+
+  display: none;
+  background-color: #fafafa;
+
+  .navbar-brand {
+
+    font-family: 'LinBiolinum_R';
+    color: #000000 !important;
+    font-size: 28px;
+
+  }
+
+  .navbar-nav {
+
+    li {
+      a {
+        color: #000000 !important;
+      }
+    }
+
+  }
+
+}

@@ -5,6 +5,8 @@
 
 <body>
 
+@include('frontend.template.dropdown-menu')
+
 <div class="container">
 
     @include('frontend.template.header')

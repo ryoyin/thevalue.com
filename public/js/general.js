@@ -74,6 +74,11 @@ function changeLang(obj, lang) {
     }
 }
 
+function redirectLang(obj, lang) {
+    Cookies.set('lang', lang);
+    window.location.href = site_root+lang;
+}
+
 function showSearchBar() {
     $('#search-block').slideToggle(function() {
         $('#search-block').children('input').focus();
@@ -128,6 +133,7 @@ function makeCategoriesList() {
 
     $('#categoriesList').html(categoriesItems.join(""));
     $('#stories-categories').html(categoriesItems.join(""));
+    $('.head-dropdown-menu-list').html(categoriesItems.join(""));
 }
 
 function makeSideBanners() {
@@ -198,3 +204,13 @@ function makeFBMeta() {
     $('head').append(meta);
     // console.log(meta);
 }
+
+$(window).scroll(function(){
+    if($(window).scrollTop() > 120){
+        $(".head-dropdown-menu").fadeIn("slow");
+    }
+
+    if($(window).scrollTop() < 120){
+        $(".head-dropdown-menu").hide("slow");
+    }
+});

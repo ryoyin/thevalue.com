@@ -614,4 +614,19 @@ body {
   font-size: 20px;
 }
 
+.head-dropdown-menu {
+  display: none;
+  background-color: #fafafa;
+}
+
+.head-dropdown-menu .navbar-brand {
+  font-family: 'LinBiolinum_R';
+  color: #000000 !important;
+  font-size: 28px;
+}
+
+.head-dropdown-menu .navbar-nav li a {
+  color: #000000 !important;
+}
+
 /*# sourceMappingURL=web.css.map */
