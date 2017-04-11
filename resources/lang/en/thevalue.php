@@ -2,7 +2,7 @@
 
 return [
 
-    'aboutUSContent' => '<h3>TheValue.com - a trilingual art news superhub which instantly provides market information of value to international readers.</h3>
+    'aboutUSContent' => '<h4>TheValue.com - a trilingual art news superhub which instantly provides market information of value to international readers.</h4>
 
     <p>Free and independent, TheValue.com arrives amid rising concerns over the monopoly of market information by auction houses and the lack of accurate, 
     reliable art news available in Chinese. Yet the global art market has remained inaccessible to many Chinese-speaking art enthusiasts and potential
@@ -36,7 +36,6 @@ return [
     'share' => 'Share',
     'search' => 'Search',
     'contact-us' => 'Contact Us',
-    'disclaimer' => 'Disclaimer'
-
-
+    'disclaimer' => 'Disclaimer',
+    'disclaimerContent' => 'Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content ',
 ];

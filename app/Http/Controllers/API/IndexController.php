@@ -482,8 +482,8 @@ class IndexController extends Controller
 
         $categoriesList = $this->getCategoriesList();
 
-
         $aboutUS = array(
+            'title' => trans('thevalue.contact-us'),
             'content' => trans('thevalue.aboutUSContent'),
             'address' => '中環威靈頓街1號荊威廣場',
             'tel' => '(852) 1234 5678',
@@ -495,6 +495,26 @@ class IndexController extends Controller
         $result = array(
             'categories' => $categoriesList,
             'aboutUS' => $aboutUS
+        );
+
+        return $result;
+
+    }
+
+    public function disclaimer() {
+
+        $this->locale = App::getLocale();
+
+        $categoriesList = $this->getCategoriesList();
+
+        $disclaimer = array(
+            'title' => trans('thevalue.disclaimer'),
+            'content' => trans('thevalue.disclaimerContent'),
+        );
+
+        $result = array(
+            'categories' => $categoriesList,
+            'disclaimer' => $disclaimer
         );
 
         return $result;

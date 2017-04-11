@@ -21,6 +21,7 @@ Route::get('/tag/{slug}', 'API\IndexController@tag');
 Route::get('/search/{keyword}', 'API\IndexController@search');
 Route::get('/video', 'API\IndexController@video');
 Route::get('/about-us', 'API\IndexController@aboutUS');
+Route::get('/disclaimer', 'API\IndexController@disclaimer');
 
 Route::get('/user', function (Request $request) {
     return $request->user();

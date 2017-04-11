@@ -14,7 +14,8 @@ function makeAboutUS() {
     var aboutus = $apiResult.aboutUS;
     console.log(aboutus.aboutUSContent);
 
-    $('#aboutus-content').html(aboutus.content);
+    $('#static-page-title').html(aboutus.title);
+    $('#static-page-content').html(aboutus.content);
     $('#aboutus-address').html(aboutus.address);
     $('#aboutus-tel').html(aboutus.tel);
     $('#aboutus-fax').html(aboutus.fax);

@@ -608,4 +608,10 @@ body {
   cursor: pointer;
 }
 
+#static-page #static-page-title {
+  padding: 15px 0 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
 /*# sourceMappingURL=web.css.map */

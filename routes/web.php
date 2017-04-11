@@ -29,6 +29,7 @@ function()
     Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
     Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
     Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
+    Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
 
 });
 
