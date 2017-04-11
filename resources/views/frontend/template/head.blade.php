@@ -39,7 +39,7 @@
     <link href="{{ asset('css/web.css') }}?refresh=20170411" rel="stylesheet">
 
     <script src="{{ asset('js/js.cookie.js') }}"></script>
-    <script src="{{ asset('js/general.js') }}?refresh=20170410"></script>
+    <script src="{{ asset('js/general.js') }}?refresh=20170411"></script>
 
     <!-- Google GA -->
     <script>

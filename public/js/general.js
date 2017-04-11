@@ -207,10 +207,10 @@ function makeFBMeta() {
 
 $(window).scroll(function(){
     if($(window).scrollTop() > 120){
-        $(".head-dropdown-menu").fadeIn("slow");
+        $(".head-dropdown-menu").css('display', 'block')
     }
 
     if($(window).scrollTop() < 120){
-        $(".head-dropdown-menu").hide("slow");
+        $(".head-dropdown-menu").css('display', 'none');
     }
 });
