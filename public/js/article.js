@@ -6,13 +6,13 @@ $( document ).ready(function() {
 
 function showContent() {
     makeCategoriesList();
-    makeArticlePhotos();
-    makeArticle();
-    makeTags();
+    // makeArticlePhotos();
+    // makeArticle();
+    // makeTags();
     makePopularStories();
 }
 
-function makeArticlePhotos() {
+/*function makeArticlePhotos() {
     var articlePhotos = $apiResult.articlePhotos;
 
     var indicators = [];
@@ -32,9 +32,9 @@ function makeArticlePhotos() {
     $('.carousel-indicators').children('li').css('margin', '0 3px');
 
     $('.carousel-inner').html(topBanners.join(""));
-}
+}*/
 
-function makeArticle() {
+/*function makeArticle() {
     var article = $apiResult.articleDetails;
     // console.log(article);
     // console.log($apiResult.article);
@@ -47,9 +47,9 @@ function makeArticle() {
     $('#article-source').html(article.source);
     $('#article-photographer').html(article.photographer);
     $('.article-shares').html($apiResult.article['shares']+ ' shares');
-}
+}*/
 
-function makeTags() {
+/*function makeTags() {
     var tags = $apiResult.tags;
 
     var tagsli = [];
@@ -58,12 +58,12 @@ function makeTags() {
     });
 
     $('.tag').children('ul').html(tagsli.join(""));
-    console.log('test');
-}
+    // console.log('test');
+}*/
 
 function makePopularStories() {
     var popularStories = $apiResult.popularStories;
-    console.log(popularStories);
+    // console.log(popularStories);
 
     var popularStoriesList = [];
     $.each(popularStories, function(key, val) {

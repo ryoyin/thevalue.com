@@ -1,10 +1,20 @@
-<ul class='ul-clean'>
-    <li class='title' id="article-title"></li>
-    <li class='notes' id="article-note"></li>
+{{--$('#article-title').html(article.title);
+$('#article-note').html(article.note);
+$('#article-date').html($apiResult.published_at);
+$('#article-desc').html(article.description);
+$('#article-author').html(article.author);
+$('#article-source').html(article.source);
+$('#article-photographer').html(article.photographer);
+$('.article-shares').html($apiResult.article['shares']+ ' shares');--}}
 
+<ul class='ul-clean'>
+    <li class='title' id="article-title">{{ $articleDetails['title'] }}</li>
+    <li class='notes' id="article-note">{{ $articleDetails['note'] }}</li>
+
+    @if(!$appMode)
     <li>
         <ul class='misc ul-clean'>
-            <li class='pull-left'>by <span id="article-author">Stan</span> <span id="article-date">Nov 24, 2016</span> </li>
+            <li class='pull-left'>by <span id="article-author">{{ $articleDetails['author'] }}</span> <span id="article-date">{{ $articleDetails['published_at'] }}</span> </li>
             <li class='pull-right'>
                 <ul class='ul-clean share'>
                     <li><i class='fa fa-envelope' aria-hidden='true'></i></li>
@@ -12,22 +22,27 @@
                     <li><i class='fa fa-weibo' aria-hidden='true'></i></li>
                     <li><i class='fa fa-twitter' aria-hidden='true'></i></li>
                     <li><i class='fa fa-facebook-f' aria-hidden='true'></i></li>
-                    <li><span class="article-shares">416 shares</span></li>
+                    <li><span class="article-shares">{{ $article['shares'] }} shares</span></li>
                 </ul>
             </li>
         </ul>
     </li>
+    @endif
 
-    <li class='desc' style='clear:both' id="article-desc"></li>
+    <li class='desc' style='clear:both' id="article-desc">{!! $articleDetails['description'] !!}</li>
 
     <div class="source">
         <div class="line"></div>
-        <div>資料來源 <span id="article-source"></span></div>
-        <div>PHOTOGRAPHER <span id="article-photographer"></span></div>
+        <div>資料來源 <span id="article-source">{{ $articleDetails['source'] }}</span></div>
+        <div>PHOTOGRAPHER <span id="article-photographer">{{ $articleDetails['photographer'] }}</span></div>
     </div>
 
+    @if(!$appMode)
     <div class="tag">
         <ul class="ul-clean">
+            @foreach($tags as $tag)
+                <li><a href="{{ route("frontend.tag", [$tag['slug']]) }}">{{ $tag['name'] }}</a></li>
+            @endforeach
         </ul>
     </div>
 
@@ -58,4 +73,5 @@
             </div>
         </div>
     </div>
+    @endif
 </ul>

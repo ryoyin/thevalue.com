@@ -10,7 +10,7 @@ class ArticleController extends Controller
 {
     public $locale;
 
-    public function index($slug)
+    public function index($slug, Request $request)
     {
         /*if(isset($_COOKIE['lang'])) {
             $lang = $_COOKIE['lang'];
@@ -23,13 +23,17 @@ class ArticleController extends Controller
 
         $lang = App::getLocale();
 
-//        echo $lang;
+        $this->locale = $lang;
 
         $article = App\Article::where('slug', $slug)->first();
 
-//        echo "article: ".$lang;
-
         $articleDetails = $this->getArticleDetails($article);
+
+        //get article photos list
+        $articlePhotoList = $this->getArticlePhotoList($article);
+
+        //get tags list
+        $tagsList = $this->getTags($article);
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
@@ -43,12 +47,50 @@ class ArticleController extends Controller
 
         $data = array(
             'slug' => $slug,
-            'fbMeta' => $fbMetaArray
+            'fbMeta' => $fbMetaArray,
+            'articleSlug' => $article->slug,
+            'published_at' => $article->published_at->format('M d, Y'),
+            'article' => array(
+                'shares' => $article->share_counter,
+                'hit' => $article->hit_counter
+            ),
+            'articleDetails' => $articleDetails,
+            'articlePhotos' => $articlePhotoList,
+            'tags' => $tagsList,
+            'article_photo' => $article->photo->image_path,
+            'appMode' => false,
         );
+
+/*        $result = array(
+//            'categories' => $categoriesList,
+            'articleSlug' => $article->slug,
+            'published_at' => $article->published_at->format('M d, Y'),
+            'article' => array(
+                'shares' => $article->share_counter,
+                'hit' => $article->hit_counter
+            ),
+            'articleDetails' => $articleDetails,
+            'articlePhotos' => $articlePhotoList,
+            'tags' => $tagsList,
+//            'sideBanners' => $indexSideBannerList,
+//            'popularStories' => $popularStoriesList,
+            'article_photo' => $article->photo->image_path,
+        );*/
+
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    $data['appMode'] = true;
+                    return view('mobile.article', $data);
+                    break;
+            }
+        }
+
         return view('frontend.article.article', $data);
     }
 
-    public function getArticleDetails($article) {
+    public function getArticleDetails($article)
+    {
         $lang = App::getLocale();
         $articleDetails = $article->details->where('lang',  $lang)->first();
 
@@ -56,7 +98,40 @@ class ArticleController extends Controller
             $articleDetails = $article->details->where('lang', 'en')->first();
         }
 
+//        dd($articleDetails);
+
         return $articleDetails;
+    }
+
+    public function getArticlePhotoList($article)
+    {
+        $articlePhotoList = array();
+        $articlePhotos = $article->photos;
+//        dd($articlePhotos);
+        foreach($articlePhotos as $photo) {
+            $articlePhotoList[] = array(
+                'alt' => $photo->alt,
+                'image_path' => $photo->image_path
+            );
+        }
+        return $articlePhotoList;
+    }
+
+    public function getTags($article) {
+        $tagsList = array();
+        $tags = $article->tags;
+//        dd($tags);
+        foreach($tags as $tag) {
+            $tagDetail = $tag->details->where('lang', $this->locale)->first();
+//            echo $this->locale;
+//            dd($tagDetail);
+            $tagsList[] = array(
+                'slug' => $tag->slug,
+                'name' => $tagDetail->name
+            );
+        }
+
+        return $tagsList;
     }
 }
 
