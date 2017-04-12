@@ -18,7 +18,7 @@ $('.article-shares').html($apiResult.article['shares']+ ' shares');--}}
                     by <span id="article-author">{{ $articleDetails['author'] }}</span>
                 @endif
 
-                 <span id="article-date">{{ $articleDetails['published_at'] }}</span>
+                 <span id="article-date">{{ $article['published_at'] }}</span>
             </li>
             @if(!$appMode)
                 <li class='pull-right'>

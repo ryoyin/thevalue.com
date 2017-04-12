@@ -52,7 +52,8 @@ class ArticleController extends Controller
             'published_at' => $article->published_at->format('M d, Y'),
             'article' => array(
                 'shares' => $article->share_counter,
-                'hit' => $article->hit_counter
+                'hit' => $article->hit_counter,
+                'published_at' => $article->published_at->format('M d, Y')
             ),
             'articleDetails' => $articleDetails,
             'articlePhotos' => $articlePhotoList,
