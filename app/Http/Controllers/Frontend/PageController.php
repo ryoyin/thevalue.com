@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App;
 use App\Http\Controllers\Controller;
 
@@ -32,7 +32,16 @@ class PageController extends Controller
         return view('frontend.searches.searches', $data);
     }
 
-    public function aboutUS() {
+    public function aboutUS(Request $request) {
+
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    return view('mobile.aboutUS');
+                    break;
+            }
+        }
+
         if(!isset($_COOKIE['lang'])) {
             $_COOKIE['lang'] = 'trad';
         }
@@ -56,7 +65,16 @@ class PageController extends Controller
         return view('frontend.aboutUS.aboutUS', $data);
     }
 
-    public function disclaimer() {
+    public function disclaimer(Request $request) {
+
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    return view('mobile.disclaimer');
+                    break;
+            }
+        }
+
         if(!isset($_COOKIE['lang'])) {
             $_COOKIE['lang'] = 'trad';
         }

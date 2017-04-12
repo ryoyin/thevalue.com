@@ -20,7 +20,7 @@ return [
     术产业的困障。TheValue.com提供了资讯丰富的平台，以普及艺术知识、培育业界人才，更将进一步
     带领艺术市场，迈步跨进数码时代。</p>',
     'googleMap' => '<iframe src="http://www.google.cn/maps/embed?pb=!1m14!1m8!1m3!1d461.4898834297952!2d114.1563078!3d22.2810554!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34040064d1e6b3dd%3A0xfccf787bb1d3579b!2z6I2G5aiB5bm_5Zy6!5e0!3m2!1szh-CN!2scn!4v1486264229613" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
-    'address' => '中环威灵顿街1号荆威广场',
+    'address' => '中环威灵顿街一号荆威广场十九楼',
     'address-title' => '地址',
     'tel-title' => '电话',
     'fax-title' => '传真',

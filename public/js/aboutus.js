@@ -6,9 +6,10 @@ $( document ).ready(function() {
 
 function showContent() {
     makeCategoriesList();
-    makeAboutUS();
+    // makeAboutUS();
 }
 
+/*
 function makeAboutUS() {
     console.log($apiResult);
     var aboutus = $apiResult.aboutUS;
@@ -22,4 +23,4 @@ function makeAboutUS() {
     $('#aboutus-email').html(aboutus.email);
     $('#aboutus-map').html(aboutus.googleMap);
 
-}
+}*/

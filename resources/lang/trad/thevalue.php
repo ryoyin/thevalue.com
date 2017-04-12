@@ -18,8 +18,8 @@ return [
     自2016年成立以來，憑藉其專業背景和用心服務，TheValue.com一直為讀者打破任何阻礙他們了解藝
     術產業的困障。TheValue.com提供了資訊豐富的平台，以普及藝術知識、培育業界人才，更將進一步
     帶領藝術市場，邁步跨進數碼時代。</p>',
-    'googleMap' => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d388.06530390737265!2d114.15635086247929!3d22.281013869480635!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfccf787bb1d3579b!2z6I2K5aiB5buj5aC0!5e0!3m2!1szh-TW!2shk!4v1486260324489" width="600" height="450" frameborder="0" style="border:0" allowfullscreen>',
-    'address' => '中環威靈頓街1號荊威廣場',
+    'googleMap' => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d388.06530390737265!2d114.15635086247929!3d22.281013869480635!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfccf787bb1d3579b!2z6I2K5aiB5buj5aC0!5e0!3m2!1szh-TW!2shk!4v1486260324489" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
+    'address' => '中環威靈頓街一號荊威廣場十九樓',
     'address-title' => '地址',
     'tel-title' => '電話',
     'fax-title' => '傳真',

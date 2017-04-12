@@ -24,7 +24,7 @@ return [
     publicize art knowledge, nurture future experts in the field, and transform the art markets for the
     digital age.</p>',
     'googleMap' => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d326.32262602904586!2d114.15630777254734!3d22.281055397065355!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34040064d1e6b3dd%3A0xfccf787bb1d3579b!2z6I2K5aiB5buj5aC0!5e0!3m2!1sen!2shk!4v1486264132269" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
-    'address' => '中環威靈頓街1號荊威廣場',
+    'address' => 'Level 19, Silver Fortune Plaza, 1 Wellington Street, Central, Hong Kong',
     'address-title' => 'Address',
     'tel-title' => 'Tel.',
     'fax-title' => 'Fax',

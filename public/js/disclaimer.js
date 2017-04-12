@@ -6,9 +6,10 @@ $( document ).ready(function() {
 
 function showContent() {
     makeCategoriesList();
-    makeAboutUS();
+    // makeAboutUS();
 }
 
+/*
 function makeAboutUS() {
     console.log($apiResult);
     var disclaimer = $apiResult.disclaimer;
@@ -16,4 +17,4 @@ function makeAboutUS() {
 
     $('#static-page-title').html(disclaimer.title);
     $('#static-page-content').html(disclaimer.content);
-}
+}*/
