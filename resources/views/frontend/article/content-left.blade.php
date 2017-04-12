@@ -27,14 +27,6 @@
     </li>
 
     <?php
-        $desc = $articleDetails['description'];
-        $desc = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1}${3}${4}', $desc);
-//        $desc = preg_add('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', 'testing', $desc);
-    ?>
-
-    {{--<li class='desc' style='clear:both' id="article-desc">{{ $articleDetails['description'] }}</li>--}}
-    {{--<li class='desc' style='clear:both' id="article-desc">{{ $desc }}</li>--}}
-    <?php
         $desc = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" ${3}${4}', $articleDetails['description']);
     ?>
     <li class='desc' style='clear:both' id="article-desc">{!! $desc !!}</li>
