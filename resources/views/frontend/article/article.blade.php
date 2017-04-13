@@ -8,7 +8,11 @@
 
     <script src="{{ asset('js/article.js') }}"></script>
 
-    @include('frontend.article.carousel')
+    @if(count($articlePhotos) > 1)
+        @include('frontend.article.carousel')
+    @else
+        <img src="{{ asset($articlePhotos[0]['image_path']) }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
+    @endif
 
     <div class="row" id="article-content">
 
