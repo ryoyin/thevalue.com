@@ -452,7 +452,7 @@ class IndexController extends Controller
 
     public function getSearchVideo() {
         $articleList = array();
-        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('published_at', 'desc')->get();
+        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('description', 'like', '%iframe%')->get();
 
         foreach($articleDetail as $detail) {
             $article = $detail->article;
