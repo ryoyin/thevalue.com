@@ -1,1 +1,1 @@
-<div id="footer" class="pull-right">Copyright &copy; 2017 thevalue.com All Rights Reserved.</div>
+<div id="footer" class="pull-right">Copyright &copy; 2017 TheValue.com All Rights Reserved.</div>
