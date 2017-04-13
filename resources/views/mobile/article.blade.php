@@ -2,7 +2,13 @@
 
 @section('content')
 
-    @include('frontend.article.carousel')
+    @if(count($articlePhotos) > 1)
+        @include('frontend.article.carousel')
+    @else
+        <img src="{{ asset($articlePhotos[0]['image_path']) }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
+    @endif
+    
+    {{--@include('frontend.article.carousel')--}}
 
     <div class="row" id="article-content">
 
