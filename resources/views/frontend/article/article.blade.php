@@ -7,6 +7,7 @@
     </script>
 
     <script src="{{ asset('js/article.js') }}"></script>
+    <script src="{{ asset('js/fluidvids.js') }}"></script>
 
     @if(count($articlePhotos) > 1)
         @include('frontend.article.carousel')
@@ -25,5 +26,12 @@
         </div>
 
     </div>
+
+    <script>
+        fluidvids.init({
+            selector: ['iframe'], // runs querySelectorAll()
+            players: ['www.youtube.com', 'player.vimeo.com'] // players to support
+        });
+    </script>
 
 @endsection

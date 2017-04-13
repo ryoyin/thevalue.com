@@ -2,12 +2,14 @@
 
 @section('content')
 
+    <script src="{{ asset('js/fluidvids.js') }}"></script>
+
     @if(count($articlePhotos) > 1)
         @include('frontend.article.carousel')
     @else
         <img src="{{ asset($articlePhotos[0]['image_path']) }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
     @endif
-    
+
     {{--@include('frontend.article.carousel')--}}
 
     <div class="row" id="article-content">
@@ -17,5 +19,12 @@
         </div>
 
     </div>
+
+    <script>
+        fluidvids.init({
+            selector: ['iframe'], // runs querySelectorAll()
+            players: ['www.youtube.com', 'player.vimeo.com'] // players to support
+        });
+    </script>
 
 @endsection
