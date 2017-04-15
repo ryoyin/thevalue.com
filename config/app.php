@@ -181,6 +181,9 @@ return [
         /*i18n*/
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
 
+        /*image.intervention.io*/
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -231,10 +234,11 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'LaravelLocalization'   => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
     'supported_languages' => ['en' => 'en', 'trad' => 'trad', 'sim' => 'sim'],
-    'status' => ['draft' => 'Draft', 'pending' => 'Pending', 'published' => 'Published', 'suspend' => 'Suspend']
-
+    'status' => ['draft' => 'Draft', 'pending' => 'Pending', 'published' => 'Published', 'suspend' => 'Suspend'],
+    's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
 
 ];

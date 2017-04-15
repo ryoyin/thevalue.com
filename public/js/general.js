@@ -43,7 +43,7 @@ switch (site_lang) {
 
 //global api result
 var $apiResult;
-
+var s3_root;
 /*
 var default_language = Cookies.get('lang');
 // console.log(default_language);
@@ -111,6 +111,7 @@ function getInfo(api_path) {
 
     $.getJSON( api_path, function( data ) {
         $apiResult = data;
+        s3_root = $apiResult.s3_path;
         // console.log($apiResult);
 
         showContent();
@@ -141,7 +142,12 @@ function makeSideBanners() {
     var sideBanners = [];
 
     $.each($sideBannersArray, function(key, val) {
-        sideBanners.push("<li><img src='"+site_root+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
+        if(val.s3) {
+            var image_root_path = s3_root;
+        } else {
+            var image_root_path = site_root;
+        }
+        sideBanners.push("<li><img src='"+image_root_path+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
     });
 
     $('#advert').html(sideBanners.join(""));

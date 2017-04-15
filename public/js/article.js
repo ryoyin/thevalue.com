@@ -73,10 +73,16 @@ function makePopularStories() {
 
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
+        if(val.photo.s3) {
+            var image_root_path = s3_root;
+        } else {
+            var image_root_path = site_root;
+        }
+
         popularStoriesList.push('<div style="clear:both"></div>\
             <div class="popular-news-block">\
             <div id="popular-news">\
-            <div class="col-md-5 left"><img src="'+site_root+val.photo.image_path+'" class="img-responsive"></div>\
+            <div class="col-md-5 left"><img src="'+image_root_path+val.photo.image_path+'" class="img-responsive"></div>\
             <div class="col-md-7 right">\
             <ul class="ul-clean">\
             <li><a href="'+site_root+default_language+'/category/'+category.slug+'">'+categoryName+'</a></li>\

@@ -27,7 +27,14 @@ function makeBanners() {
 
         var bannerClass = "";
         if(key == 0) bannerClass = "active";
-        topBanners.push("<div class='item "+bannerClass+"'><img src='"+val.image_path+"' alt='...'><div class='carousel-caption'>"+val.alt+"</div></div>");
+
+        if(val.s3) {
+            var image_root_path = s3_root;
+        } else {
+            var image_root_path = site_root;
+        }
+
+        topBanners.push("<div class='item "+bannerClass+"'><img src='"+image_root_path+val.image_path+"' alt='...'><div class='carousel-caption'>"+val.alt+"</div></div>");
     });
 
     $('.carousel-indicators').html(indicators.join(""));
@@ -47,8 +54,14 @@ function makeFeaturedArticles() {
 
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
+        if(val.photo.s3) {
+            var image_root_path = s3_root;
+        } else {
+            var image_root_path = site_root;
+        }
+
         featuredArticles.push("<ul class='col-xs-6 col-md-3 ul-clean'>" +
-            "<li><img src='"+val.photo.image_path+"' class='img-responsive'></li>" +
+            "<li><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive'></li>" +
             "<li><a href='"+site_root+default_language+"/category/"+category.slug+"' class='category_name'>"+categoryName+"</a></li><li><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>" +
             "</ul>");
     });
@@ -74,8 +87,13 @@ function showStories(obj, topic) {
         var categoryName = category.name;
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
+        if(val.photo.s3) {
+            var image_root_path = s3_root;
+        } else {
+            var image_root_path = site_root;
+        }
         topicList.push("<div class='news'>\
-        <div class='col-xs-5 col-md-5 left'><img src='"+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
+        <div class='col-xs-5 col-md-5 left'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
             <div class='col-xs-7 col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\

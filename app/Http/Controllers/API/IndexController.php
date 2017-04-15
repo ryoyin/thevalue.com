@@ -19,7 +19,7 @@ class IndexController extends Controller
         $categoriesList = $this->getCategoriesList();
 
         //get top banners
-        $indexTopBannerList = $this->getBannerList('indexTopBanner');
+        $indexTopBannerList = $this->getBannerList('indexTopBanner', 'large');
 
         //get side banners
         $indexSideBannerList = $this->getBannerList('indexSideBanner');
@@ -50,6 +50,7 @@ class IndexController extends Controller
             'featuredArticles' => $featuredArticleList,
             'latestStories' => $latestStoriesList,
             'popularStories' => $popularStoriesList,
+            's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
 //            'fbMeta' => $fbMetaArray
         );
 
@@ -95,6 +96,7 @@ class IndexController extends Controller
 //            'sideBanners' => $indexSideBannerList,
             'popularStories' => $popularStoriesList,
             'article_photo' => $article->photo->image_path,
+            's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
         );
 
 //        dd($result);
@@ -122,7 +124,8 @@ class IndexController extends Controller
             'categories' => $categoriesList,
             'sideBanners' => $indexSideBannerList,
             'categoryStories' => $categoryStories,
-            'category' => $categoryDetail
+            'category' => $categoryDetail,
+            's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
         );
 
 //        dd($result);
@@ -150,7 +153,8 @@ class IndexController extends Controller
             'categories' => $categoriesList,
             'sideBanners' => $indexSideBannerList,
             'tagStories' => $tagStories,
-            'tag' => $tagDetail
+            'tag' => $tagDetail,
+            's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
         );
 
 //        dd($result);
@@ -222,15 +226,24 @@ class IndexController extends Controller
         return $categories->getCategoriesArray();
     }
 
-    public function getArticlePhotoList($article)
+    public function getArticlePhotoList($article, $size = 'medium')
     {
         $articlePhotoList = array();
         $articlePhotos = $article->photos;
 //        dd($articlePhotos);
         foreach($articlePhotos as $photo) {
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articlePhotoList[] = array(
                 'alt' => $photo->alt,
-                'image_path' => $photo->image_path
+                'image_path' => $image_path,
+                's3' => $photo->push_s3
             );
         }
         return $articlePhotoList;
@@ -260,21 +273,32 @@ class IndexController extends Controller
         return $tagsList;
     }
 
-    public function getBannerList($position)
+    public function getBannerList($position, $size = 'medium')
     {
         $bannerList = array();
         $banners = App\Banner::where('position', $position)->orderBy('sorting')->get();
+
         foreach($banners as $banner) {
             $photo = $banner->photo;
+
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $bannerList[] = array(
                 'alt' => $photo->alt,
-                'image_path' => $photo->image_path
+                'image_path' => $image_path,
+                's3' => $photo->push_s3
             );
         }
         return $bannerList;
     }
 
-    public function getFeaturedArticleList() {
+    public function getFeaturedArticleList($size = 'medium') {
         $featuredArticleList = array();
         $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('created_at')->get();
         foreach($featuredArticles as $featuredArticle) {
@@ -289,13 +313,22 @@ class IndexController extends Controller
 
 //            dd($article);
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $featuredArticleList[] = array(
 //                'id' => $article->id,
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
@@ -310,7 +343,7 @@ class IndexController extends Controller
         return $featuredArticleList;
     }
 
-    public function getLatestStories() {
+    public function getLatestStories($size = 'medium') {
         $articleList = array();
         $articles = App\Article::limit(20)->orderBy('published_at', 'desc')->get();
         foreach($articles as $article) {
@@ -322,12 +355,21 @@ class IndexController extends Controller
 
             $photo = $article->photo;
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
@@ -340,7 +382,7 @@ class IndexController extends Controller
         return $articleList;
     }
 
-    public function getPopularStories() {
+    public function getPopularStories($size = 'medium') {
         $articleList = array();
         $articles = App\Article::limit(20)->orderBy('hit_counter', 'desc')->get();
         foreach($articles as $article) {
@@ -352,12 +394,21 @@ class IndexController extends Controller
 
             $photo = $article->photo;
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $photo->image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
@@ -383,7 +434,8 @@ class IndexController extends Controller
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $photo->image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
@@ -411,7 +463,8 @@ class IndexController extends Controller
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $photo->image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
@@ -437,7 +490,8 @@ class IndexController extends Controller
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $photo->image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,
@@ -463,7 +517,8 @@ class IndexController extends Controller
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path
+                    'image_path' => $photo->image_path,
+                    's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
                 'short_desc' => $detail->short_desc,

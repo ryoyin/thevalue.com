@@ -4,14 +4,20 @@
     $topBanners = "";
 
     foreach($articlePhotos as $photoKey => $photo) {
+//        dd($photo);
         $indicatorClass = "";
         if($photoKey == 0) $indicatorClass = "class='active'";
         $carouselIndicators .= "<li data-target='#carousel-main-banner' data-slide-to='".$photoKey."' ".$indicatorClass."></li>";
 
         $bannerClass = "";
         if($photoKey == 0) $bannerClass = "active";
-//        print_r($photo);
-        $topBanners .= "<div class='item ".$bannerClass."'><img src='".asset($photo['image_path'])."' alt='".$photo['alt']."' class='img-responsive'><div class='carousel-caption'>".$photo['alt']."</div></div>";
+
+        if($photo['s3']) {
+            $image_html_path = config("app.s3_path").$photo['image_path'];
+        } else {
+            $image_html_path = asset($photo['image_path']);
+        }
+        $topBanners .= "<div class='item ".$bannerClass."'><img src='".$image_html_path."' alt='".$photo['alt']."' class='img-responsive'><div class='carousel-caption'>".$photo['alt']."</div></div>";
     }
 
 ?>

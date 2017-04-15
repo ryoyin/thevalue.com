@@ -104,15 +104,23 @@ class ArticleController extends Controller
         return $articleDetails;
     }
 
-    public function getArticlePhotoList($article)
+    public function getArticlePhotoList($article, $size = 'large')
     {
         $articlePhotoList = array();
         $articlePhotos = $article->photos;
 //        dd($articlePhotos);
         foreach($articlePhotos as $photo) {
+            $image_path = "image_".$size."_path";
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articlePhotoList[] = array(
                 'alt' => $photo->alt,
-                'image_path' => $photo->image_path
+                'image_path' => $image_path,
+                's3' => $photo->push_s3,
             );
         }
         return $articlePhotoList;

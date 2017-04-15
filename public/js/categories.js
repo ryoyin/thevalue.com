@@ -55,8 +55,14 @@ function showStories(obj, topic) {
         var categoryName = category.name;
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
+        if(val.photo.s3) {
+            var image_root_path = s3_root;
+        } else {
+            var image_root_path = site_root;
+        }
+
         topicList.push("<div class='news'>\
-        <div class='col-md-5 left'><img src='"+site_root+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
+        <div class='col-md-5 left'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
             <div class='col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'>"+categoryName+"</li>\

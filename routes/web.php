@@ -18,10 +18,6 @@ Route::group(
 ],
 function()
 {
-    /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-    Route::get('test',function(){
-        return View::make('frontend.test');
-    });
 
     Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
     Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
@@ -33,6 +29,7 @@ function()
 
 });
 
+Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

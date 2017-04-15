@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <script src="{{ asset('js/web.js') }}?refresh=20170308"></script>
+    <script src="{{ asset('js/web.js') }}?refresh=201704015"></script>
 
     @include('frontend.homepage.carousel')
 

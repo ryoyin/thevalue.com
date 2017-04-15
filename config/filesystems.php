@@ -56,10 +56,11 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
+            'key' => 'AKIAJNKH6MUQ2WHZ535Q',
+            'secret' => '0WgdkF5rfag4TWVauMmYub8AFpMAJlV1irFZyxeS',
+            'region' => 'ap-southeast-1',
+            'bucket' => 'laravel-storage',
+            'scheme' => 'http',
         ],
 
     ],
