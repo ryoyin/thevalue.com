@@ -6,7 +6,7 @@ var sr_split = site_root.split('/');
 
 switch(sr_split[2]) {
     case '192.168.88.1':
-        site_root = 'http://192.168.88.102/thevalue.com/public/';
+        site_root = 'http://192.168.88.1/thevalue.com/public/';
         var site_lang = (sr_split[5]);
         break;
     case 'localhost':
