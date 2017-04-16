@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App;
 use App\Http\Controllers\Controller;
+use App\Category;
 
 class PageController extends Controller
 {
@@ -14,6 +15,8 @@ class PageController extends Controller
         }
         $lang = $_COOKIE['lang'];
         App::setLocale($lang);
+
+        $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
@@ -26,7 +29,9 @@ class PageController extends Controller
         );
 
         $data = array(
-            'fbMeta' => $fbMetaArray
+            'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
+            'sideBanners' => $sideBanners,
         );
 
         return view('frontend.searches.searches', $data);
@@ -60,6 +65,7 @@ class PageController extends Controller
 
         $data = array(
             'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
         );
 
         return view('frontend.aboutUS.aboutUS', $data);
@@ -93,8 +99,40 @@ class PageController extends Controller
 
         $data = array(
             'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
         );
 
         return view('frontend.disclaimer.disclaimer', $data);
+    }
+
+    public function getCategoriesList()
+    {
+        $categories = New Category();
+        return $categories->getCategoriesArray();
+    }
+
+    public function getBannerList($position, $size = 'medium')
+    {
+        $bannerList = array();
+        $banners = App\Banner::where('position', $position)->orderBy('sorting')->get();
+
+        foreach($banners as $banner) {
+            $photo = $banner->photo;
+
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
+            $bannerList[] = array(
+                'alt' => $photo->alt,
+                'image_path' => $image_path,
+                's3' => $photo->push_s3
+            );
+        }
+        return $bannerList;
     }
 }

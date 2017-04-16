@@ -1,6 +1,11 @@
 <div class="row" id="header-menu">
     <div class="col-md-8">
-        <ul class="ul-clean" id="categoriesList"></ul>
+        <ul class="ul-clean" id="categoriesList">
+            @foreach($categories as $category)
+                <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
+            @endforeach
+            <li><a href='{{ route('frontend.category', ['slug' => 'videos']) }}'>@lang('thevalue.video')</a></li>
+        </ul>
     </div>
     <div class="col-md-4 text-right">
         <a href="#" onclick="showSearchBar();"><i class="fa fa-search" aria-hidden="true"></i></a>

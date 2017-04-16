@@ -21,7 +21,11 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav head-dropdown-menu-list"></ul>
+            <ul class="nav navbar-nav head-dropdown-menu-list">
+                @foreach($categories as $category)
+                    <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
+                @endforeach
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ route('frontend.aboutus') }}">@lang('thevalue.contact-us')</a></li>
                 {{--<li><a href="{{ route('frontend.disclaimer') }}">@lang('thevalue.disclaimer')</a></li>--}}

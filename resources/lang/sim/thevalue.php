@@ -33,5 +33,6 @@ return [
     'search' => '搜寻',
     'contact-us' => '联络我们',
     'disclaimer' => '免责声明',
-    'disclaimerContent' => '免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 '
+    'disclaimerContent' => '免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 免责声明 ',
+    'video' => '视频',
 ];

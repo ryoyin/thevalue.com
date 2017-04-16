@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Category;
 
 class ArticleController extends Controller
 {
@@ -60,6 +61,7 @@ class ArticleController extends Controller
             'tags' => $tagsList,
             'article_photo' => $article->photo->image_path,
             'appMode' => false,
+            'categories' => $this->getCategoriesList(),
         );
 
 /*        $result = array(
@@ -141,6 +143,12 @@ class ArticleController extends Controller
         }
 
         return $tagsList;
+    }
+
+    public function getCategoriesList()
+    {
+        $categories = New Category();
+        return $categories->getCategoriesArray();
     }
 }
 

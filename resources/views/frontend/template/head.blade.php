@@ -34,10 +34,17 @@
     <script src="https://use.fontawesome.com/13a5048f89.js"></script>
 
     <!-- custom -->
-    <link href="{{ asset('css/web.css') }}?refresh=20170411" rel="stylesheet">
+    <link href="{{ asset('css/web.css') }}?refresh=20170416" rel="stylesheet">
 
     <script src="{{ asset('js/js.cookie.js') }}"></script>
-    <script src="{{ asset('js/general.js') }}?refresh=20170415"></script>
+
+    <script>
+        var site_root = "{{ env("APP_URL") }}/";
+        var site_lang = "{{ App::getLocale() }}";
+//        console.log(site_root);
+    </script>
+
+    <script src="{{ asset('js/general.js') }}?refresh=20170416"></script>
 
     <!-- Google GA -->
     <script>
@@ -76,5 +83,7 @@
     <link rel="manifest" href="{{ asset("images/icons/manifest.json") }}">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset("images/icons/ms-icon-144x144.png") }}"> <meta name="theme-color" content="#ffffff">
+
+
 
 </head>

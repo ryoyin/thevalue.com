@@ -9,7 +9,11 @@
     <div style="clear:both;"></div>
 
     <div id="block">
-        <ul id="stories-categories" class="ul-clean" style="display: none;"></ul>
+        <ul id="stories-categories" class="ul-clean" style="display: none;">
+            @foreach($categories as $category)
+                <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
+            @endforeach
+        </ul>
         <div id="stories"></div>
     </div>
 

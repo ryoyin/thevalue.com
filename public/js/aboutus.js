@@ -1,11 +1,11 @@
 // get information when ready
 $( document ).ready(function() {
-    var api_path = site_root+"api/about-us";
-    getInfo(api_path);
+    // var api_path = site_root+"api/about-us";
+    // getInfo(api_path);
 });
 
 function showContent() {
-    makeCategoriesList();
+    // makeCategoriesList();
     // makeAboutUS();
 }
 

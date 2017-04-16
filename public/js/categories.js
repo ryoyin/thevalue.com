@@ -12,9 +12,21 @@ $( document ).ready(function() {
     getInfo(api_path);
 });
 
+var video_loc = 'Video'
+switch(site_lang) {
+    case 'trad':
+        video_loc = '視頻';
+        break;
+    case 'sim':
+        video_loc = '视频';
+        break;
+    default:
+
+}
+
 function showContent() {
-    makeCategoriesList();
-    makeSideBanners();
+    // makeCategoriesList();
+    // makeSideBanners();
     var stories = $('#head').children('li:first');
     showStories(stories, 'popular');
 
@@ -60,6 +72,8 @@ function showStories(obj, topic) {
         } else {
             var image_root_path = site_root;
         }
+
+        // console.log(image_root_path);
 
         topicList.push("<div class='news'>\
         <div class='col-md-5 left'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\

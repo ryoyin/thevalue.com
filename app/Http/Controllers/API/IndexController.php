@@ -183,7 +183,7 @@ class IndexController extends Controller
             'categories' => $categoriesList,
             'sideBanners' => $indexSideBannerList,
             'searchStories' => $searchStories,
-//            'searches' => $searchDetail
+            's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
         );
 
 //        dd($result);
@@ -212,7 +212,8 @@ class IndexController extends Controller
             'categories' => $categoriesList,
             'sideBanners' => $indexSideBannerList,
             'searchVideo' => $searchVideo,
-//            'searches' => $searchDetail
+//            'searches' => $searchDetail,
+            's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
         );
 
 //        dd($result);

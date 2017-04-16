@@ -5,8 +5,6 @@ $( document ).ready(function() {
 });
 
 function showContent() {
-    makeCategoriesList();
-    makeSideBanners();
     var stories = $('#head').children('li:first');
     showStories(stories, 'popular');
 

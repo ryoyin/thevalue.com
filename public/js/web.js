@@ -5,69 +5,10 @@ $( document ).ready(function() {
 });
 
 function showContent() {
-    makeCategoriesList();
-    makeBanners();
-    makeSideBanners();
-    makeFeaturedArticles();
-    // makeFBMeta();
+    // makeSideBanners();
 
     var stories = $('#head').children('li:first');
     showStories(stories, 'latest');
-}
-
-function makeBanners() {
-    var $topBannersArray = $apiResult.topBanners;
-    var indicators = [];
-    var topBanners = [];
-
-    $.each($topBannersArray, function(key, val) {
-        var indicatorClass = "";
-        if(key == 0) indicatorClass = "class='active'";
-        indicators.push("<li data-target='#carousel-main-banner' data-slide-to='"+key+"' "+indicatorClass+"></li>");
-
-        var bannerClass = "";
-        if(key == 0) bannerClass = "active";
-
-        if(val.s3) {
-            var image_root_path = s3_root;
-        } else {
-            var image_root_path = site_root;
-        }
-
-        topBanners.push("<div class='item "+bannerClass+"'><img src='"+image_root_path+val.image_path+"' alt='...'><div class='carousel-caption'>"+val.alt+"</div></div>");
-    });
-
-    $('.carousel-indicators').html(indicators.join(""));
-    $('.carousel-indicators').children('li').css('margin', '0 3px');
-
-    $('.carousel-inner').html(topBanners.join(""));
-}
-
-function makeFeaturedArticles() {
-    var $featuredArticlesArray = $apiResult.featuredArticles;
-    var featuredArticles = [];
-    // console.log($featuredArticlesArray);
-    $.each($featuredArticlesArray, function(key, val) {
-        var category = getCategoryByID(val.category_id);
-
-        var categoryName = category.name;
-
-        if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
-
-        if(val.photo.s3) {
-            var image_root_path = s3_root;
-        } else {
-            var image_root_path = site_root;
-        }
-
-        featuredArticles.push("<ul class='col-xs-6 col-md-3 ul-clean'>" +
-            "<li><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive'></li>" +
-            "<li><a href='"+site_root+default_language+"/category/"+category.slug+"' class='category_name'>"+categoryName+"</a></li><li><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>" +
-            "</ul>");
-    });
-
-    $('#featured-article').html(featuredArticles.join(""));
-
 }
 
 function showStories(obj, topic) {
@@ -98,21 +39,6 @@ function showStories(obj, topic) {
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
         <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-        <!--\
-        <ul class='misc ul-clean'>\
-            <li class='pull-left'>by <span>Stan</span> Nov 24, 2016 </li>\
-        <li class='pull-right'>\
-            <ul class='ul-clean share'>\
-            <li><i class='fa fa-envelope' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-wechat' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-weibo' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-twitter' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-facebook-f' aria-hidden='true'></i></li>\
-            <li><span>416 shares</span></li>\
-        </ul>\
-        </li>\
-        </ul>\
-        -->\
         <li class='desc' style='clear:both'>"+val.short_desc+"</li>\
         </ul>\
         </div>\

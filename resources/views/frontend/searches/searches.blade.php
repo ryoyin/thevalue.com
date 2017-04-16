@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <script src="{{ asset('js/searches.js') }}?refresh=20170308"></script>
+    <script src="{{ asset('js/searches.js') }}?refresh=20170416"></script>
 
     {{--<div class="row" id="featured-article"></div>--}}
 

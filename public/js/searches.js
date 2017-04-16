@@ -3,7 +3,7 @@
 $( document ).ready(function() {
     var search = Cookies.get('search');
 
-    console.log(search);
+    // console.log(search);
 
     if(typeof search != 'undefined') {
         $('#search-block').show();
@@ -18,8 +18,7 @@ $( document ).ready(function() {
 });
 
 function showContent() {
-    makeCategoriesList();
-    makeSideBanners();
+    // makeCategoriesList();
     var stories = $('#head').children('li:first');
     showStories(stories, 'popular');
 
@@ -44,27 +43,19 @@ function showStories(obj, topic) {
         var categoryName = category.name;
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
+        var image_root_path = "";
+        if(val.photo.s3) {
+            image_root_path = s3_root;
+        } else {
+            image_root_path = site_root;
+        }
+
         topicList.push("<div class='news'>\
-        <div class='col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+site_root+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
+        <div class='col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
             <div class='col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
         <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-        <!--\
-        <ul class='misc ul-clean'>\
-            <li class='pull-left'>by <span>Stan</span> Nov 24, 2016 </li>\
-        <li class='pull-right'>\
-            <ul class='ul-clean share'>\
-            <li><i class='fa fa-envelope' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-wechat' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-weibo' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-twitter' aria-hidden='true'></i></li>\
-            <li><i class='fa fa-facebook-f' aria-hidden='true'></i></li>\
-            <li><span>416 shares</span></li>\
-        </ul>\
-        </li>\
-        </ul>\
-        -->\
         <li class='desc' style='clear:both'>"+val.short_desc+"</li>\
         </ul>\
         </div>\

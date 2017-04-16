@@ -33,4 +33,5 @@ return [
     'contact-us' => '聯絡我們',
     'disclaimer' => '免責聲明',
     'disclaimerContent' => '免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明',
+    'video' => '視頻',
 ];

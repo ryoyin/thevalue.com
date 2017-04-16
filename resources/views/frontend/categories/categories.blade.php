@@ -4,9 +4,10 @@
 
     <script>
         var slug = "{{ $slug }}";
+        var cat_slug = slug;
     </script>
 
-    <script src="{{ asset('js/categories.js') }}?refresh=20170415"></script>
+    <script src="{{ asset('js/categories.js') }}?refresh=20170416"></script>
 
     {{--<div class="row" id="featured-article"></div>--}}
 

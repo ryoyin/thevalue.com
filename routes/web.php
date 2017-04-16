@@ -21,6 +21,7 @@ function()
 
     Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
     Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
+    Route::get('/category/videos', 'Frontend\CategoryController@video')->name('frontend.category');
     Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
     Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
     Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');

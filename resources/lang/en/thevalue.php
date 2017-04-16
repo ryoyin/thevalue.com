@@ -38,4 +38,5 @@ return [
     'contact-us' => 'Contact Us',
     'disclaimer' => 'Disclaimer',
     'disclaimerContent' => 'Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content ',
+    'video' => 'Video',
 ];

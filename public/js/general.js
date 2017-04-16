@@ -1,56 +1,6 @@
-//set site information
-var site_root = window.location.href;
-var sr_split = site_root.split('/');
-
-//console.log(sr_split[2]);
-
-switch(sr_split[2]) {
-    case '192.168.88.1':
-        site_root = 'http://192.168.88.1/thevalue.com/public/';
-        var site_lang = (sr_split[5]);
-        break;
-    case 'localhost':
-        site_root = 'http://localhost/thevalue.com/public/';
-        var site_lang = (sr_split[5]);
-        var cat_slug = (sr_split[7]);
-        break;
-    case 'ryoyin.ddns.net':
-        site_root = 'http://ryoyin.ddns.net/thevalue.com/public/';
-        var site_lang = (sr_split[5]);
-        break;
-    case 'thevalue.com':
-        window.location.href = "http://www.thevalue.com";
-        break;
-    default:
-        site_root = 'http://www.thevalue.com/';
-        var site_lang = (sr_split[3]);
-        var cat_slug = (sr_split[5]);
-}
-// console.log(cat_slug);
-
-var video_loc = '';
-switch (site_lang) {
-    case 'en':
-        video_loc = 'Videos';
-        break;
-    case 'trad':
-        video_loc = '視頻';
-        break;
-    case 'sim':
-        video_loc = '视频';
-        break;
-}
-
 //global api result
 var $apiResult;
 var s3_root;
-/*
-var default_language = Cookies.get('lang');
-// console.log(default_language);
-if(typeof default_language == 'undefined') default_language = 'trad';
-*/
-
-// console.log(site_lang);
 
 default_language = site_lang;
 Cookies.set('lang', default_language);
@@ -119,25 +69,7 @@ function getInfo(api_path) {
 
 }
 
-function makeCategoriesList() {
-    var categories = $apiResult.categories;
-    // console.log(categories);
-
-    var categoriesItems = [];
-    $.each(categories, function(key, val) {
-        if(val.parent == null) {
-            categoriesItems.push("<li><a href='"+site_root+site_lang+"/category/"+val.slug+"'>"+val.name+"</a></li>")
-        }
-    });
-
-    categoriesItems.push("<li><a href='"+site_root+site_lang+"/category/videos'>"+video_loc+"</a></li>")
-
-    $('#categoriesList').html(categoriesItems.join(""));
-    $('#stories-categories').html(categoriesItems.join(""));
-    $('.head-dropdown-menu-list').html(categoriesItems.join(""));
-}
-
-function makeSideBanners() {
+/*function makeSideBanners() {
     var $sideBannersArray = $apiResult.sideBanners;
     var sideBanners = [];
 
@@ -151,7 +83,7 @@ function makeSideBanners() {
     });
 
     $('#advert').html(sideBanners.join(""));
-}
+}*/
 
 function getCategoryByID(id) {
     // console.log(id);

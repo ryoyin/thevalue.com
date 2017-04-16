@@ -5,7 +5,7 @@ $( document ).ready(function() {
 });
 
 function showContent() {
-    makeCategoriesList();
+    // makeCategoriesList();
     // makeArticlePhotos();
     // makeArticle();
     // makeTags();
