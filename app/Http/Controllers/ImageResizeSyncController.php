@@ -25,6 +25,9 @@ class ImageResizeSyncController extends Controller
         $fileArray = array();
         $photos = Photo::where('resized', 0)->limit(15)->get();
         foreach($photos as $photo) {
+
+            echo 'Resizing: '.$photo['image_path'];
+            echo "\n";
             $imagePath = $baseDirectory.'/'.$photo->image_path;
 
             // backup original image
