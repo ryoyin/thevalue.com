@@ -69,22 +69,6 @@ function getInfo(api_path) {
 
 }
 
-/*function makeSideBanners() {
-    var $sideBannersArray = $apiResult.sideBanners;
-    var sideBanners = [];
-
-    $.each($sideBannersArray, function(key, val) {
-        if(val.s3) {
-            var image_root_path = s3_root;
-        } else {
-            var image_root_path = site_root;
-        }
-        sideBanners.push("<li><img src='"+image_root_path+val.image_path+"' style='width: 100%' class='img-responsive'></li>");
-    });
-
-    $('#advert').html(sideBanners.join(""));
-}*/
-
 function getCategoryByID(id) {
     // console.log(id);
     var $categories = $apiResult.categories;

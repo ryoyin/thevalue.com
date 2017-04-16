@@ -12,55 +12,6 @@ function showContent() {
     makePopularStories();
 }
 
-/*function makeArticlePhotos() {
-    var articlePhotos = $apiResult.articlePhotos;
-
-    var indicators = [];
-    var topBanners = [];
-
-    $.each(articlePhotos, function(key, val) {
-        var indicatorClass = "";
-        if(key == 0) indicatorClass = "class='active'";
-        indicators.push("<li data-target='#carousel-main-banner' data-slide-to='"+key+"' "+indicatorClass+"></li>");
-
-        var bannerClass = "";
-        if(key == 0) bannerClass = "active";
-        topBanners.push("<div class='item "+bannerClass+"'><img src='"+site_root+val.image_path+"' alt='"+val.alt+"' class='img-responsive'><div class='carousel-caption'>"+val.alt+"</div></div>");
-    });
-
-    $('.carousel-indicators').html(indicators.join(""));
-    $('.carousel-indicators').children('li').css('margin', '0 3px');
-
-    $('.carousel-inner').html(topBanners.join(""));
-}*/
-
-/*function makeArticle() {
-    var article = $apiResult.articleDetails;
-    // console.log(article);
-    // console.log($apiResult.article);
-
-    $('#article-title').html(article.title);
-    $('#article-note').html(article.note);
-    $('#article-date').html($apiResult.published_at);
-    $('#article-desc').html(article.description);
-    $('#article-author').html(article.author);
-    $('#article-source').html(article.source);
-    $('#article-photographer').html(article.photographer);
-    $('.article-shares').html($apiResult.article['shares']+ ' shares');
-}*/
-
-/*function makeTags() {
-    var tags = $apiResult.tags;
-
-    var tagsli = [];
-    $.each(tags, function(key, val) {
-        tagsli.push('<li><a href="'+site_root+default_language+'/tag/'+val.slug+'">'+val.name+'</a></li>')
-    });
-
-    $('.tag').children('ul').html(tagsli.join(""));
-    // console.log('test');
-}*/
-
 function makePopularStories() {
     var popularStories = $apiResult.popularStories;
     // console.log(popularStories);

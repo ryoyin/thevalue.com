@@ -408,7 +408,7 @@ class IndexController extends Controller
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path,
+                    'image_path' => $image_path,
                     's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
@@ -422,7 +422,7 @@ class IndexController extends Controller
         return $articleList;
     }
 
-    public function getCategoryStories($category) {
+    public function getCategoryStories($category, $size = 'medium') {
         $articleList = array();
         $articles = $category->articles()->orderBy('published_at', 'desc')->get();
         foreach($articles as $article) {
@@ -430,12 +430,20 @@ class IndexController extends Controller
 
             $photo = $article->photo;
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path,
+                    'image_path' => $image_path,
                     's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
@@ -449,7 +457,7 @@ class IndexController extends Controller
         return $articleList;
     }
 
-    public function getTagStories($tag) {
+    public function getTagStories($tag, $size = 'medium') {
         $articleList = array();
         $articles = $tag->articles;
 
@@ -459,12 +467,20 @@ class IndexController extends Controller
 
             $photo = $article->photo;
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path,
+                    'image_path' => $image_path,
                     's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
@@ -478,7 +494,7 @@ class IndexController extends Controller
         return $articleList;
     }
 
-    public function getSearchStories($keyword) {
+    public function getSearchStories($keyword, $size = 'medium') {
         $articleList = array();
         $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
 
@@ -486,12 +502,20 @@ class IndexController extends Controller
             $article = $detail->article;
             $photo = $article->photo;
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path,
+                    'image_path' => $image_path,
                     's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
@@ -505,7 +529,7 @@ class IndexController extends Controller
         return $articleList;
     }
 
-    public function getSearchVideo() {
+    public function getSearchVideo($size = 'medium') {
         $articleList = array();
         $articleDetail = App\ArticleDetail::join('articles', 'articles.id', '=', 'article_details.article_id')->where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('articles.published_at', 'desc')->get();
 
@@ -513,12 +537,20 @@ class IndexController extends Controller
             $article = $detail->article;
             $photo = $article->photo;
 
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path,
+                    'image_path' => $image_path,
                     's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,
