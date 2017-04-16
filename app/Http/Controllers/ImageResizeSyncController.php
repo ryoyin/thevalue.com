@@ -60,7 +60,7 @@ class ImageResizeSyncController extends Controller
             $imageBlur = $this->resizeImage($imagePath, $resizePath, $filename, $fileExtension, 42, $blurVal);
 
             // move image to backup directory
-//            rename($imagePath, $backupPath.'/'.$fullFilename);
+            rename($imagePath, $backupPath.'/'.$fullFilename);
 
             $this->pushS3($baseDirectory, $imageOrg);
             $this->pushS3($baseDirectory, $imageBlur);
