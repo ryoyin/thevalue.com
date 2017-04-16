@@ -49,7 +49,7 @@
               @foreach($photos as $photo)
                 <tr>
                   <td>{{ $photo->id }}</td>
-                  <td><img src="{!! url($photo->image_medium_path) !!} " style="height: 100px;"></td>
+                  <td><img src="{!! asset($photo->image_medium_path) !!} " style="height: 100px;"></td>
                   <td>{{ $photo->alt }}</td>
                   <td><input type="text" value = "{{ url($photo->image_path) }}"> <a href="#" onclick="copyClipBoard(this);">copy</a></td>
                   <td align="center">
