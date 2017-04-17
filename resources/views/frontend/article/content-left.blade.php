@@ -27,9 +27,11 @@
     </li>
 
     <?php
-        $desc = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" ${3}${4}', $articleDetails['description']);
+//        $desc = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" ${3}${4}', $articleDetails['description']);
+//        $test = preg_match('/< *img[^>]*src *= *["\']?([^"\']*)/i', $desc, $match);
+//        dd($test);
     ?>
-    <li class='desc' style='clear:both' id="article-desc">{!! $desc !!}</li>
+    <li class='desc' style='clear:both' id="article-desc">{!! $articleDetails['description'] !!}</li>
 
     @if($articleDetails['source'] != '' || $articleDetails['photographer'] != '')
         <div class="source">

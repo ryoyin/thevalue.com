@@ -30,6 +30,8 @@ class ArticleController extends Controller
 
         $articleDetails = $this->getArticleDetails($article);
 
+        $articleDetails['description'] = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" ${3}${4}', $articleDetails['description']);
+
         //get article photos list
         $articlePhotoList = $this->getArticlePhotoList($article);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ArticleDetail;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -141,5 +142,43 @@ class ImageResizeSyncController extends Controller
         if(!file_exists($resizePath)) mkdir($resizePath);
 
         return $resizePath;
+    }
+
+    public function relinkArticleDescPhoto() {
+        $details = ArticleDetail::all();
+
+        foreach($details as $detail) {
+
+            $examine = preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $detail['description'], $match);
+
+            if($examine) {
+
+                echo "Article ID: ".$detail['article_id'];
+                echo "\n";
+                $s3_path = config("app.s3_path");
+                echo $s3_path."\n";
+
+                foreach($match[1] as $src) {
+                    if(!strpos($src, $s3_path)) {
+                        echo $src."\n";
+                        $filename = basename($src);
+                        $photo = Photo::where('image_path', 'like', '%'.$filename)->get();
+                        if(count($photo)) {
+                            echo "found";
+                        }
+
+//                        dd($photo);
+                    }
+                }
+
+            } else {
+
+                $detail->relinked = true;
+                $detail->save();
+
+            }
+
+        }
+
     }
 }
