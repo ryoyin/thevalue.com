@@ -34,7 +34,7 @@
     <script src="https://use.fontawesome.com/13a5048f89.js"></script>
 
     <!-- custom -->
-    <link href="{{ asset('css/web.css') }}?refresh=20170416" rel="stylesheet">
+    <link href="{{ asset('css/web.css') }}?refresh=20170418" rel="stylesheet">
 
     <script src="{{ asset('js/js.cookie.js') }}"></script>
 
