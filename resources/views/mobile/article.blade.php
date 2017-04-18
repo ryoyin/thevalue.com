@@ -9,9 +9,9 @@
     @else
         <?php
             if($articlePhotos[0]['s3']) {
-                $image_html_path = config("app.s3_path").$articlePhotos[0]['image_medium_path'];
+                $image_html_path = config("app.s3_path").$articlePhotos[0]['image_path'];
             } else {
-                $image_html_path = asset($articlePhotos[0]['image_medium_path']);
+                $image_html_path = asset($articlePhotos[0]['image_path']);
             }
         ?>
         <img src="{{ $image_html_path }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
