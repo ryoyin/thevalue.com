@@ -166,8 +166,9 @@ class ImageResizeSyncController extends Controller
                 foreach($match[1] as $src) {
                     if(!strpos($src, $s3_path)) { // image not at S3
 
-                        echo $src."\n";
+//                        echo $src."\n";
                         $filename = basename($src);
+                        echo $filename."\n";
 
                         // search image at photo library
                         $photo = Photo::where('image_path', 'like', '%'.$filename)->first();
