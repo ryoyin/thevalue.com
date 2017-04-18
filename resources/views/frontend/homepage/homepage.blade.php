@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <script src="{{ asset('js/web.js') }}?refresh=201704016"></script>
+    <script src="{{ asset('js/web.js') }}?refresh=201704018"></script>
 
     @include('frontend.homepage.carousel')
 
@@ -22,7 +22,7 @@
                 $image_path = $featuredArticle['photo']['s3'] ? config("app.s3_path").$featuredArticle['photo']['image_path'] : asset($featuredArticle['photo']['image_path']);
         ?>
                 <ul class='col-xs-6 col-md-3 ul-clean'>
-                    <li><img src='{!! $image_path !!}' class='img-responsive'></li>
+                    <li><a href='{{ route('frontend.article', ['slug' => $featuredArticle['slug']]) }}'><img src='{!! $image_path !!}' class='img-responsive'></a></li>
                     <li><a href='{{ route('frontend.category', ['slug' => $categorySlug]) }}' class='category_name'>{{ $categoryName }}</a></li>
                     <li><a href='{{ route('frontend.article', ['slug' => $featuredArticle['slug']]) }}'>{{ $featuredArticle['title'] }}</a></li>
                 </ul>

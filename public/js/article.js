@@ -33,7 +33,7 @@ function makePopularStories() {
         popularStoriesList.push('<div style="clear:both"></div>\
             <div class="popular-news-block">\
             <div id="popular-news">\
-            <div class="col-md-5 left"><img src="'+image_root_path+val.photo.image_path+'" class="img-responsive"></div>\
+            <div class="col-md-5 left"><a href="'+site_root+default_language+'/article/'+val.slug+'"><img src="'+image_root_path+val.photo.image_path+'" class="img-responsive"></a></div>\
             <div class="col-md-7 right">\
             <ul class="ul-clean">\
             <li><a href="'+site_root+default_language+'/category/'+category.slug+'">'+categoryName+'</a></li>\

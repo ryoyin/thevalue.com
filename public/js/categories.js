@@ -76,7 +76,7 @@ function showStories(obj, topic) {
         // console.log(image_root_path);
 
         topicList.push("<div class='news'>\
-        <div class='col-md-5 left'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></div>\
+        <div class='col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
             <div class='col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'>"+categoryName+"</li>\
