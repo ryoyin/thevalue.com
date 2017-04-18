@@ -145,31 +145,49 @@ class ImageResizeSyncController extends Controller
     }
 
     public function relinkArticleDescPhoto() {
-        $details = ArticleDetail::all();
+        // get not relink article
+        $details = ArticleDetail::where('relinked', '0')->get();
 
         foreach($details as $detail) {
 
-            $examine = preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $detail['description'], $match);
+//            echo $detail['description']."\n";
 
-            if($examine) {
+            // find detail contain image or not
+            $desc = $detail->description;
+            $examine = preg_match_all('/< *img[^>]*src *= *["\']?([^"\']*)/i', $desc, $match);
 
-                echo "Article ID: ".$detail['article_id'];
-                echo "\n";
+            if($examine) { // found image
+
+                echo "Article ID: ".$detail['article_id']."\n";
+
                 $s3_path = config("app.s3_path");
-                echo $s3_path."\n";
+//                echo $s3_path."\n";
 
                 foreach($match[1] as $src) {
-                    if(!strpos($src, $s3_path)) {
+                    if(!strpos($src, $s3_path)) { // image not at S3
+
                         echo $src."\n";
                         $filename = basename($src);
-                        $photo = Photo::where('image_path', 'like', '%'.$filename)->get();
-                        if(count($photo)) {
-                            echo "found";
+
+                        // search image at photo library
+                        $photo = Photo::where('image_path', 'like', '%'.$filename)->first();
+
+                        if(count($photo) && $photo->image_medium_path != "") { //found image
+
+                            $new_image_path = $s3_path.$photo->image_medium_path;
+//                            echo $new_image_path;
+//                            echo "\n";
+                            $desc = str_replace($src, $new_image_path, $desc);
+
                         }
 
 //                        dd($photo);
                     }
                 }
+
+                $detail->description = $desc;
+                $detail->relinked = true;
+                $detail->save();
 
             } else {
 
