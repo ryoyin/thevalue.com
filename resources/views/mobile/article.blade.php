@@ -7,7 +7,14 @@
     @if(count($articlePhotos) > 1)
         @include('frontend.article.carousel')
     @else
-        <img src="{{ asset($articlePhotos[0]['image_path']) }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
+        <?php
+            if($articlePhotos[0]['s3']) {
+                $image_html_path = config("app.s3_path").$articlePhotos[0]['image_medium_path'];
+            } else {
+                $image_html_path = asset($articlePhotos[0]['image_medium_path']);
+            }
+        ?>
+        <img src="{{ $image_html_path }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
     @endif
 
     {{--@include('frontend.article.carousel')--}}
