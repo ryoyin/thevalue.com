@@ -179,6 +179,8 @@ class ImageResizeSyncController extends Controller
 //                            echo "\n";
                             $desc = str_replace($src, $new_image_path, $desc);
 
+                        } else {
+                            echo $src." not found in photo library!\n";
                         }
 
 //                        dd($photo);
@@ -186,7 +188,7 @@ class ImageResizeSyncController extends Controller
                 }
 
                 $detail->description = $desc;
-                $detail->relinked = true;
+//                $detail->relinked = true;
                 $detail->save();
 
             } else {
