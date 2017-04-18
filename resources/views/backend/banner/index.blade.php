@@ -47,7 +47,8 @@
                 @foreach($banners as $banner)
                   <tr>
                     <td>{{ $banner->id }}</td>
-                    <td><img src="{{ url($banner->photo->image_medium_path) }}" style="height: 100px;"></td>
+                    <?php $image_path = $banner->photo->image_medium_path == "" ? $banner->photo->image_path : $banner->photo->image_medium_path; ?>
+                    <td><img src="{{ asset($image_path) }}" style="height: 100px;"></td>
                     <td>{{ $banner->position }}</td>
                     <td>{{ $banner->sorting }}</td>
                     <td align="center">

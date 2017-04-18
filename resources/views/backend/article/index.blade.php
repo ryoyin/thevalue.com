@@ -52,7 +52,10 @@
                     <td>{{ $article->id }}</td>
                     <td>{{ $article->category->slug }}</td>
                     <td>{{ $article->slug }}</td>
-                    <td><img src="{{ url($article->photo->image_medium_path) }}" style="height: 100px;"></td>
+
+                    <?php $image_path = $article->photo->image_medium_path == "" ? $article->photo->image_path : $article->photo->image_medium_path; ?>
+                    <td><img src="{{ asset($image_path) }}" style="height: 100px;"></td>
+
                     <td>{{ $article->hit_counter }}</td>
                     <td>{{ $article->share_counter }}</td>
                     <td align="center">
