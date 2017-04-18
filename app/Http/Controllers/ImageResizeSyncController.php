@@ -189,7 +189,7 @@ class ImageResizeSyncController extends Controller
                 }
 
                 $detail->description = $desc;
-//                $detail->relinked = true;
+                $detail->relinked = true;
                 $detail->save();
 
             } else {
