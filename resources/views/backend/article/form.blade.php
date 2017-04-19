@@ -240,7 +240,7 @@ function changeLang(obj) {
     $(function () {
         CKEDITOR.replace('description-en', {
             height: 600,
-            toolbar: [
+/*            toolbar: [
 
                 { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
                 { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
@@ -272,7 +272,7 @@ function changeLang(obj) {
                 { name: 'tools' },
                 { name: 'others' },
                 { name: 'about' }
-            ]
+            ]*/
         });
         CKEDITOR.replace('description-trad', {
             height: 600,
