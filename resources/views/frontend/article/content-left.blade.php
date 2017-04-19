@@ -62,7 +62,7 @@
             <div>分享這篇文章</div>
             <ul class='ul-clean share'>
                 <li>
-                    <a href="http://www.facebook.com/share.php?u={{ route("frontend.article", ['slug' => $slug]) }}&t={{ $articleDetails['title'] }}&pic={{ asset($article_photo) }}">
+                    <a href="http://www.facebook.com/share.php?u={{ route("frontend.article", ['slug' => $slug]) }}&t={{ $articleDetails['title'] }}&pic={{ asset($article_photo) }}" target="_blank">
                         <i class='fa fa-facebook-f' aria-hidden='true'></i>
                     </a>
                 </li>
