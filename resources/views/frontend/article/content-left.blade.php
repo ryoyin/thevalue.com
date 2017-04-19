@@ -61,12 +61,16 @@
             <div class="line"></div>
             <div>分享這篇文章</div>
             <ul class='ul-clean share'>
-                <li><i class='fa fa-facebook-f' aria-hidden='true'></i></li>
-                <li><i class='fa fa-twitter' aria-hidden='true'></i></li>
-                <li><i class='fa fa-weibo' aria-hidden='true'></i></li>
-                <li><i class='fa fa-wechat' aria-hidden='true'></i></li>
-                <li><i class='fa fa-envelope' aria-hidden='true'></i></li>
-                <li><span class="article-shares">416 shares</span></li>
+                <li>
+                    <a href="http://www.facebook.com/share.php?u={{ route("frontend.article", ['slug' => $slug]) }}&t={{ $articleDetails['title'] }}&pic={{ $article_photo }}">
+                        <i class='fa fa-facebook-f' aria-hidden='true'></i>
+                    </a>
+                </li>
+                {{--<li><i class='fa fa-twitter' aria-hidden='true'></i></li>--}}
+                {{--<li><i class='fa fa-weibo' aria-hidden='true'></i></li>--}}
+                {{--<li><i class='fa fa-wechat' aria-hidden='true'></i></li>--}}
+                {{--<li><i class='fa fa-envelope' aria-hidden='true'></i></li>--}}
+                {{--<li><span class="article-shares">416 shares</span></li>--}}
             </ul>
         </div>
         <div class="col-md-6 subscription">
