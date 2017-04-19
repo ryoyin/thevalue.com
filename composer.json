@@ -10,7 +10,8 @@
         "laravelcollective/html": "5.3.*",
         "mcamara/laravel-localization": "1.2.*",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "aws/aws-sdk-php-laravel": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

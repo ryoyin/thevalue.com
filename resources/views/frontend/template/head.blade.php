@@ -44,7 +44,9 @@
 //        console.log(site_root);
     </script>
 
-    <script src="{{ asset('js/general.js') }}?refresh=20170416"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script src="{{ asset('js/general.js') }}?refresh=20170419"></script>
 
     <!-- Google GA -->
     <script>

@@ -83,31 +83,26 @@ function getCategoryByID(id) {
 
 function shareme() {
     var email = $('#share-email').val();
-    $('#share-the-value-invalid-email').hide();
-    if(validate_email(email) && email.trim() != '') {
-        var api_email_path = site_root+"api/share-the-value";
-        $.ajax({
-            method: "POST",
-            url: api_email_path,
-            data: { email: email }
-        }).done(function() {
-            $('#share-the-value-sent-email').fadeIn(3000, function() {
-                $('#share-the-value').modal('toggle');
-                $('#share-email').val('');
-                $('#share-the-value-sent-email').hide();
+    var api_email_path = site_root+"share-the-value";
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        method: "POST",
+        url: api_email_path,
+        data: { email: email },
+        success:function(data) {
+            $('#share-the-value-sent-email').show(function() {
+                window.setTimeout(function() {
+                    $('#share-the-value').modal('toggle');
+                    $('#share-email').val('');
+                    $('#share-the-value-sent-email').hide();
+                },5000);
             });
-        });
-    } else {
-        $('#share-the-value-invalid-email').fadeIn();
-    }
-}
-
-function validate_email(email) {
-    var input = document.createElement('input');
-    input.type='email';
-    input.value=email;
-
-    return input.checkValidity();
+        },
+        error: function(xhr) {
+            // console.log(xhr.responseText.email);
+            $('#share-the-value-invalid-email').fadeIn();
+        }
+    });
 }
 
 $(window).scroll(function(){

@@ -35,19 +35,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">@lang('thevalue.share-the-value')</h4>
+                <h4 class="modal-title">@lang('thevalue.subscript-the-value')</h4>
             </div>
             <div class="modal-body">
                 <p>
                     <div class="input-group">
-                        <input type="text" id="share-email" class="form-control" placeholder="@lang('thevalue.share-please-enter-email').....">
+                        <input type="text" id="share-email" class="form-control" placeholder="@lang('thevalue.subscript-please-enter-email').....">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="shareme();return false;">@lang('thevalue.share')</button>
+                            <button class="btn btn-default" type="button" onclick="shareme();return false;">@lang('thevalue.subscription')</button>
                         </span>
                     </div><!-- /input-group -->
                 </p>
-                <p id="share-the-value-invalid-email" style="color: red; display:none;">@lang('thevalue.share-invalid-email')</p>
-                <p id="share-the-value-sent-email" style="display:none;">@lang('thevalue.share-sent-email')</p>
+                <p id="share-the-value-invalid-email" style="color: red; display:none;">@lang('thevalue.subscript-invalid-email')</p>
+                <p id="share-the-value-sent-email" style="display:none;">@lang('thevalue.subscript-sent-email')</p>
             </div>
         </div>
 

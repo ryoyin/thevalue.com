@@ -47,5 +47,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
+Route::post('/share-the-value', 'API\SubscriptController@subscription');
+
 
 

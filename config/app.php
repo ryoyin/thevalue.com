@@ -182,7 +182,10 @@ return [
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
 
         /*image.intervention.io*/
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+
+        /*AWS SDK https://github.com/aws/aws-sdk-php-laravel*/
+        Aws\Laravel\AwsServiceProvider::class,
 
     ],
 
@@ -234,7 +237,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'LaravelLocalization'   => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'AWS' => Aws\Laravel\AwsFacade::class,
     ],
 
     'supported_languages' => ['en' => 'en', 'trad' => 'trad', 'sim' => 'sim'],

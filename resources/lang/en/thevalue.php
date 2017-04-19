@@ -39,4 +39,9 @@ return [
     'disclaimer' => 'Disclaimer',
     'disclaimerContent' => 'Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content ',
     'video' => 'Video',
+    'subscript-the-value' => 'Subscription TheValue.com',
+    'subscript-please-enter-email' => 'Please enter email.',
+    'subscript-invalid-email' => 'Invalid Email Address',
+    'subscript-sent-email' => 'Email Sent. Please check email to confirm the subscription.',
+    'subscription' => 'Subscription',
 ];
