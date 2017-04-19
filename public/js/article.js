@@ -48,3 +48,30 @@ function makePopularStories() {
 
 }
 
+function subscription() {
+    var email = $('#subsciprtion-email').val();
+    var api_email_path = site_root+"share-the-value";
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        method: "POST",
+        url: api_email_path,
+        data: { email: email },
+        success:function(data) {
+            $('#article-share-the-value-sent-email').show(function() {
+                window.setTimeout(function() {
+                    $('#subsciprtion-email').val('');
+                    $('#article-share-the-value-sent-email').hide();
+                },5000);
+            });
+        },
+        error: function(xhr) {
+            // console.log(xhr.responseText.email);
+            $('#article-share-the-value-invalid-email').show(function() {
+                window.setTimeout(function() {
+                    // $('#subsciprtion-email').val('');
+                    $('#article-share-the-value-invalid-email').hide();
+                },5000);
+            });
+        }
+    });
+}

@@ -74,11 +74,13 @@
             <div>訂閱 THE VALUE</div>
             <div>收取我們最新資訊</div>
             <div class="input-group">
-                <input type="text" class="form-control" aria-label="your email address">
+                <input type="text" class="form-control" aria-label="your email address" id="subsciprtion-email">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary">Sign Up</button>
+                    <button type="button" class="btn btn-primary" onclick="subscription();">Sign Up</button>
                 </div>
             </div>
+            <div id="article-share-the-value-invalid-email" style="color: red; display:none;">@lang('thevalue.subscript-invalid-email')</div>
+            <div id="article-share-the-value-sent-email" style="display:none;">@lang('thevalue.subscript-sent-email')</div>
         </div>
     </div>
     @endif
