@@ -1,15 +1,16 @@
 <div class="row" id="header-menu">
-    <div class="col-md-8">
+    <div class="col-md-12 col-sm-12" style="display:inline-block;">
         <ul class="ul-clean" id="categoriesList">
             @foreach($categories as $category)
                 <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
             @endforeach
             <li><a href='{{ route('frontend.category', ['slug' => 'videos']) }}'>@lang('thevalue.video')</a></li>
+            <li class="pull-right"><a href="#" onclick="showSearchBar();"><i class="fa fa-search" aria-hidden="true"></i></a></li>
         </ul>
     </div>
-    <div class="col-md-4 text-right">
+    {{--<div class="col-md-4 text-right">
         <a href="#" onclick="showSearchBar();"><i class="fa fa-search" aria-hidden="true"></i></a>
-    </div>
+    </div>--}}
 </div> <!-- /header-menu-->
 
 <div class="row" id="search-block">
