@@ -54,13 +54,15 @@ class SubscriptController extends Controller
             'CustomUserData' => $request->input('userData'),
         ));
 
-        $sns->subscribe(array(
+        $subscriptionARN = $sns->subscribe(array(
             // TopicArn is required
             'TopicArn' => 'arn:aws:sns:ap-southeast-1:527599532354:TheValue_Newsletter',
             // Protocol is required
             'Protocol' => 'application',
             'Endpoint' => $endpointARN,
         ));
+
+        return $subscriptionARN;
     }
 
 }
