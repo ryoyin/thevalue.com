@@ -33,4 +33,34 @@ class SubscriptController extends Controller
 
     }
 
+    public function registerEndpoint(Request $request)
+    {
+        $this->validate($request, [
+            'type' => 'required',
+            'token' => 'required',
+            'userData' => 'required',
+        ]);
+
+        $sns = \AWS::createClient('SNS');
+
+        $platformApplicationArn = array();
+        $platformApplicationArn['APNS'] = 'arn:aws:sns:ap-southeast-1:527599532354:app/APNS_SANDBOX/theValueAppIOS';
+
+        $endpointARN = $sns->createPlatformEndpoint(array(
+            // PlatformApplicationArn is required
+            'PlatformApplicationArn' => $platformApplicationArn[$request->input('type')],
+            // Token is required
+            'Token' => $request->input('token'),
+            'CustomUserData' => $request->input('userData'),
+        ));
+
+        $sns->subscribe(array(
+            // TopicArn is required
+            'TopicArn' => 'arn:aws:sns:ap-southeast-1:527599532354:TheValue_Newsletter',
+            // Protocol is required
+            'Protocol' => 'application',
+            'Endpoint' => $endpointARN,
+        ));
+    }
+
 }
