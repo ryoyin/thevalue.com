@@ -41,8 +41,6 @@ class SubscriptController extends Controller
             'userData' => 'required',
         ]);
 
-
-
         $sns = \AWS::createClient('SNS');
 
         $platformApplicationArn = array();
