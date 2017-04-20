@@ -34,4 +34,4 @@ Route::post('/share-the-value', function(Request $request) {
     $share->save();
 });
 
-Route::post('/registerEndpoint', 'API\SubscriptController@registerEndpoint');
+Route::post('/register-endpoint', 'API\SubscriptController@registerEndpoint');
