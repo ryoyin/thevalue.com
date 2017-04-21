@@ -42,11 +42,10 @@ class SubscriptController extends Controller
 
         return $request->getContent();
 
-//        return json_encode(array("type" => "APNS","token" => "4982733f2f0c7fdfc92bbd5fa66354cd8d98f0ee00be178acb447667281a345c","userData" => "Test"));
+        $sentData = js_decode($request->getContent());
 
-//        dd($request->getContent());
-//
-        $this->validate($request, [
+        $this->validate($sentData, [
+            'type' => 'required',
             'type' => 'required',
             'token' => 'required',
             'userData' => 'required',
