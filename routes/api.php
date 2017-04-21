@@ -35,3 +35,4 @@ Route::post('/share-the-value', function(Request $request) {
 });
 
 Route::post('/register-endpoint', 'API\SubscriptController@registerEndpoint');
+//Route::post('/unsubscribe', 'API\SubscriptController@unsubscribe');

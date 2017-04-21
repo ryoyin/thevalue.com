@@ -35,41 +35,123 @@ class SubscriptController extends Controller
 
     public function registerEndpoint(Request $request)
     {
-
-        /*$fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
-        fwrite($fp, $request->getContent());
-        fclose($fp);
-
-        return $request->getContent();*/
-
-        $sentData = json_decode($request->getContent(), true);
-
-/*        $this->validate($sentData, [
-            'os' => 'required',
-            'type' => 'required',
-            'token' => 'required',
-            'userData' => 'required',
-        ]);*/
-
+        // $userData: type, token, os, locale, userdata
+        $userData = json_decode($request->getContent(), true);
 
         $acceptedType = array('APNS', 'GCM');
-        if(!in_array($sentData['type'], $acceptedType)) return false;
+        if(!in_array($userData['type'], $acceptedType)) return false;
 
+        $mobile = App\AWSSNSMobile::where('token', $userData['token'])->first();
+
+//        return $mobile;
+
+        if($mobile != null) { // check device exists or not
+
+            // if diff locale
+            if($mobile->locale != $userData['locale']) {
+
+                // unsubscribe topic
+                $this->unsubscribe($mobile->subscription_arn);
+
+                // get topic locale ARN
+                $topic = App\AWSSNSTopic::where('locale', $userData['locale'])->first();
+                $topicARN = $topic->topic_arn;
+
+                // subscription ARN
+                $newSubscriptionARN = $this->subscribe($mobile->endpoint_arn, $topicARN);
+
+                // change DB locale
+                $mobile->locale = $userData['locale'];
+                $mobile->subscription_arn = $newSubscriptionARN;
+                $mobile->save();
+
+            }
+
+        } else {// else device not exists
+
+            // get platform ARN
+            $platform = App\AWSSNSPlatform::where('type', $userData['type'])->first();
+            $platformARN = $platform->platform_arn;
+            $platformID = $platform->id;
+
+            // add device to platform
+            $endpointARN = $this->createPlatformEndpoint($userData, $platformARN);
+
+            // subscribe topic
+            $topic = App\AWSSNSTopic::where('locale', $userData['locale'])->first();
+            $topicARN = $topic->topic_arn;
+            $topicID = $topic->id;
+            $subscriptionARN = $this->subscribe($endpointARN, $topicARN);
+
+            // insert mobile data to DB
+
+            // os	type	token	user_data	locale	aws_sns_platform_id	endpoint_arn	aws_sns_topic_id	subscription_arn
+            $mobile = new App\AWSSNSMobile;
+            $mobile->os = $userData['os'];
+            $mobile->type = $userData['type'];
+            $mobile->token = $userData['token'];
+            $mobile->user_data = $userData['userData'];
+            $mobile->locale = $userData['locale'];
+            $mobile->aws_sns_platform_id = $platformID;
+            $mobile->endpoint_arn = $endpointARN;
+            $mobile->aws_sns_topic_id = $topicID;
+            $mobile->subscription_arn = $subscriptionARN;
+            $mobile->save();
+
+        }
+
+        return $request->getContent();
+
+    }
+
+    public function listSubscriptionsByTopic()
+    {
         $sns = \AWS::createClient('SNS');
 
-        $platformApplicationArn = array();
-        $platformApplicationArn['APNS'] = 'arn:aws:sns:ap-southeast-1:527599532354:app/APNS_SANDBOX/theValueAppIOS';
-        $platformApplicationArn['GCM'] = 'arn:aws:sns:ap-southeast-1:527599532354:app/GCM/theValueAppAndroid';
+        $result = $sns->listSubscriptionsByTopic([
+            'TopicArn' => '<string>', // REQUIRED
+        ]);
+    }
 
-        $endpointARN = $sns->createPlatformEndpoint(array(
+    public function createPlatformEndpoint($userData, $platformARN)
+    {
+        $sns = \AWS::createClient('SNS');
+
+        $result = $sns->createPlatformEndpoint(array(
             // PlatformApplicationArn is required
-            'PlatformApplicationArn' => $platformApplicationArn[$sentData['type']],
+            'PlatformApplicationArn' => $platformARN,
             // Token is required
-            'Token' => $sentData['token'],
-            'CustomUserData' => $sentData['userData'],
+            'Token' => $userData['token'],
+            'CustomUserData' => $userData['userData'],
         ));
 
-        return $endpointARN;
+        return $result['EndpointArn'];
+    }
+
+    public function subscribe($endpointARN, $topicARN)
+    {
+        $sns = \AWS::createClient('SNS');
+
+        $resultSubscribe = $sns->subscribe([
+            'Endpoint' => $endpointARN,
+            'Protocol' => 'application', // REQUIRED
+            'TopicArn' => $topicARN // REQUIRED
+        ]);
+
+        $subscriptionARN =  $resultSubscribe['SubscriptionArn'];
+
+        return $subscriptionARN;
+    }
+
+    public function unsubscribe($subscriptionARN)
+    {
+        $sns = \AWS::createClient('SNS');
+
+        $sns->unsubscribe([
+            'SubscriptionArn' => $subscriptionARN, // REQUIRED
+        ]);
+
+        return true;
     }
 
 }
