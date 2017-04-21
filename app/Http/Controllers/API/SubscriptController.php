@@ -36,20 +36,24 @@ class SubscriptController extends Controller
     public function registerEndpoint(Request $request)
     {
 
-        $fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
+        /*$fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
         fwrite($fp, $request->getContent());
         fclose($fp);
 
-        return $request->getContent();
+        return $request->getContent();*/
 
-        $sentData = js_decode($request->getContent());
+        $sentData = json_decode($request->getContent(), true);
 
-        $this->validate($sentData, [
-            'type' => 'required',
+/*        $this->validate($sentData, [
+            'os' => 'required',
             'type' => 'required',
             'token' => 'required',
             'userData' => 'required',
-        ]);
+        ]);*/
+
+
+        $acceptedType = array('APNS', 'GCM');
+        if(!in_array($sentData['type'], $acceptedType)) return false;
 
         $sns = \AWS::createClient('SNS');
 
@@ -58,10 +62,10 @@ class SubscriptController extends Controller
 
         $endpointARN = $sns->createPlatformEndpoint(array(
             // PlatformApplicationArn is required
-            'PlatformApplicationArn' => $platformApplicationArn[$request->input('type')],
+            'PlatformApplicationArn' => $platformApplicationArn[$sentData['type']],
             // Token is required
-            'Token' => $request->input('token'),
-            'CustomUserData' => $request->input('userData'),
+            'Token' => $sentData['token'],
+            'CustomUserData' => $sentData['userData'],
         ));
 
         return $endpointARN;
