@@ -37,7 +37,9 @@ class SubscriptController extends Controller
     {
 
         $fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
-        fwrite($fp, implode($request->input()));
+        fwrite($fp, "type: ".$request->input('type'));
+        fwrite($fp, "token: ".$request->input('token'));
+        fwrite($fp, "userdata: ".$request->input('userData'));
         fclose($fp);
 
         dd($request->input());
