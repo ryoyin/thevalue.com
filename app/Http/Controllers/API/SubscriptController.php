@@ -36,11 +36,11 @@ class SubscriptController extends Controller
     public function registerEndpoint(Request $request)
     {
 
-        /*$fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
+        $fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
         fwrite($fp, $request->getContent());
         fclose($fp);
 
-        return $request->getContent();*/
+        return $request->getContent();
 
         $sentData = json_decode($request->getContent(), true);
 
