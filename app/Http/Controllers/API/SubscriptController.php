@@ -36,11 +36,11 @@ class SubscriptController extends Controller
     public function registerEndpoint(Request $request)
     {
 
-        $fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
+        /*$fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
         fwrite($fp, $request->getContent());
         fclose($fp);
 
-        return $request->getContent();
+        return $request->getContent();*/
 
         $sentData = json_decode($request->getContent(), true);
 
@@ -59,6 +59,7 @@ class SubscriptController extends Controller
 
         $platformApplicationArn = array();
         $platformApplicationArn['APNS'] = 'arn:aws:sns:ap-southeast-1:527599532354:app/APNS_SANDBOX/theValueAppIOS';
+        $platformApplicationArn['GCM'] = 'arn:aws:sns:ap-southeast-1:527599532354:app/GCM/theValueAppAndroid';
 
         $endpointARN = $sns->createPlatformEndpoint(array(
             // PlatformApplicationArn is required
