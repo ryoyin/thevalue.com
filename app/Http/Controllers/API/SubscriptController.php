@@ -37,13 +37,15 @@ class SubscriptController extends Controller
     {
 
         $fp = fopen('/opt/lampp/htdocs/www.thevalue.com/public/images/data.txt', 'w');
-        fwrite($fp, "type: ".$request->input('type'));
-        fwrite($fp, "token: ".$request->input('token'));
-        fwrite($fp, "userdata: ".$request->input('userData'));
+        fwrite($fp, $request->getContent());
         fclose($fp);
 
-        dd($request->input());
+        return $request->getContent();
 
+//        return json_encode(array("type" => "APNS","token" => "4982733f2f0c7fdfc92bbd5fa66354cd8d98f0ee00be178acb447667281a345c","userData" => "Test"));
+
+//        dd($request->getContent());
+//
         $this->validate($request, [
             'type' => 'required',
             'token' => 'required',
