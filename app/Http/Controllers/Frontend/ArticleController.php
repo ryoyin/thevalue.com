@@ -48,6 +48,10 @@ class ArticleController extends Controller
             "app_id" => "1149533345170108"
         );
 
+        $article->published_at = $article->published_at->addHours(8);
+
+//        echo $article->published_at;
+
         $data = array(
             'slug' => $slug,
             'fbMeta' => $fbMetaArray,
@@ -65,22 +69,6 @@ class ArticleController extends Controller
             'appMode' => false,
             'categories' => $this->getCategoriesList(),
         );
-
-/*        $result = array(
-//            'categories' => $categoriesList,
-            'articleSlug' => $article->slug,
-            'published_at' => $article->published_at->format('M d, Y'),
-            'article' => array(
-                'shares' => $article->share_counter,
-                'hit' => $article->hit_counter
-            ),
-            'articleDetails' => $articleDetails,
-            'articlePhotos' => $articlePhotoList,
-            'tags' => $tagsList,
-//            'sideBanners' => $indexSideBannerList,
-//            'popularStories' => $popularStoriesList,
-            'article_photo' => $article->photo->image_path,
-        );*/
 
         if($request->input('type') !== null) {
             switch ($request->input('type')) {

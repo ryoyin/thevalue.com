@@ -7,6 +7,7 @@ use App;
 use App\Article;
 use App\Photo;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -89,6 +90,9 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $langs = config('app.supported_languages');
+
+        // convert HK time to TUC
+        $request->published_at = Carbon::createFromFormat('Y-m-d H:i:s', $request->published_at)->subHours(8);
 
         $detailFields = array(
             'title' => 'Title',
@@ -201,6 +205,7 @@ class ArticleController extends Controller
             );
         }
 
+
         $photos = $article->photos;
 
         $gallery = '';
@@ -251,6 +256,10 @@ class ArticleController extends Controller
             'author' => 'Author',
             'photographer' => 'Photographer',
             'status' => 'Status');
+
+        // convert HK time to TUC
+        $request->published_at = Carbon::createFromFormat('Y-m-d H:i:s', $request->published_at)->subHours(8);
+
 
 //            category_id, slug, photo_id, hit_counter, share_counter
         $article = App\Article::find($id);
