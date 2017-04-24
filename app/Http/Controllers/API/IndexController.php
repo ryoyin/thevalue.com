@@ -301,7 +301,7 @@ class IndexController extends Controller
 
     public function getFeaturedArticleList($size = 'medium') {
         $featuredArticleList = array();
-        $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('sorting', 'desc')->get();
+        $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('sorting')->get();
         foreach($featuredArticles as $featuredArticle) {
             $article = $featuredArticle->article;
             $detail = $article->details->where('lang', $this->locale)->first();
