@@ -179,7 +179,12 @@
               <!-- text input -->
               <div class="form-group">
                   <label>Publish Date</label>
-                  <?php $published_at = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $article['published_at'])->addHours(8); ?>
+                  <?php
+                      $published_at = '';
+                      if($article['published_at'] != '') {
+                          $published_at = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $article['published_at'])->addHours(8);
+                      }
+                  ?>
                   <input name="published_at" type="text" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS" value="{{ $published_at }}" required>
               </div>
               <!-- select -->
