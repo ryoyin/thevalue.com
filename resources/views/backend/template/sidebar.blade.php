@@ -56,6 +56,14 @@
         </ul>
       </li>
 
+      <li class="treeview {{ isActiveMenu('featuredArticle', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Featured Article</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="{{ isActiveMenu('featuredArticle.list', $menu) }}"><a href="#"><a href="{{ action('Backend\FeaturedArticleController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Featured Article List   </span></a></a></li>
+          {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
+        </ul>
+      </li>
+
       <li class="treeview {{ isActiveMenu('category', $menu) }}">
         <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Category</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">

@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tvadmin/photos', 'Backend\PhotoController');
     Route::resource('tvadmin/banners', 'Backend\BannerController');
     Route::resource('tvadmin/articles', 'Backend\ArticleController');
+    Route::resource('tvadmin/featuredArticles', 'Backend\FeaturedArticleController');
     Route::resource('tvadmin/categories', 'Backend\CategoryController');
     Route::resource('tvadmin/tags', 'Backend\TagController');
 
