@@ -45,7 +45,7 @@
                 @foreach($featureArticles as $featuredArticle)
                   <tr>
                     <td>{{ $featuredArticle->id }}</td>
-                    <td><img src="{{ asset($featuredArticle->article->photo->image_path) }}"></td>
+                    <td><img src="{{ asset($featuredArticle->article->photo->image_path) }}" width="250px"></td>
                     <td align="center">
 {{--                      <a href="{{ url('tvadmin/featuredArticles/'.$featuredArticle->id.'/edit') }}" class="btn btn-warning">Modify</a>--}}
                       <form action="{{ url('tvadmin/featuredArticles/'.$featuredArticle->id) }}" method="POST" style="display: inline-block">
