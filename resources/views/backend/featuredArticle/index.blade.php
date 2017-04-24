@@ -36,7 +36,9 @@
               <table id="research" class="table table-bordered table-striped">
                 <thead>
                 <th>ID</th>
-                <th>Article ID</th>
+                <th>Article</th>
+                <th>Slug</th>
+                <th>Sorting</th>
                 <th style="text-align: center;">Action</th>
                 </tr>
                 </thead>
@@ -46,8 +48,10 @@
                   <tr>
                     <td>{{ $featuredArticle->id }}</td>
                     <td><img src="{{ asset($featuredArticle->article->photo->image_path) }}" width="250px"></td>
+                    <td>{{ $featuredArticle->article->slug }}</td>
+                    <td>{{ $featuredArticle->sorting }}</td>
                     <td align="center">
-{{--                      <a href="{{ url('tvadmin/featuredArticles/'.$featuredArticle->id.'/edit') }}" class="btn btn-warning">Modify</a>--}}
+                      <a href="{{ url('tvadmin/featuredArticles/'.$featuredArticle->id.'/edit') }}" class="btn btn-warning">Modify</a>
                       <form action="{{ url('tvadmin/featuredArticles/'.$featuredArticle->id) }}" method="POST" style="display: inline-block">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}

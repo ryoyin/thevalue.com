@@ -84,7 +84,7 @@ class HomepageController extends Controller
 
     public function getFeaturedArticleList($size = 'medium') {
         $featuredArticleList = array();
-        $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('created_at')->get();
+        $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('sorting', desc)->get();
         foreach($featuredArticles as $featuredArticle) {
             $article = $featuredArticle->article;
             $detail = $article->details->where('lang', $this->locale)->first();

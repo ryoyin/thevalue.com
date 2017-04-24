@@ -50,6 +50,11 @@
                 <label>Article ID</label>
                 <input name="article_id" type="text" class="form-control" placeholder="Enter ..." value="{{ $featuredArticle['article_id'] }}">
               </div>
+
+              <div class="form-group">
+                  <label>Sorting</label>
+                  <input name="sorting" type="text" class="form-control" placeholder="Enter ..." value="{{ $featuredArticle['sorting'] }}">
+              </div>
           </div><!-- /.box-body -->
         </div><!-- /.box -->
       </div>
