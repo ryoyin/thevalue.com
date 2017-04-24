@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('App\Http\Controllers\ImageResizeSyncController@index')->everyMinute();
-//        $schedule->call('App\Http\Controllers\ImageResizeSyncController@relinkArticleDescPhoto')->everyMinute();
+        $schedule->call('App\Http\Controllers\ImageResizeSyncController@index')->hourlyAt(10);
+        $schedule->call('App\Http\Controllers\ImageResizeSyncController@relinkArticleDescPhoto')->hourlyAt(15);
     }
 
     /**
