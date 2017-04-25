@@ -17,7 +17,7 @@ class ImageResizeSyncController extends Controller
         ini_set('memory_limit','256M');
 
         $blurVal = 15;
-        $baseDirectory = base_path().'/public';
+        $baseDirectory = 'public';
 
         $backupPath = $this->createBackupPath($baseDirectory); //create backup path to images/backup/yyyy/mm
 
@@ -122,18 +122,12 @@ class ImageResizeSyncController extends Controller
     public function createBackupPath($baseDirectory) {
         //check and create backup path
         $backupPath = $baseDirectory.'/images/backup';
-        echo $backupPath;
-        echo "<br>";
         if(!file_exists($backupPath)) mkdir($backupPath);
 
         $backupPath = $baseDirectory.'/images/backup/'.date('Y');
-        echo $backupPath;
-        echo "<br>";
         if(!file_exists($backupPath)) mkdir($backupPath);
 
         $backupPath = $baseDirectory.'/images/backup/'.date('Y').'/'.date('m');
-        echo $backupPath;
-        echo "<br>";
         if(!file_exists($backupPath)) mkdir($backupPath);
 
         return $backupPath;
