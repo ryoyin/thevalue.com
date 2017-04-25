@@ -30,6 +30,8 @@ function()
 
 });
 
+Route::post('/share-the-value', 'API\SubscriptController@subscription');
+
 Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 
 Auth::routes();
@@ -49,7 +51,6 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
-Route::post('/share-the-value', 'API\SubscriptController@subscription');
 
 
 

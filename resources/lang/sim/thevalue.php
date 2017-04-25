@@ -28,7 +28,7 @@ return [
     'share-the-value' => '分享 TheValue.com',
     'share-please-enter-email' => '请输入电邮地址',
     'share-invalid-email' => '无效的邮件地址',
-    'share-sent-email' => '订阅成功',
+    'share-sent-email' => '邮件已发送, 请检查电邮确认订阅',
     'share' => '分享',
     'search' => '搜寻',
     'contact-us' => '联络我们',
@@ -38,6 +38,6 @@ return [
     'subscript-the-value' => '订阅 TheValue.com',
     'subscript-please-enter-email' => '请输入电邮地址',
     'subscript-invalid-email' => '无效的邮件地址',
-    'subscript-sent-email' => '邮件已发送',
+    'subscript-sent-email' => '訂閱成功',
     'subscription' => '订阅',
 ];
