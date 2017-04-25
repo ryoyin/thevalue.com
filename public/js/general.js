@@ -95,7 +95,7 @@ function shareme() {
                     $('#share-the-value').modal('toggle');
                     $('#share-email').val('');
                     $('#share-the-value-sent-email').hide();
-                },5000);
+                },3000);
             });
         },
         error: function(xhr) {
