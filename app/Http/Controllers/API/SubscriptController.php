@@ -20,16 +20,10 @@ class SubscriptController extends Controller
 
         $share = new App\ShareEmail;
         $share->email = $email;
+        $share->locale = App::getLocale();
         $share->save();
 
-        $sns = \AWS::createClient('SNS');
-        $sns->subscribe(array(
-            // TopicArn is required
-            'TopicArn' => 'arn:aws:sns:ap-southeast-1:527599532354:TheValue_Newsletter',
-            // Protocol is required
-            'Protocol' => 'email',
-            'Endpoint' => $email,
-        ));
+        return $share;
 
     }
 

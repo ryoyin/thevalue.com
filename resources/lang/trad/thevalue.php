@@ -37,6 +37,6 @@ return [
     'subscript-the-value' => '訂閱 TheValue.com',
     'subscript-please-enter-email' => '請輸入電郵地址',
     'subscript-invalid-email' => '無效的郵件地址',
-    'subscript-sent-email' => '郵件已發送, 請檢查電郵確認訂閱',
+    'subscript-sent-email' => '訂閱成功',
     'subscription' => '訂閱',
 ];
