@@ -17,7 +17,7 @@ class ImageResizeSyncController extends Controller
         ini_set('memory_limit','256M');
 
         $blurVal = 15;
-        $baseDirectory = 'public';
+        $baseDirectory = '/opt/lampp/htdocs/www.thevalue.com/public';
 
         $backupPath = $this->createBackupPath($baseDirectory); //create backup path to images/backup/yyyy/mm
 
