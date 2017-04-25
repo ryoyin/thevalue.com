@@ -16,6 +16,8 @@ class ImageResizeSyncController extends Controller
     {
         ini_set('memory_limit','256M');
 
+        chdir(base_path());
+
         $blurVal = 15;
         $baseDirectory = 'public';
 
