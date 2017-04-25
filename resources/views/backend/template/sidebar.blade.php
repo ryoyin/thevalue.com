@@ -81,6 +81,14 @@
         </ul>
       </li>
 
+      <li class="treeview {{ isActiveMenu('notification', $menu) }}">
+        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Notification</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="{{ isActiveMenu('notification.list', $menu) }}"><a href="#"><a href="{{ action('Backend\NotificationController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Notification   </span></a></a></li>
+          {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
+        </ul>
+      </li>
+
       {{--<li class="treeview {{ isActiveMenu('tradingaccount', $menu) }}">--}}
         {{--<a href="{{ action('TradingAccountController@index') }}"><i class="fa fa-info"></i> <span>交易系統帳號</span></a>--}}
       {{--</li>--}}

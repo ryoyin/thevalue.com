@@ -14,4 +14,9 @@ class AWSSNSTopic extends Model
         $this->hasMany('App\AWSSNSMobile');
     }
 
+    public function notifications()
+    {
+        $this->hasMany('App\Notification');
+    }
+
 }

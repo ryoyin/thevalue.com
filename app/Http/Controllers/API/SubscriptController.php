@@ -41,7 +41,7 @@ class SubscriptController extends Controller
         $acceptedType = array('APNS', 'GCM');
         if(!in_array($userData['type'], $acceptedType)) return false;
 
-        $mobile = App\AWSSNSMobile::where('token', $userData['token'])->first();
+        $mobile = App\AWSSNSMobile::where('uuid', $userData['uuid'])->first();
 
 //        return $mobile;
 
@@ -87,6 +87,7 @@ class SubscriptController extends Controller
 
             // os	type	token	user_data	locale	aws_sns_platform_id	endpoint_arn	aws_sns_topic_id	subscription_arn
             $mobile = new App\AWSSNSMobile;
+            $mobile->uuid = $userData['uuid'];
             $mobile->os = $userData['os'];
             $mobile->type = $userData['type'];
             $mobile->token = $userData['token'];
