@@ -14,7 +14,7 @@ class AddLocaleToShareEmails extends Migration
     public function up()
     {
         Schema::table('share_emails', function (Blueprint $table) {
-            $table->string('lcaole')->after('email')->nullable();
+            $table->string('locale')->after('email')->nullable();
         });
     }
 
