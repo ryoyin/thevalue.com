@@ -22,5 +22,30 @@
 <script src="{{ asset('dist/js/bootstrap.min.js') }}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="{{ asset('assets/js/ie10-viewport-bug-workaround.js') }}"></script>
+
+<script>
+    (function(document, $, postMessage){
+        if (postMessage) {
+            $(function(){
+                // inject click event to WebView in RN
+                $('img').on('click', function(){
+                    var data = {
+                        src: this.attr('src'),
+                        type: 'image'
+                    }
+                    postMessage( JSON.stringify(data) )
+                })
+
+                $('a').on('click', function(){
+                    var data = {
+                        href: this.attr('href'),
+                        type: 'link'
+                    }
+                    postMessage( JSON.stringify(data) )
+                })
+            })
+        }
+    }(document, $, postMessage))
+</script>
 </body>
 </html>
