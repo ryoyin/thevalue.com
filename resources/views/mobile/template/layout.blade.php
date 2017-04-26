@@ -30,7 +30,7 @@
                 // inject click event to WebView in RN
                 $('img').on('click', function(){
                     var data = {
-                        src: this.attr('src'),
+                        src: $(this).attr('src'),
                         type: 'image'
                     }
                     postMessage( JSON.stringify(data) )
@@ -38,7 +38,7 @@
 
                 $('a').on('click', function(){
                     var data = {
-                        href: this.attr('href'),
+                        href: $(this).attr('href'),
                         type: 'link'
                     }
                     postMessage( JSON.stringify(data) )
