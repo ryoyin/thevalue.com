@@ -23,5 +23,5 @@ return [
     ],
     'region' => 'ap-southeast-1',
     'version' => 'latest',
-    'scheme' => 'http',
+//    'scheme' => 'http',
 ];
