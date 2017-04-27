@@ -30,8 +30,13 @@
 //        $desc = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" ${3}${4}', $articleDetails['description']);
 //        $test = preg_match('/< *img[^>]*src *= *["\']?([^"\']*)/i', $desc, $match);
 //        dd($test);
+        if( isset($_SERVER['HTTPS'] ) ) {
+            $article_desc = str_replace("http://", "https://", $articleDetails['description']);
+        } else {
+            $article_desc = $articleDetails['description'];
+        }
     ?>
-    <li class='desc' style='clear:both' id="article-desc">{!! $articleDetails['description'] !!}</li>
+    <li class='desc' style='clear:both' id="article-desc">{!! $article_desc !!}</li>
 
     @if($articleDetails['source'] != '' || $articleDetails['photographer'] != '')
         <div class="source">
