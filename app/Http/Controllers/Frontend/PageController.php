@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App;
 use App\Http\Controllers\Controller;
 use App\Category;
+use Jenssegers\Agent\Agent;
+use Illuminate\Support\Facades\Redirect;
 
 class PageController extends Controller
 {
@@ -134,5 +136,24 @@ class PageController extends Controller
             );
         }
         return $bannerList;
+    }
+
+    public function RedirectQRCode() {
+
+        $agent = new Agent();
+
+        //redirect iphone to apple app store
+        if($agent->isIphone()) {
+            return Redirect::to('https://itunes.apple.com/');
+        }
+
+        //redirect android to google app store
+        if($agent->isAndroidOS()) {
+            return Redirect::to('https://store.google.com/');
+        }
+
+        //redirect PC user to web page
+        return redirect('/');
+
     }
 }

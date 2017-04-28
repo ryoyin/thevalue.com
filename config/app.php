@@ -187,6 +187,9 @@ return [
         /*AWS SDK https://github.com/aws/aws-sdk-php-laravel*/
         Aws\Laravel\AwsServiceProvider::class,
 
+        /*https://github.com/jenssegers/agent*/
+        Jenssegers\Agent\AgentServiceProvider::class,
+
     ],
 
     /*
@@ -239,6 +242,7 @@ return [
         'LaravelLocalization'   => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'AWS' => Aws\Laravel\AwsFacade::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
     'supported_languages' => ['en' => 'en', 'trad' => 'trad', 'sim' => 'sim'],
