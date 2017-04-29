@@ -7,10 +7,7 @@
     <meta name="author" content="">
     <title>TheValue.com</title>
 
-    <script
-    src="https://code.jquery.com/jquery-3.1.1.min.js"
-    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-    crossorigin="anonymous"></script>
+    <script src="{{ asset('js/jquery/jquery-3.2.1.slim.min.js') }}"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -27,11 +24,11 @@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="{{ asset('js/html5shiv.min.js') }}"></script>
+    <script src="{{ asset('js/respond.min.js') }}"></script>
     <![endif]-->
 
-    <script src="https://use.fontawesome.com/13a5048f89.js"></script>
+    <script src="{{ asset('js/fontawesome.js') }}"></script>
 
     <!-- custom -->
     <link href="{{ asset('css/web.css') }}?refresh=20170418" rel="stylesheet">
