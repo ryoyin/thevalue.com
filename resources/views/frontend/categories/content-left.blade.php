@@ -26,39 +26,6 @@
                 <div style='clear:both'></div>
             @endforeach
 
-            <script>
-
-                $.each(stories[topic], function(key, val) {
-
-                $('.stories-active').removeClass('stories-active');
-                // $(obj).addClass('stories-active');
-
-                var category = getCategoryByID(val.category_id);
-                var categoryName = category.name;
-                if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
-
-                if(val.photo.s3) {
-                var image_root_path = s3_root;
-                } else {
-                var image_root_path = site_root;
-                }
-
-                // console.log(image_root_path);
-
-                topicList.push("<div class='news'>\
-                    <div class='col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
-                    <div class='col-md-7 right'>\
-                        <ul class='ul-clean'>\
-                            <li class='cate'>"+categoryName+"</li>\
-                            <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-                            <li class='desc' style='clear:both'>"+val.short_desc+"</li>\
-                        </ul>\
-                    </div>\
-                </div>\
-                <div style='clear:both'></div>");
-                });
-            </script>
-
         </div>
     </div>
 
