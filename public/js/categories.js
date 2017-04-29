@@ -28,22 +28,15 @@ function showContent() {
     // makeCategoriesList();
     // makeSideBanners();
     var stories = $('#head').children('li:first');
-    showStories(stories, 'popular');
+    // showStories('popular');
 
     var category = $apiResult.category;
 
-    switch (cat_slug) {
-        case 'videos':
-        case 'videos#':
-            $('#category-head').html('Home > <span>'+video_loc+'</span>');
-            break;
-        default:
-            $('#category-head').html('Home > <span>'+category.name+'</span>');
-    }
+
     // console.log('done');
 }
 
-function showStories(obj, topic) {
+function showStories( topic) {
 
     var topicList = [];
 
@@ -61,7 +54,7 @@ function showStories(obj, topic) {
     $.each(stories[topic], function(key, val) {
 
         $('.stories-active').removeClass('stories-active');
-        $(obj).addClass('stories-active');
+        // $(obj).addClass('stories-active');
 
         var category = getCategoryByID(val.category_id);
         var categoryName = category.name;

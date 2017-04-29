@@ -13,17 +13,24 @@ class CategoryController extends Controller
 
     public function index($slug)
     {
-        if(!isset($_COOKIE['lang'])) {
-            $_COOKIE['lang'] = 'trad';
-        }
-        $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
+
+        $this->locale = App::getLocale();
 
         $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
 
+        $category = App\Category::where('slug', $slug)->first();
+        $categoryDetail = $this->getCategoriesList($category->id);
+
+//        dd($categoryDetail);
+        $categoryStories = $this->getCategoryStories($category);
+//        dd($categoryStories);
+
+        //get categories list
+        $categoriesList = $this->getCategoriesList();
+
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com/".$lang,
+            'url' => "http://www.thevalue.com/".$this->locale,
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",
@@ -34,7 +41,9 @@ class CategoryController extends Controller
         $data = array(
             'slug' => $slug,
             'fbMeta' => $fbMetaArray,
-            'categories' => $this->getCategoriesList(),
+            'categories' => $categoriesList,
+            'categoryDetail' => $categoryDetail[0],
+            'categoryStories' => $categoryStories,
             'sideBanners' => $sideBanners,
         );
         return view('frontend.categories.categories', $data);
@@ -44,6 +53,12 @@ class CategoryController extends Controller
     {
         $this->locale = App::getLocale();
 
+        $categoryDetail = array(
+            'slug' => 'videos',
+            'default_name' => 'Video',
+            'name' => trans('thevalue.video'),
+        );
+
         //get categories list
         $categoriesList = $this->getCategoriesList();
 
@@ -51,7 +66,7 @@ class CategoryController extends Controller
         $indexSideBannerList = $this->getBannerList('indexSideBanner');
 
         //get popularStories
-        $searchVideo = $this->getSearchVideo();
+        $categoryStories = $this->getSearchVideo();
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
@@ -67,9 +82,9 @@ class CategoryController extends Controller
             'slug' => 'videos',
             'fbMeta' => $fbMetaArray,
             'categories' => $categoriesList,
+            'categoryDetail' => $categoryDetail,
+            'categoryStories' => $categoryStories,
             'sideBanners' => $indexSideBannerList,
-//            'searchVideo' => $searchVideo,
-//            'searches' => $searchDetail
         );
 
 //        dd($result);
@@ -77,10 +92,10 @@ class CategoryController extends Controller
         return view('frontend.categories.categories', $data);
     }
 
-    public function getCategoriesList()
+    public function getCategoriesList($id = null)
     {
         $categories = New Category();
-        return $categories->getCategoriesArray();
+        return $categories->getCategoriesArray($id);
     }
 
     public function getBannerList($position, $size = 'medium')
@@ -116,12 +131,71 @@ class CategoryController extends Controller
             $article = $detail->article;
             $photo = $article->photo;
 
+            $image_path = "image_medium_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
+            $getCategoryDetail = $this->getCategoriesList($article->category_id);
+            $categoryDetail = $getCategoryDetail[0];
+            $categoryName = $categoryDetail['name'] == $categoryDetail['default_name'] ? $categoryDetail['name'] : $categoryDetail['default_name']." ".$categoryDetail['name'];
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
+                'category' => array(
+                    'slug' => $categoryDetail['slug'],
+                    'name' => $categoryName
+                ),
                 'photo' => array(
                     'alt' => $photo->alt,
-                    'image_path' => $photo->image_path,
+                    'image_path' => $image_path,
+                    's3' => $photo->push_s3
+                ),
+                'title' => $detail->title,
+                'short_desc' => $detail->short_desc,
+                'description' => $detail->description,
+                'category_id' => $article->category_id,
+                'published_at' => $article->published_at->format('M d, Y')
+            );
+        }
+
+        return $articleList;
+    }
+
+    public function getCategoryStories($category, $size = 'medium') {
+        $articleList = array();
+        $articles = $category->articles()->orderBy('published_at', 'desc')->get();
+        foreach($articles as $article) {
+            $detail = $article->details->where('lang', $this->locale)->first();
+
+            $photo = $article->photo;
+
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
+            $getCategoryDetail = $this->getCategoriesList($article->category_id);
+            $categoryDetail = $getCategoryDetail[0];
+            $categoryName = $categoryDetail['name'] == $categoryDetail['default_name'] ? $categoryDetail['name'] : $categoryDetail['default_name']." ".$categoryDetail['name'];
+
+            $articleList[] = array(
+                'url' => 'article',
+                'slug' => $article->slug,
+                'category' => array(
+                    'slug' => $categoryDetail['slug'],
+                    'name' => $categoryName
+                ),
+                'photo' => array(
+                    'alt' => $photo->alt,
+                    'image_path' => $image_path,
                     's3' => $photo->push_s3
                 ),
                 'title' => $detail->title,

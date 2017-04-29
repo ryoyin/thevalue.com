@@ -27,11 +27,16 @@ class Category extends Model
         return $this->hasMany('App\Article');
     }
 
-    public function getCategoriesArray()
+    public function getCategoriesArray($id = null)
     {
 
         $locale = App::getLocale();
-        $categories = Category::orderBy('parent_id')->orderBy('sorting')->get();
+
+        if($id == null) {
+            $categories = Category::orderBy('parent_id')->orderBy('sorting')->get();
+        } else {
+            $categories = Category::where('id', $id)->get();
+        }
 
         $array = array();
         foreach ($categories as $category) {
