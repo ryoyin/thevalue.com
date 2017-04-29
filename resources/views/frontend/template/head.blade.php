@@ -31,7 +31,7 @@
     <script src="{{ asset('js/fontawesome.js') }}"></script>
 
     <!-- custom -->
-    <link href="{{ asset('css/web.css') }}?refresh=20170418" rel="stylesheet">
+    <link href="{{ asset('css/web.css') }}?refresh=20170430" rel="stylesheet">
 
     <script src="{{ asset('js/js.cookie.js') }}"></script>
 
