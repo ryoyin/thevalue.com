@@ -19,7 +19,7 @@
                         <ul class='ul-clean'>
                             <li class='cate'><a href="{{ route("frontend.category", ['slug' => $story['category']['slug']]) }}">{{ $story['category']['name'] }}</a></li>
                             <li class='title'><a href='{{ route('frontend.article', ['slug' => $story['slug']]) }}'>{{ $story['title'] }}</a></li>
-                            <li class='desc' style='clear:both'>{!! $story['description'] !!}</li>
+                            <li class='desc' style='clear:both'>{!! $story['short_desc'] !!}</li>
                         </ul>
                     </div>
                 </div>
