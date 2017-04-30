@@ -2,14 +2,6 @@
 
 @section('content')
 
-    <script>
-        var slug = "{{ $slug }}";
-    </script>
-
-    <script src="{{ asset('js/tags.js') }}?refresh=20170418"></script>
-
-    {{--<div class="row" id="featured-article"></div>--}}
-
     <hr style="padding: 0; margin:0">
 
     <div class="row" id="home-content">

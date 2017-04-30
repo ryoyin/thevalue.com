@@ -5,11 +5,11 @@ $( document ).ready(function() {
 });
 
 function showContent() {
-    var stories = $('#head').children('li:first');
-    showStories(stories, 'popular');
+    // var stories = $('#head').children('li:first');
+    // showStories(stories, 'popular');
 
-    var tag = $apiResult.tag;
-    $('#category-head').html('Home > <span>'+tag.name+'</span>');
+    // var tag = $apiResult.tag;
+    // $('#category-head').html('Home > <span>'+tag.name+'</span>');
     // console.log('done');
 }
 
@@ -27,7 +27,7 @@ function showStories(obj, topic) {
 
         var category = getCategoryByID(val.category_id);
 
-        console.log(category);
+        // console.log(category);
         var categoryName = category.name;
         if(category.name != category.default_name) categoryName = category.default_name+" "+category.name;
 
