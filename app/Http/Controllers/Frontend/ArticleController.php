@@ -30,9 +30,25 @@ class ArticleController extends Controller
 
         $articleDetails = $this->getArticleDetails($article);
 
+        // Start: get description image for gallery
         preg_match_all('/(\<img[^>]+)(src\=\"[^\"]+\")([^>]+)(>)/', $articleDetails['description'], $matches);
 
         $gallery_image_array = array();
+
+        //get article photos list
+        $articlePhotoList = $this->getArticlePhotoList($article);
+
+        $img_count = 0;
+        foreach($articlePhotoList as $sKey => $photo) {
+            $found_image_result = getimagesize($photo['image_path']);
+            $gallery_image_array[$img_count] = $found_image_result;
+
+            $found_image_path = $photo['s3'] ? config("app.s3_path").$photo['image_path'] : asset($photo['image_path']);
+            $gallery_image_array[$img_count]['image_path'] = $found_image_path;
+            $img_count ++;
+        }
+
+//        dd($matches[2]);
         foreach($matches[2] as $sKey => $src) {
             $found_image = str_replace('src=', '', $src);
             $found_image = str_replace('"', '', $found_image);
@@ -43,18 +59,20 @@ class ArticleController extends Controller
 
             $large_image = $photo->image_large_path;
             $found_image_result = getimagesize($large_image);
-            $gallery_image_array[$sKey] = $found_image_result;
+            $gallery_image_array[$img_count] = $found_image_result;
 
             $display_image = $photo->image_large_path == "" ? $photo->image_path : $photo->image_large_path;
 
             $found_image_path = $photo['push_s3'] ? config("app.s3_path").$display_image : asset($display_image);
-            $gallery_image_array[$sKey]['image_path'] = $found_image_path;
+            $gallery_image_array[$img_count]['image_path'] = $found_image_path;
+
+            $img_count++;
         }
 
-        $articleDetails['description'] = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" onclick="galleryInit(this)" ${3}${4}', $articleDetails['description']);
+//        dd($gallery_image_array);
 
-        //get article photos list
-        $articlePhotoList = $this->getArticlePhotoList($article);
+        $articleDetails['description'] = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" onclick="galleryInit(this)" ${3}${4}', $articleDetails['description']);
+        // End: get description image for gallery
 
         //get tags list
         $tagsList = $this->getTags($article);

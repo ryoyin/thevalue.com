@@ -174,7 +174,7 @@
 //            h: 400
 //        },
 
-            @foreach($gallery as $img)
+        @foreach($gallery as $img)
         {
             src: '{{ $img['image_path'] }}',
             w: {{ $img[0] }},
@@ -191,7 +191,7 @@
         var imgCount = 0;
         var number = 0;
 
-        $('#article-content img').each( function() {
+        $('img').each( function() {
             if($(this).attr('src') == $(obj).attr('src')) number = imgCount;
             imgCount ++;
         });

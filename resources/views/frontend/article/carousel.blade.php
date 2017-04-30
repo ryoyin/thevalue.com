@@ -17,7 +17,7 @@
         } else {
             $image_html_path = asset($photo['image_path']);
         }
-        $topBanners .= "<div class='item ".$bannerClass."'><img src='".$image_html_path."' alt='".$photo['alt']."' class='img-responsive'><div class='carousel-caption'>".$photo['alt']."</div></div>";
+        $topBanners .= "<div class='item ".$bannerClass."'><img src='".$image_html_path."' alt='".$photo['alt']."' class='img-responsive' onclick='galleryInit(this)'><div class='carousel-caption'>".$photo['alt']."</div></div>";
     }
 
 ?>
