@@ -14,7 +14,7 @@
                 $image_html_path = asset($articlePhotos[0]['image_path']);
             }
         ?>
-        <img src="{{ $image_html_path }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive">
+        <img src="{{ $image_html_path }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive" onclick="galleryInit(this)">
     @endif
 
     {{--@include('frontend.article.carousel')--}}
