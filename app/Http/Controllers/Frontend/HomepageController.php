@@ -12,16 +12,8 @@ class HomepageController extends Controller
     public $locale;
 
     public function index() {
-        if(isset($_COOKIE['lang'])) {
-            $lang = $_COOKIE['lang'];
-            App::setLocale($lang);
-        } else {
-//            echo "laravel change";
-            $lang = App::getLocale();
-            $_COOKIE['lang'] = $lang;
-        }
 
-        $this->locale = $lang;
+        $this->locale = App::getLocale();
 
         $indexTopBannerList = $this->getBannerList('indexTopBanner', 'large');
         $indexSideBannerList = $this->getBannerList('indexSideBanner', 'medium');
@@ -30,7 +22,7 @@ class HomepageController extends Controller
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com/".$lang,
+            'url' => route('frontend.index'),
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",

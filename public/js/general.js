@@ -18,7 +18,7 @@ function showLang() {
 
 function changeLang(obj, lang) {
     if($('#global-lang').hasClass('open')) {
-        Cookies.set('lang', lang);
+        // Cookies.set('lang', lang);
         window.location.href = site_root+lang;
         // console.log(site_root+lang);
     }

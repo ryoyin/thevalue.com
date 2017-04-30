@@ -12,21 +12,16 @@ use Illuminate\Support\Facades\Redirect;
 class PageController extends Controller
 {
     public function search() {
-        if(!isset($_COOKIE['lang'])) {
-            $_COOKIE['lang'] = 'trad';
-        }
-        $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
 
         $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com".$lang,
+            'url' => route('frontend.search'),
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",
-            "image" => "http://www.thevalue.com/images/rocketfellercenter.jpg",
+            "image" => asset('images/rocketfellercenter.jpg'),
             "app_id" => "1149533345170108"
         );
 
@@ -49,19 +44,13 @@ class PageController extends Controller
             }
         }
 
-        if(!isset($_COOKIE['lang'])) {
-            $_COOKIE['lang'] = 'trad';
-        }
-        $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
-
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com".$lang,
+            'url' => route('frontend.aboutus'),
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",
-            "image" => "http://www.thevalue.com/images/rocketfellercenter.jpg",
+            "image" => asset('images/rocketfellercenter.jpg'),
             "app_id" => "1149533345170108"
         );
 
@@ -83,19 +72,13 @@ class PageController extends Controller
             }
         }
 
-        if(!isset($_COOKIE['lang'])) {
-            $_COOKIE['lang'] = 'trad';
-        }
-        $lang = $_COOKIE['lang'];
-        App::setLocale($lang);
-
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "http://www.thevalue.com".$lang,
+            'url' => route('frontend.disclaimer'),
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",
-            "image" => "http://www.thevalue.com/images/rocketfellercenter.jpg",
+            "image" => asset('images/rocketfellercenter.jpg'),
             "app_id" => "1149533345170108"
         );
 
