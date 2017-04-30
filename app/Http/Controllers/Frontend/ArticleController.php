@@ -30,7 +30,28 @@ class ArticleController extends Controller
 
         $articleDetails = $this->getArticleDetails($article);
 
-        $articleDetails['description'] = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" ${3}${4}', $articleDetails['description']);
+        preg_match_all('/(\<img[^>]+)(src\=\"[^\"]+\")([^>]+)(>)/', $articleDetails['description'], $matches);
+
+        $gallery_image_array = array();
+        foreach($matches[2] as $sKey => $src) {
+            $found_image = str_replace('src=', '', $src);
+            $found_image = str_replace('"', '', $found_image);
+
+            $found_image_filename = basename($found_image);
+
+            $photo = App\Photo::where('image_medium_path', 'like', '%'.$found_image_filename)->orwhere('image_path', 'like', '%'.$found_image_filename)->first();
+
+            $large_image = $photo->image_large_path;
+            $found_image_result = getimagesize($large_image);
+            $gallery_image_array[$sKey] = $found_image_result;
+
+            $display_image = $photo->image_large_path == "" ? $photo->image_path : $photo->image_large_path;
+
+            $found_image_path = $photo['push_s3'] ? config("app.s3_path").$display_image : asset($display_image);
+            $gallery_image_array[$sKey]['image_path'] = $found_image_path;
+        }
+
+        $articleDetails['description'] = preg_replace('/(\<img[^>]+)(style\=\"[^\"]+\")([^>]+)(>)/', '${1} class="img-responsive" onclick="galleryInit(this)" ${3}${4}', $articleDetails['description']);
 
         //get article photos list
         $articlePhotoList = $this->getArticlePhotoList($article);
@@ -68,6 +89,7 @@ class ArticleController extends Controller
             'article_photo' => $article->photo->image_path,
             'appMode' => false,
             'categories' => $this->getCategoriesList(),
+            'gallery' => $gallery_image_array,
         );
 
         if($request->input('type') !== null) {
