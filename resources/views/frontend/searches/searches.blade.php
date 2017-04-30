@@ -10,7 +10,7 @@
 
     <div class="row" id="home-content">
 
-        @include('frontend.categories.content-left')
+        @include('frontend.searches.content-left')
 
         @include('frontend.categories.content-right')
 

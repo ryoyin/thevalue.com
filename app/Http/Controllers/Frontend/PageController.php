@@ -46,7 +46,7 @@ class PageController extends Controller
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => route('frontend.aboutus'),
+            'url' => route('frontend.contactus'),
             'type' => "website",
             'title' => "TheValue",
             "description" => "The Value 收取我們最新資訊",

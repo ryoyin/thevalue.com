@@ -23,7 +23,7 @@ function showContent() {
     showStories(stories, 'popular');
 
     var category = $apiResult.category;
-    $('#category-head').html('Home > <span>Search</span>');
+    // $('#category-head').html('Home > <span>Search</span>');
     // console.log('done');
 }
 
