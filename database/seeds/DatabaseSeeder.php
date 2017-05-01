@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ArticlesTableSeeder::class);
         $this->call(PhotosTableSeeder::class);
         $this->call(TagsTableSeeder::class);
+        $this->call(AWSSNSPlatformSeeder::class);
+        $this->call(AWSSNSTopicSeeder::class);
 
         DB::table('users')->insert([
             'name' => 'Roy Ho',
