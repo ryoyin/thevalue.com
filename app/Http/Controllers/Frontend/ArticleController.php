@@ -57,11 +57,10 @@ class ArticleController extends Controller
 
             $photo = App\Photo::where('image_medium_path', 'like', '%'.$found_image_filename)->orwhere('image_path', 'like', '%'.$found_image_filename)->first();
 
-            $large_image = $photo->image_large_path;
-            $found_image_result = getimagesize($large_image);
-            $gallery_image_array[$img_count] = $found_image_result;
-
             $display_image = $photo->image_large_path == "" ? $photo->image_path : $photo->image_large_path;
+
+            $found_image_result = getimagesize($display_image);
+            $gallery_image_array[$img_count] = $found_image_result;
 
             $found_image_path = $photo['push_s3'] ? config("app.s3_path").$display_image : asset($display_image);
             $gallery_image_array[$img_count]['image_path'] = $found_image_path;
