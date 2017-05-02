@@ -25,6 +25,7 @@
                 @foreach($categories as $category)
                     <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
                 @endforeach
+                <li><a href='{{ route('frontend.category', ['slug' => 'videos']) }}'>@lang('thevalue.video')</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ route('frontend.aboutus') }}">@lang('thevalue.contact-us')</a></li>
