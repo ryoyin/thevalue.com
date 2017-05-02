@@ -44,4 +44,7 @@ return [
     'subscript-invalid-email' => 'Invalid Email Address',
     'subscript-sent-email' => 'Subscription successful!',
     'subscription' => 'Subscription',
+    'auction' => 'Auction',
+    'pre-auction' => 'Pre-Auction',
+    'post-auction' => 'Post-Auction',
 ];
