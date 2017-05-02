@@ -40,4 +40,7 @@ return [
     'subscript-invalid-email' => '无效的邮件地址',
     'subscript-sent-email' => '訂閱成功',
     'subscription' => '订阅',
+    'auction' => '拍卖',
+    'pre-auction' => '预览拍卖',
+    'post-auction' => '过往拍卖',
 ];
