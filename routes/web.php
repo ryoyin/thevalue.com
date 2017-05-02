@@ -27,7 +27,7 @@ function()
     Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
     Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
     Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
-//    Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');
+    Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');
 //    Route::get('/pre-auction', 'Frontend\AuctionController@pre')->name('frontend.auction.pre');
 //    Route::get('/post-auction', 'Frontend\AuctionController@post')->name('frontend.auction.post');
 
