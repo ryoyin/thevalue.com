@@ -39,4 +39,7 @@ return [
     'subscript-invalid-email' => '無效的郵件地址',
     'subscript-sent-email' => '訂閱成功',
     'subscription' => '訂閱',
+    'auction' => '拍賣',
+    'pre-auction' => '預覽拍賣',
+    'post-auction' => '過往拍賣',
 ];
