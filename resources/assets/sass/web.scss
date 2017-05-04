@@ -694,6 +694,80 @@ body {
 
 }
 
+.auction {
+
+  .pre-auction-block {
+
+    position: relative;
+    padding: 10px 0 0 !important;
+
+    .swiper-wrapper {
+      padding-bottom: 20px;
+    }
+
+    .store-name {
+      font-size: 20px;
+      font-weight: bold;
+      img {
+        width: 40px;
+        padding-right: 10px;
+      }
+      span {
+        position: relative;
+        top: 2px;
+      }
+    }
+
+    .more {
+      position: absolute;
+      right: 0px;
+      top: 10px;
+      border: 1px solid #000000;
+      padding: 4px 12px 2px 15px;
+      font-size: 13px;
+    }
+
+    .series {
+      .title {
+        padding: 10px 0 0;
+        color: #8c8c8c;
+      }
+      .datetime {
+        color: #8c8c8c;
+      }
+      .detail {
+        .cell-name {
+          //padding: 20px 0 0;
+          font-weight: bold;
+        }
+        .misc {
+
+          span {
+            color: #8c8c8c;
+          }
+          .date-counter {
+            //width: 100%;
+            //text-align: center;
+          }
+
+          button {
+            font-size: 10px;
+            margin: 5px 0 0 0;
+            padding: 3px 12px;
+            float: right;
+          }
+        }
+      }
+    }
+
+  }
+
+
+}
+
+
+
 #footer {
   padding: 20px 0 0;
 }
+
