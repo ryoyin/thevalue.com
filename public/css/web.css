@@ -4,6 +4,12 @@
 }
 
 @media only screen and (max-width: 460px) {
+  .head-dropdown-menu {
+    display: block !important;
+  }
+  #header-bar {
+    display: none;
+  }
   #header-bar .pull-center {
     font-size: 24px !important;
     float: none;
@@ -15,8 +21,11 @@
   #header-bar .pull-right {
     display: none;
   }
+  #header-menu {
+    display: none;
+  }
   #home-content {
-    padding-top: 25px;
+    padding-top: 60px !important;
     font-size: 16px;
   }
   #home-content #left {
