@@ -2,15 +2,17 @@
 
 @section('content')
 
+    <script src="{{ asset('js/jquery/jquery.countdown.min.js') }}"></script>
+
     <hr style="padding: 0; margin:0">
 
-    <div class="row" id="home-content" class="auction">
+    <div class="row auction" id="home-content">
 
         <div id="left">
 
             <div id="block" style="border: 0px !important">
 
-                <div id="category-head">Home > <span>@lang('thevalue.auction')</span></div>
+                <div id="category-head">@lang('thevalue.auction') > <span>@lang('thevalue.pre-auction')</span></div>
 
                 {{--<div class="hidden-md hidden-lg">--}}
                 <div class="">

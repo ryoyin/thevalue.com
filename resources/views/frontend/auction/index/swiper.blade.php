@@ -98,7 +98,7 @@
 
 @include('frontend.auction.index.pre')
 
-@include('frontend.auction.index.post')
+{{--@include('frontend.auction.index.post')--}}
 
 <!-- Swiper JS -->
 <script src="{{ asset('js/swiper/swiper.jquery.min.js') }}"></script>
