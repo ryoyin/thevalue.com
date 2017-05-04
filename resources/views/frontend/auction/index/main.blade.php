@@ -15,7 +15,7 @@
                 {{--<div class="hidden-md hidden-lg">--}}
                 <div class="">
 
-                    @include('frontend.auction.index.swiper')
+                    @include('frontend.auction.index.swiper-slides-pre-view')
 
                 </div>
 
