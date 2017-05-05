@@ -127,7 +127,7 @@ class PageController extends Controller
 
         //redirect iphone to apple app store
         if($agent->isIphone()) {
-            return Redirect::to('https://www.apple.com/itunes/');
+            return Redirect::to('https://appsto.re/hk/DZIYhb.i');
         }
 
         //redirect android to google app store
