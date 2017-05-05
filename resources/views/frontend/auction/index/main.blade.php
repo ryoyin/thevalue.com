@@ -12,7 +12,14 @@
 
             <div id="block" style="border: 0px !important">
 
-                <div id="category-head">@lang('thevalue.auction') > <span>@lang('thevalue.pre-auction')</span></div>
+                <div id="category-head">
+                    <ul>
+                        <li><a href="{{ route('frontend.auction.pre') }}" class="active">@lang('thevalue.pre-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.post') }}">@lang('thevalue.post-auction')</a></li>
+                    </ul>
+                </div>
+
+                <div style="clear: both"></div>
 
                 {{--<div class="hidden-md hidden-lg">--}}
                 <div class="">

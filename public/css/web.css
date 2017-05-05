@@ -25,7 +25,7 @@
     display: none;
   }
   #home-content {
-    padding-top: 60px !important;
+    padding-top: 50px !important;
     font-size: 16px;
   }
   #home-content #left {
@@ -324,6 +324,28 @@ body {
 
 #home-content #left #block #category-head span {
   font-weight: bold;
+}
+
+#home-content #left #block #category-head ul {
+  list-style-type: none;
+  margin: 0 -15px;
+  padding: 0;
+}
+
+#home-content #left #block #category-head ul li a {
+  margin: 0;
+  padding: 7px 0;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000000;
+}
+
+#home-content #left #block #category-head ul li .active {
+  background-color: #0c0c0c;
+  color: #ffffff;
 }
 
 #home-content #left #block #stories-categories {
