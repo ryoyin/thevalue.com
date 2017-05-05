@@ -13,7 +13,7 @@
         @include('frontend.article.carousel')
     @else
         <div id="article-single-img">
-            <img src="{{ asset($articlePhotos[0]['image_path']) }}" alt="{{ $articlePhotos[0]['alt'] }}" onclick="galleryInit(this)">
+            <img src="{{ asset($articlePhotos[0]['image_path']) }}" alt="{{ $articlePhotos[0]['alt'] }}" class="img-responsive" onclick="galleryInit(this)">
         </div>
     @endif
 
