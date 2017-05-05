@@ -35,12 +35,34 @@ class AuctionController extends Controller
             'categories' => $this->getCategoriesList(),
         );
 
-        return view('frontend.auction.index.main', $data);
+        return view('frontend.auction.pre.main', $data);
 
     }
 
     public function post()
     {
+
+    }
+
+    public function company($slug)
+    {
+
+        $fbMetaArray = array(
+            'site_name' => "TheValue",
+            'url' => route('frontend.disclaimer'),
+            'type' => "website",
+            'title' => "TheValue Upcoming Auction",
+            "description" => "The Value 收取我們最新資訊",
+            "image" => asset('images/rocketfellercenter.jpg'),
+            "app_id" => "1149533345170108"
+        );
+
+        $data = array(
+            'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
+        );
+
+        return view('frontend.auction.company.main', $data);
 
     }
 

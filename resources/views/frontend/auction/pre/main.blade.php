@@ -24,7 +24,7 @@
                 {{--<div class="hidden-md hidden-lg">--}}
                 <div class="">
 
-                    @include('frontend.auction.index.swiper')
+                    @include('frontend.auction.pre.swiper')
 
                 </div>
 
@@ -40,7 +40,7 @@
 
         <div class="hidden-xs hidden-sm col-md-3 col-lg-3">
 
-            @include('frontend.auction.index.content-right')
+            @include('frontend.auction.pre.content-right')
 
         </div>
 

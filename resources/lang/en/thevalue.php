@@ -36,6 +36,7 @@ return [
     'share' => 'Share',
     'search' => 'Search',
     'contact-us' => 'Contact Us',
+    'about-us' => 'About Us',
     'disclaimer' => 'Disclaimer',
     'disclaimerContent' => 'Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content ',
     'video' => 'Video',

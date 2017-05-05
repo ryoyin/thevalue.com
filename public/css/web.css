@@ -91,6 +91,12 @@
     background-color: #0c0c0c;
     color: #FFFFFF;
   }
+  #home-content #left #block #category-head ul li .tab-1, #home-content #left #block #category-head ul li .tab-3 {
+    width: 33%;
+  }
+  #home-content #left #block #category-head ul li .tab-2 {
+    width: 34%;
+  }
   #home-content #left #block #stories-categories {
     background-color: #FFFFFF;
     position: absolute;
@@ -685,6 +691,39 @@ body {
   color: #000000 !important;
 }
 
+.auction-company .title {
+  padding: 0 !important;
+}
+
+.auction .logo {
+  padding-top: 70px;
+  text-align: center;
+}
+
+.auction .logo img {
+  width: 120px;
+}
+
+.auction .logo .name {
+  text-align: center;
+  font-size: 22px;
+  padding-top: 5px;
+  font-weight: bold;
+}
+
+.auction .tab {
+  padding-top: 10px !important;
+}
+
+.auction .tab-1, .auction .tab-2, .auction .tab-3 {
+  border: 1px solid #000000;
+}
+
+.auction .tab-2 {
+  border-right: 0;
+  border-left: 0;
+}
+
 .auction .pre-auction-block {
   position: relative;
   padding: 10px 0 0 !important;
@@ -709,13 +748,15 @@ body {
   top: 2px;
 }
 
-.auction .pre-auction-block .more {
+.auction .pre-auction-block .more a {
   position: absolute;
   right: 0px;
   top: 10px;
   border: 1px solid #000000;
   padding: 4px 12px 2px 15px;
   font-size: 13px;
+  color: #000000;
+  text-decoration: none;
 }
 
 .auction .pre-auction-block .series .title {
