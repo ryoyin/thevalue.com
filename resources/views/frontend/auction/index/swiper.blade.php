@@ -60,42 +60,6 @@
 
 </style>
 
-<script>
-
-    $(document).ready(function() {
-
-        $('.pre-auction-block').hide();
-        $('.pre-auction-block').first().show();
-
-        $('.post-auction-block').hide();
-        $('.post-auction-block').first().show();
-//        var pre_auction_content = $('.pre-auction-block').first().html();
-//        $('#pre-auction-block').html(pre_auction_content);
-
-    });
-
-    function changeAuction(type, number) {
-        switch(type) {
-            case 'pre':
-                var auction_block_name = 'pre-auction-block';
-                var auction_class = 'pre-ab-';
-                break;
-            case 'post':
-                var auction_block_name = 'post-auction-block';
-                var auction_class = 'post-ab-';
-                break;
-        }
-
-        $('.'+auction_block_name).hide();
-        $('.'+auction_class+number).show();
-
-        for(var $i=0;$i<swiper.length;$i++) {
-            swiper[$i].update();
-        }
-
-    }
-</script>
-
 @include('frontend.auction.index.pre')
 
 {{--@include('frontend.auction.index.post')--}}

@@ -33,7 +33,7 @@
   }
 
   #home-content {
-    padding-top: 60px !important;
+    padding-top: 50px !important;
     font-size: 16px;
     #left {
 
@@ -366,6 +366,31 @@ body {
         font-size: 14px;
         span {
           font-weight: bold;
+        }
+
+        ul {
+          list-style-type: none;
+          margin: 0 -15px;
+          padding: 0;
+          li {
+            a {
+
+              margin: 0;
+              padding: 7px 0;
+              float: left;
+              width: 50%;
+              text-align: center;
+              cursor: pointer;
+              text-decoration: none;
+              color: #000000;
+
+            }
+            .active {
+              background-color: #0c0c0c;
+              color: #ffffff;
+            }
+          }
+
         }
       }
 
