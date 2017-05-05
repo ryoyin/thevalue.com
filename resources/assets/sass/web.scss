@@ -37,6 +37,13 @@
     margin: 50px -15px 0 -15px;
   }
 
+  #article-single-img {
+    margin: 50px -15px 0 -15px;
+    img {
+      width: 100%;
+    }
+  }
+
   #featured-article {
     padding-top: 0 !important;
     margin: 0 -15px;
