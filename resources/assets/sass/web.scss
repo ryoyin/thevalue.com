@@ -82,6 +82,7 @@
         padding-bottom: 25px;
 
         #category-head {
+          padding-top: 60px;
           font-size: 14px;
           span {
             font-weight: bold;
@@ -180,6 +181,25 @@
       #head {
         .pull-right {
           display: none;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  #home-content {
+    #left {
+      padding-right: 0px !important;
+      #block {
+        #stories {
+          .news {
+            .left {
+
+              padding-right: 0px !important;
+
+            }
+          }
         }
       }
     }
@@ -304,6 +324,11 @@ body {
   display: none;
 }
 
+.top-hr {
+  margin: 0 0 10px;
+  padding: 0;
+}
+
 .category_name {
 
     text-decoration: none;
@@ -411,7 +436,7 @@ body {
           //padding-top: 30px;
 
           &:nth-child(1) {
-            padding-top: 20px;
+            padding-top: 10px;
           }
 
           .left {

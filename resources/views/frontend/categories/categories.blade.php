@@ -11,7 +11,7 @@
 
     {{--<div class="row" id="featured-article"></div>--}}
 
-    <hr style="padding: 0; margin:0">
+    <hr class="top-hr">
 
     <div class="row" id="home-content">
 
