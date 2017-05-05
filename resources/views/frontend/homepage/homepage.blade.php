@@ -34,7 +34,7 @@
 
     <hr>
 
-    <div class="row" id="home-content">
+    <div class="row homepage-content" id="home-content">
 
         @include('frontend.homepage.content-left')
 
