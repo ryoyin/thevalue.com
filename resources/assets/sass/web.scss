@@ -89,11 +89,35 @@
         padding-bottom: 25px;
 
         #category-head {
-          padding-top: 60px;
+          padding-top: 50px;
           font-size: 14px;
           span {
             font-weight: bold;
           }
+
+          ul {
+            list-style-type: none;
+            margin: 0 -15px;
+            padding: 0;
+            li {
+              a {
+                float: left;
+                width: 50%;
+                padding: 5px 0;
+                text-align: center;
+                text-decoration: none;
+                color: #000000;
+                //font-weight: bold;
+                font-size: 17px;
+              }
+
+              .active {
+                background-color: #0c0c0c;
+                color: #FFFFFF;
+              }
+            }
+          }
+
         }
 
         #stories-categories {

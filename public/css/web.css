@@ -67,11 +67,29 @@
     padding-bottom: 25px;
   }
   #home-content #left #block #category-head {
-    padding-top: 60px;
+    padding-top: 50px;
     font-size: 14px;
   }
   #home-content #left #block #category-head span {
     font-weight: bold;
+  }
+  #home-content #left #block #category-head ul {
+    list-style-type: none;
+    margin: 0 -15px;
+    padding: 0;
+  }
+  #home-content #left #block #category-head ul li a {
+    float: left;
+    width: 50%;
+    padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+    font-size: 17px;
+  }
+  #home-content #left #block #category-head ul li .active {
+    background-color: #0c0c0c;
+    color: #FFFFFF;
   }
   #home-content #left #block #stories-categories {
     background-color: #FFFFFF;
