@@ -42,7 +42,7 @@ Route::get('/app-qr-code', 'Frontend\PageController@RedirectQRCode')->name('fron
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-//Route::get('register', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('register', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', 'HomeController@index');
