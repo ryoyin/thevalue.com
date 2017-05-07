@@ -1,6 +1,6 @@
 <div class="pre-auction-block pre-ab-1">
     <div class="store-name"><img src="{{ asset('images/company_logo/christie_logo.jpg') }}"><span>伦敦佳士得</span></div>
-    <div class="more"><a href="{{ route('frontend.auction.company', ['slug' => 'christies']) }}">查看更多</a></div>
+    <div class="more"><a href="{{ route('frontend.auction.house', ['slug' => 'christies']) }}">查看更多</a></div>
     <div class="series">
         <?php for($x=0; $x<2; $x++) { ?>
             <div class="title">2017春季拍卖会 {{ $x }}</div>

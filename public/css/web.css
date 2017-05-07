@@ -783,6 +783,78 @@ body {
   float: right;
 }
 
+.auction-company .pre-auction-block {
+  padding: 0 !important;
+}
+
+.auction-company .pre-auction-block .swiper-wrapper {
+  padding-bottom: 0;
+}
+
+.auction-company .pre-auction-block .swiper-slide {
+  padding: 10px 0;
+}
+
+.auction-company .pre-auction-block .swiper-slide .row {
+  position: relative;
+}
+
+.auction-company .pre-auction-block .swiper-slide .row .bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.auction-company .pre-auction-block .selection {
+  margin: 0 -15px;
+}
+
+.auction-company .pre-auction-block .selection .input-group-addon {
+  border: 0;
+}
+
+.auction-company .pre-auction-block .selection .form-control {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid #EEEEEE;
+  border-radius: 0;
+  text-align: center;
+}
+
+.auction-company .pre-auction-block .a-detail {
+  margin: 0 -15px;
+  padding: 6px 12px;
+}
+
+.auction-company .pre-auction-block .a-detail .title {
+  font-size: 19px;
+  color: #337ab7;
+}
+
+.auction-company .pre-auction-block .a-detail .ele {
+  font-size: 15px;
+  color: #8c8c8c;
+}
+
+.auction-company .pre-auction-block .detail {
+  padding-left: 10px;
+}
+
+.auction-company .pre-auction-block .detail .sepline {
+  width: 34px;
+  border-top: 2px solid #000000;
+  height: 8px;
+}
+
+.auction-company .pre-auction-block .detail .misc {
+  font-size: 13px;
+}
+
+.auction-company .pre-auction-block .detail .misc .cell-name {
+  font-size: 17px;
+}
+
 #footer {
   padding: 20px 0 0;
 }

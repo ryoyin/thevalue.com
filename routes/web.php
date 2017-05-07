@@ -28,8 +28,10 @@ function()
     Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
     Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
     Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');
-    Route::get('/auction-company/{slug}/upcoming', 'Frontend\AuctionController@company')->name('frontend.auction.company');
-    Route::get('/upcoming-auction', 'Frontend\AuctionController@pre')->name('frontend.auction.pre');
+    Route::get('/auction/upcoming', 'Frontend\AuctionController@pre')->name('frontend.auction.pre');
+    Route::get('/auction/{house}/upcoming', 'Frontend\AuctionController@house')->name('frontend.auction.house');
+//    Route::get('/auction/{house}/{event}', 'Frontend\AuctionController@event')->name('frontend.auction.house.event');
+    Route::get('/auction/{house}/{event}/{exhibition}', 'Frontend\AuctionController@event')->name('frontend.auction.house.exhibition');
     Route::get('/post-auction', 'Frontend\AuctionController@post')->name('frontend.auction.post');
 
 });

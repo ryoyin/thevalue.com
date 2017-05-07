@@ -900,6 +900,97 @@ body {
 
 }
 
+.auction-company {
+
+  .pre-auction-block {
+
+    padding: 0 !important;
+
+    .swiper-wrapper {
+      padding-bottom: 0;
+    }
+
+    .swiper-slide {
+      padding: 10px 0;
+
+      .row {
+        position: relative;
+
+        .bottom {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+
+      }
+
+    }
+
+    .selection {
+
+      margin: 0 -15px;
+
+      .input-group-addon {
+
+        border: 0;
+
+      }
+
+      .form-control {
+
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 1px solid #EEEEEE;
+        border-radius: 0;
+        text-align: center;
+
+      }
+
+    }
+
+    .a-detail {
+      margin: 0 -15px;
+      padding: 6px 12px;
+
+      .title {
+        font-size: 19px;
+        color: #337ab7;
+      }
+
+      .ele {
+        font-size: 15px;
+        color: #8c8c8c;
+      }
+    }
+
+    .detail {
+
+      padding-left: 10px;
+
+      .sepline {
+        width: 34px;
+        border-top: 2px solid #000000;
+        height: 8px;
+      }
+
+      .misc {
+
+        font-size: 13px;
+        //color: #8c8c8c;
+
+        .cell-name {
+          font-size: 17px;
+        }
+
+      }
+    }
+
+  }
+
+
+}
+
 
 
 #footer {

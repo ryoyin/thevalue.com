@@ -49,8 +49,8 @@
 
                     <div class="series">
 
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">請選擇:</span>
+                        <div class="input-group selection">
+                            <span class="input-group-addon" id="basic-addon1">請選擇 :</span>
                             <select class="form-control" id="sel1" aria-describedby="basic-addon1">
                                 <option>2017春季拍卖会 1</option>
                                 <option>2017春季拍卖会 2</option>
@@ -58,7 +58,11 @@
                             </select>
                         </div>
 
-                        <div class="datetime">拍賣日期: 2017年05月08日至09日</div>
+                        <div class="a-detail">
+                            <div class="title">伦敦邦瀚斯2017骑士桥五月拍卖会</div>
+                            <div class="ele">预展时间：2017年5月4日-7日</div>
+                            <div class="ele">拍卖时间：2017年05月08日-09日</div>
+                        </div>
                         <!-- Swiper -->
                         <div class="swiper-container">
 
@@ -66,20 +70,14 @@
                                 <?php for($i=0; $i<2; $i++) { ?>
                                 <div class="swiper-slide">
                                     <div class="row">
-                                        <div class="col-xs-5"><img src="{{ asset('images/auction-p1.jpg') }}" class="img-responsive"></div>
+                                        <div class="col-xs-5"><img src="{{ asset('images/auction_p1.jpg') }}" class="img-responsive"></div>
                                         <div class="col-xs-7 detail">
 
-                                            <a class="cell-name" href="#">伦敦佳士得</a><br>
-
                                             <div class="misc">
-                                                <div class="cell-name">中國當代水墨畫</div>
 
-                                                <div>2017年05月09日 17:30</div>
-                                                <div id="date-counter-1" class="date-counter"></div>
-                                                <div style="height: 15px"></div>
+                                                <div class="cell-name">中國當代水墨畫</div>
                                                 拍卖地点：<span>8 King Street St. James’s London SW1Y 6QT</span><br>
                                                 拍卖总数：<span>136</span> 件<br>
-                                                <button class="btn btn-primary">觀看展品</button>
 
                                             </div>
 
@@ -92,6 +90,17 @@
                                                     });
                                             </script>
 
+                                        </div>
+
+                                        <div class="col-xs-7 detail bottom">
+                                            <div class="misc">
+                                                <div class="sepline"></div>
+                                                <div>2017年05月09日 17:30</div>
+                                                <div id="date-counter-1" class="date-counter"></div>
+
+                                                <button class="btn btn-primary">觀看展品</button>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

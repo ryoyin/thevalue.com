@@ -44,7 +44,7 @@ class AuctionController extends Controller
 
     }
 
-    public function company($slug)
+    public function house($house)
     {
 
         $fbMetaArray = array(
@@ -63,6 +63,28 @@ class AuctionController extends Controller
         );
 
         return view('frontend.auction.company.main', $data);
+
+    }
+
+    public function event($house, $event, $exhibition)
+    {
+
+        $fbMetaArray = array(
+            'site_name' => "TheValue",
+            'url' => route('frontend.disclaimer'),
+            'type' => "website",
+            'title' => "TheValue Upcoming Auction",
+            "description" => "The Value 收取我們最新資訊",
+            "image" => asset('images/rocketfellercenter.jpg'),
+            "app_id" => "1149533345170108"
+        );
+
+        $data = array(
+            'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
+        );
+
+        return view('frontend.auction.details.main', $data);
 
     }
 
