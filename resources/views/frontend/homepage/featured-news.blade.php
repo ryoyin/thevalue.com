@@ -9,6 +9,7 @@
         <li>Title 標題</li>
         <li>Marvel’s Defenders Cast is Coming Together in New Photos</li>
     </ul>
+    <div style="clear:both;"></div>
     <ul class="col-md-3 ul-clean">
         <li><img src="{{ asset('images/articles/temp/article-03.jpg') }}" class="img-responsive"></li>
         <li>Title 標題</li>
