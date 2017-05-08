@@ -996,6 +996,55 @@ body {
 
 }
 
+.auction-detail {
+
+  .pre-auction-block {
+    padding-top: 20px !important;
+  }
+
+  .more {
+    a {
+      top: 20px !important;
+    }
+  }
+
+  .series {
+    .title {
+      color: #000000 !important;
+      padding-bottom: 10px !important;
+      font-weight: bold !important;
+      font-size: 18px !important;
+    }
+    .selection {
+      padding-bottom: 10px !important;
+    }
+    .misc {
+      font-size: 13px;
+      color: #8c8c8c;
+      padding-bottom: 10px;
+      .cell-name {
+        color: #000000 !important;
+        padding-bottom: 10px !important;
+        font-weight: bold !important;
+        font-size: 18px !important;
+      }
+    }
+    .lot {
+      text-align: center;
+      .lot-detail {
+        text-align: left;
+        padding: 10px 0;
+      }
+    }
+  }
+
+  .date-counter {
+    float: left;
+    padding-left: 15px;
+  }
+
+}
+
 .disclaimer {
 
   ol {
