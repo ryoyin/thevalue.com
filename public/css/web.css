@@ -7,6 +7,13 @@
   .head-dropdown-menu {
     display: block !important;
   }
+  .navbar-custom-logo {
+    position: absolute;
+    top: 2px;
+    width: 100%;
+    text-align: center;
+    z-index: 17;
+  }
   #header-bar {
     display: none;
   }
