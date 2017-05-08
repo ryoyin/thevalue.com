@@ -17,7 +17,7 @@ Route::get('/index', 'API\IndexController@index');
 Route::get('/category/{slug}', 'API\IndexController@category');
 //Route::get('/categories', 'API\IndexController@getCategoriesList');
 Route::get('/article/{slug}', 'API\IndexController@article');
-Route::get('/article/test/{slug}', 'API\TestIndexController@article');
+//Route::get('/article/test/{slug}', 'API\TestIndexController@article');
 Route::get('/tag/{slug}', 'API\IndexController@tag');
 Route::get('/search/{keyword}', 'API\IndexController@search');
 Route::get('/video', 'API\IndexController@video');

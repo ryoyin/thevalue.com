@@ -82,10 +82,12 @@ class TestIndexController extends Controller
         //get popularStories
         $popularStoriesList = $this->getPopularStories();
 
+
+
         $result = array(
             'categories' => $categoriesList,
             'articleSlug' => $article->slug,
-            'published_at' => $article->published_at->format('M d, Y'),
+            'published_at' => $article->published_at->format('M d, Y h:i:s'),
             'article' => array(
                 'shares' => $article->share_counter,
                 'hit' => $article->hit_counter
