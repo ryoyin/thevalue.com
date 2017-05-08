@@ -85,7 +85,7 @@ class IndexController extends Controller
         $result = array(
             'categories' => $categoriesList,
             'articleSlug' => $article->slug,
-            'published_at' => $article->published_at->format('M d, Y'),
+            'published_at' => $article->published_at->format('M d, Y h:i:s'),
             'article' => array(
                 'shares' => $article->share_counter,
                 'hit' => $article->hit_counter
@@ -335,7 +335,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => $article->published_at->format('M d, Y h:i:s')
             );
         }
 
@@ -376,7 +376,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => $article->published_at->format('M d, Y h:i:s')
             );
         }
 
@@ -415,7 +415,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => $article->published_at->format('M d, Y h:i:s')
             );
         }
 
