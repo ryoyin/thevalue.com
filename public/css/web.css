@@ -163,6 +163,9 @@
     padding-top: 8px;
     display: none;
   }
+  .auction-detail .series .lot:nth-of-type(odd) {
+    font-size: 20px;
+  }
 }
 
 @media only screen and (max-width: 560px) {
@@ -897,9 +900,15 @@ body {
   text-align: center;
 }
 
+.auction-detail .series .lot img {
+  margin: 0 auto;
+}
+
 .auction-detail .series .lot .lot-detail {
   text-align: left;
   padding: 10px 0;
+  font-size: 13px;
+  color: #8c8c8c;
 }
 
 .auction-detail .date-counter {
