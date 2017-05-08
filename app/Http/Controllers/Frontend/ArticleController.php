@@ -48,7 +48,7 @@ class ArticleController extends Controller
             $img_count ++;
         }
 
-        dd($matches[2]);
+//        dd($matches[2]);
         foreach($matches[2] as $sKey => $src) {
             $found_image = str_replace('src=', '', $src);
             $found_image = str_replace('"', '', $found_image);
