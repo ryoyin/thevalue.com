@@ -26,8 +26,11 @@
                     <li><a href='{{ route('frontend.category', ['slug' => $categorySlug]) }}' class='category_name'>{{ $categoryName }}</a></li>
                     <li><a href='{{ route('frontend.article', ['slug' => $featuredArticle['slug']]) }}'>{{ $featuredArticle['title'] }}</a></li>
                 </ul>
-        <?php
 
+        <?php
+                if($feArtIndex == 1)  {
+                    echo '<div class="clearfix visible-xs-block visible-sm-block"></div>';
+                }
             }
         ?>
     </div>

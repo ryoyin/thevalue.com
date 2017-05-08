@@ -2,7 +2,7 @@
     <ul class="col-md-3 ul-clean">
         <li><img src="{{ asset('images/articles/temp/article-01.jpg') }}" class="img-responsive"></li>
         <li>Title 標題</li>
-        <li>Marvel’s The Inhumans Series Heads to IMAX Theaters and ABC!</li>
+        <li>Marvel’s The Inhumans Series Heads to IMAX Theaters and ABC! 123123123</li>
     </ul>
     <ul class="col-md-3 ul-clean">
         <li><img src="{{ asset('images/articles/temp/article-02.jpg') }}" class="img-responsive"></li>
