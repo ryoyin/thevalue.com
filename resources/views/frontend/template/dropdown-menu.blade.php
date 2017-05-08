@@ -48,6 +48,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ route('frontend.aboutus') }}">@lang('thevalue.contact-us')</a></li>
+                <li><a href="{{ route('frontend.disclaimer') }}">@lang('thevalue.disclaimer')</a></li>
                 {{--<li><a href="{{ route('frontend.disclaimer') }}">@lang('thevalue.disclaimer')</a></li>--}}
                 {{--<li class="dropdown lang-list-last">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-globe" aria-hidden="true"></i></a>
