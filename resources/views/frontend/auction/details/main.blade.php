@@ -57,11 +57,13 @@
 
                             <div class="row">
                                 <?php for($i=0; $i<10; $i++) { ?>
-                                <div class="col-xs-6 col-md-3 lot">
-                                    <img src="{{ asset('images/auction-p1.jpg') }}" class="img-responsive">
-                                    <div class="lot-detail">
-                                        <div>Lot 102 Title Title Title Title Title Title Title Title Title</div>
-                                        <div>Value: 100000000 -2300000000</div>
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 lot">
+                                    <div class="lot-block">
+                                        <div class=""><img src="{{ asset('images/auction-p1.jpg') }}" class="img-responsive"></div>
+                                        <div class="lot-detail">
+                                            <div>Lot 102 Title Title Title Title Title Title Title Title Title</div>
+                                            <div>Value: 1000 -2300</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <?php } ?>

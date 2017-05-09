@@ -93,45 +93,7 @@
         border-top: 1px solid #000000;
         padding-bottom: 25px;
 
-        #category-head {
-          padding-top: 50px;
-          font-size: 14px;
-          span {
-            font-weight: bold;
-          }
 
-          ul {
-            list-style-type: none;
-            margin: 0 -15px;
-            padding: 0;
-            li {
-              a {
-                float: left;
-                width: 50%;
-                padding: 5px 0;
-                text-align: center;
-                text-decoration: none;
-                color: #000000;
-                //font-weight: bold;
-                font-size: 17px;
-              }
-
-              .active {
-                background-color: #0c0c0c;
-                color: #FFFFFF;
-              }
-
-              .tab-1, .tab-3 {
-                width:33%;
-              }
-
-              .tab-2 {
-                width: 34%;
-              }
-            }
-          }
-
-        }
 
         #stories-categories {
           background-color: #FFFFFF;
@@ -215,9 +177,27 @@
 
       }
     }
+
+  }
+
+  .auction-company {
+    .auction-menu {
+      padding-top: 10px !important;
+    }
+    .swiper-slide {
+      .row {
+        .detail {
+          padding-right: 0 !important;
+        }
+      }
+    }
   }
 
   .auction-detail {
+    .pre-auction-block {
+      padding-top: 70px !important;
+    }
+
     .series {
 
       .lot:nth-of-type(odd) {
@@ -827,17 +807,39 @@ body {
 
   }
 
-  .tab {
-    padding-top: 10px !important;
-  }
+  .auction-menu {
+    padding-top: 50px;
+    font-size: 14px;
+    span {
+      font-weight: bold;
+    }
 
-  .tab-1, .tab-2, .tab-3 {
-    border: 1px solid #000000;
-  }
+    ul {
+      list-style-type: none;
+      margin: 0 -15px;
+      padding: 0;
+      li {
+        a {
+          float: left;
+          width: 50%;
+          padding: 5px 0;
+          text-align: center;
+          text-decoration: none;
+          color: #000000;
+          //font-weight: bold;
+          font-size: 17px;
+        }
 
-  .tab-2 {
-    border-right: 0;
-    border-left: 0;
+        .active {
+          background-color: #0c0c0c;
+          color: #FFFFFF;
+        }
+
+
+
+      }
+    }
+
   }
 
   .pre-auction-block {
@@ -900,10 +902,10 @@ body {
             //text-align: center;
           }
 
-          button {
+          .btn-browse {
             font-size: 10px;
             margin: 5px 0 0 0;
-            padding: 3px 12px;
+            padding: 5px 12px 2px;
             float: right;
           }
         }
@@ -926,10 +928,16 @@ body {
     }
 
     .swiper-slide {
-      padding: 10px 0;
+      //padding: 10px 0;
 
       .row {
+        padding: 10px 0;
+        //padding-right: 15px;
         position: relative;
+
+        .detail {
+          padding-right: 15px;
+        }
 
         .bottom {
           position: absolute;
@@ -1040,15 +1048,24 @@ body {
       }
     }
     .lot {
+      //margin: 10px;
+      padding: 5px;
       text-align: center;
+
       img {
         margin: 0 auto;
       }
-      .lot-detail {
-        text-align: left;
-        padding: 10px 0;
-        font-size: 13px;
-        color: #8c8c8c;
+
+      .lot-block {
+        border: 1px solid #8c8c8c;
+        border-radius: 5px;
+        padding: 10px;
+        .lot-detail {
+          text-align: left;
+          padding: 8px 0 0;
+          font-size: 12px;
+          color: #8c8c8c;
+        }
       }
     }
   }
@@ -1056,6 +1073,10 @@ body {
   .date-counter {
     float: left;
     padding-left: 15px;
+  }
+
+  #block {
+    padding-bottom: 0px !important;
   }
 
 }
@@ -1083,3 +1104,77 @@ body {
   padding: 20px 0 0;
 }
 
+@media only screen and (max-width: 460px) {
+  .auction-detail {
+    .pre-auction-block {
+      padding-top: 70px !important;
+      .more {
+        a {
+
+          top: 70px !important;
+        }
+      }
+    }
+  }
+}
+
+.auction-menu {
+  padding-top: 10px;
+  font-size: 14px;
+  span {
+    font-weight: bold;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0 -15px;
+    padding: 0;
+    li {
+      a {
+        float: left;
+        width: 50%;
+        padding: 5px 0;
+        text-align: center;
+        text-decoration: none;
+        color: #000000;
+        //font-weight: bold;
+        font-size: 17px;
+      }
+
+      .active {
+        background-color: #0c0c0c;
+        color: #FFFFFF;
+      }
+
+      .tab-1, .tab-2, .tab-3 {
+        border: 1px solid #000000;
+      }
+
+      .tab-1, .tab-3 {
+        width:33% !important;
+      }
+
+      .tab-2 {
+        border-left: 0;
+        border-right: 0;
+        width: 34% !important;
+      }
+    }
+  }
+
+}
+
+
+
+
+
+.auction-custom-menu {
+  padding-top: 0 !important;
+  //border: 1px solid #000000 !important;
+}
+
+@media only screen and (max-width: 460px) {
+  .auction-custom-menu {
+    padding-top: 50px !important;
+  }
+}

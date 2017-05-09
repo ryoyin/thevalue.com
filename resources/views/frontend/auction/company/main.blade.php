@@ -35,7 +35,8 @@
                     <div class="name">伦敦佳士得</div>
                 </div>
 
-                <div id="category-head" class="tab">
+
+                <div id="category-head" class="tab auction-menu">
                     <ul>
                         <li><a href="{{ route('frontend.auction.pre') }}" class="tab-1 active">@lang('thevalue.pre-auction')</a></li>
                         <li><a href="{{ route('frontend.auction.post') }}" class="tab-2">@lang('thevalue.post-auction')</a></li>
@@ -67,9 +68,9 @@
                         <div class="swiper-container">
 
                             <div class="swiper-wrapper">
-                                <?php for($i=0; $i<2; $i++) { ?>
+                                <?php for($i=0; $i<4; $i++) { ?>
                                 <div class="swiper-slide">
-                                    <div class="row">
+                                    <div class="row col-sm-6 col-md-6 col-md-4">
                                         <div class="col-xs-5"><img src="{{ asset('images/auction_p1.jpg') }}" class="img-responsive"></div>
                                         <div class="col-xs-7 detail">
 
@@ -98,7 +99,7 @@
                                                 <div>2017年05月09日 17:30</div>
                                                 <div id="date-counter-1" class="date-counter"></div>
 
-                                                <button class="btn btn-primary">觀看展品</button>
+                                                <a href="{{ route('frontend.auction.house.exhibition', ['house' => 'christies', 'event' => '1', 'exhibition']) }}" class="btn btn-primary btn-browse">觀看展品</a>
 
                                             </div>
                                         </div>

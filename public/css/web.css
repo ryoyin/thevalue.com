@@ -72,37 +72,6 @@
     border-top: 1px solid #000000;
     padding-bottom: 25px;
   }
-  #home-content #left #block #category-head {
-    padding-top: 50px;
-    font-size: 14px;
-  }
-  #home-content #left #block #category-head span {
-    font-weight: bold;
-  }
-  #home-content #left #block #category-head ul {
-    list-style-type: none;
-    margin: 0 -15px;
-    padding: 0;
-  }
-  #home-content #left #block #category-head ul li a {
-    float: left;
-    width: 50%;
-    padding: 5px 0;
-    text-align: center;
-    text-decoration: none;
-    color: #000000;
-    font-size: 17px;
-  }
-  #home-content #left #block #category-head ul li .active {
-    background-color: #0c0c0c;
-    color: #FFFFFF;
-  }
-  #home-content #left #block #category-head ul li .tab-1, #home-content #left #block #category-head ul li .tab-3 {
-    width: 33%;
-  }
-  #home-content #left #block #category-head ul li .tab-2 {
-    width: 34%;
-  }
   #home-content #left #block #stories-categories {
     background-color: #FFFFFF;
     position: absolute;
@@ -162,6 +131,15 @@
   #home-content #left #block #stories .news .right .desc {
     padding-top: 8px;
     display: none;
+  }
+  .auction-company .auction-menu {
+    padding-top: 10px !important;
+  }
+  .auction-company .swiper-slide .row .detail {
+    padding-right: 0 !important;
+  }
+  .auction-detail .pre-auction-block {
+    padding-top: 70px !important;
   }
   .auction-detail .series .lot:nth-of-type(odd) {
     font-size: 20px;
@@ -720,17 +698,34 @@ body {
   font-weight: bold;
 }
 
-.auction .tab {
-  padding-top: 10px !important;
+.auction .auction-menu {
+  padding-top: 50px;
+  font-size: 14px;
 }
 
-.auction .tab-1, .auction .tab-2, .auction .tab-3 {
-  border: 1px solid #000000;
+.auction .auction-menu span {
+  font-weight: bold;
 }
 
-.auction .tab-2 {
-  border-right: 0;
-  border-left: 0;
+.auction .auction-menu ul {
+  list-style-type: none;
+  margin: 0 -15px;
+  padding: 0;
+}
+
+.auction .auction-menu ul li a {
+  float: left;
+  width: 50%;
+  padding: 5px 0;
+  text-align: center;
+  text-decoration: none;
+  color: #000000;
+  font-size: 17px;
+}
+
+.auction .auction-menu ul li .active {
+  background-color: #0c0c0c;
+  color: #FFFFFF;
 }
 
 .auction .pre-auction-block {
@@ -785,10 +780,10 @@ body {
   color: #8c8c8c;
 }
 
-.auction .pre-auction-block .series .detail .misc button {
+.auction .pre-auction-block .series .detail .misc .btn-browse {
   font-size: 10px;
   margin: 5px 0 0 0;
-  padding: 3px 12px;
+  padding: 5px 12px 2px;
   float: right;
 }
 
@@ -800,12 +795,13 @@ body {
   padding-bottom: 0;
 }
 
-.auction-company .pre-auction-block .swiper-slide {
+.auction-company .pre-auction-block .swiper-slide .row {
   padding: 10px 0;
+  position: relative;
 }
 
-.auction-company .pre-auction-block .swiper-slide .row {
-  position: relative;
+.auction-company .pre-auction-block .swiper-slide .row .detail {
+  padding-right: 15px;
 }
 
 .auction-company .pre-auction-block .swiper-slide .row .bottom {
@@ -897,6 +893,7 @@ body {
 }
 
 .auction-detail .series .lot {
+  padding: 5px;
   text-align: center;
 }
 
@@ -904,16 +901,26 @@ body {
   margin: 0 auto;
 }
 
-.auction-detail .series .lot .lot-detail {
+.auction-detail .series .lot .lot-block {
+  border: 1px solid #8c8c8c;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.auction-detail .series .lot .lot-block .lot-detail {
   text-align: left;
-  padding: 10px 0;
-  font-size: 13px;
+  padding: 8px 0 0;
+  font-size: 12px;
   color: #8c8c8c;
 }
 
 .auction-detail .date-counter {
   float: left;
   padding-left: 15px;
+}
+
+.auction-detail #block {
+  padding-bottom: 0px !important;
 }
 
 .disclaimer ol {
@@ -931,6 +938,69 @@ body {
 
 #footer {
   padding: 20px 0 0;
+}
+
+@media only screen and (max-width: 460px) {
+  .auction-detail .pre-auction-block {
+    padding-top: 70px !important;
+  }
+  .auction-detail .pre-auction-block .more a {
+    top: 70px !important;
+  }
+}
+
+.auction-menu {
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.auction-menu span {
+  font-weight: bold;
+}
+
+.auction-menu ul {
+  list-style-type: none;
+  margin: 0 -15px;
+  padding: 0;
+}
+
+.auction-menu ul li a {
+  float: left;
+  width: 50%;
+  padding: 5px 0;
+  text-align: center;
+  text-decoration: none;
+  color: #000000;
+  font-size: 17px;
+}
+
+.auction-menu ul li .active {
+  background-color: #0c0c0c;
+  color: #FFFFFF;
+}
+
+.auction-menu ul li .tab-1, .auction-menu ul li .tab-2, .auction-menu ul li .tab-3 {
+  border: 1px solid #000000;
+}
+
+.auction-menu ul li .tab-1, .auction-menu ul li .tab-3 {
+  width: 33% !important;
+}
+
+.auction-menu ul li .tab-2 {
+  border-left: 0;
+  border-right: 0;
+  width: 34% !important;
+}
+
+.auction-custom-menu {
+  padding-top: 0 !important;
+}
+
+@media only screen and (max-width: 460px) {
+  .auction-custom-menu {
+    padding-top: 50px !important;
+  }
 }
 
 /*# sourceMappingURL=web.css.map */

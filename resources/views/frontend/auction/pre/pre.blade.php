@@ -25,7 +25,7 @@
                                     <div style="height: 15px"></div>
                                     拍卖地点：<span>8 King Street St. James’s London SW1Y 6QT</span><br>
                                     拍卖总数：<span>136</span> 件<br>
-                                    <button class="btn btn-primary">觀看展品</button>
+                                    <a class="btn btn-primary btn-browse">觀看展品</a>
 
                                 </div>
 

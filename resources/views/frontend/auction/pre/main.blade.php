@@ -12,7 +12,7 @@
 
             <div id="block" style="border: 0px !important">
 
-                <div id="category-head">
+                <div id="category-head" class="auction-menu auction-custom-menu">
                     <ul>
                         <li><a href="{{ route('frontend.auction.pre') }}" class="active">@lang('thevalue.pre-auction')</a></li>
                         <li><a href="{{ route('frontend.auction.post') }}">@lang('thevalue.post-auction')</a></li>
@@ -22,11 +22,7 @@
                 <div style="clear: both"></div>
 
                 {{--<div class="hidden-md hidden-lg">--}}
-                <div class="">
-
-                    @include('frontend.auction.pre.swiper')
-
-                </div>
+                <div class="">@include('frontend.auction.pre.swiper')</div>
 
                 {{--<div class="hidden-xs hidden-sm col-md-9 col-lg-9">--}}
 
