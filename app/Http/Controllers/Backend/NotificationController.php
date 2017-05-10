@@ -53,10 +53,34 @@ class NotificationController extends Controller
     {
         $sns = \AWS::createClient('SNS');
 
+
+        $messageArray = array(
+            'default' => $message,
+            'APNS' => array(
+                'aps' => array(
+                    'alert' => $message
+                )
+            ),
+            'GCM' => array(
+                'data' => array(
+                    'message' => $message
+                )
+            )
+        );
+
+        $messageJSON = json_encode($messageArray);
+
         $result = $sns->publish(array(
             'TopicArn' => $topicARN,
-            'Message' => $message,
+            'MessageStructure' => 'json',
+            'Message' => $messageJSON,
         ));
+
+ /*       {
+            "default": "倫敦蘇富比│中國藝術珍品│剔紅花卉紋大盤",
+            "APNS": "{\"aps\":{\"alert\": \"倫敦蘇富比│中國藝術珍品│剔紅花卉紋大盤\"} }",
+            "GCM": "{ \"data\": { \"message\": \"倫敦蘇富比│中國藝術珍品│剔紅花卉紋大盤\" } }"
+            }*/
 
         return $result;
 
