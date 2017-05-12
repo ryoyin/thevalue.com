@@ -2,15 +2,6 @@
 
     <div id="block" style="border: 0px !important">
         <div id="category-head">Home > <span>{{ $categoryDetail['name'] }}</span></div>
-
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({
-                google_ad_client: "ca-pub-123456789",
-                enable_page_level_ads: true
-            });
-        </script>
-
         <div id="stories">
 
             @foreach($categoryStories as $story)
