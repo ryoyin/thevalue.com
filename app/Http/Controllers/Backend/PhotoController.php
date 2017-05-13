@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App;
 use App\Photo;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 
 class PhotoController extends Controller
 {
@@ -76,14 +77,44 @@ class PhotoController extends Controller
 
             if($isValidFile) {
 
-                $alternative_path = 'images/';
-                $destination_path = public_path().'/'.$alternative_path;
+                chdir(base_path());
+                $baseDirectory = 'public';
+
+                $newImagePath = $this->createPath($baseDirectory); //create path to images/yyyy/mm
+
                 $filename = $uploaded_file->getClientOriginalName();
-                $fileExtension = $uploaded_file->getClientOriginalExtension();
 
-                $filename = $this->checkFileName($destination_path, $filename, $fileExtension, 0);
+                // upload file
+                $uploaded_file->move($newImagePath, $filename);
 
-                $uploaded_file->move($destination_path, $filename);
+                $imagePath = $newImagePath.'/'.$filename;
+
+                $fullFilename = basename($imagePath);
+
+                $imageOrg = $newImagePath.'/'.$fullFilename;
+
+                $imageOrg = str_replace('public/', '', $imageOrg);
+
+                $filename = $this->getFilename($imagePath);
+                $fileExtension = $this->getFileExtension($imagePath);
+
+                // resize image to 1140px
+                $imageLarge = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 1140);
+
+                // resize image to 500px
+                $imageMedium = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 500);
+
+                // create 265px image
+                $imageSmall = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 265);
+
+                //create 42px image
+                $imageBlur = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 42);
+
+                $this->pushS3($baseDirectory, $imageOrg);
+                $this->pushS3($baseDirectory, $imageBlur);
+                $this->pushS3($baseDirectory, $imageSmall);
+                $this->pushS3($baseDirectory, $imageMedium);
+                $this->pushS3($baseDirectory, $imageLarge);
 
             } else {
 
@@ -97,7 +128,13 @@ class PhotoController extends Controller
 
         $photo = new App\Photo;
         $photo->alt = $request->alt;
-        $photo->image_path = $alternative_path.$filename;
+        $photo->image_path = config('app.s3_path').$imageOrg;
+        $photo->image_blur_path = config('app.s3_path').$imageBlur;
+        $photo->image_small_path = config('app.s3_path').$imageSmall;
+        $photo->image_medium_path = config('app.s3_path').$imageMedium;
+        $photo->image_large_path = config('app.s3_path').$imageLarge;
+        $photo->resized = '1';
+        $photo->push_s3 = '1';
         $photo->save();
 
         return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful added!');;
@@ -178,24 +215,46 @@ class PhotoController extends Controller
 
             if($isValidFile) {
 
-                $alternative_path = 'images/';
-                $destination_path = public_path().'/'.$alternative_path;
+                chdir(base_path());
+                $baseDirectory = 'public';
+
+                $newImagePath = $this->createPath($baseDirectory); //create path to images/yyyy/mm
+
                 $filename = $uploaded_file->getClientOriginalName();
+
+                // upload file
+                $uploaded_file->move($newImagePath, $filename);
+
+                $imagePath = $newImagePath.'/'.$filename;
+
+                $fullFilename = basename($imagePath);
+
+                $imageOrg = $newImagePath.'/'.$fullFilename;
+
+                $imageOrg = str_replace('public/', '', $imageOrg);
+
+                $filename = $this->getFilename($imagePath);
                 $fileExtension = $uploaded_file->getClientOriginalExtension();
 
-                $filename = $this->checkFileName($destination_path, $filename, $fileExtension, 0);
+                // resize image to 1140px
+                $imageLarge = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 1140);
 
-                $uploaded_file->move($destination_path, $filename);
+                // resize image to 500px
+                $imageMedium = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 500);
 
-            } else {
+                // create 265px image
+                $imageSmall = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 265);
 
-                return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
+                //create 42px image
+                $imageBlur = $this->resizeImage($imagePath, $newImagePath, $filename, $fileExtension, 42);
+
+                $this->pushS3($baseDirectory, $imageOrg);
+                $this->pushS3($baseDirectory, $imageBlur);
+                $this->pushS3($baseDirectory, $imageSmall);
+                $this->pushS3($baseDirectory, $imageMedium);
+                $this->pushS3($baseDirectory, $imageLarge);
 
             }
-
-        } else {
-
-            return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
 
         }
 
@@ -203,7 +262,13 @@ class PhotoController extends Controller
         $photo->alt = $request->alt;
 
         if($isValidFile) {
-            $photo->image_path = $alternative_path.$filename;
+            $photo->image_path = config('app.s3_path').$imageOrg;
+            $photo->image_blur_path = config('app.s3_path').$imageBlur;
+            $photo->image_small_path = config('app.s3_path').$imageSmall;
+            $photo->image_medium_path = config('app.s3_path').$imageMedium;
+            $photo->image_large_path = config('app.s3_path').$imageLarge;
+            $photo->resized = '1';
+            $photo->push_s3 = '1';
         }
 
         $photo->save();
@@ -248,4 +313,53 @@ class PhotoController extends Controller
         return $filename;
 
     }
+
+    public function createPath($baseDirectory) {
+        //check and create backup path
+        $backupPath = $baseDirectory.'/images/';
+        if(!file_exists($backupPath)) mkdir($backupPath);
+
+        $backupPath = $baseDirectory.'/images/'.date('Y');
+        if(!file_exists($backupPath)) mkdir($backupPath);
+
+        $backupPath = $baseDirectory.'/images/'.date('Y').'/'.date('m');
+        if(!file_exists($backupPath)) mkdir($backupPath);
+
+        return $backupPath;
+    }
+
+    public function resizeImage($file, $resizePath, $filename, $fileExtension, $width)
+    {
+        $img = Image::make($file);
+
+        $newPath = $resizePath.'/'.$filename.'-'.$width.'.'.$fileExtension;
+
+        $img->widen($width, function ($constraint) {
+            $constraint->upsize();
+        })->save($newPath);
+
+        $img = null;
+
+        return str_replace('public/', '', $newPath);
+    }
+
+    public function getFilename($file)
+    {
+        $fullFilename = basename($file);
+        $exFullFilename = explode('.', $fullFilename);
+        return $exFullFilename[0];
+    }
+
+    public function getFileExtension($file) {
+        return pathinfo($file, PATHINFO_EXTENSION);
+    }
+
+    public function pushS3($baseDirectory, $filePath)
+    {
+        $s3 = \Storage::disk('s3');
+        $localPath = $baseDirectory.'/'.$filePath;
+        $image = fopen($localPath, 'r+');
+        $s3->put('/'.$filePath, $image, 'public');
+    }
+
 }

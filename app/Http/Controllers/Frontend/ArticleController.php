@@ -40,7 +40,7 @@ class ArticleController extends Controller
 
         $img_count = 0;
         foreach($articlePhotoList as $sKey => $photo) {
-            $found_image_result = getimagesize($photo['image_path']);
+            $found_image_result = getimagesize(config('app.s3_path').$photo['image_path']);
             $gallery_image_array[$img_count] = $found_image_result;
 
             $found_image_path = $photo['s3'] ? config("app.s3_path").$photo['image_path'] : asset($photo['image_path']);
