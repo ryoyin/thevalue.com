@@ -59,7 +59,6 @@ class ArticleController extends Controller
 
             $display_image = $photo->image_large_path == "" ? $photo->image_path : $photo->image_large_path;
 
-
             $found_image_result = getimagesize($display_image);
 
             $gallery_image_array[$img_count] = $found_image_result;
