@@ -59,7 +59,7 @@ class ArticleController extends Controller
 
             $display_image = $photo->image_large_path == "" ? $photo->image_path : $photo->image_large_path;
 
-            $found_image_result = getimagesize(config('app.s3_path')$display_image);
+            $found_image_result = getimagesize(config('app.s3_path').$display_image);
             $gallery_image_array[$img_count] = $found_image_result;
 
             $found_image_path = $photo['push_s3'] ? config("app.s3_path").$display_image : asset($display_image);
