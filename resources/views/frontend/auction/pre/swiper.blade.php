@@ -69,14 +69,42 @@
 <!-- Initialize Swiper -->
 <script>
 
+    var sliderPerView = 1;
+    if(window.screen.availWidth <=460) {
+        sliderPerView = 1;
+    } else if(window.screen.availWidth <=991) {
+        sliderPerView = 2;
+    } else {
+        sliderPerView = 3;
+    }
+
     var swiper = new Swiper('.swiper-container', {
         scrollbar: '.swiper-scrollbar',
         scrollbarHide: false,
-        slidesPerView: '1',
+        slidesPerView: sliderPerView,
         centeredSlides: true,
         spaceBetween: 30,
         grabCursor: true
     });
 
-//    console.log(swiper);
+    $(window).resize(function() {
+        if(window.screen.availWidth <=460) {
+            updateSwiper(1);
+        } else if(window.screen.availWidth <=991) {
+            updateSwiper(2, 2);
+        } else {
+            updateSwiper(3, 3);
+        }
+    });
+
+    function updateSwiper(slidesPerView, swiperTo) {
+        for(var i=0; i < swiper.length; i++) {
+            swiper[i].params.slidesPerView = slidesPerView;
+            swiper[i].update();
+            swiper[i].slideTo(swiperTo);
+        }
+    }
+
+
+    //    console.log(swiper);
 </script>

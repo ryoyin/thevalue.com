@@ -9,7 +9,7 @@
             <div class="swiper-container">
 
                 <div class="swiper-wrapper">
-                    <?php for($i=0; $i<2; $i++) { ?>
+                    <?php for($i=0; $i<6; $i++) { ?>
                     <div class="swiper-slide">
                         <div class="row">
                             <div class="col-xs-5"><img src="{{ asset('images/auction-p1.jpg') }}" class="img-responsive"></div>
