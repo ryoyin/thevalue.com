@@ -37,6 +37,7 @@ function()
 });
 
 Route::post('/share-the-value', 'API\SubscriptController@subscription');
+Route::get('/christie-spider', 'Scripts\ImportChristieSaleController@index');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 
