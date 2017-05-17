@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Scripts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App;
 
 class ImportChristieSaleController extends Controller
@@ -19,74 +20,210 @@ class ImportChristieSaleController extends Controller
     {
         set_time_limit(600);
 
-        $christieSales = App\ChristieSale::where('status', 1)->orderBy('int_sale_id')->get();
+        $christieSale = App\ChristieSale::where('get_json', 0)->orderBy('int_sale_id')->first();
 
-        foreach($christieSales as $christieSale) { // get sale from DB
+        $christieIntSaleID = $christieSale->int_sale_id;
+        $content = $this->getContent($christieIntSaleID); // get content from christie
 
-            $christieIntSaleID = $christieSale->int_sale_id;
-            $content = $this->getContent($christieIntSaleID); // get content from christie
+        $saleArray = $this->makeSaleInfo($christieIntSaleID, $content, true);
 
-            $saleArray = $this->makeSaleInfo($christieIntSaleID, $content, true);
-
-            if($sale === false) {
-                continue;
-            }
-
-            dd($saleArray);
-
-            $auction_series_id = 1;
-
-            $importResult = $this->importAuctionSale($saleArray['sale'], $auction_series_id); // Import Auction Sale Info
-
-            $auction_sale_id = $importResult->id;
-
-            // Import Auction Sale Detail.
-
-
-            break;
-
+        if($saleArray === false) {
+            exit;
         }
 
-        // trad item link
-        // http://www.christies.com/zh/lotfinder/lot_details.aspx?hdnsaleid=26537&ln=2&intsaleid=26537&sid=f509af18-8331-4002-be74-6baf0332dfb5
-        // http://www.christies.com/zh-CN/lotfinder/lot_details.aspx?hdnsaleid=26537&ln=2&intsaleid=26537&sid=f509af18-8331-4002-be74-6baf0332dfb5
+        $saleJSON = json_encode($saleArray);
+
+        $storePath = 'spider/christie/sale/'.$christieIntSaleID.'/';
+
+        Storage::disk('local')->put($storePath.$christieIntSaleID.'.json', $saleJSON);
+
+        $christieSale->get_json = 1;
+
+        $christieSale->save();
+
+        dd($saleArray);
 
     }
 
-    private function importAuctionSale($sale, $auction_series_id)
+    public function insertSaleToDB()
     {
+        $christieSale = App\ChristieSale::where('get_json', 1)->where('to_db', 0)->orderBy('int_sale_id')->first();
 
+        $christieIntSaleID = $christieSale->int_sale_id;
+
+        $storePath = 'spider/christie/sale/'.$christieIntSaleID.'/';
+
+        $saleJson = Storage::disk('local')->get($storePath.$christieIntSaleID.'.json');
+
+        $saleArray = json_decode($saleJson, true);
+
+        $auction_series_id = 1;
+
+        $insertAuctionSaleResult = $this->insertAuctionSale($saleArray['sale'], $auction_series_id); // Import Auction Sale Info
+
+        $auction_sale_id = $insertAuctionSaleResult->id;
+
+        // Import Auction Sale Detail
+        $insertAuctionSaleDetailENResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'en');
+        $insertAuctionSaleDetailTradResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'trad');
+        $insertAuctionSaleDetailSimResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'sim');
+
+        // Insert Auction Viewing
+        $insertAuctionViewingDetailENResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'en');
+        $insertAuctionViewingDetailTradResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'trad');
+        $insertAuctionViewingDetailSimResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'sim');
+
+        // Insert Auction Times
+        $insertAuctionSaleTimeResult = $this->insertAuctionSaleTime($saleArray, $auction_sale_id);
+        $insertAuctionViewingTimeResult = $this->insertAuctionViewingTime($saleArray, $auction_sale_id);
+
+        // Insert Auction Items
+        $insertAuctionItemResult = $this->insertAuctionItem($saleArray['lots'], $auction_sale_id);
+
+        $christieSale->sale_number = $insertAuctionSaleResult->number;
+        $christieSale->to_db = 1;
+        $christieSale->save();
+
+    }
+
+    private function insertAuctionSale($saleArray, $auction_series_id)
+    {
         // slug	number	total_lots	start_date	end_date	auction_series_id
-        $slug = str_replace(' ', '-', trim(strtolower($sale['title'])));
+        $slug = str_replace(' ', '-', trim(strtolower($saleArray['en']['title'])));
 
         $sale = New App\AuctionSale;
         $sale->slug = $slug;
-        $sale->number = $sale['id'];
-        $sale->total_lots = $sale['total_lots'];
-        $sale->start_date = $sale['date']['datetime'];
+        $sale->source_image_path = $saleArray['image_path'];
+        $sale->number = $saleArray['id'];
+        $sale->total_lots = $saleArray['total_lots'];
+        $sale->start_date = $saleArray['date']['datetime'];
         $sale->auction_series_id = $auction_series_id;
         $sale->save();
 
         return $sale;
-
     }
 
-    private function importAuctionSaleDetail($sale, $auction_sale_id)
+    private function insertAuctionSaleDetail($sale, $auction_sale_id, $locale)
     {
+        // Import Sale Detail
+        // id	type	title	locations	lang	auction_sale_id
 
+        if($sale['sale']['country'] == 'Hong Kong' && $locale != 'en') {
+            $country = '香港';
+        } else {
+            $country = $sale['sale']['country'];
+        }
+
+        $saleDetail = New App\AuctionSaleDetail;
+        $saleDetail->type = 'sale';
+        $saleDetail->title = $sale['sale'][$locale]['title'];
+        $saleDetail->country = $country;
+        $saleDetail->location = $sale['sale'][$locale]['location'];
+        $saleDetail->lang = $locale;
+        $saleDetail->auction_sale_id = $auction_sale_id;
+        $saleDetail->save();
+
+        return $saleDetail;
+    }
+
+    private function insertAuctionViewingDetail($sale, $auction_sale_id, $locale)
+    {
         // Import Sale Detail
         // id	type	title	locations	lang	auction_sale_id
         $saleDetail = New App\AuctionSaleDetail;
-        $saleDetail->type = 'sale';
-        $saleDetail->title = $sale['sale']['title'];
-        $saleDetail->location = $sale['viewing']['location'];
-        $saleDetail->lang = 'en';
+        $saleDetail->type = 'viewing';
+        $saleDetail->location = $sale['sale'][$locale]['location'];
+        $saleDetail->lang = $locale;
         $saleDetail->auction_sale_id = $auction_sale_id;
+        $saleDetail->save();
 
+        return $saleDetail;
     }
 
-    private function getContent($sale_id) {
+    private function insertAuctionSaleTime($saleArray, $auction_sale_id)
+    {
+        foreach($saleArray['sale']['time'] as $timeArray) {
 
+            $time = New App\AuctionSaleTime;
+            $time->type = 'sale';
+            $time->lots = $timeArray['lots'];
+            $time->start_date = $timeArray['date_datetime'];
+            $time->auction_sale_id = $auction_sale_id;
+            $time->save();
+
+        }
+    }
+
+    private function insertAuctionViewingTime($saleArray, $auction_sale_id)
+    {
+        foreach($saleArray['viewing']['time'] as $timeArray) {
+
+            $time = New App\AuctionSaleTime;
+            $time->type = 'Viewing';
+//            $time->lots = $timeArray['lots'];
+            $time->start_date = $timeArray['start_datetime'];
+            $time->end_date = $timeArray['end_datetime'];
+            $time->auction_sale_id = $auction_sale_id;
+            $time->save();
+
+        }
+    }
+
+    private function insertAuctionItem($lotsArray, $auction_sale_id)
+    {
+        foreach($lotsArray as $lotArray) {
+
+            // auction_items	id	slug	number	image_path	image_large_path	image_medium_path	image_small_path	estimate	price	auction_sale_id
+            $slug = str_replace(' ','-', $lotArray['en']['title']).'-'.str_replace(' ','-', $lotArray['en']['secondary_title']);
+
+            $estimate = trim($lotArray['en']['estimate']);
+
+            if($estimate == 'Estimate on request' || $estimate == '') {
+                $currencyCode = null;
+                $estimate_value_initial = null;
+                $estimate_value_end = null;
+            } else {
+                $currencyCode = substr($estimate, 0, 3);
+                $exEstimate = explode('-', $estimate);
+                $estimate_value_initial = trim($exEstimate[0]);
+                $estimate_value_end = trim($exEstimate[1]);
+            }
+
+            $item = New App\AuctionItem;
+            $item->slug = $slug;
+            $item->number = $lotArray['number'];
+            $item->source_image_path = $lotArray['image_path'];
+            $item->currency_code = $currencyCode;
+            $item->estimate_value_initial = $estimate_value_initial;
+            $item->estimate_value_end = $estimate_value_end;
+            $item->sold_value = $lotArray['price'];
+            $item->auction_sale_id = $auction_sale_id;
+            $item->save();
+
+            // id	description	maker	misc	lang	auction_item_id
+            $itemID = $item->id;
+            $this->insertAuctionItemDetail($lotArray, $itemID, 'en');
+            $this->insertAuctionItemDetail($lotArray, $itemID, 'trad');
+            $this->insertAuctionItemDetail($lotArray, $itemID, 'sim');
+
+        }
+    }
+
+    private function insertAuctionItemDetail($lotArray, $itemID, $locale)
+    {
+        $itemDetail = New App\AuctionItemDetail;
+
+        $itemDetail->description = $lotArray[$locale]['description'];
+        $itemDetail->maker = $lotArray['maker'];
+        $itemDetail->misc = $lotArray[$locale]['secondary_title'];
+        $itemDetail->lang = $locale;
+        $itemDetail->auction_item_id = $itemID;
+
+        $itemDetail->save();
+    }
+
+    private function getContent($sale_id)
+    {
         $url = 'http://www.christies.com/lotfinder/print_sale.aspx?saleid='.$sale_id.'&lid=1';
 
         $cSession = curl_init();
@@ -98,10 +235,9 @@ class ImportChristieSaleController extends Controller
         $result=curl_exec($cSession);
 
         return $result;
-
     }
 
-    private function makeSaleInfo($saleNumber, $content, $getRaw)
+    private function makeSaleInfo($saleNumber, $content)
     {
         $sale = array();
 
@@ -129,10 +265,10 @@ class ImportChristieSaleController extends Controller
 
         if($sale['sale']['id'] == '') return false;
 
-        $sale['sale']['location'] = trim($explode_sale_id_location[1]);
+        $sale['sale']['country'] = trim($explode_sale_id_location[1]);
 
         // get Sale Title
-        $sale['sale']['title'] = trim($saleInfo_span->item(1)->textContent);
+        $sale['sale']['en']['title'] = trim($saleInfo_span->item(1)->textContent);
 
         // get date
         $sale_date_timestamp = strtotime(trim($saleInfo_span->item(2)->textContent));
@@ -144,37 +280,28 @@ class ImportChristieSaleController extends Controller
 
         // spider for time
 
+        // get exhibition time from en template
+        $saleLandingEN = $this->GetSaleLanding($saleNumber, 'en');
 
-        $url = 'http://www.christies.com/salelanding/index.aspx?intsaleid=' . $saleNumber;
-        $cSession = curl_init();
-        curl_setopt($cSession, CURLOPT_URL, $url);
-        curl_setopt($cSession, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($cSession, CURLOPT_HEADER, false);
-        $spider_result = curl_exec($cSession);
-        curl_close($cSession);
-
-        //    echo $result;
-
-        // get exhibition time
-        $spider = new \DOMDocument();
-        $spider->loadHTML($spider_result);
-
-        $saleImagePathBlock = $spider->getElementById('MainSaleImage');
+        $saleImagePathBlock = $saleLandingEN->getElementById('MainSaleImage');
         $saleImagePath = $saleImagePathBlock->getElementsByTagName('img');
         $saleImagePath = $saleImagePath[0];
         $saleImagePath = $saleImagePath->getAttribute('src');
         $sale['sale']['image_path'] = $saleImagePath;
 
-        $spider_sale_info = $spider->getElementById('SaleInformation');
+        $saleLandingEN_sale_info = $saleLandingEN->getElementById('SaleInformation');
 
-        if ($spider_sale_info != null) {
-            //    echo $spider_sale_info->ownerDocument->saveHTML($spider_sale_info);
+        if ($saleLandingEN_sale_info != null) {
+            //    echo $saleLandingEN_sale_info->ownerDocument->saveHTML($saleLandingEN_sale_info);
 
-            $spider_ul = $spider_sale_info->getElementsByTagName('ul');
-            $spider_auction_info = $spider_ul[1]->getElementsByTagName('p');
+            $saleLandingEN_ul = $saleLandingEN_sale_info->getElementsByTagName('ul');
+            $saleLandingEN_auction_info = $saleLandingEN_ul[1]->getElementsByTagName('p');
 
-            foreach ($spider_auction_info as $skey => $auction_info) {
-                if ($skey == 0) continue;
+            foreach ($saleLandingEN_auction_info as $skey => $auction_info) {
+                if ($skey == 0) {
+                    $sale['sale']['en']['location'] = $auction_info->textContent;
+                    continue;
+                }
 
                 //        $auction_info->textContent;
                 $ex_auction_info = explode(',', $auction_info->textContent);
@@ -197,6 +324,13 @@ class ImportChristieSaleController extends Controller
             }
         }
 
+        // Get sale trad-chinese title
+        $saleLandingTrad = $this->GetSaleLanding($saleNumber, 'trad');
+        $sale['sale']['trad'] = $this->GetSaleInfoByLang($saleLandingTrad, 'trad');
+
+        // Get sale sim-chinese title
+        $saleLandingSim = $this->GetSaleLanding($saleNumber, 'sim');
+        $sale['sale']['sim'] = $this->GetSaleInfoByLang($saleLandingSim, 'sim');
 
         // Start: get Viewing Times & Location - viewing_times
         // Sale viewing time, location
@@ -302,7 +436,11 @@ class ImportChristieSaleController extends Controller
             $lot_price = $lot_tds[2]->getElementsByTagName('span');
 
             $lots_array['estimate'] = $lot_price[1]->textContent;
-            if($lot_price[4] != null) $lots_array['price'] = $lot_price[4]->textContent;
+            if($lot_price[4] != null) {
+                $lots_array['price'] = $lot_price[4]->textContent;
+            } else {
+                $lots_array['price'] = null;
+            }
 
             $sale['lots'][] = $lots_array;
 
@@ -310,58 +448,91 @@ class ImportChristieSaleController extends Controller
 
         }
 
-        $storePath = 'spider/christie/sale/' . $saleNumber;
-//
-//        if (!file_exists($storePath)) {
-//            mkdir($storePath);
-//        }
+        return $sale;
+    }
 
-        if($getRaw == false) {
-            foreach ($sale['lots'] as $lkey => $lot) {
+    private function GetSaleLanding($saleNumber, $locale)
+    {
+        $localeArray = array('en' => '',  'trad' => 'zh/', 'sim' => 'zh-CN/');
 
-//                print_r($lot);
-//
-//                exit;
+        $url = 'http://www.christies.com/'.$localeArray[$locale].'salelanding/index.aspx?intsaleid=' . $saleNumber;
+        $cSession = curl_init();
+        curl_setopt($cSession, CURLOPT_URL, $url);
+        curl_setopt($cSession, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($cSession, CURLOPT_HEADER, false);
+        $result = curl_exec($cSession);
+        curl_close($cSession);
 
-                echo "\n";
-                echo 'Downloading Lot Image: ';
+        $dom = new \DOMDocument();
+        $dom->loadHTML($result);
 
-                $image = $lot['image_path'];
-                echo $image;
+        return $dom;
+    }
 
-                $ext = pathinfo($image, PATHINFO_EXTENSION);
+    private function GetSaleInfoByLang($dom)
+    {
+        $sale = array();
+        $titleBlock = $dom->getElementById('main_center_0_ctl00_lblSaleTitle');
+        $sale['title'] = $titleBlock->textContent;
 
-                echo "\n";
-
-                $rm_ext_image = str_replace('.' . $ext, '', $image);
-
-                $file_name = substr($rm_ext_image, 0, -1);
-
-                $image_path = $file_name . 'a.' . $ext;
-
-                //        echo "store_path: ".$storePath;
-                //        echo "\n";
-                //
-                //        echo "image_path: ".$image_path;
-                //        echo "\n";
-
-                $image_name = $saleNumber . '-' . $lot['number'];
-
-                $get_image_result = $this->GetImageFromUrl($storePath, $image_path, $image_name);
-
-                //        GetImageFromUrl('result/christie/sale/26805', 'http://www.christies.com/lotfinderimages/d60672/d6067288a.jpg');
-
-                $sale['lots'][$lkey]['image_local_path'] = $get_image_result;
-
-                //        echo $sale['lots'][$lkey]['image_local_path'];
-                //        echo "\n";
-
-                //        break;
-
-            }
-        }
+        $saleInfo = $dom->getElementById('SaleInformation');
+//        echo $saleInfo->textContent;
+//        exit;
+        $locationBlock = $saleInfo->getElementsByTagName('strong');
+        $sale['location'] = $locationBlock[0]->textContent;
 
         return $sale;
+    }
+
+    public function getImage()
+    {
+        set_time_limit(600);
+
+        $christieSale = App\ChristieSale::where('get_image', 0)->where('to_db', 1)->orderBy('int_sale_id')->first();
+
+        $christieIntSaleID = $christieSale->int_sale_id;
+        $saleNumber = $christieSale->sale_number;
+
+        $sale = App\AuctionSale::where('number', $saleNumber)->first();
+        $saleID = $sale->id;
+
+        $storePath = 'spider/christie/sale/'.$christieIntSaleID.'/';
+
+        $saleItems = App\AuctionItem::where('auction_sale_id', $saleID)->get();
+
+//        dd($saleItems);
+
+        foreach ($saleItems as $lkey => $item) {
+            echo 'Downloading Lot Image: ';
+
+            $image = $item['source_image_path'];
+            echo $image;
+
+            $ext = pathinfo($image, PATHINFO_EXTENSION);
+
+            echo "\n";
+
+            $rm_ext_image = str_replace('.' . $ext, '', $image);
+
+            $file_name = substr($rm_ext_image, 0, -1);
+
+            $image_path = $file_name . 'a.' . $ext;
+
+            $image_name = $saleNumber . '-' . $item['number'];
+
+            $get_image_path = $this->GetImageFromUrl($storePath, $image_path, $image_name);
+
+            $item->image_path = $get_image_path;
+
+            $item->save();
+
+//            break;
+
+        }
+
+        $christieSale->get_image = 1;
+        $christieSale->save();
+
     }
 
     private function GetImageFromUrl($storePath, $link, $image_name)
@@ -373,21 +544,13 @@ class ImportChristieSaleController extends Controller
         curl_setopt($ch, CURLOPT_URL,$link);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        $result=curl_exec($ch);
+        $image=curl_exec($ch);
 
         curl_close($ch);
 
-        $savefile = fopen($image_path, 'w');
-        fwrite($savefile, $result);
-        fclose($savefile);
-
-        if(filesize($image_path) == 150) {
-            unlink($image_path);
-            return false;
-        }
+        Storage::disk('local')->put($image_path, $image);
 
         return $image_path;
-
     }
 
     private function getLotLocale($saleNumber, $locale, $lotNumber)
@@ -424,7 +587,7 @@ class ImportChristieSaleController extends Controller
         $contentArray['estimate'] = $estimate->textContent;
 
         // main_center_0_lblLotDescription
-        $description = $spider->getElementByID('main_center_0_lblLotSecondaryTitle');
+        $description = $spider->getElementByID('main_center_0_lblLotDescription');
         $contentArray['description'] = $description->textContent;
 
         return $contentArray;

@@ -17,6 +17,7 @@ class CreateAuctionSalesTable extends Migration
 //            id	slug	number	total_lots	start_date	end_date	auction_series_id
             $table->increments('id');
             $table->string('slug');
+            $table->string('source_image_path')->nullable();
             $table->string('image_path')->nullable();
             $table->string('number');
             $table->integer('total_lots');

@@ -38,6 +38,8 @@ function()
 
 Route::post('/share-the-value', 'API\SubscriptController@subscription');
 Route::get('/christie-spider', 'Scripts\ImportChristieSaleController@index');
+Route::get('/christie-spider-to-db', 'Scripts\ImportChristieSaleController@insertSaleToDB');
+Route::get('/christie-spider-get-image', 'Scripts\ImportChristieSaleController@getImage');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 

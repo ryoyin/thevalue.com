@@ -17,7 +17,8 @@ class CreateAuctionSaleDetailsTable extends Migration
             //id	type	title	locations	lang	auction_sale_id
             $table->increments('id');
             $table->string('type');
-            $table->string('title');
+            $table->string('title')->nullable();
+            $table->string('country')->nullable();
             $table->string('location');
             $table->string('lang');
             $table->integer('auction_sale_id');

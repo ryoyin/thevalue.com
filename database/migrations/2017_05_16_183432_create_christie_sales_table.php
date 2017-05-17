@@ -17,6 +17,9 @@ class CreateChristieSalesTable extends Migration
             $table->increments('id');
             $table->integer('int_sale_id');
             $table->integer('sale_number');
+            $table->integer('get_json');
+            $table->integer('to_db');
+            $table->integer('get_image');
             $table->integer('status');
             $table->timestamps();
         });
@@ -29,6 +32,6 @@ class CreateChristieSalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('christie_sale');
+        Schema::dropIfExists('christie_sales');
     }
 }

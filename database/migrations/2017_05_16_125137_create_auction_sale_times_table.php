@@ -17,9 +17,9 @@ class CreateAuctionSaleTimesTable extends Migration
 //            id	type	lots	start_datetime	end_datetime	auction_sale_id
             $table->increments('id');
             $table->string('type');
-            $table->integer('lots');
+            $table->string('lots')->nullable();
             $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->dateTime('end_date')->nullable();
             $table->integer('auction_sale_id');
             $table->timestamps();
         });
