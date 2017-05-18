@@ -20,28 +20,39 @@ class ImportChristieSaleController extends Controller
     {
         set_time_limit(600);
 
-        $christieSale = App\ChristieSale::where('get_json', 0)->orderBy('int_sale_id')->first();
+        $christieSales = App\ChristieSale::where('get_json', 0)->where('status', 0)->orderBy('int_sale_id')->get();
 
-        $christieIntSaleID = $christieSale->int_sale_id;
-        $content = $this->getContent($christieIntSaleID); // get content from christie
+        foreach($christieSales as $christieSale) {
 
-        $saleArray = $this->makeSaleInfo($christieIntSaleID, $content, true);
 
-        if($saleArray === false) {
-            exit;
+            $christieIntSaleID = $christieSale->int_sale_id;
+            $content = $this->getContent($christieIntSaleID); // get content from christie
+
+            echo 'Spider '.$christieIntSaleID.' start';
+            echo "\n";
+
+            $saleArray = $this->makeSaleInfo($christieIntSaleID, $content, true);
+
+            if ($saleArray === false) {
+                exit;
+            }
+
+            $saleJSON = json_encode($saleArray);
+
+            $storePath = 'spider/christie/sale/' . $christieIntSaleID . '/';
+
+            Storage::disk('local')->put($storePath . $christieIntSaleID . '.json', $saleJSON);
+
+            $christieSale->get_json = 1;
+
+            $christieSale->save();
+
+            // dd($saleArray);
+
+            echo 'Spider '.$christieIntSaleID.' end';
+            echo "\n";
+
         }
-
-        $saleJSON = json_encode($saleArray);
-
-        $storePath = 'spider/christie/sale/'.$christieIntSaleID.'/';
-
-        Storage::disk('local')->put($storePath.$christieIntSaleID.'.json', $saleJSON);
-
-        $christieSale->get_json = 1;
-
-        $christieSale->save();
-
-        dd($saleArray);
 
     }
 
@@ -560,8 +571,8 @@ class ImportChristieSaleController extends Controller
     private function getLotLocale($saleNumber, $locale, $lotNumber)
     {
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
-        $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.$lotNumber.'&intsaleid='.$saleNumber;
-        $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.$lotNumber.'&intsaleid='.$saleNumber;
+        $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.str_replace(' ', '', $lotNumber).'&intsaleid='.$saleNumber;
+        echo "Getting Lot Locale From: ".$url."\n";
 
         $cSession = curl_init();
         curl_setopt($cSession, CURLOPT_URL, $url);
