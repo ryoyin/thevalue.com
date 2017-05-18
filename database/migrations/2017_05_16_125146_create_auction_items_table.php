@@ -17,7 +17,7 @@ class CreateAuctionItemsTable extends Migration
             // id	slug	number	image_path	image_large_path	image_medium_path	image_small_path	estimate	price	auction_sale_id
             $table->increments('id');
             $table->string('slug');
-            $table->integer('number');
+            $table->string('number');
             $table->string('source_image_path')->nullable();
             $table->string('image_path')->nullable();
             $table->string('image_large_path')->nullable();

@@ -16,6 +16,7 @@ class CreateAuctionHousesTable extends Migration
         Schema::create('auction_houses', function (Blueprint $table) {
 //            id	slug	tel_no	fax_no	email	status
             $table->increments('id');
+            $table->string('slug');
             $table->string('image_path');
             $table->string('tel_no');
             $table->string('fax_no');

@@ -14,8 +14,8 @@
 
                 <div id="category-head" class="auction-menu auction-custom-menu">
                     <ul>
-                        <li><a href="{{ route('frontend.auction.pre') }}" class="active">@lang('thevalue.pre-auction')</a></li>
-                        <li><a href="{{ route('frontend.auction.post') }}">@lang('thevalue.post-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}" class="active">@lang('thevalue.pre-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.auction', ['slug' => 'post']) }}">@lang('thevalue.post-auction')</a></li>
                     </ul>
                 </div>
 

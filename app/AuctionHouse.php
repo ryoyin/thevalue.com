@@ -13,7 +13,7 @@ class AuctionHouse extends Model
         return $this->hasMany('App\AuctionSeries');
     }
 
-    public function detail()
+    public function details()
     {
         return $this->hasMany('App\AuctionHouseDetail');
     }

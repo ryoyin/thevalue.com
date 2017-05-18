@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App;
 use App\Category;
+use Carbon\Carbon;
 
 class AuctionController extends Controller
 {
@@ -17,22 +18,27 @@ class AuctionController extends Controller
 
     }
 
-    public function pre()
+    public function auction($slug)
     {
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
             'url' => route('frontend.disclaimer'),
             'type' => "website",
-            'title' => "TheValue Upcoming Auction",
+            'title' => "TheValue ".$slug." Auction",
             "description" => "The Value 收取我們最新資訊",
             "image" => asset('images/rocketfellercenter.jpg'),
             "app_id" => "1149533345170108"
         );
 
+        $auctionDateLogic = array('upcoming' => '>', 'post' => '<');
+        $auctions = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now())->get();
+
         $data = array(
+            'locale' => App::getLocale(),
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
+            'auctions' => $auctions,
         );
 
         return view('frontend.auction.pre.main', $data);

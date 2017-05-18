@@ -47,42 +47,46 @@ class ImportChristieSaleController extends Controller
 
     public function insertSaleToDB()
     {
-        $christieSale = App\ChristieSale::where('get_json', 1)->where('to_db', 0)->orderBy('int_sale_id')->first();
+        $christieSales = App\ChristieSale::where('get_json', 1)->where('to_db', 0)->orderBy('int_sale_id')->get();
 
-        $christieIntSaleID = $christieSale->int_sale_id;
+        foreach($christieSales as $christieSale) {
 
-        $storePath = 'spider/christie/sale/'.$christieIntSaleID.'/';
+            $christieIntSaleID = $christieSale->int_sale_id;
 
-        $saleJson = Storage::disk('local')->get($storePath.$christieIntSaleID.'.json');
+            $storePath = 'spider/christie/sale/' . $christieIntSaleID . '/';
 
-        $saleArray = json_decode($saleJson, true);
+            $saleJson = Storage::disk('local')->get($storePath . $christieIntSaleID . '.json');
 
-        $auction_series_id = 1;
+            $saleArray = json_decode($saleJson, true);
 
-        $insertAuctionSaleResult = $this->insertAuctionSale($saleArray['sale'], $auction_series_id); // Import Auction Sale Info
+            $auction_series_id = 1;
 
-        $auction_sale_id = $insertAuctionSaleResult->id;
+            $insertAuctionSaleResult = $this->insertAuctionSale($saleArray['sale'], $auction_series_id); // Import Auction Sale Info
 
-        // Import Auction Sale Detail
-        $insertAuctionSaleDetailENResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'en');
-        $insertAuctionSaleDetailTradResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'trad');
-        $insertAuctionSaleDetailSimResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'sim');
+            $auction_sale_id = $insertAuctionSaleResult->id;
 
-        // Insert Auction Viewing
-        $insertAuctionViewingDetailENResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'en');
-        $insertAuctionViewingDetailTradResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'trad');
-        $insertAuctionViewingDetailSimResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'sim');
+            // Import Auction Sale Detail
+            $insertAuctionSaleDetailENResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'en');
+            $insertAuctionSaleDetailTradResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'trad');
+            $insertAuctionSaleDetailSimResult = $this->insertAuctionSaleDetail($saleArray, $auction_sale_id, 'sim');
 
-        // Insert Auction Times
-        $insertAuctionSaleTimeResult = $this->insertAuctionSaleTime($saleArray, $auction_sale_id);
-        $insertAuctionViewingTimeResult = $this->insertAuctionViewingTime($saleArray, $auction_sale_id);
+            // Insert Auction Viewing
+            $insertAuctionViewingDetailENResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'en');
+            $insertAuctionViewingDetailTradResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'trad');
+            $insertAuctionViewingDetailSimResult = $this->insertAuctionViewingDetail($saleArray, $auction_sale_id, 'sim');
 
-        // Insert Auction Items
-        $insertAuctionItemResult = $this->insertAuctionItem($saleArray['lots'], $auction_sale_id);
+            // Insert Auction Times
+            $insertAuctionSaleTimeResult = $this->insertAuctionSaleTime($saleArray, $auction_sale_id);
+            $insertAuctionViewingTimeResult = $this->insertAuctionViewingTime($saleArray, $auction_sale_id);
 
-        $christieSale->sale_number = $insertAuctionSaleResult->number;
-        $christieSale->to_db = 1;
-        $christieSale->save();
+            // Insert Auction Items
+            $insertAuctionItemResult = $this->insertAuctionItem($saleArray['lots'], $auction_sale_id);
+
+            $christieSale->sale_number = $insertAuctionSaleResult->number;
+            $christieSale->to_db = 1;
+            $christieSale->save();
+
+        }
 
     }
 
@@ -190,7 +194,7 @@ class ImportChristieSaleController extends Controller
             }
 
             $item = New App\AuctionItem;
-            $item->slug = $slug;
+            $item->slug = str_replace(',', '', mb_substr($slug, 0, 100, 'utf-8'));
             $item->number = $lotArray['number'];
             $item->source_image_path = $lotArray['image_path'];
             $item->currency_code = $currencyCode;
