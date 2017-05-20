@@ -978,10 +978,10 @@ body {
 
 @media only screen and (max-width: 460px) {
   .auction-detail .pre-auction-block {
-    padding-top: 70px !important;
+    padding-top: 10px !important;
   }
   .auction-detail .pre-auction-block .more a {
-    top: 70px !important;
+    top: 10px !important;
   }
 }
 
