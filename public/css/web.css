@@ -72,16 +72,13 @@
     border-top: 1px solid #000000;
     padding-bottom: 25px;
   }
-
   #home-content #left #block #category-head {
     padding-top: 60px;
     font-size: 14px;
   }
-  
   #home-content #left #block #category-head span {
     font-weight: bold;
   }
-
   #home-content #left #block #stories-categories {
     background-color: #FFFFFF;
     position: absolute;
@@ -810,7 +807,6 @@ body {
   float: right;
 }
 
-
 .auction-company .pre-auction-block {
   padding: 0 !important;
 }
@@ -926,8 +922,6 @@ body {
 }
 
 .auction-detail .series .lot .lot-block {
-  border: 1px solid #8c8c8c;
-  border-radius: 5px;
   padding: 10px;
   height: 380px;
 }
