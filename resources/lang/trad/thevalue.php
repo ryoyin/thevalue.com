@@ -31,6 +31,7 @@ return [
     'share' => '分享',
     'search' => '搜尋',
     'contact-us' => '聯絡我們',
+    'about-us' => '關於我們',
     'disclaimer' => '免責聲明',
     'disclaimerContent' => '免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明 免責聲明',
     'video' => '視頻',
@@ -40,6 +41,6 @@ return [
     'subscript-sent-email' => '訂閱成功',
     'subscription' => '訂閱',
     'auction' => '拍賣',
-    'pre-auction' => '預覽拍賣',
-    'post-auction' => '過往拍賣',
+    'pre-auction' => '拍卖预展',
+    'post-auction' => '拍賣結果',
 ];

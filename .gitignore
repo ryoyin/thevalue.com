@@ -1,6 +1,7 @@
 /node_modules
 /public/storage
 /public/images/*
+/public/spider
 !/public/images/company_logo/
 /storage/*.key
 /vendor

@@ -36,6 +36,7 @@ return [
     'share' => 'Share',
     'search' => 'Search',
     'contact-us' => 'Contact Us',
+    'about-us' => 'About Us',
     'disclaimer' => 'Disclaimer',
     'disclaimerContent' => 'Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content Disclaimer Content ',
     'video' => 'Video',
@@ -45,6 +46,6 @@ return [
     'subscript-sent-email' => 'Subscription successful!',
     'subscription' => 'Subscription',
     'auction' => 'Auction',
-    'pre-auction' => 'Pre-Auction',
-    'post-auction' => 'Post-Auction',
+    'pre-auction' => 'Upcoming Auction',
+    'post-auction' => 'Post Auction',
 ];
