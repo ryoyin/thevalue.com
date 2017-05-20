@@ -103,7 +103,7 @@ class AuctionController extends Controller
         $seriesDetail = $series->details()->where('lang', $locale)->first();
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $items = $sale->items()->orderBy('number')->get();
+        $items = $sale->items()->orderBy('id')->get();
 
         $data = array(
             'fbMeta' => $fbMetaArray,
