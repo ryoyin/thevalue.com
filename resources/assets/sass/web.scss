@@ -94,6 +94,13 @@
         padding-bottom: 25px;
 
 
+        #category-head {
+          padding-top: 60px;
+          font-size: 14px;
+          span {
+            font-weight: bold;
+          }
+        }
 
         #stories-categories {
           background-color: #FFFFFF;
@@ -1109,6 +1116,7 @@ body {
   }
 
 }
+
 
 .disclaimer {
 
