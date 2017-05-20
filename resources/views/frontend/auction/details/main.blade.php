@@ -76,7 +76,7 @@
                                                     $itemTitle = mb_substr($itemDetail->title, 0, 70, 'utf-8');
                                                     if(strlen($itemDetail->title) > 70) $itemTitle .= '...';
                                                 ?>
-                                                <div class="lot-title"><span>Lot {{ $item->number }}</span> {{ $itemTitle }}</div>
+                                                <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitle }}</div>
                                                 <?php
                                                     $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
                                                     $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);

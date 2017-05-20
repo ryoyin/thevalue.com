@@ -152,6 +152,7 @@
     font-size: 20px;
   }
   .lot-block {
+    position: relative;
     height: 300px !important;
   }
   .lot-block .lot-title {
@@ -161,6 +162,8 @@
     font-size: 12px !important;
   }
   .lot-block .lot-value {
+    position: absolute;
+    bottom: 0;
     font-size: 12px !important;
     padding: 0 !important;
   }

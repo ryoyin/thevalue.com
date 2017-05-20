@@ -26,17 +26,14 @@
             <div class="datetime">拍賣地點: {{ $auctionDetail->location }}</div>
             <?php
                 $sales = $auction->sales();
-
-//                dd($sales);
-
-                $salesGroup1 = $sales->orderBy('number')->limit(6)->get();
-//                dd($salesGroup1);
-                $salesGroup2 = $sales->orderBy('number')->offset(6)->limit(6)->get();
-//                dd($salesGroup2);
-                $salesGroup3 = $sales->orderBy('number')->offset(12)->limit(2)->get();
-//                dd($salesGroup3);
+                $salesGroup1 = $sales->wherein('number', [13267, 13269, 13268])->get();
+                $sales = $auction->sales();
+                $salesGroup2 = $sales->wherein('number', [15710, 14336, 14337, 14338])->get();
+                $sales = $auction->sales();
+                $salesGroup3 = $sales->wherein('number', [14809, 15657, 15658, 14612])->get();
+                $sales = $auction->sales();
+                $salesGroup4 = $sales->wherein('number', [14715, 14716, 14557])->get();
             ?>
-
                 <!-- Swiper -->
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
@@ -127,6 +124,49 @@
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         @foreach($salesGroup3 as $sale)
+                            <?php
+                            $detail = $sale->details()->where('lang', $locale)->first();
+                            ?>
+                            <div class="swiper-slide">
+                                <div class="row">
+                                    <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
+                                    <div class="col-xs-7 detail">
+
+                                        <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
+
+                                        <div class="misc">
+                                            <div class="cell-name">{{ $detail->title }}</div>
+
+                                            <div>2017年05月09日 17:30</div>
+                                            <div id="date-counter-1" class="date-counter"></div>
+                                            <div style="height: 15px"></div>
+                                            {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
+                                            拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
+                                            <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">觀看展品</a>
+
+                                        </div>
+
+                                        <script type="text/javascript">
+                                            $("#date-counter-1")
+                                                .countdown("2017/05/09 17:30:00", function(event) {
+                                                    $(this).text(
+                                                        event.strftime('%D days %H:%M:%S')
+                                                    );
+                                                });
+                                        </script>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+                </div>
+
+                <!-- Swiper -->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach($salesGroup4 as $sale)
                             <?php
                             $detail = $sale->details()->where('lang', $locale)->first();
                             ?>
