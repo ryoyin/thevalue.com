@@ -29,17 +29,22 @@ function()
     Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
     Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');
     Route::get('/auction/{slug}', 'Frontend\AuctionController@auction')->name('frontend.auction.auction');
-    Route::get('/auction/{house}/upcoming', 'Frontend\AuctionController@house')->name('frontend.auction.house');
+    Route::get('/auction/{house}/upcoming', 'Frontend\AuctionController@houseUpcoming')->name('frontend.auction.house.upcoming');
+//    Route::get('/auction/{house}/post', 'Frontend\AuctionController@house')->name('frontend.auction.house');
+//    Route::get('/auction/{house}/about', 'Frontend\AuctionController@house')->name('frontend.auction.house');
 //    Route::get('/auction/{house}/{event}', 'Frontend\AuctionController@event')->name('frontend.auction.house.event');
-    Route::get('/auction/{house}/{event}/{exhibition}', 'Frontend\AuctionController@event')->name('frontend.auction.house.exhibition');
+    Route::get('/auction/exhibition/{slug}', 'Frontend\AuctionController@sale')->name('frontend.auction.house.sale');
     Route::get('/post-auction', 'Frontend\AuctionController@post')->name('frontend.auction.post');
 
 });
 
 Route::post('/share-the-value', 'API\SubscriptController@subscription');
-Route::get('/christie-spider', 'Scripts\ImportChristieSaleController@index');
-Route::get('/christie-spider-to-db', 'Scripts\ImportChristieSaleController@insertSaleToDB');
-Route::get('/christie-spider-get-image', 'Scripts\ImportChristieSaleController@getImage');
+//Route::get('/christie-spider', 'Scripts\ImportChristieSaleController@index');
+//Route::get('/christie-spider-to-db', 'Scripts\ImportChristieSaleController@insertSaleToDB');
+//Route::get('/christie-spider-get-image', 'Scripts\ImportChristieSaleController@getImage');
+//Route::get('/christie-image-resize', 'Scripts\ImportChristieSaleController@imgResize');
+//Route::get('/christie-image-resize-fit', 'Scripts\ImportChristieSaleController@imgFitResize');
+//Route::get('/christie-image-uploads3', 'Scripts\ImportChristieSaleController@uploadS3');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 

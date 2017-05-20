@@ -1,11 +1,11 @@
 <div class="pre-auction-block pre-ab-1">
-    @foreach($auctions as $auction)
+    @foreach($series as $auction)
         <?php
         $house = $auction->house->first();
         $houseDetail = $house->details->where('lang', $locale)->first();
         ?>
         <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-        <div class="more"><a href="{{ route('frontend.auction.house', ['slug' => $house->slug]) }}">查看更多</a></div>
+        {{--<div class="more"><a href="{{ route('frontend.auction.house.upcoming', ['slug' => $house->slug]) }}">查看更多</a></div>--}}
         <div class="series">
             <?php $auctionDetail = $auction->details->where('lang', $locale)->first(); ?>
             <div class="title">{{ $auctionDetail->name }}</div>
@@ -23,34 +23,43 @@
             )
             ?>
             <div class="datetime">拍賣日期: {{ $auctionDate[$locale] }}</div>
+            <div class="datetime">拍賣地點: {{ $auctionDetail->location }}</div>
             <?php
-                $sales = $auction->sales->take(6);
-                $testArray = array(1,2,3,4,5,6);
+                $sales = $auction->sales();
 
+//                dd($sales);
+
+                $salesGroup1 = $sales->orderBy('number')->limit(6)->get();
+//                dd($salesGroup1);
+                $salesGroup2 = $sales->orderBy('number')->offset(6)->limit(6)->get();
+//                dd($salesGroup2);
+                $salesGroup3 = $sales->orderBy('number')->offset(12)->limit(2)->get();
+//                dd($salesGroup3);
             ?>
 
                 <!-- Swiper -->
                 <div class="swiper-container">
-
-
                     <div class="swiper-wrapper">
-                        <?php for($i=0; $i<6; $i++) { ?>
+                        @foreach($salesGroup1 as $sale)
+                            <?php
+                                $detail = $sale->details()->where('lang', $locale)->first();
+                            ?>
                         <div class="swiper-slide">
                             <div class="row">
-                                <div class="col-xs-5"><img src="{{ asset('images/auction-p1.jpg') }}" class="img-responsive"></div>
+                                <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
                                 <div class="col-xs-7 detail">
 
-                                    <a class="cell-name" href="#">伦敦佳士得</a><br>
+                                    <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
 
                                     <div class="misc">
-                                        <div class="cell-name">中國當代水墨畫</div>
+                                        <div class="cell-name">{{ $detail->title }}</div>
 
                                         <div>2017年05月09日 17:30</div>
                                         <div id="date-counter-1" class="date-counter"></div>
                                         <div style="height: 15px"></div>
-                                        拍卖地点：<span>8 King Street St. James’s London SW1Y 6QT</span><br>
-                                        拍卖总数：<span>136</span> 件<br>
-                                        <a class="btn btn-primary btn-browse">觀看展品</a>
+                                        {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
+                                        拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
+                                        <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">觀看展品</a>
 
                                     </div>
 
@@ -66,12 +75,97 @@
                                 </div>
                             </div>
                         </div>
-                        <?php } ?>
+                        @endforeach
                     </div>
-
-
                     <div class="swiper-scrollbar"></div>
                 </div>
+
+                <!-- Swiper -->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach($salesGroup2 as $sale)
+                            <?php
+                            $detail = $sale->details()->where('lang', $locale)->first();
+                            ?>
+                            <div class="swiper-slide">
+                                <div class="row">
+                                    <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
+                                    <div class="col-xs-7 detail">
+
+                                        <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
+
+                                        <div class="misc">
+                                            <div class="cell-name">{{ $detail->title }}</div>
+
+                                            <div>2017年05月09日 17:30</div>
+                                            <div id="date-counter-1" class="date-counter"></div>
+                                            <div style="height: 15px"></div>
+{{--                                            拍卖地点：<span>{{ $detail->location }}</span><br>--}}
+                                            拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
+                                            <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">觀看展品</a>
+
+                                        </div>
+
+                                        <script type="text/javascript">
+                                            $("#date-counter-1")
+                                                .countdown("2017/05/09 17:30:00", function(event) {
+                                                    $(this).text(
+                                                        event.strftime('%D days %H:%M:%S')
+                                                    );
+                                                });
+                                        </script>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+                </div>
+
+                <!-- Swiper -->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach($salesGroup3 as $sale)
+                            <?php
+                            $detail = $sale->details()->where('lang', $locale)->first();
+                            ?>
+                            <div class="swiper-slide">
+                                <div class="row">
+                                    <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
+                                    <div class="col-xs-7 detail">
+
+                                        <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
+
+                                        <div class="misc">
+                                            <div class="cell-name">{{ $detail->title }}</div>
+
+                                            <div>2017年05月09日 17:30</div>
+                                            <div id="date-counter-1" class="date-counter"></div>
+                                            <div style="height: 15px"></div>
+                                            {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
+                                            拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
+                                            <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">觀看展品</a>
+
+                                        </div>
+
+                                        <script type="text/javascript">
+                                            $("#date-counter-1")
+                                                .countdown("2017/05/09 17:30:00", function(event) {
+                                                    $(this).text(
+                                                        event.strftime('%D days %H:%M:%S')
+                                                    );
+                                                });
+                                        </script>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-scrollbar"></div>
+                </div>
+
 
 
         </div>

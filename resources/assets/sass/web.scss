@@ -207,6 +207,20 @@
     }
   }
 
+  .lot-block {
+    height: 300px !important;
+    .lot-title {
+      font-size: 12px !important;
+      span {
+        font-size: 12px !important;
+      }
+    }
+    .lot-value {
+      font-size: 12px !important;
+      padding: 0 !important;
+    }
+  }
+
 }
 
 @media only screen and (max-width: 560px) {
@@ -1060,11 +1074,26 @@ body {
         border: 1px solid #8c8c8c;
         border-radius: 5px;
         padding: 10px;
+        height: 380px;
         .lot-detail {
           text-align: left;
           padding: 8px 0 0;
           font-size: 12px;
           color: #8c8c8c;
+          .lot-title {
+            font-size: 14px;
+            color: #000000;
+            font-weight: bold;
+            span {
+              font-size: 18px;
+              color: #9f191f;
+            }
+          }
+          .lot-value {
+            padding: 10px 0px 0px;
+            font-size: 14px;
+            color: #2c2c2c;
+          }
         }
       }
     }

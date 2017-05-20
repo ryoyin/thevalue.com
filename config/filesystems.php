@@ -60,7 +60,7 @@ return [
             'secret' => '0WgdkF5rfag4TWVauMmYub8AFpMAJlV1irFZyxeS',
             'region' => 'ap-southeast-1',
             'bucket' => 'laravel-storage',
-//            'scheme' => 'http',
+            'scheme' => 'http',
         ],
 
     ],

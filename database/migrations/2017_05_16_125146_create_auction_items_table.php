@@ -20,6 +20,7 @@ class CreateAuctionItemsTable extends Migration
             $table->string('number');
             $table->string('source_image_path')->nullable();
             $table->string('image_path')->nullable();
+            $table->string('image_fit_path')->nullable();
             $table->string('image_large_path')->nullable();
             $table->string('image_medium_path')->nullable();
             $table->string('image_small_path')->nullable();

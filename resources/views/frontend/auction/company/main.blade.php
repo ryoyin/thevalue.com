@@ -31,16 +31,16 @@
             <div id="block" style="border: 0px !important">
 
                 <div class="logo">
-                    <img src="{{ asset('images/company_logo/christie_logo.jpg') }}">
-                    <div class="name">伦敦佳士得</div>
+                    <img src="{{ asset($house->image_path) }}">
+                    <div class="name">{{ $houseDetail->name }}</div>
                 </div>
 
 
                 <div id="category-head" class="tab auction-menu">
                     <ul>
-                        <li><a href="{{ route('frontend.auction.pre') }}" class="tab-1 active">@lang('thevalue.pre-auction')</a></li>
-                        <li><a href="{{ route('frontend.auction.post') }}" class="tab-2">@lang('thevalue.post-auction')</a></li>
-                        <li><a href="#" class="tab-3">@lang('thevalue.about-us')</a></li>
+                        <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-1 active">@lang('thevalue.pre-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-2">@lang('thevalue.post-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-3">@lang('thevalue.about-us')</a></li>
                     </ul>
                 </div>
 
@@ -53,16 +53,33 @@
                         <div class="input-group selection">
                             <span class="input-group-addon" id="basic-addon1">請選擇 :</span>
                             <select class="form-control" id="sel1" aria-describedby="basic-addon1">
-                                <option>2017春季拍卖会 1</option>
-                                <option>2017春季拍卖会 2</option>
-                                <option>2017春季拍卖会 3</option>
+                                @foreach($seriesArray as $series)
+                                    <?php $seriesDetail = $series->details()->where('lang', $locale)->first(); ?>
+                                    <option>{{ $seriesDetail->name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="a-detail">
-                            <div class="title">伦敦邦瀚斯2017骑士桥五月拍卖会</div>
-                            <div class="ele">预展时间：2017年5月4日-7日</div>
-                            <div class="ele">拍卖时间：2017年05月08日-09日</div>
+                            <?php
+                                $presetSeriesDetail = $presetSeries->details()->where('lang', $locale)->first();
+
+                                $startDate = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $presetSeries->start_date);
+                                $endDate = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $presetSeries->end_date);
+
+                                $startDateArray = array('en' => $startDate->format('M d, Y'), 'trad' => $startDate->format('Y年m月d日'), 'sim' => $startDate->format('Y年m月d日'));
+                                $endDateArray = array('en' => $endDate->format('M d, Y'), 'trad' => $endDate->format('Y年m月d日'), 'sim' => $endDate->format('Y年m月d日'));
+
+                                $auctionDate = array(
+                                    'en' => $startDateArray[$locale].' - '.$endDateArray[$locale],
+                                    'trad' => $startDateArray[$locale].' 至 '.$endDateArray[$locale],
+                                    'sim' => $startDateArray[$locale].' 至 '.$endDateArray[$locale],
+                                )
+                            ?>
+                            <div class="title">{{ $presetSeriesDetail->name }}</div>
+                            {{--<div class="ele">预展时间：2017年5月4日-7日</div>--}}
+                            <div class="ele">拍卖时间：{{ $auctionDate[$locale] }}</div>
+                            <div class="ele">拍卖地點： {{ $presetSeriesDetail->location }}</div>
                         </div>
                         <!-- Swiper -->
                         <div class="swiper-container">

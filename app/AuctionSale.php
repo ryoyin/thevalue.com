@@ -16,7 +16,7 @@ class AuctionSale extends Model
 
     public function details()
     {
-        return $this->hasMany('App\AuctionSaleDetails');
+        return $this->hasMany('App\AuctionSaleDetail');
     }
 
     public function times()
@@ -27,6 +27,11 @@ class AuctionSale extends Model
     public function items()
     {
         return $this->hasMany('App\AuctionItem');
+    }
+
+    public function christieSale()
+    {
+        return $this->belongsTo('App\ChristieSale', 'number', 'sale_number');
     }
 
 }

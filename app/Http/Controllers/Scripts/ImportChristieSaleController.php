@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Scripts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use App;
 
@@ -14,7 +15,7 @@ class ImportChristieSaleController extends Controller
     // Run in tinker
     // php artisan tinker
     // $controller = app()->make('App\Http\Controllers\Scripts\ImportChristieSaleController');
-    // app()->call([$controller, 'index'], []);
+    // app()->call([$controller, 'getImage'], []);
 
     public function index()
     {
@@ -228,6 +229,7 @@ class ImportChristieSaleController extends Controller
     {
         $itemDetail = New App\AuctionItemDetail;
 
+        $itemDetail->title = str_replace(',', '', mb_substr($lotArray[$locale]['title'], 0, 200, 'utf-8'));
         $itemDetail->description = $lotArray[$locale]['description'];
         $itemDetail->maker = $lotArray['maker'];
         $itemDetail->misc = $lotArray[$locale]['secondary_title'];
@@ -501,58 +503,190 @@ class ImportChristieSaleController extends Controller
 
     public function getImage()
     {
-        set_time_limit(600);
+//        set_time_limit(600);
 
-        $christieSale = App\ChristieSale::where('get_image', 0)->where('to_db', 1)->orderBy('int_sale_id')->first();
+        $christieSales = App\ChristieSale::where('get_image', 0)->where('to_db', 1)->orderBy('int_sale_id')->get();
 
-        $christieIntSaleID = $christieSale->int_sale_id;
-        $saleNumber = $christieSale->sale_number;
+        foreach($christieSales as $christieSale) {
 
-        $sale = App\AuctionSale::where('number', $saleNumber)->first();
-        $saleID = $sale->id;
+            $christieIntSaleID = $christieSale->int_sale_id;
+            $saleNumber = $christieSale->sale_number;
 
-        $storePath = 'spider/christie/sale/'.$christieIntSaleID.'/';
+            $sale = App\AuctionSale::where('number', $saleNumber)->first();
+            $saleID = $sale->id;
 
-        $saleItems = App\AuctionItem::where('auction_sale_id', $saleID)->get();
+            $storePath = 'images/auctions/christie/sale/' . $christieIntSaleID . '/';
+
+//            echo getcwd();
+
+            if(!file_exists('public/'.$storePath)) mkdir('public/'.$storePath);
+
+            $saleItems = App\AuctionItem::where('auction_sale_id', $saleID)->get();
 
 //        dd($saleItems);
 
-        foreach ($saleItems as $lkey => $item) {
-            echo 'Downloading Lot Image: ';
+            foreach ($saleItems as $lkey => $item) {
+                echo 'Downloading Lot Image: ';
 
-            $image = $item['source_image_path'];
-            echo $image;
+                $image = $item['source_image_path'];
+                echo $image;
 
-            $ext = pathinfo($image, PATHINFO_EXTENSION);
+                $ext = pathinfo($image, PATHINFO_EXTENSION);
 
+                echo "\n";
+
+                $rm_ext_image = str_replace('.' . $ext, '', $image);
+
+                $file_name = substr($rm_ext_image, 0, -1);
+
+                $image_path = $file_name . 'a.' . $ext;
+
+                $image_name = $saleNumber . '-' . $item['number'];
+
+                $get_image_path = $this->GetImageFromUrl($storePath, $image_path, $image_name);
+
+                // resize
+
+//                $largeImage = $this->resizeImage($get_image_path, $storePath, 1140);
+//                $mediumImage = $this->resizeImage($get_image_path, $storePath, 500);
+//                $smallImage = $this->resizeImage($get_image_path, $storePath, 150);
+
+                $item->image_path = $get_image_path;
+//                $item->image_large_path = $largeImage;
+//                $item->image_medium_path = $mediumImage;
+//                $item->image_small_path = $smallImage;
+
+                $item->save();
+
+//            break;
+
+            }
+
+            $christieSale->get_image = 1;
+            $christieSale->save();
+
+        }
+
+    }
+
+    public function imgResize()
+    {
+        $items = App\AuctionItem::where('image_medium_path', null)->get();
+        foreach($items as $item) {
+
+            $item->image_medium_path = 'pending';
+            $item->save();
+
+            $file = $item->image_path;
+
+            echo $file;
             echo "\n";
 
-            $rm_ext_image = str_replace('.' . $ext, '', $image);
+            $exFile = explode('/', $file);
+            $christieIntSaleID = $exFile[4];
 
-            $file_name = substr($rm_ext_image, 0, -1);
+            $storePath = 'images/auctions/christie/sale/' . $christieIntSaleID . '/';
+            $item->image_large_path = $this->resizeImage($file, $storePath, 1140);
+            $item->image_medium_path = $this->resizeImage($file, $storePath, 500);
+            $item->image_small_path = $this->resizeImage($file, $storePath, 150);
+            $item->save();
 
-            $image_path = $file_name . 'a.' . $ext;
+        }
+    }
 
-            $image_name = $saleNumber . '-' . $item['number'];
+    public function imgFitResize()
+    {
+        $items = App\AuctionItem::where('image_fit_path', null)->get();
+        foreach($items as $item) {
 
-            $get_image_path = $this->GetImageFromUrl($storePath, $image_path, $image_name);
+            $file = $item->image_path;
 
-            $item->image_path = $get_image_path;
+            echo $file;
+            echo "\n";
 
+            $exFile = explode('/', $file);
+            $christieIntSaleID = $exFile[4];
+
+            $storePath = 'images/auctions/christie/sale/' . $christieIntSaleID . '/';
+            $item->image_fit_path = $this->createFitImage($file, $storePath, 250);
+//            $item->image_large_path = $this->resizeImage($file, $storePath, 1140);
             $item->save();
 
 //            break;
 
         }
+    }
 
-        $christieSale->get_image = 1;
-        $christieSale->save();
+    private function resizeImage($file, $resizePath, $width)
+    {
+        $img = Image::make('storage/app/'.$file);
 
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+
+        $newPath = $resizePath.str_replace('.'.$fileExtension, '', basename($file)).'-'.$width.'.'.$fileExtension;
+
+        echo $newPath;
+        echo "\n";
+
+        $img->widen($width, function ($constraint) {
+            $constraint->upsize();
+        })->save('public/'.$newPath);
+
+//        Storage::disk('local')->put($newPath, $img);
+
+        $img = null;
+
+        return $newPath;
+    }
+
+    private function createFitImage($file, $resizePath, $width)
+    {
+        $img = Image::make('storage/app/'.$file);
+
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+
+        $newPath = $resizePath.str_replace('.'.$fileExtension, '', basename($file)).'-fit-'.$width.'.'.$fileExtension;
+
+        echo $newPath;
+        echo "\n";
+
+        $img->fit($width)->save('public/'.$newPath);
+
+//        Storage::disk('local')->put($newPath, $img);
+
+        $img = null;
+
+        return $newPath;
+    }
+
+    public function ReGetImage()
+    {
+        $items = App\AuctionItem::where('image_medium_path', null)->get();
+        foreach($items as $item) {
+
+            $source = str_replace('s.jpg', 'a.jpg', $item->source_image_path);
+
+            echo $source;
+            echo "\n";
+
+            $christieIntSaleID = $item->sale->christieSale->int_sale_id;
+
+            $storePath = 'images/auctions/christie/sale/' . $christieIntSaleID . '/';
+            echo $storePath;
+            echo "\n";
+
+            $image_path = $this->GetImageFromUrl($storePath, $source, $item->sale->number.'-'.$item->number);
+
+            $item->image_path = $image_path;
+            $item->image_medium_path = null;
+            $item->save();
+
+        }
     }
 
     private function GetImageFromUrl($storePath, $link, $image_name)
     {
-        $image_path = $storePath.'/'.$image_name.'.jpg';
+        $image_path = $storePath.$image_name.'.jpg';
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 0);
@@ -607,6 +741,40 @@ class ImportChristieSaleController extends Controller
 
         return $contentArray;
 
+    }
+
+    public function uploadS3()
+    {
+        $items = App\AuctionItem::all();
+//        dd($items);
+
+        $baseDirectory = 'public';
+
+        foreach($items as $item) {
+
+//            echo $item->image_large_path."\n";
+//            echo $item->image_medium_path."\n";
+//            echo $item->image_small_path."\n";
+            echo $item->image_fit_path."\n";
+
+//            $this->pushS3($baseDirectory, $item->image_large_path);
+//            $this->pushS3($baseDirectory, $item->image_medium_path);
+//            $this->pushS3($baseDirectory, $item->image_small_path);
+            $this->pushS3($baseDirectory, $item->image_fit_path);
+//            break;
+        }
+
+
+    }
+
+    public function pushS3($baseDirectory, $filePath)
+    {
+        $s3 = \Storage::disk('s3');
+        $localPath = $baseDirectory.'/'.$filePath;
+        $image = fopen($localPath, 'r+');
+        $s3->put('/'.$filePath, $image, 'public');
+
+        echo $filePath."\n";
     }
 
 }

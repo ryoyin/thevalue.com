@@ -16,6 +16,7 @@ class CreateAuctionItemDetailsTable extends Migration
         Schema::create('auction_item_details', function (Blueprint $table) {
 //            id	description	maker	misc	lang	auction_item_id
             $table->increments('id');
+            $table->string('title');
             $table->longText('description');
             $table->string('maker');
             $table->string('misc');

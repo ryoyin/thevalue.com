@@ -14,7 +14,7 @@ class AuctionController extends Controller
     public function index()
     {
 
-        return redirect()->route('frontend.auction.pre');
+        return redirect()->route('frontend.auction.auction', ['slug' => 'upcoming']);
 
     }
 
@@ -32,13 +32,13 @@ class AuctionController extends Controller
         );
 
         $auctionDateLogic = array('upcoming' => '>', 'post' => '<');
-        $auctions = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now())->get();
+        $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now())->get();
 
         $data = array(
             'locale' => App::getLocale(),
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
-            'auctions' => $auctions,
+            'series' => $series,
         );
 
         return view('frontend.auction.pre.main', $data);
@@ -50,8 +50,9 @@ class AuctionController extends Controller
 
     }
 
-    public function house($house)
+    public function houseUpcoming($house)
     {
+        $locale = App::getLocale();
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
@@ -63,16 +64,26 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
+        $house = App\AuctionHouse::where('slug', $house)->first();
+        $houseDetail = $house->details()->where('lang', $locale)->first();
+        $seriesArray = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->get();
+        $presetSeries = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->first();
+
         $data = array(
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
+            'house' => $house,
+            'locale' => $locale,
+            'houseDetail' => $houseDetail,
+            'seriesArray' => $seriesArray,
+            'presetSeries' => $presetSeries
         );
 
         return view('frontend.auction.company.main', $data);
 
     }
 
-    public function event($house, $event, $exhibition)
+    public function sale($slug)
     {
 
         $fbMetaArray = array(
@@ -85,9 +96,26 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
+        $locale = App::getLocale();
+        $sale = App\AuctionSale::where('slug', $slug)->first();
+        $saleDetail = $sale->details()->where('lang', $locale)->first();
+        $series = $sale->series;
+        $seriesDetail = $series->details()->where('lang', $locale)->first();
+        $house = $series->house;
+        $houseDetail = $house->details()->where('lang', $locale)->first();
+        $items = $sale->items()->orderBy('number')->get();
+
         $data = array(
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
+            'locale' => $locale,
+            'sale' => $sale,
+            'saleDetail' => $saleDetail,
+            'house' => $house,
+            'houseDetail' => $houseDetail,
+            'series' => $series,
+            'seriesDetail' => $seriesDetail,
+            'items' => $items
         );
 
         return view('frontend.auction.details.main', $data);

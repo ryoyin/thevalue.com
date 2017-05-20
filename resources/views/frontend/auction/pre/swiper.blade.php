@@ -13,12 +13,16 @@
 <script>
 
     var sliderPerView = 1;
+    var slideTo = 0;
     if(window.screen.availWidth <=460) {
         sliderPerView = 1;
+        slideTo = 0;
     } else if(window.screen.availWidth <=991) {
         sliderPerView = 2;
+        slideTo = 1;
     } else {
         sliderPerView = 3;
+        slideTo = 1;
     }
 
     var swiper = new Swiper('.swiper-container', {
@@ -28,25 +32,25 @@
         centeredSlides: true,
         spaceBetween: 30,
         grabCursor: true,
-        slideTo: sliderPerView
+        slideTo: 0
     });
 
-/*    for(var i=0; i < swiper.length; i++) {
-        swiper[i].slideTo(sliderPerView);
-    }*/
+    for(var i=0; i < swiper.length; i++) {
+        swiper[i].slideTo(slideTo);
+    }
 
 //    swiper[i].slideTo(1);
 
-    $(window).resize(function() {
+    /*$(window).resize(function() {
         if(window.screen.availWidth <=460) {
-            updateSwiper(1);
+            updateSwiper(1, 1);
 //            console.log('move');
         } else if(window.screen.availWidth <=991) {
-            updateSwiper(2, 1);
+            updateSwiper(2, 2);
         } else {
-            updateSwiper(3, 1);
+            updateSwiper(3, 3);
         }
-    });
+    });*/
 
     function updateSwiper(slidesPerView, swiperTo) {
         for(var i=0; i < swiper.length; i++) {

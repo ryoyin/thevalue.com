@@ -14,7 +14,7 @@ class AuctionItem extends Model
         return $this->belongsTo('App\AuctionSale', 'auction_sale_id');
     }
 
-    public function detail()
+    public function details()
     {
         return $this->hasMany('App\AuctionItemDetail');
     }
