@@ -34,6 +34,7 @@ function()
 //    Route::get('/auction/{house}/about', 'Frontend\AuctionController@house')->name('frontend.auction.house');
 //    Route::get('/auction/{house}/{event}', 'Frontend\AuctionController@event')->name('frontend.auction.house.event');
     Route::get('/auction/exhibition/{slug}', 'Frontend\AuctionController@sale')->name('frontend.auction.house.sale');
+    Route::get('/auction/exhibition/{slug}/{lot}', 'Frontend\AuctionController@item')->name('frontend.auction.house.sale.item');
     Route::get('/post-auction', 'Frontend\AuctionController@post')->name('frontend.auction.post');
 
 });

@@ -215,7 +215,6 @@
   }
 
   .lot-block {
-    position: relative;;
     height: 300px !important;
     .lot-title {
       font-size: 12px !important;
@@ -224,10 +223,26 @@
       }
     }
     .lot-value {
-      position: absolute;
-      bottom: 0;
       font-size: 12px !important;
       padding: 0 !important;
+      //position: relative;
+      //top: 0;
+    }
+  }
+
+  .lot-side {
+    height: 300px !important;
+    .lot-title {
+      font-size: 12px !important;
+      span {
+        font-size: 12px !important;
+      }
+    }
+    .lot-value {
+      font-size: 12px !important;
+      padding: 0 !important;
+      //position: relative;
+      //top: 0;
     }
   }
 
@@ -1081,10 +1096,17 @@ body {
       }
 
       .lot-block {
-        //border: 1px solid #8c8c8c;
+        position: relative;
+        border: 2px groove #8c8c8c;
+        border-top: 0;
+        border-left: 0;
         //border-radius: 5px;
         padding: 10px;
-        height: 380px;
+        height: 400px;
+        cursor: pointer;
+        img {
+          //border: 5px groove #8c8c8c;
+        }
         .lot-detail {
           text-align: left;
           padding: 8px 0 0;
@@ -1100,8 +1122,47 @@ body {
             }
           }
           .lot-value {
+            //position: absolute;
+            //bottom: 0;
             padding: 10px 0px 0px;
             font-size: 14px;
+            color: #2c2c2c;
+          }
+        }
+      }
+
+      .lot-side {
+        position: relative;
+        //border: 2px groove #8c8c8c;
+        //border-top: 0;
+        //border-left: 0;
+        //border-radius: 5px;
+        padding: 10px;
+        //height: 400px;
+        cursor: pointer;
+        display: inline-block;
+        img {
+          //border: 5px groove #8c8c8c;
+        }
+        .lot-detail {
+          text-align: left;
+          padding: 0 0 0 10px;
+          font-size: 10px;
+          color: #8c8c8c;
+          .lot-title {
+            font-size: 10px;
+            color: #000000;
+            font-weight: bold;
+            span {
+              font-size: 10px;
+              color: #9f191f;
+            }
+          }
+          .lot-value {
+            //position: absolute;
+            //bottom: 0;
+            padding: 10px 0px 0px;
+            font-size: 10px;
             color: #2c2c2c;
           }
         }
@@ -1116,6 +1177,65 @@ body {
 
   #block {
     padding-bottom: 0px !important;
+  }
+
+  .item-head {
+    padding-bottom: 10px;
+    border-bottom: 2px groove #8c8c8c;
+    margin-bottom: 20px;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .item-body {
+    //border-right: 2px groove #8c8c8c;
+    .item-detail {
+      padding: 0 20px 0 20px;
+      .lot-number {
+        color: #9f191f;
+        font-weight: bold;
+        font-size: 24px;
+      }
+      .lot-title {
+        font-weight: bold;
+        font-size: 24px;
+      }
+      .lot-stitle {
+        //font-weight: bold;
+        font-size: 18px;
+      }
+      .lot-desc {
+        padding: 30px 0;
+      }
+      .lot-estimate {
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
+
+    .item-image {
+      text-align: center;
+      .enlarge {
+        padding-top: 15px;
+      }
+    }
+  }
+
+  .sale-side {
+    margin: 0 30px;
+
+    .sale-side-block {
+      border: 5px groove #8c8c8c;
+      padding: 10px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+  }
+
+  .misc-block {
+    padding-top: 20px;
   }
 
 }
@@ -1215,5 +1335,29 @@ body {
 @media only screen and (max-width: 460px) {
   .auction-custom-menu {
     padding-top: 50px !important;
+  }
+}
+
+.item-detail-pagination {
+  .active {
+    span {
+      color: #6a6a6a !important;
+      border: 0 solid #FFFFFF !important;
+      background-color: #FFFFFF!important;
+      font-weight: bold;
+    }
+  }
+  li {
+    color: #8c8c8c;
+    span {
+      color: #6a6a6a !important;
+      border: 0 solid #FFFFFF !important;
+      background-color: #FFFFFF!important;
+      //font-weight: bold;
+    }
+    a {
+      color: #8c8c8c;
+      border: 0;
+    }
   }
 }

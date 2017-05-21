@@ -152,7 +152,6 @@
     font-size: 20px;
   }
   .lot-block {
-    position: relative;
     height: 300px !important;
   }
   .lot-block .lot-title {
@@ -162,8 +161,19 @@
     font-size: 12px !important;
   }
   .lot-block .lot-value {
-    position: absolute;
-    bottom: 0;
+    font-size: 12px !important;
+    padding: 0 !important;
+  }
+  .lot-side {
+    height: 300px !important;
+  }
+  .lot-side .lot-title {
+    font-size: 12px !important;
+  }
+  .lot-side .lot-title span {
+    font-size: 12px !important;
+  }
+  .lot-side .lot-value {
     font-size: 12px !important;
     padding: 0 !important;
   }
@@ -925,8 +935,13 @@ body {
 }
 
 .auction-detail .series .lot .lot-block {
+  position: relative;
+  border: 2px groove #8c8c8c;
+  border-top: 0;
+  border-left: 0;
   padding: 10px;
-  height: 380px;
+  height: 400px;
+  cursor: pointer;
 }
 
 .auction-detail .series .lot .lot-block .lot-detail {
@@ -953,6 +968,37 @@ body {
   color: #2c2c2c;
 }
 
+.auction-detail .series .lot .lot-side {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.auction-detail .series .lot .lot-side .lot-detail {
+  text-align: left;
+  padding: 0 0 0 10px;
+  font-size: 10px;
+  color: #8c8c8c;
+}
+
+.auction-detail .series .lot .lot-side .lot-detail .lot-title {
+  font-size: 10px;
+  color: #000000;
+  font-weight: bold;
+}
+
+.auction-detail .series .lot .lot-side .lot-detail .lot-title span {
+  font-size: 10px;
+  color: #9f191f;
+}
+
+.auction-detail .series .lot .lot-side .lot-detail .lot-value {
+  padding: 10px 0px 0px;
+  font-size: 10px;
+  color: #2c2c2c;
+}
+
 .auction-detail .date-counter {
   float: left;
   padding-left: 15px;
@@ -960,6 +1006,66 @@ body {
 
 .auction-detail #block {
   padding-bottom: 0px !important;
+}
+
+.auction-detail .item-head {
+  padding-bottom: 10px;
+  border-bottom: 2px groove #8c8c8c;
+  margin-bottom: 20px;
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+}
+
+.auction-detail .item-body .item-detail {
+  padding: 0 20px 0 20px;
+}
+
+.auction-detail .item-body .item-detail .lot-number {
+  color: #9f191f;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.auction-detail .item-body .item-detail .lot-title {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.auction-detail .item-body .item-detail .lot-stitle {
+  font-size: 18px;
+}
+
+.auction-detail .item-body .item-detail .lot-desc {
+  padding: 30px 0;
+}
+
+.auction-detail .item-body .item-detail .lot-estimate {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.auction-detail .item-body .item-image {
+  text-align: center;
+}
+
+.auction-detail .item-body .item-image .enlarge {
+  padding-top: 15px;
+}
+
+.auction-detail .sale-side {
+  margin: 0 30px;
+}
+
+.auction-detail .sale-side .sale-side-block {
+  border: 5px groove #8c8c8c;
+  padding: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.auction-detail .misc-block {
+  padding-top: 20px;
 }
 
 .disclaimer ol {
@@ -1040,6 +1146,28 @@ body {
   .auction-custom-menu {
     padding-top: 50px !important;
   }
+}
+
+.item-detail-pagination .active span {
+  color: #6a6a6a !important;
+  border: 0 solid #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  font-weight: bold;
+}
+
+.item-detail-pagination li {
+  color: #8c8c8c;
+}
+
+.item-detail-pagination li span {
+  color: #6a6a6a !important;
+  border: 0 solid #FFFFFF !important;
+  background-color: #FFFFFF !important;
+}
+
+.item-detail-pagination li a {
+  color: #8c8c8c;
+  border: 0;
 }
 
 /*# sourceMappingURL=web.css.map */

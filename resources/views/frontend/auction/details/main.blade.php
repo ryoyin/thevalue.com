@@ -69,23 +69,33 @@
                                 @foreach($items as $iKey => $item)
                                     <?php $itemDetail = $item->details()->where('lang', $locale)->first() ?>
                                     <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 lot">
-                                        <div class="lot-block item">
+                                        <div class="lot-block item" onclick="redirectItem(this)" url="{{ route('frontend.auction.house.sale.item', ['slug' => $slug, 'lot' => $item->id]) }}">
                                             <div class=""><img data-original="{{ config('app.s3_path').$item->image_fit_path }}" class="img-responsive lazy"></div>
                                             <div class="lot-detail">
                                                 <?php
-                                                    $itemTitle = mb_substr($itemDetail->title, 0, 70, 'utf-8');
-                                                    if(strlen($itemDetail->title) > 70) $itemTitle .= '...';
+                                                    $itemTitleEN = mb_substr($itemDetail->title, 0, 70, 'utf-8');
+                                                    if(strlen($itemDetail->title) > 70) $itemTitleEN .= '...';
+                                                    $itemTitleZH = mb_substr($itemDetail->title, 0, 48, 'utf-8');
+                                                    $itemTitleZH = str_replace('，“', '， “', $itemTitleZH);
+                                                    if(strlen($itemDetail->title) > 40) $itemTitleZH .= '...';
+                                                    $itemTitleArray = array('en' => $itemTitleEN, 'trad' => $itemTitleZH, 'sim' => $itemTitleZH);
                                                 ?>
-                                                <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitle }}</div>
+                                                <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitleArray[$locale] }}</div>
                                                 <?php
                                                     $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
                                                     $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
+                                                    $estimate = $estimate_initial.' - '.$estimate_end;
+
+                                                    if($estimate_initial == '' && $estimate_end == '') $estimate = 'Estimate on Request';
                                                 ?>
-                                                <div class="lot-value">Estimate: {{ $item->currency_code }} {{ $estimate_initial }} - {{ $estimate_end }}</div>
+                                                <div class="lot-value">Estimate: {{ $item->currency_code }} {{ $estimate }}</div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
+                            </div>
+                            <div class="row">
+                                <div class="pull-right item-detail-pagination">{{ $items->links() }}</div>
                             </div>
                         </div>
                     </div>
@@ -121,6 +131,11 @@
 
         function redirectExhibit(obj) {
             var url = $(obj).val();
+            window.location = url;
+        }
+
+        function redirectItem(obj) {
+            var url = $(obj).attr('url');
             window.location = url;
         }
     </script>

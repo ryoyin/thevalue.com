@@ -32,7 +32,8 @@
         centeredSlides: true,
         spaceBetween: 30,
         grabCursor: true,
-        slideTo: 0
+        slideTo: 0,
+        scrollbarHide: false,
     });
 
     for(var i=0; i < swiper.length; i++) {

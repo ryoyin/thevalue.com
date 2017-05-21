@@ -103,9 +103,10 @@ class AuctionController extends Controller
         $seriesDetail = $series->details()->where('lang', $locale)->first();
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $items = $sale->items()->orderBy('id')->get();
+        $items = $sale->items()->orderBy('id')->paginate(48);
 
         $data = array(
+            'slug' => $slug,
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
             'locale' => $locale,
@@ -119,6 +120,54 @@ class AuctionController extends Controller
         );
 
         return view('frontend.auction.details.main', $data);
+
+    }
+
+    public function item($slug, $lot)
+    {
+
+        $fbMetaArray = array(
+            'site_name' => "TheValue",
+            'url' => route('frontend.disclaimer'),
+            'type' => "website",
+            'title' => "TheValue Upcoming Auction",
+            "description" => "The Value 收取我們最新資訊",
+            "image" => asset('images/rocketfellercenter.jpg'),
+            "app_id" => "1149533345170108"
+        );
+
+        $locale = App::getLocale();
+        $sale = App\AuctionSale::where('slug', $slug)->first();
+        $saleDetail = $sale->details()->where('lang', $locale)->first();
+        $series = $sale->series;
+        $seriesDetail = $series->details()->where('lang', $locale)->first();
+        $rSales = $series->sales()->inRandomOrder()->limit(4)->get();
+        $house = $series->house;
+        $houseDetail = $house->details()->where('lang', $locale)->first();
+        $items = $sale->items()->inRandomOrder()->limit(6)->get();
+//        $allItems = $sale->items()->orderBy('id')->get();
+        $lot = App\AuctionItem::where('id', $lot)->first();
+        $lotDetail = $lot->details()->where('lang', $locale)->first();
+
+        $data = array(
+            'slug' => $slug,
+            'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
+            'locale' => $locale,
+            'sale' => $sale,
+            'saleDetail' => $saleDetail,
+            'house' => $house,
+            'houseDetail' => $houseDetail,
+            'series' => $series,
+            'seriesDetail' => $seriesDetail,
+            'sales' => $rSales,
+            'items' => $items,
+//            'allItems' => $allItems,
+            'lot' => $lot,
+            'lotDetail' => $lotDetail
+        );
+
+        return view('frontend.auction.item.main', $data);
 
     }
 
