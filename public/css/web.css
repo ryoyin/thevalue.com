@@ -970,7 +970,7 @@ body {
 
 .auction-detail .series .lot .lot-side {
   position: relative;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
   display: inline-block;
 }
