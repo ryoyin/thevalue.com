@@ -1076,8 +1076,13 @@ body {
   text-align: center;
 }
 
+.auction-detail .item-body .item-image img {
+  cursor: pointer;
+}
+
 .auction-detail .item-body .item-image .enlarge {
   padding-top: 15px;
+  cursor: pointer;
 }
 
 .auction-detail .sale-side {

@@ -1,7 +1,7 @@
 <div class="item-body row">
     <div class="col-sm-5 col-md-5 item-image">
-        <img src="{{ config('app.s3_path').$lot->image_medium_path }}" class="img-responsive">
-        <div class="enlarge" onclick="galleryInit(this)"><i class="fa fa-expand" aria-hidden="true"></i> click to enlarge</div>
+        <img src="{{ config('app.s3_path').$lot->image_medium_path }}" class="img-responsive" onclick="galleryInit();">
+        <div class="enlarge" onclick="galleryInit();"><i class="fa fa-expand" aria-hidden="true"></i> click to enlarge</div>
     </div>
     <div class="col-sm-7 col-md-7 item-detail">
         <div class="lot-number">Lot {{ $lot->number }}</div>
@@ -103,34 +103,15 @@
         },
     ];
 
-    function galleryInit(obj) {
-        $('.head-dropdown-menu').hide();
-        // define options (if needed)
-
-        var imgCount = 0;
-        var number = 0;
-
-        $('img').each( function() {
-            if($(this).attr('src') == $(obj).attr('src')) number = imgCount;
-            imgCount ++;
-        });
-
-        var options = {
-            // optionName: 'option value'
-            // for example:
-            index: number // start at first slide
-        };
-
+    function galleryInit() {
         // Initializes and opens PhotoSwipe
-        var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+        var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items);
 
+        gallery.listen('close', function() {
+        $('.head-dropdown-menu').addClass('navbar-fixed-top');
+        });
         gallery.init();
+        $('.head-dropdown-menu').removeClass('navbar-fixed-top');
     }
-
-    pswp.listen('close', function() {
-        $('.head-dropdown-menu').show();
-    });
-
-
 
 </script>

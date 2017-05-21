@@ -1248,8 +1248,12 @@ body {
 
     .item-image {
       text-align: center;
+      img {
+        cursor: pointer;
+      }
       .enlarge {
         padding-top: 15px;
+        cursor: pointer;
       }
     }
   }
