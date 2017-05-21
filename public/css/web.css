@@ -177,6 +177,28 @@
     font-size: 12px !important;
     padding: 0 !important;
   }
+  .item-detail-lot {
+    padding: 10px 0 0 !important;
+  }
+  .item-head .item-head-right {
+    padding-left: 0px !important;
+  }
+  .item-body .item-detail {
+    padding: 0 10px !important;
+  }
+  .item-body .item-detail .lot-stitle {
+    font-size: 22px;
+  }
+  .item-body .item-detail .lot-desc {
+    padding: 15px 0 !important;
+    font-size: 22px !important;
+  }
+  .item-body .item-detail .lot-estimate {
+    font-size: 22px !important;
+  }
+  .item-body .item-image .enlarge {
+    padding-top: 5px !important;
+  }
 }
 
 @media only screen and (max-width: 560px) {
@@ -1017,6 +1039,10 @@ body {
   width: 100%;
 }
 
+.auction-detail .item-head .item-head-right {
+  padding-left: 20px;
+}
+
 .auction-detail .item-body .item-detail {
   padding: 0 20px 0 20px;
 }
@@ -1038,11 +1064,12 @@ body {
 
 .auction-detail .item-body .item-detail .lot-desc {
   padding: 30px 0;
+  font-size: 20px;
 }
 
 .auction-detail .item-body .item-detail .lot-estimate {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .auction-detail .item-body .item-image {

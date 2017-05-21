@@ -58,7 +58,7 @@
                                     <!-- /Left Body -->
 
                                 </div>
-                                <div class="col-md-3">
+                                <div class="hidden-xs hidden-sm col-md-3">
                                     @include('frontend.auction.item.side')
                                 </div>
                             </div>

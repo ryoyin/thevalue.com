@@ -144,10 +144,11 @@ class AuctionController extends Controller
         $rSales = $series->sales()->inRandomOrder()->limit(4)->get();
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $items = $sale->items()->inRandomOrder()->limit(6)->get();
+
 //        $allItems = $sale->items()->orderBy('id')->get();
         $lot = App\AuctionItem::where('id', $lot)->first();
         $lotDetail = $lot->details()->where('lang', $locale)->first();
+        $items = $sale->items()->where('id', '>', $lot->id)->orderBy('id')->limit(6)->get();
 
         $data = array(
             'slug' => $slug,

@@ -2,7 +2,7 @@
     <div class="hidden-xs col-sm-2 col-md-2 col-lg-1">
         <img src="{{ asset($sale->image_path) }}" class="img-responsive">
     </div>
-    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11"  style="padding: 0 0 0 20px;">
+    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11 item-head-right">
         <div class="misc">
             <div class="cell-name">{{ $saleDetail->title }}</div>
 
