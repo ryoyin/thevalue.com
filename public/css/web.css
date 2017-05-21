@@ -1058,7 +1058,6 @@ body {
 }
 
 .auction-detail .sale-side .sale-side-block {
-  border: 5px groove #8c8c8c;
   padding: 10px;
   display: inline-block;
   cursor: pointer;

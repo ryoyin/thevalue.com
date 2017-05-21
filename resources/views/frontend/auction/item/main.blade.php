@@ -167,12 +167,6 @@
 
         </div>
 
-        <div class="hidden-xs hidden-sm col-md-3 col-lg-3">
-
-            @include('frontend.auction.pre.content-right')
-
-        </div>
-
     </div>
 
     <script>
