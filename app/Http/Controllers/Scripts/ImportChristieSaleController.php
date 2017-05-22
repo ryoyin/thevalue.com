@@ -15,7 +15,7 @@ class ImportChristieSaleController extends Controller
     // Run in tinker
     // php artisan tinker
     // $controller = app()->make('App\Http\Controllers\Scripts\ImportChristieSaleController');
-    // app()->call([$controller, 'getImage'], []);
+    // app()->call([$controller, 'insertItemMissingDetail'], []);
 
     public function index()
     {
@@ -74,7 +74,7 @@ class ImportChristieSaleController extends Controller
 
                     $itemDetail->description = $content['description'];
                     $itemDetail->provenance = $content['provenance'];
-                    $itemDetail->post_lot_text = $content['postLotText'];
+//                    $itemDetail->post_lot_text = $content['postLotText'];
                     $itemDetail->save();
 
                 }
@@ -775,8 +775,10 @@ class ImportChristieSaleController extends Controller
         $contentArray['provenance'] = $provenance->ownerDocument->saveHTML($provenance);
 
         // main_center_0_lblLotDescription
-        $postLotText = $spider->getElementByID('main_center_0_lblPostLotText');
+        /*$postLotText = $spider->getElementByID('main_center_0_lblPostLotText');
         $contentArray['postLotText'] = $postLotText->ownerDocument->saveHTML($postLotText);
+
+        main_center_0_lblPreLotText*/
 
         return $contentArray;
 
