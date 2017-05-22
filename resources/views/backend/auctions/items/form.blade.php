@@ -12,7 +12,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('/tvadmin/articles') }}"><i class="fa fa-dashboard"></i> Homepage</a></li>
-      <li><a href="{{ route('backend.auction.itemList', ['saleID', $sale->id]) }}">Auction Item List</a></li>
+      <li><a href="{{ route('backend.auction.itemList', ['saleID' => $sale->id]) }}">Auction Item List</a></li>
       <li class="active">Item Modify</li>
     </ol>
   </section>

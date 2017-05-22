@@ -92,7 +92,36 @@ class AuctionController extends Controller
         return view('backend.auctions.items.form', $data);
     }
 
-    public function itemUpdate($itemID) {
+    public function itemUpdate(Request $request, $itemID) {
+        $langs = config('app.supported_languages');
 
+        $detailFields = array(
+            'title' => 'Title',
+            'maker' => 'Maker',
+            'description' => 'Description',
+            'misc' => 'Misc',
+            'provenance' => 'Provenance',
+            'post_lot_text' => 'Post Lot Text'
+        );
+
+
+//            category_id, slug, photo_id, hit_counter, share_counter
+        $item = App\AuctionItem::find($itemID);
+        $item->slug = $request->slug;
+        $item->dimension = $request->dimension;
+        $item->save();
+
+
+        foreach($langs as $key => $lang) {
+            $detail = App\AuctionItemDetail::where('auction_item_id', $item->id)->where('lang', $lang)->first();
+//            dd($detail);
+            foreach($detailFields as $dkey => $field) {
+                $carrier = $dkey.'-'.$key;
+                $detail->$dkey = $request->$carrier;
+            }
+            $detail->save();
+        }
+
+        return redirect('tvadmin/auction/item/'.$itemID)->with('alert-success', 'Auction item was successful updated!');;
     }
 }
