@@ -844,10 +844,8 @@ class ImportChristieSaleController extends Controller
 
                     if (stripos($dItem, "cm.") !== false) {
                         $dimension = $dItem;
-                        $exItem = explode("cm.", $dItem);
-                        $dimension = $exItem[0].' cm';
                         echo $dimension."\n";
-                        echo '<br>';
+//                        echo '<br>';
                     }
 
                 }
@@ -860,11 +858,9 @@ class ImportChristieSaleController extends Controller
 
                         if (stripos($dItem, "cm.") !== false) {
                             $dimension = $dItem;
-                            $exItem = explode("cm.", $dItem);
-                            $dimension = $exItem[0].' cm';
                             $dimension = str_replace('<br>', '', $dimension);
                             echo $dimension."\n";
-                            echo '<br>';
+//                            echo '<br>';
                         }
 
                     }
