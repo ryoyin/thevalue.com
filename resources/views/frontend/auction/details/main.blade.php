@@ -47,8 +47,12 @@
 
                             <div class="misc">
                                 <div class="cell-name">{{ $saleDetail->title }}</div>
+                                <?php
+                                    $sDate = strtotime($sale->start_date);
+                                    $sDate = date('Y年m月d日', $sDate);
+                                ?>
 
-                                <div style="float:left">2017年05月09日 17:30</div>
+                                <div style="float:left">{{ $sDate }}</div>
                                 <div id="date-counter-1" class="date-counter" style="float:left"></div>
                                 <div style="clear:both"></div>
                                 拍卖地点：<span>{{ $saleDetail->location }}</span><br>

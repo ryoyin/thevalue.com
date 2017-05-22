@@ -57,6 +57,33 @@ class ImportChristieSaleController extends Controller
 
     }
 
+    public function insertItemMissingDetail()
+    {
+        $sales = App\AuctionSale::all();
+        echo '<pre>';
+
+        foreach($sales as $sale) {
+            $items = $sale->items;
+
+            foreach($items as $item) {
+                $itemDetails = $item->details;
+
+                foreach($itemDetails as $itemDetail) {
+
+                    $content = $this->getLotLocale($sale->christieSale->int_sale_id, $itemDetail->lang, $item->number);
+
+                    $itemDetail->description = $content['description'];
+                    $itemDetail->provenance = $content['provenance'];
+                    $itemDetail->post_lot_text = $content['postLotText'];
+                    $itemDetail->save();
+
+                }
+
+            }
+        }
+
+    }
+
     public function insertSaleToDB()
     {
         $christieSales = App\ChristieSale::where('get_json', 1)->where('to_db', 0)->orderBy('int_sale_id')->get();
@@ -715,11 +742,15 @@ class ImportChristieSaleController extends Controller
         $spider_result = curl_exec($cSession);
         curl_close($cSession);
 
-        //    echo $result;
+//        echo $spider_result;
+//        exit;
 
         // get exhibition time
         $spider = new \DOMDocument();
+        libxml_use_internal_errors(true);
         $spider->loadHTML($spider_result);
+
+//        exit;
 
         $contentArray = array();
 
@@ -737,7 +768,15 @@ class ImportChristieSaleController extends Controller
 
         // main_center_0_lblLotDescription
         $description = $spider->getElementByID('main_center_0_lblLotDescription');
-        $contentArray['description'] = $description->textContent;
+        $contentArray['description'] = $description->ownerDocument->saveHTML($description);
+
+        // main_center_0_lblLotDescription
+        $provenance = $spider->getElementByID('main_center_0_lblLotProvenance');
+        $contentArray['provenance'] = $provenance->ownerDocument->saveHTML($provenance);
+
+        // main_center_0_lblLotDescription
+        $postLotText = $spider->getElementByID('main_center_0_lblPostLotText');
+        $contentArray['postLotText'] = $postLotText->ownerDocument->saveHTML($postLotText);
 
         return $contentArray;
 

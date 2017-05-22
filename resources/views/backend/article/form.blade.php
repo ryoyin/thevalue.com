@@ -213,7 +213,7 @@
                   <!-- text input -->
                   <div class="form-group">
                       <label>Gallery</label>
-                      <input name="gallery" type="text" class="form-control" placeholder="Enter ..." value="{{ $gallery }}">
+                      <input name="gallery" type="text" class="form-control" placeholder="Enter ..." value="{{ $gallery }}" required>
                   </div>
               </div>
           </div>
