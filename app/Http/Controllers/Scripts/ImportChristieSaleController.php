@@ -775,7 +775,12 @@ class ImportChristieSaleController extends Controller
 
         // main_center_0_lblLotDescription
         $provenance = $spider->getElementByID('main_center_0_lblLotProvenance');
-        $contentArray['provenance'] = $provenance->ownerDocument->saveHTML($provenance);
+        if($provenance == null) {
+            $provenance = null;
+        } else {
+            $provenance = $provenance->ownerDocument->saveHTML($provenance);
+        }
+        $contentArray['provenance'] = $provenance;
 
         // main_center_0_lblLotDescription
         /*$postLotText = $spider->getElementByID('main_center_0_lblPostLotText');
