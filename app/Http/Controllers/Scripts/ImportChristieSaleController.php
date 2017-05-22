@@ -15,7 +15,7 @@ class ImportChristieSaleController extends Controller
     // Run in tinker
     // php artisan tinker
     // $controller = app()->make('App\Http\Controllers\Scripts\ImportChristieSaleController');
-    // app()->call([$controller, 'insertItemMissingDetail'], []);
+    // app()->call([$controller, 'importDimension'], []);
 
     public function index()
     {
@@ -846,7 +846,24 @@ class ImportChristieSaleController extends Controller
                         $dimension = $dItem;
                         $exItem = explode("cm.", $dItem);
                         $dimension = $exItem[0].' cm';
-                        echo $dimension;
+                        echo $dimension."\n";
+                        echo '<br>';
+                    }
+
+                }
+
+                if (stripos($dimension, "cm.") !== false) {
+                    $exDesc = explode("<br>", $description);
+                    $dimension = null;
+                }
+
+                foreach($exDesc as $dItem) {
+
+                    if (stripos($dItem, "cm.") !== false) {
+                        $dimension = $dItem;
+                        $exItem = explode("cm.", $dItem);
+                        $dimension = $exItem[0].' cm';
+                        echo $dimension."\n";
                         echo '<br>';
                     }
 
