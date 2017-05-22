@@ -33,12 +33,14 @@
                 $salesGroup3 = $sales->wherein('number', [14809, 15657, 15658, 14612])->get();
                 $sales = $auction->sales();
                 $salesGroup4 = $sales->wherein('number', [14715, 14716, 14557])->get();
+                $saleCounter = 0;
             ?>
                 <!-- Swiper -->
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        @foreach($salesGroup1 as $sale)
+                        @foreach($salesGroup1 as $saleIndex => $sale)
                             <?php
+                                $saleCounter ++;
                                 $detail = $sale->details()->where('lang', $locale)->first();
                             ?>
                         <div class="swiper-slide">
@@ -50,9 +52,10 @@
 
                                     <div class="misc">
                                         <div class="cell-name">{{ $detail->title }}</div>
+                                        <?php $sDate = strtotime($sale->start_date); ?>
 
-                                        <div>2017年05月09日 17:30</div>
-                                        <div id="date-counter-1" class="date-counter"></div>
+                                        <div>{{ date('Y年m月d日', $sDate) }}</div>
+                                        <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>
                                         <div style="height: 15px"></div>
                                         {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                         拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
@@ -61,8 +64,8 @@
                                     </div>
 
                                     <script type="text/javascript">
-                                        $("#date-counter-1")
-                                            .countdown("2017/05/09 17:30:00", function(event) {
+                                        $("#date-counter-{{ $saleCounter }}")
+                                            .countdown("{{ date('Y-m-d', $sDate) }}", function(event) {
                                                 $(this).text(
                                                     event.strftime('%D days %H:%M:%S')
                                                 );
@@ -82,7 +85,8 @@
                     <div class="swiper-wrapper">
                         @foreach($salesGroup2 as $sale)
                             <?php
-                            $detail = $sale->details()->where('lang', $locale)->first();
+                                $saleCounter ++;
+                                $detail = $sale->details()->where('lang', $locale)->first();
                             ?>
                             <div class="swiper-slide">
                                 <div class="row">
@@ -93,9 +97,10 @@
 
                                         <div class="misc">
                                             <div class="cell-name">{{ $detail->title }}</div>
+                                            <?php $sDate = strtotime($sale->start_date); ?>
 
-                                            <div>2017年05月09日 17:30</div>
-                                            <div id="date-counter-1" class="date-counter"></div>
+                                            <div>{{ date('Y年m月d日', $sDate) }}</div>
+                                            <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>
                                             <div style="height: 15px"></div>
 {{--                                            拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                             拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
@@ -104,8 +109,8 @@
                                         </div>
 
                                         <script type="text/javascript">
-                                            $("#date-counter-1")
-                                                .countdown("2017/05/09 17:30:00", function(event) {
+                                            $("#date-counter-{{ $saleCounter }}")
+                                                .countdown("{{ date('Y-m-d', $sDate) }}", function(event) {
                                                     $(this).text(
                                                         event.strftime('%D days %H:%M:%S')
                                                     );
@@ -125,7 +130,8 @@
                     <div class="swiper-wrapper">
                         @foreach($salesGroup3 as $sale)
                             <?php
-                            $detail = $sale->details()->where('lang', $locale)->first();
+                                $saleCounter ++;
+                                $detail = $sale->details()->where('lang', $locale)->first();
                             ?>
                             <div class="swiper-slide">
                                 <div class="row">
@@ -136,9 +142,10 @@
 
                                         <div class="misc">
                                             <div class="cell-name">{{ $detail->title }}</div>
+                                            <?php $sDate = strtotime($sale->start_date); ?>
 
-                                            <div>2017年05月09日 17:30</div>
-                                            <div id="date-counter-1" class="date-counter"></div>
+                                            <div>{{ date('Y年m月d日', $sDate) }}</div>
+                                            <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>
                                             <div style="height: 15px"></div>
                                             {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                             拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
@@ -147,8 +154,8 @@
                                         </div>
 
                                         <script type="text/javascript">
-                                            $("#date-counter-1")
-                                                .countdown("2017/05/09 17:30:00", function(event) {
+                                            $("#date-counter-{{ $saleCounter }}")
+                                                .countdown("{{ date('Y-m-d', $sDate) }}", function(event) {
                                                     $(this).text(
                                                         event.strftime('%D days %H:%M:%S')
                                                     );
@@ -168,7 +175,8 @@
                     <div class="swiper-wrapper">
                         @foreach($salesGroup4 as $sale)
                             <?php
-                            $detail = $sale->details()->where('lang', $locale)->first();
+                                $saleCounter ++;
+                                $detail = $sale->details()->where('lang', $locale)->first();
                             ?>
                             <div class="swiper-slide">
                                 <div class="row">
@@ -179,9 +187,10 @@
 
                                         <div class="misc">
                                             <div class="cell-name">{{ $detail->title }}</div>
+                                            <?php $sDate = strtotime($sale->start_date); ?>
 
-                                            <div>2017年05月09日 17:30</div>
-                                            <div id="date-counter-1" class="date-counter"></div>
+                                            <div>{{ date('Y年m月d日', $sDate) }}</div>
+                                            <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>
                                             <div style="height: 15px"></div>
                                             {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                             拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
@@ -190,8 +199,8 @@
                                         </div>
 
                                         <script type="text/javascript">
-                                            $("#date-counter-1")
-                                                .countdown("2017/05/09 17:30:00", function(event) {
+                                            $("#date-counter-{{ $saleCounter }}")
+                                                .countdown("{{ date('Y-m-d', $sDate) }}", function(event) {
                                                     $(this).text(
                                                         event.strftime('%D days %H:%M:%S')
                                                     );
