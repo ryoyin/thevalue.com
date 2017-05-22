@@ -92,13 +92,13 @@
                   <!-- textarea -->
                   <div class="form-group">
                       <label>Description</label>
-                      <textarea id="description-{{ $lang }}" name="description-{{ $lang }}" class="form-control">{{ $item['description-'.$lang] }}</textarea>
+                      <textarea id="description-{{ $lang }}" name="description-{{ $lang }}" class="form-control">{!! $item['description-'.$lang] !!}</textarea>
                   </div>
 
                   <!-- textarea -->
                   <div class="form-group">
                       <label>Provenance</label>
-                      <textarea id="provenance-{{ $lang }}" name="provenance-{{ $lang }}" class="form-control">{{ $item['provenance-'.$lang] }}</textarea>
+                      <textarea id="provenance-{{ $lang }}" name="provenance-{{ $lang }}" class="form-control">{!! $item['provenance-'.$lang] !!}</textarea>
                   </div>
 
                   <!-- textarea -->

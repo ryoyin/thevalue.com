@@ -46,7 +46,8 @@ Route::post('/share-the-value', 'API\SubscriptController@subscription');
 //Route::get('/christie-image-resize', 'Scripts\ImportChristieSaleController@imgResize');
 //Route::get('/christie-image-resize-fit', 'Scripts\ImportChristieSaleController@imgFitResize');
 //Route::get('/christie-image-uploads3', 'Scripts\ImportChristieSaleController@uploadS3');
-Route::get('/christie-item-get-content', 'Scripts\ImportChristieSaleController@insertItemMissingDetail');
+//Route::get('/christie-item-get-content', 'Scripts\ImportChristieSaleController@insertItemMissingDetail');
+//Route::get('/christie-import-dimension', 'Scripts\ImportChristieSaleController@importDimension');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 

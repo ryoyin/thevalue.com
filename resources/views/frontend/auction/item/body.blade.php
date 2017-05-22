@@ -7,7 +7,7 @@
         <div class="lot-number">Lot {{ $lot->number }}</div>
         <div class="lot-title">{{ $lotDetail->title }}</div>
         <div class="lot-stitle">{{ $lotDetail->secondary_title }}</div>
-        <div class="lot-desc">{{ $lotDetail->description }}</div>
+        <div class="lot-desc">{!! $lotDetail->description !!}</div>
         <?php
         $estimate_initial = str_replace('HKD ', '', $lot->estimate_value_initial);
         $estimate_end = str_replace('HKD ', '', $lot->estimate_value_end);

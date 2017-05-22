@@ -826,4 +826,36 @@ class ImportChristieSaleController extends Controller
         echo $filePath."\n";
     }
 
+    public function importDimension()
+    {
+
+        $sales = App\AuctionSale::all();
+        foreach($sales as $sale) {
+            $items = $sale->items;
+
+            foreach($items as $item) {
+                $itemDetail = $item->details()->where('lang', 'en')->first();
+                $description = $itemDetail->description;
+                $exDesc = explode("\r\n", $description);
+
+                foreach($exDesc as $dItem) {
+
+                    if (stripos($dItem, "cm.") !== false) {
+                        $dimension = $dItem;
+                        $exItem = explode("cm.", $dItem);
+                        $dimension = $exItem[0].' cm';
+                        echo $dimension;
+                        echo '<br>';
+                    }
+
+                }
+
+                $item->dimension = $dimension;
+                $item->save();
+
+            }
+        }
+
+    }
+
 }
