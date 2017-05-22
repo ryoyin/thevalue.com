@@ -831,7 +831,7 @@ class ImportChristieSaleController extends Controller
 
         $sales = App\AuctionSale::all();
         foreach($sales as $sale) {
-            $items = $sale->items;
+            $items = $sale->items()->where('dimension', null)->get();
 
             foreach($items as $item) {
                 $itemDetail = $item->details()->where('lang', 'en')->first();
@@ -867,6 +867,8 @@ class ImportChristieSaleController extends Controller
                 }
 
                 echo $item->id."\n";
+                $item->dimension = 'dimension';
+                $item->save();
 
                 $item->dimension = $dimension;
                 $item->save();
