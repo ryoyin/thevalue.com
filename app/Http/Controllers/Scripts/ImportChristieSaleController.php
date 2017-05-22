@@ -838,6 +838,8 @@ class ImportChristieSaleController extends Controller
                 $description = $itemDetail->description;
                 $exDesc = explode("\r\n", $description);
 
+                $dimension = null;
+
                 foreach($exDesc as $dItem) {
 
                     if (stripos($dItem, "cm.") !== false) {
