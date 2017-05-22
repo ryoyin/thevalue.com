@@ -66,9 +66,12 @@ class ImportChristieSaleController extends Controller
             $items = $sale->items;
 
             foreach($items as $item) {
-                $itemDetails = $item->details;
+                $itemDetails = $item->details()->where('provenance', null)->get();
 
                 foreach($itemDetails as $itemDetail) {
+
+                    $itemDetail->provenance = 'provenance';
+                    $itemDetail->save();
 
                     $content = $this->getLotLocale($sale->christieSale->int_sale_id, $itemDetail->lang, $item->number);
 
