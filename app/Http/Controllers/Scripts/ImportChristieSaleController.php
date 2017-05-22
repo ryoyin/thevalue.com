@@ -858,13 +858,15 @@ class ImportChristieSaleController extends Controller
 
                         if (stripos($dItem, "cm.") !== false) {
                             $dimension = $dItem;
-                            $dimension = str_replace('<br>', '', $dimension);
+                            $dimension = str_replace("<br>", '', $dimension);
                             echo $dimension."\n";
 //                            echo '<br>';
                         }
 
                     }
                 }
+
+                echo $item->id."\n";
 
                 $item->dimension = $dimension;
                 $item->save();
