@@ -852,21 +852,21 @@ class ImportChristieSaleController extends Controller
 
                 }
 
-                if (stripos($dimension, "cm.") !== false) {
+                if (stripos($dimension, "<br>") !== false) {
                     $exDesc = explode("<br>", $description);
                     $dimension = null;
-                }
 
-                foreach($exDesc as $dItem) {
+                    foreach($exDesc as $dItem) {
 
-                    if (stripos($dItem, "cm.") !== false) {
-                        $dimension = $dItem;
-                        $exItem = explode("cm.", $dItem);
-                        $dimension = $exItem[0].' cm';
-                        echo $dimension."\n";
-                        echo '<br>';
+                        if (stripos($dItem, "cm.") !== false) {
+                            $dimension = $dItem;
+                            $exItem = explode("cm.", $dItem);
+                            $dimension = $exItem[0].' cm';
+                            echo $dimension."\n";
+                            echo '<br>';
+                        }
+
                     }
-
                 }
 
                 $item->dimension = $dimension;
