@@ -61,6 +61,7 @@
                 <th>Image</th>
                 <th>Title</th>
                 <th>Maker</th>
+                <th>Dimension</th>
                 <th style="text-align: center;">Action</th>
                 </tr>
                 </thead>
@@ -73,6 +74,7 @@
                     <td><img src="{{ config('app.s3_path').$item->image_small_path }}"</td>
                     <td>{{ mb_substr($itemDetail->title, 0, 50, 'utf-8') }}</td>
                     <td>{{ $itemDetail->make }}</td>
+                    <td>{{ $item->dimension }}</td>
                     <td align="center">
                       <a href="{{ route('backend.auction.itemEdit', ['itemID' => $item->id]) }}" class="btn btn-warning">Modify</a>
                   </tr>
