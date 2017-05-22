@@ -862,6 +862,7 @@ class ImportChristieSaleController extends Controller
                             $dimension = $dItem;
                             $exItem = explode("cm.", $dItem);
                             $dimension = $exItem[0].' cm';
+                            $dimension = str_replace('<br>', '', $dimension);
                             echo $dimension."\n";
                             echo '<br>';
                         }
