@@ -1,4 +1,4 @@
-<div id="right" class="col-md-3">
+<div id="right" class="hidden-xs hidden-sm col-md-3">
 
     @include('frontend.misc.sideBanner')
 
