@@ -351,8 +351,10 @@ class IndexController extends Controller
         return App\Article::orderBy('published_at', 'desc')->paginate(6);
     }
 
-    public function getLatestStories($size = 'medium')
+    public function getLatestStories(Request $request)
     {
+        $size = 'medium';
+
         $articleList = array();
         $articles = App\Article::orderBy('published_at', 'desc')->paginate(6);
         foreach($articles as $article) {
@@ -385,6 +387,13 @@ class IndexController extends Controller
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
                 'published_at' => $article->published_at->format('M d, Y h:i:s')
+            );
+        }
+
+        if($request->input('type') == 'app') {
+            return array(
+                'latestStories' => $articleList,
+                'categories' => $this->getCategoriesList()
             );
         }
 
