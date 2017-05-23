@@ -866,7 +866,7 @@ body {
     text-align: center;
 
     img {
-      width: 120px;
+      height: 140px;
     }
 
     .name {
@@ -926,7 +926,7 @@ body {
       font-size: 20px;
       font-weight: bold;
       img {
-        width: 40px;
+        height: 30px;
         padding-right: 10px;
       }
       span {
@@ -992,6 +992,7 @@ body {
 
   .pre-auction-block {
 
+    position: relative;
     padding: 0 !important;
 
     .swiper-wrapper {
@@ -1129,7 +1130,7 @@ body {
 
       .lot-block {
         position: relative;
-        border: 2px groove #8c8c8c;
+        //border: 2px groove #8c8c8c;
         border-top: 0;
         border-left: 0;
         //border-radius: 5px;

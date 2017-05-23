@@ -18,7 +18,7 @@ class AuctionController extends Controller
 
     }
 
-    public function auction($slug)
+    public function auction($slug, Request $request)
     {
 
         $fbMetaArray = array(
@@ -41,6 +41,15 @@ class AuctionController extends Controller
             'series' => $series,
         );
 
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    $data['appMode'] = true;
+                    return view('mobile.upcoming', $data);
+                    break;
+            }
+        }
+
         return view('frontend.auction.pre.main', $data);
 
     }
@@ -50,7 +59,7 @@ class AuctionController extends Controller
 
     }
 
-    public function houseUpcoming($house)
+    public function houseUpcoming($house, Request $request)
     {
         $locale = App::getLocale();
 
@@ -67,6 +76,7 @@ class AuctionController extends Controller
         $house = App\AuctionHouse::where('slug', $house)->first();
         $houseDetail = $house->details()->where('lang', $locale)->first();
         $seriesArray = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->get();
+//        dd($seriesArray);
         $presetSeries = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->first();
 
         $data = array(
@@ -79,11 +89,20 @@ class AuctionController extends Controller
             'presetSeries' => $presetSeries
         );
 
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    $data['appMode'] = true;
+                    return view('mobile.auctionCompany', $data);
+                    break;
+            }
+        }
+
         return view('frontend.auction.company.main', $data);
 
     }
 
-    public function sale($slug)
+    public function sale($slug, Request $request)
     {
 
         $fbMetaArray = array(
@@ -119,11 +138,20 @@ class AuctionController extends Controller
             'items' => $items
         );
 
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    $data['appMode'] = true;
+                    return view('mobile.auctionSale', $data);
+                    break;
+            }
+        }
+
         return view('frontend.auction.details.main', $data);
 
     }
 
-    public function item($slug, $lot)
+    public function item($slug, $lot, Request $request)
     {
 
         $fbMetaArray = array(
@@ -167,6 +195,15 @@ class AuctionController extends Controller
             'lot' => $lot,
             'lotDetail' => $lotDetail
         );
+
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    $data['appMode'] = true;
+                    return view('mobile.auctionSaleItem', $data);
+                    break;
+            }
+        }
 
         return view('frontend.auction.item.main', $data);
 
