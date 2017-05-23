@@ -743,7 +743,7 @@ body {
 }
 
 .auction .logo img {
-  width: 120px;
+  height: 140px;
 }
 
 .auction .logo .name {
@@ -798,7 +798,7 @@ body {
 }
 
 .auction .pre-auction-block .store-name img {
-  width: 40px;
+  height: 30px;
   padding-right: 10px;
 }
 
@@ -843,6 +843,7 @@ body {
 }
 
 .auction-company .pre-auction-block {
+  position: relative;
   padding: 0 !important;
 }
 
@@ -958,7 +959,6 @@ body {
 
 .auction-detail .series .lot .lot-block {
   position: relative;
-  border: 2px groove #8c8c8c;
   border-top: 0;
   border-left: 0;
   padding: 10px;
