@@ -57,7 +57,7 @@ function genLastStories(latestStoriesPaginationInfo) {
 
     if(latestStoriesCounter <= latestStoriesPaginationInfo.last_page && genStories) {
         if(latestStoriesCounter <= 3) {
-            console.log('auto show...');
+            // console.log('auto show...');
 
             $("#stories-loading-spinner").show().html('loading ...');
 
@@ -160,31 +160,31 @@ function showStoryCategories() {
 }
 
 function showMoreStores(obj) {
-    console.log('page: '+ latestStoriesCounter);
+    // console.log('page: '+ latestStoriesCounter);
     var type = $(obj).attr('type');
-    console.log('object type: ' + type);
+    // console.log('object type: ' + type);
 
     if(type == 'latestStories') {
-        console.log('latest');
+        // console.log('latest');
         var url = site_root+"api/getLatestStories?page="+latestStoriesCounter;
     } else {
-        console.log('popular');
+        // console.log('popular');
         var url = site_root+"api/getPopularStories?page="+latestStoriesCounter;
     }
 
-    console.log(url);
+    // console.log(url);
 
     $("#stories-loading-spinner").show().html('loading ...');
     $.ajax({
         url: url,
         dataType: 'json',
         success: function(json) {
-            console.log(json);
+            // console.log(json);
             if(type == 'latestStories') {
-                console.log('latest');
+                // console.log('latest');
                 var stories = $('#head').children('li:nth-child(1)');
             } else {
-                console.log('popular');
+                // console.log('popular');
                 var stories = $('#head').children('li:nth-child(2)');
             }
             var topicList = makeStories(json, stories);
