@@ -348,13 +348,13 @@ class IndexController extends Controller
 
     public function getLatestStoriesPaginationInfo()
     {
-        return App\Article::orderBy('published_at', 'desc')->paginate(24);
+        return App\Article::orderBy('published_at', 'desc')->paginate(6);
     }
 
     public function getLatestStories($size = 'medium')
     {
         $articleList = array();
-        $articles = App\Article::orderBy('published_at', 'desc')->paginate(24);
+        $articles = App\Article::orderBy('published_at', 'desc')->paginate(6);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
@@ -393,13 +393,13 @@ class IndexController extends Controller
 
     public function getPopularStoriesPaginationInfo()
     {
-        return $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(24);
+        return $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(6);
     }
 
     public function getPopularStories($size = 'medium')
     {
         $articleList = array();
-        $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(24);
+        $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(6);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
