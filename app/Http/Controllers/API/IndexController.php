@@ -29,6 +29,7 @@ class IndexController extends Controller
 
         //get latesStories
         $latestStoriesList = $this->getLatestStories();
+        $latestStoriesPaginationInfo = $this->getLatestStoriesPaginationInfo();
 
         //get popularStories
         $popularStoriesList = $this->getPopularStories();
@@ -49,6 +50,7 @@ class IndexController extends Controller
             'sideBanners' => $indexSideBannerList,
             'featuredArticles' => $featuredArticleList,
             'latestStories' => $latestStoriesList,
+            'latestStoriesPaginationInfo' => $latestStoriesPaginationInfo,
             'popularStories' => $popularStoriesList,
             's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
 //            'fbMeta' => $fbMetaArray
@@ -344,9 +346,15 @@ class IndexController extends Controller
         return $featuredArticleList;
     }
 
-    public function getLatestStories($size = 'medium') {
+    public function getLatestStoriesPaginationInfo()
+    {
+        return App\Article::orderBy('published_at', 'desc')->paginate(24);
+    }
+
+    public function getLatestStories($size = 'medium')
+    {
         $articleList = array();
-        $articles = App\Article::limit(20)->orderBy('published_at', 'desc')->get();
+        $articles = App\Article::orderBy('published_at', 'desc')->paginate(24);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
@@ -383,9 +391,15 @@ class IndexController extends Controller
         return $articleList;
     }
 
-    public function getPopularStories($size = 'medium') {
+    public function getPopularStoriesPaginationInfo()
+    {
+        return $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(24);
+    }
+
+    public function getPopularStories($size = 'medium')
+    {
         $articleList = array();
-        $articles = App\Article::limit(20)->orderBy('hit_counter', 'desc')->get();
+        $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(24);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
