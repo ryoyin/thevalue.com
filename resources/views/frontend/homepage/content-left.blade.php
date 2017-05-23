@@ -15,6 +15,7 @@
             @endforeach
         </ul>
         <div id="stories"></div>
+        <div id="stories-loading-spinner" style="display: none;" onclick="showMoreStores(this)" type="latestStories"></div>
     </div>
 
 </div>

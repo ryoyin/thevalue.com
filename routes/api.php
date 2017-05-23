@@ -23,6 +23,10 @@ Route::get('/search/{keyword}', 'API\IndexController@search');
 Route::get('/video', 'API\IndexController@video');
 Route::get('/about-us', 'API\IndexController@aboutUS');
 Route::get('/disclaimer', 'API\IndexController@disclaimer');
+Route::get('/getLatestStories', 'API\IndexController@getLatestStories');
+Route::get('/getLatestStoriesPaginationInfo', 'API\IndexController@getLatestStoriesPaginationInfo');
+Route::get('/getPopularStories', 'API\IndexController@getPopularStories');
+Route::get('/getPopularStoriesPaginationInfo', 'API\IndexController@getPopularStoriesPaginationInfo');
 
 Route::get('/user', function (Request $request) {
     return $request->user();

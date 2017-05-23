@@ -1397,3 +1397,12 @@ body {
     }
   }
 }
+
+#stories-loading-spinner {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 30px;
+  border: 4px double #8c8c8c;
+  color: #8c8c8c;
+  cursor: pointer;
+}
