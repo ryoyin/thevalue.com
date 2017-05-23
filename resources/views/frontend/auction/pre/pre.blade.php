@@ -6,7 +6,7 @@
         ?>
     <div style="position: relative;">
         <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-        <div class="more"><a href="{{ route('frontend.auction.house.upcoming', ['slug' => $house->slug]) }}">查看更多</a></div>
+        <div class="more"><a href="{{ route('frontend.auction.house.upcoming', ['slug' => $house->slug]) }}">@lang('thevalue.browse')</a></div>
         <div class="series">
             <?php $auctionDetail = $auction->details->where('lang', $locale)->first(); ?>
             <div class="title">{{ $auctionDetail->name }}</div>
@@ -23,8 +23,8 @@
                 'sim' => $startDateArray[$locale].' 至 '.$endDateArray[$locale],
             )
             ?>
-            <div class="datetime">拍賣日期: {{ $auctionDate[$locale] }}</div>
-            <div class="datetime">拍賣地點: {{ $auctionDetail->location }}</div>
+            <div class="datetime">@lang('thevalue.auction-date'): {{ $auctionDate[$locale] }}</div>
+            <div class="datetime">@lang('thevalue.auction-location'): {{ $auctionDetail->location }}</div>
             <?php
                 $sales = $auction->sales();
                 switch($auction->id) {
@@ -61,14 +61,21 @@
 
                                     <div class="misc">
                                         <div class="cell-name">{{ $detail->title }}</div>
-                                        <?php $sDate = strtotime($sale->start_date); ?>
+                                        <?php
+                                            $sDate = strtotime($sale->start_date);
+                                            $saleDate = array(
+                                              'en' => date('Y-m-d', $sDate),
+                                              'trad' => date('Y年m月d日', $sDate),
+                                              'sim' => date('Y年m月d日', $sDate),
+                                            );
+                                        ?>
 
-                                        <div>{{ date('Y年m月d日', $sDate) }}</div>
+                                        <div>{{ $saleDate[$locale] }}</div>
                                         <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>
                                         <div style="height: 15px"></div>
                                         {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
-                                        拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
-                                        <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">觀看展品</a>
+                                        @lang('thevalue.total-lots')：<span>{{ $sale->total_lots }}</span><br>
+                                        <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
 
                                     </div>
 

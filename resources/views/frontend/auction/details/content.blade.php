@@ -21,11 +21,11 @@
 
                 <div class="pre-auction-block">
                     <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}"">查看更多</a></div>
+                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}">@lang('thevalue.browse')</a></div>
                     <div class="series">
-                        <div class="title">拍卖预展 - {{ $seriesDetail->name }}</div>
+                        <div class="title">@lang('thevalue.upcoming-auction') - {{ $seriesDetail->name }}</div>
                         <div class="input-group selection">
-                            <span class="input-group-addon" id="basic-addon1">請選擇 :</span>
+                            <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
                             <?php
                             $seriesSales = $series->sales()->orderBy('start_date')->get();
                             ?>
@@ -45,14 +45,18 @@
                             <div class="cell-name">{{ $saleDetail->title }}</div>
                             <?php
                             $sDate = strtotime($sale->start_date);
-                            $sDate = date('Y年m月d日', $sDate);
+                            $sDate = array(
+                                'en' => date('Y-m-d', $sDate),
+                                'trad' => date('Y年m月d日', $sDate),
+                                'sim' => date('Y年m月d日', $sDate),
+                            );
                             ?>
 
-                            <div style="float:left">{{ $sDate }}</div>
+                            <div style="float:left">@lang('thevalue.auction-date')： {{ $sDate[$locale] }}</div>
                             <div id="date-counter-1" class="date-counter" style="float:left"></div>
                             <div style="clear:both"></div>
-                            拍卖地点：<span>{{ $saleDetail->location }}</span><br>
-                            拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
+                            @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
+                            @lang('thevalue.total-lots')：<span>{{ $sale->total_lots }}</span> <br>
 
                         </div>
 
@@ -73,22 +77,24 @@
                                         <div class=""><img data-original="{{ config('app.s3_path').$item->image_fit_path }}" class="img-responsive lazy"></div>
                                         <div class="lot-detail">
                                             <?php
-                                            $itemTitleEN = mb_substr($itemDetail->title, 0, 70, 'utf-8');
-                                            if(strlen($itemDetail->title) > 70) $itemTitleEN .= '...';
-                                            $itemTitleZH = mb_substr($itemDetail->title, 0, 48, 'utf-8');
-                                            $itemTitleZH = str_replace('，“', '， “', $itemTitleZH);
-                                            if(strlen($itemDetail->title) > 40) $itemTitleZH .= '...';
-                                            $itemTitleArray = array('en' => $itemTitleEN, 'trad' => $itemTitleZH, 'sim' => $itemTitleZH);
+                                                $itemTitleEN = mb_substr($itemDetail->title, 0, 70, 'utf-8');
+                                                if(strlen($itemDetail->title) > 70) $itemTitleEN .= '...';
+                                                $itemTitleZH = mb_substr($itemDetail->title, 0, 48, 'utf-8');
+                                                $itemTitleZH = str_replace('，“', '， “', $itemTitleZH);
+                                                if(strlen($itemDetail->title) > 40) $itemTitleZH .= '...';
+                                                $itemTitleArray = array('en' => $itemTitleEN, 'trad' => $itemTitleZH, 'sim' => $itemTitleZH);
                                             ?>
                                             <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitleArray[$locale] }}</div>
                                             <?php
-                                            $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
-                                            $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
-                                            $estimate = $estimate_initial.' - '.$estimate_end;
+                                                $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
+                                                $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
+                                                $estimate = trans('thevalue.estimate').': '.$item->currency_code.' - '.$estimate_initial.' - '.$estimate_end;
 
-                                            if($estimate_initial == '' && $estimate_end == '') $estimate = 'Estimate on Request';
+                                                if($estimate_initial == '' && $estimate_end == '') {
+                                                    $estimate = trans('thevalue.estimate-on-request');
+                                                }
                                             ?>
-                                            <div class="lot-value">Estimate: {{ $item->currency_code }} {{ $estimate }}</div>
+                                            <div class="lot-value">{{ $estimate }}</div>
                                         </div>
                                     </div>
                                 </div>

@@ -52,7 +52,7 @@
                 <div class="series">
 
                     <div class="input-group selection">
-                        <span class="input-group-addon" id="basic-addon1">請選擇 :</span>
+                        <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select') :</span>
                         <select class="form-control" id="sel1" aria-describedby="basic-addon1">
                             @foreach($seriesArray as $series)
                                 <?php $seriesDetail = $series->details()->where('lang', $locale)->first(); ?>
@@ -79,8 +79,8 @@
                         ?>
                         <div class="title">{{ $presetSeriesDetail->name }}</div>
                         {{--<div class="ele">预展时间：2017年5月4日-7日</div>--}}
-                        <div class="ele">拍卖时间：{{ $auctionDate[$locale] }}</div>
-                        <div class="ele">拍卖地點： {{ $presetSeriesDetail->location }}</div>
+                        <div class="ele">@lang('thevalue.auction-date')：{{ $auctionDate[$locale] }}</div>
+                        <div class="ele">@lang('thevalue.auction-location')： {{ $presetSeriesDetail->location }}</div>
                     </div>
                     <!-- Swiper -->
                     <div class="swiper-container">
@@ -89,7 +89,7 @@
                             @foreach($seriesArray as $series)
                                 <?php $sales = $series->sales; ?>
 
-                                @foreach($sales as $sale)
+                                @foreach($sales as $sIndex => $sale)
                                     <?php $saleDetail = $sale->details()->where('lang', $locale)->first(); ?>
                                     <div class="swiper-slide">
                                         <div class="row col-sm-6 col-md-4 item">
@@ -99,29 +99,43 @@
                                                 <div class="misc">
 
                                                     <div class="cell-name">{{ $sale->title }}</div>
-                                                    拍卖地点：<span>8 King Street St. James’s London SW1Y 6QT</span><br>
-                                                    拍卖总数：<span>136</span> 件<br>
+                                                    @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
+                                                    @lang('thevalue.browse-lots')：<span>{{ $sale->total_lots }}</span> <br>
 
                                                 </div>
 
-                                                <script type="text/javascript">
-                                                    $("#date-counter-1")
-                                                        .countdown("2017/05/09 17:30:00", function(event) {
-                                                            $(this).text(
-                                                                event.strftime('%D days %H:%M:%S')
-                                                            );
-                                                        });
-                                                </script>
 
                                             </div>
 
                                             <div class="col-xs-7 detail bottom">
                                                 <div class="misc">
                                                     <div class="sepline"></div>
-                                                    <div>2017年05月09日 17:30</div>
-                                                    <div id="date-counter-1" class="date-counter"></div>
+                                                    <?php
+                                                        $saleDateRaw = strtotime($sale->start_date);
+                                                        $saleDateCount = date('Y/m/d H:i:s', $saleDateRaw);
+                                                        $saleDate = date('Y年m月d H:i:s', $saleDateRaw);
+                                                        $saleDate = array(
+                                                            'en' => date('Y-m-d H:i:s', $saleDateRaw),
+                                                            'trad' => date('Y年m月d H:i:s', $saleDateRaw),
+                                                            'sim' => date('Y年m月d H:i:s', $saleDateRaw),
+                                                        )
+                                                    ?>
 
-                                                    <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">觀看展品</a>
+                                                    <div>{{ $saleDate[$locale] }}</div>
+                                                    <div id="date-counter-{{ $sIndex }}" class="date-counter"></div>
+
+
+
+                                                    <script type="text/javascript">
+                                                        $("#date-counter-{{ $sIndex }}")
+                                                            .countdown("{{ $saleDateCount }}", function(event) {
+                                                                $(this).text(
+                                                                    event.strftime('%D days %H:%M:%S')
+                                                                );
+                                                            });
+                                                    </script>
+
+                                                    <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
 
                                                 </div>
                                             </div>

@@ -1,7 +1,7 @@
 <div class="item-body row">
     <div class="col-sm-5 col-md-5 item-image">
         <img src="{{ config('app.s3_path').$lot->image_medium_path }}" class="img-responsive" onclick="galleryInit();">
-        <div class="enlarge" onclick="galleryInit();"><i class="fa fa-expand" aria-hidden="true"></i> click to enlarge</div>
+        <div class="enlarge" onclick="galleryInit();"><i class="fa fa-expand" aria-hidden="true"></i> @lang('thevalue.click-to-enlarge')</div>
     </div>
     <div class="col-sm-7 col-md-7 item-detail">
         <div class="lot-number">Lot {{ $lot->number }}</div>
@@ -13,9 +13,13 @@
         $estimate_end = str_replace('HKD ', '', $lot->estimate_value_end);
         $estimate = $estimate_initial.' - '.$estimate_end;
 
-        if($estimate_initial == '' && $estimate_end == '') $estimate = 'Estimate on Request';
+        $estimate = trans('thevalue.estimate').'<br>'.$lot->currency_code.' '.$estimate;
+
+        if($estimate_initial == '' && $estimate_end == '') {
+            $estimate = trans('thevalue.estimate-on-request');
+        }
         ?>
-        <div class="lot-estimate">Estimate<br>{{$lot->currency_code}} {{ $estimate }}</div>
+        <div class="lot-estimate">{!! $estimate !!}</div>
     </div>
 </div>
 

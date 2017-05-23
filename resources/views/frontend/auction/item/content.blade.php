@@ -21,11 +21,11 @@
 
                 <div class="pre-auction-block">
                     <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}"">查看更多</a></div>
+                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}"">@lang('thevalue.browse')</a></div>
                     <div class="series">
-                        <div class="title">拍卖预展 - {{ $seriesDetail->name }}</div>
+                        <div class="title">@lang('thevalue.upcoming-auction') - {{ $seriesDetail->name }}</div>
                         <div class="input-group selection">
-                            <span class="input-group-addon" id="basic-addon1">請選擇 :</span>
+                            <span class="input-group-addon" id="basic-addon1">@lang('please-select')</span>
                             <?php
                             $seriesSales = $series->sales()->orderBy('start_date')->get();
                             ?>

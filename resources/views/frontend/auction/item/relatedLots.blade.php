@@ -1,6 +1,6 @@
 @if(count($items) > 0)
 <div class="misc-block item-related input-group selection">
-    <div class="title">Related Lots</div>
+    <div class="title">@lang('thevalue.related-lot')</div>
     @foreach($items as $iKey => $item)
         <?php $itemDetail = $item->details()->where('lang', $locale)->first() ?>
         <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4 lot">
@@ -20,10 +20,13 @@
                     $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
                     $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
                     $estimate = $estimate_initial.' - '.$estimate_end;
+                    $estimate = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
 
-                    if($estimate_initial == '' && $estimate_end == '') $estimate = 'Estimate on Request';
+                    if($estimate_initial == '' && $estimate_end == '') {
+                        $estimate = trans('thevalue.estimate-on-request');
+                    }
                     ?>
-                    <div class="lot-value">Estimate: {{ $item->currency_code }} {{ $estimate }}</div>
+                    <div class="lot-value">{{ $estimate }}</div>
                 </div>
             </div>
         </div>

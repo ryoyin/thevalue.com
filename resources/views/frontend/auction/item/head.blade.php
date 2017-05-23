@@ -7,14 +7,14 @@
             <div class="cell-name">{{ $saleDetail->title }}</div>
 
             <?php
-            $saleDateRaw = strtotime($sale->start_date);
-            $saleDate = date('Y-m-d', $saleDateRaw);
+                $saleDateRaw = strtotime($sale->start_date);
+                $saleDate = date('Y-m-d', $saleDateRaw);
             ?>
             <div style="float:left">{{ $saleDate }}</div>
             <div id="date-counter-1" class="date-counter" style="float:left"></div>
             <div style="clear:both"></div>
-            拍卖地点：<span>{{ $saleDetail->location }}</span><br>
-            拍卖总数：<span>{{ $sale->total_lots }}</span> 件<br>
+            @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
+            @lang('thevalue.total-lots')：<span>{{ $sale->total_lots }}</span> <br>
 
         </div>
 
