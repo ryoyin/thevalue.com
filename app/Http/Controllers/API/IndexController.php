@@ -317,6 +317,7 @@ class IndexController extends Controller
         }
 
         $result['categories'] = $this->getCategoriesList();
+        unset($result['categories'][1]);
 
         return $result;
     }
