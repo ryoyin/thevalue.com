@@ -20,7 +20,7 @@
                             <li class='cate'><a href="{{ route("frontend.category", ['slug' => $story['category']['slug']]) }}">{{ $story['category']['name'] }}</a></li>
                             <li class='title'><a href='{{ route('frontend.article', ['slug' => $story['slug']]) }}'>{{ $story['title'] }}</a></li>
                             <li class='published_at'><span>@lang('thevalue.publish-date')</span> {!! $story['published_at'] !!}</li>
-                            <?php $story['short_desc'] .= trim($story['short_desc']) == '' ? : '...'; ?>
+                            <?php $story['short_desc'] .= trim($story['short_desc']) == '' ? '' : '...'; ?>
                             <li class='desc' style='clear:both'><a href='{{ route('frontend.article', ['slug' => $story['slug']]) }}'>{{ $story['short_desc'] }}</a></li>
                             <li class='social pull-right'>
                                 <ul class='ul-clean share'>
