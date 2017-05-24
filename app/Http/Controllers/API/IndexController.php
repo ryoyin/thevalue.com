@@ -531,7 +531,7 @@ class IndexController extends Controller
     public function getSearchStories($keyword, $size = 'medium') {
         $articleList = array();
 //        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
-        $articleDetail = App\ArticleDetail::where('status', 'published')->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->where('lang', $this->locale)->get();
+        $articleDetail = App\ArticleDetail::where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->where('lang', $this->locale)->where('status', 'published')->get();
 
         foreach($articleDetail as $detail) {
             $article = $detail->article;
