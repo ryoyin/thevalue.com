@@ -40,9 +40,9 @@
         swiper[i].slideTo(slideTo);
     }
 
-//    swiper[i].slideTo(1);
+//    swiper.slideTo(1);
 
-    /*$(window).resize(function() {
+    $(window).resize(function() {
         if(window.screen.availWidth <=460) {
             updateSwiper(1, 1);
 //            console.log('move');
@@ -51,7 +51,7 @@
         } else {
             updateSwiper(3, 3);
         }
-    });*/
+    });
 
     function updateSwiper(slidesPerView, swiperTo) {
         for(var i=0; i < swiper.length; i++) {
