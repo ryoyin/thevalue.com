@@ -323,13 +323,17 @@ class IndexController extends Controller
 
     public function getFeaturedArticleList($size = 'medium') {
         $featuredArticleList = array();
-        $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('sorting')->get();
+        $featuredArticles = App\FeaturedArticle::orderBy('sorting')->get();
+
         foreach($featuredArticles as $featuredArticle) {
             $article = $featuredArticle->article;
             $detail = $article->details->where('lang', $this->locale)->first();
 
-            if(count($detail) == 0) {
-                $detail = $article->details->where('lang', 'en')->first();
+            if($this->locale == 'en') {
+                if(trim($detail->description) == '') continue;
+            } else {
+                $checkEnDetail = $article->details->where('lang', 'en')->first();
+                if(trim($checkEnDetail->description) != '' ) continue;
             }
 
             $photo = $article->photo;
