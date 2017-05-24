@@ -377,14 +377,12 @@ class IndexController extends Controller
 
     public function getLatestStories($size = 'medium')
     {
+        $this->locale = App::getLocale();
+
         $articleList = array();
         $articles = App\Article::orderBy('published_at', 'desc')->paginate(6);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
-
-            if(count($detail) == 0) {
-                $detail = $article->details->where('lang', 'en')->first();
-            }
 
             $photo = $article->photo;
 
@@ -422,14 +420,12 @@ class IndexController extends Controller
 
     public function getPopularStories($size = 'medium')
     {
+        $this->locale = App::getLocale();
+
         $articleList = array();
         $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(6);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
-
-            if(count($detail) == 0) {
-                $detail = $article->details->where('lang', 'en')->first();
-            }
 
             $photo = $article->photo;
 
