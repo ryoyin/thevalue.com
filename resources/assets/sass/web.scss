@@ -594,6 +594,14 @@ body {
             .desc {
               padding-top: 8px;
             }
+            .published_at {
+              //clear:both;
+              //float:right;
+              span {
+                font-weight: bold;
+              }
+              font-size: 14px;
+            }
           }
         }
       }
@@ -671,6 +679,55 @@ body {
         text-decoration: none;
       }
     }
+  }
+}
+
+#stories {
+  .social {
+    clear:both;
+    padding-top: 12px;
+      .share {
+        display: inline-block;
+        li {
+          float: left;
+          font-size: 14px;
+          padding: 0 5px;
+          i {
+            color: #FFFFFF;
+            padding: 5px;
+          }
+          .fa-envelope {
+            background-color: #0d6aad;
+          }
+
+          .fa-facebook-f {
+            background-color: #3b5998;
+            padding: 5px 8px;
+          }
+
+          .fa-twitter {
+            background-color: #00aced;
+          }
+
+          .fa-weibo {
+            background-color: #df2029;
+          }
+
+          .fa-wechat {
+            background-color: #09b93e;
+          }
+
+
+          &:nth-child(1) {
+            padding-left: 0px;
+          }
+        }
+        .text {
+          span {
+            font-weight: bold;
+          }
+        }
+      }
   }
 }
 
