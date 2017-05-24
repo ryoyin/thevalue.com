@@ -113,6 +113,12 @@ class ArticleController extends Controller
         $article->share_counter = $request->share_counter;
         $article->published_at = $request->published_at;
         $article->status = $request->status;
+        $description_en = 'description-en';
+        if(trim($request->$description_en) != '') $article->en = 1;
+        $description_trad = 'description-trad';
+        if(trim($request->$description_trad) != '') $article->trad = 1;
+        $description_sim = 'description-sim';
+        if(trim($request->$description_sim) != '') $article->sim = 1;
         $article->save();
 
         if($request->gallery != "") {
@@ -270,6 +276,12 @@ class ArticleController extends Controller
         $article->share_counter = $request->share_counter;
         $article->published_at = $request->published_at;
         $article->status = $request->status;
+        $description_en = 'description-en';
+        $article->en = trim($request->$description_en) == '' ?  0 : 1;
+        $description_trad = 'description-trad';
+        $article->trad = trim($request->$description_trad) == '' ?  0 : 1;
+        $description_sim = 'description-sim';
+        $article->sim = trim($request->$description_sim) == '' ?  0 : 1;
         $article->save();
 
         if($request->gallery != "") {
