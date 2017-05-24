@@ -886,6 +886,11 @@ body {
   font-weight: bold;
 }
 
+.auction .pre-auction-block .series .detail .cell-name a {
+  text-decoration: none;
+  color: #000000;
+}
+
 .auction .pre-auction-block .series .detail .misc span {
   color: #8c8c8c;
 }
@@ -1001,6 +1006,11 @@ body {
   padding-bottom: 10px !important;
   font-weight: bold !important;
   font-size: 18px !important;
+}
+
+.auction-detail .series .misc .cell-name a {
+  text-decoration: none;
+  color: #000000;
 }
 
 .auction-detail .series .lot {

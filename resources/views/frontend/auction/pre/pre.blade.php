@@ -4,8 +4,10 @@
             $house = $auction->house;
             $houseDetail = $house->details->where('lang', $locale)->first();
 
+            $customLocale = array('en' => 'en','trad' => 'zh','sim' => 'zh');
+
             if($house->id == 2) {
-                $browseMore = 'http://www.sothebys.com/zh/auctions.html';
+                $browseMore = 'http://www.sothebys.com/'.$customLocale[$locale].'/auctions.html';
                 $target = 'target="_blank"';
             } else {
                 $browseMore = route('frontend.auction.house.upcoming', ['slug' => $house->slug]);
@@ -60,21 +62,23 @@
                                     <div class="row">
                                         <?php
                                             $saleCounter ++;
-
-                                            $locale = App::getLocale();
-                                            $customTitle = array(
-                                                'en' => 'Qing dynasty jades from a Hong Kong Collection',
-                                                'trad' => '瓊林美玉 – 香港清玉收藏',
-                                                'sim' => '琼林美玉 - 香港清玉收藏',
-                                            )
+                                            $customTitle = array('en' => 'Qing dynasty jades from a Hong Kong Collection','trad' => '瓊林美玉 – 香港清玉收藏','sim' => '琼林美玉 - 香港清玉收藏');
                                         ?>
-                                        <div class="col-xs-5"><img src='{{ asset('images/company_logo/HK0771_auctionlist.jpg') }}' class="img-responsive"></div>
+                                        <div class="col-xs-5">
+                                            <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank">
+                                                <img src='{{ asset('images/company_logo/HK0771_auctionlist.jpg') }}' class="img-responsive">
+                                            </a>
+                                        </div>
                                         <div class="col-xs-7 detail">
 
                                             <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
 
                                             <div class="misc">
-                                                <div class="cell-name">{{ $detail->title }}</div>
+                                                <div class="cell-name">
+                                                    <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank">
+                                                        {{ $detail->title }}
+                                                    </a>
+                                                </div>
                                                 <?php
                                                 $sDate = strtotime('2017-06-01 10:00:00');
                                                 $saleDate = array(
@@ -89,7 +93,7 @@
                                                 <div style="height: 15px"></div>
                                                 {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                                 @lang('thevalue.total-lots')：<span>100</span><br>
-                                                <a href="http://www.sothebys.com/zh/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
+                                                <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
 
                                             </div>
 
@@ -117,13 +121,21 @@
                                             'sim' => '中国艺术品 - 包括John Payne旧版日本版画',
                                         )
                                         ?>
-                                        <div class="col-xs-5"><img src='{{ asset('images/company_logo/HK0732_auctionlist.jpg') }}' class="img-responsive"></div>
+                                        <div class="col-xs-5">
+                                            <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank">
+                                                <img src='{{ asset('images/company_logo/HK0732_auctionlist.jpg') }}' class="img-responsive">
+                                            </a>
+                                        </div>
                                         <div class="col-xs-7 detail">
 
-                                            <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
+                                            <a class="cell-name" href="{{ $browseMore }}">{{ $houseDetail->name }}</a><br>
 
                                             <div class="misc">
-                                                <div class="cell-name">{{ $detail->title }}</div>
+                                                <div class="cell-name">
+                                                    <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank">
+                                                        {{ $detail->title }}
+                                                    </a>
+                                                </div>
                                                 <?php
                                                 $sDate = strtotime('2017-06-01 14:00:00');
                                                 $saleDate = array(
@@ -138,7 +150,7 @@
                                                 <div style="height: 15px"></div>
                                                 {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                                 @lang('thevalue.total-lots')：<span>483</span><br>
-                                                <a href="http://www.sothebys.com/en/auctions/2017/chinese-art-hk0732.html" target="_blank" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
+                                                <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
 
                                             </div>
 
@@ -162,13 +174,13 @@
                                 ?>
                                 <div class="swiper-slide">
                                     <div class="row">
-                                        <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
+                                        <div class="col-xs-5"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></a></div>
                                         <div class="col-xs-7 detail">
 
-                                            <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
+                                            <a class="cell-name" href="{{ $browseMore }}">{{ $houseDetail->name }}</a><br>
 
                                             <div class="misc">
-                                                <div class="cell-name">{{ $detail->title }}</div>
+                                                <div class="cell-name cell-title"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}">{{ $detail->title }}</a></div>
                                                 <?php
                                                     $sDate = strtotime($sale->start_date);
                                                     $saleDate = array(
