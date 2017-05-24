@@ -167,11 +167,10 @@ class CategoryController extends Controller
     }
 
     public function getCategoryStories($category, $size = 'medium') {
-        $locale = $this->locale;
         $articleList = array();
-        $articles = $category->articles()->where($locale, 1)->orderBy('published_at', 'desc')->get();
+        $articles = $category->articles()->orderBy('published_at', 'desc')->get();
         foreach($articles as $article) {
-            $detail = $article->details->where('lang', $locale)->first();
+            $detail = $article->details->where('lang', $this->locale)->first();
 
             $photo = $article->photo;
 
