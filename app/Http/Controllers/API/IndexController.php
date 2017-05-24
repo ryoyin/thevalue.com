@@ -372,7 +372,7 @@ class IndexController extends Controller
 
     public function getLatestStoriesPaginationInfo()
     {
-        return App\Article::orderBy('published_at', 'desc')->paginate(6);
+        return App\Article::where($this->locale, 1)->orderBy('published_at', 'desc')->paginate(6);
     }
 
     public function getLatestStories($size = 'medium')
@@ -380,7 +380,7 @@ class IndexController extends Controller
         $this->locale = App::getLocale();
 
         $articleList = array();
-        $articles = App\Article::orderBy('published_at', 'desc')->paginate(6);
+        $articles = App\Article::where($this->locale, 1)->orderBy('published_at', 'desc')->paginate(6);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
@@ -415,7 +415,7 @@ class IndexController extends Controller
 
     public function getPopularStoriesPaginationInfo()
     {
-        return $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(6);
+        return $articles = App\Article::where($this->locale, 1)->orderBy('hit_counter', 'desc')->paginate(6);
     }
 
     public function getPopularStories($size = 'medium')
@@ -423,7 +423,7 @@ class IndexController extends Controller
         $this->locale = App::getLocale();
 
         $articleList = array();
-        $articles = App\Article::orderBy('hit_counter', 'desc')->paginate(6);
+        $articles = App\Article::where($this->locale, 1)->orderBy('hit_counter', 'desc')->paginate(6);
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
