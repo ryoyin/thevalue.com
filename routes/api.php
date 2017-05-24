@@ -27,7 +27,7 @@ Route::get('/getLatestStories', 'API\IndexController@getLatestStories');
 Route::get('/getLatestStoriesPaginationInfo', 'API\IndexController@getLatestStoriesPaginationInfo');
 Route::get('/getPopularStories', 'API\IndexController@getPopularStories');
 Route::get('/getPopularStoriesPaginationInfo', 'API\IndexController@getPopularStoriesPaginationInfo');
-Route::get('/getStores', 'API\IndexController@getStories');
+Route::get('/getStories', 'API\IndexController@getStories');
 
 Route::get('/user', function (Request $request) {
     return $request->user();
