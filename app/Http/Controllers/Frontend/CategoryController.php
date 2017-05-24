@@ -168,7 +168,9 @@ class CategoryController extends Controller
 
     public function getCategoryStories($category, $size = 'medium') {
         $articleList = array();
-        $articles = $category->articles()->orderBy('published_at', 'desc')->get();
+//        $articles = $category->articles()->orderBy('published_at', 'desc')->get();
+        $articles = $category->articles()->where($this->locale, 1)->orderBy('published_at', 'desc')->get();
+
         foreach($articles as $article) {
             $detail = $article->details->where('lang', $this->locale)->first();
 
