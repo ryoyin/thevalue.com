@@ -42,22 +42,17 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav head-dropdown-menu-list">
                 @foreach($categories as $category)
-                    <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
+                    @if($category['slug'] == 'Global-Gallery')
+                        <?php
+                            $outsideLang = array('en' => 'en','trad' => 'hk','sim' => 'cn');
+                        ?>
+                        <li><a href='https://{{ $outsideLang[App::getLocale()] }}.thevalue.com/global-galleries'>@lang('thevalue.global-gallery')</a></li>
+                        <li><a href='{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}'>@lang('thevalue.auctions-info')</a></li>
+                    @else
+                        <li><a href='{{ route('frontend.category', ['slug' => $category['slug']]) }}'>{{ $category['name'] }}</a></li>
+                    @endif
                 @endforeach
                 <li><a href='{{ route('frontend.category', ['slug' => 'videos']) }}'>@lang('thevalue.video')</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ route('frontend.aboutus') }}">@lang('thevalue.contact-us')</a></li>
-                <li><a href="{{ route('frontend.disclaimer') }}">@lang('thevalue.disclaimer')</a></li>
-                {{--<li><a href="{{ route('frontend.disclaimer') }}">@lang('thevalue.disclaimer')</a></li>--}}
-                {{--<li class="dropdown lang-list-last">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-globe" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onclick="redirectLang(this, 'en');">English</a></li></li>
-                        <li><a href="#" onclick="redirectLang(this, 'trad');">繁體中文</a></li>
-                        <li><a href="#" onclick="redirectLang(this, 'sim');">简体中文</a></li>
-                    </ul>
-                </li>--}}
             </ul>
         </div><!--/.nav-collapse -->
     </div>

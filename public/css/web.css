@@ -63,9 +63,6 @@
     cursor: pointer;
     font-size: 10px !important;
   }
-  #home-content #left #head li:last-child {
-    padding: 24px 0 0;
-  }
   #home-content #left #block {
     position: relative;
     z-index: 1000;
@@ -400,10 +397,6 @@ body {
   padding: 15px 30px;
   color: #8c8c8c;
   cursor: pointer;
-}
-
-#home-content #left #head li:last-child {
-  padding: 24px 0 0;
 }
 
 #home-content #left #block {
@@ -1176,6 +1169,11 @@ body {
 
 #footer {
   padding: 20px 0 0;
+}
+
+#footer a {
+  text-decoration: none;
+  color: #000000;
 }
 
 @media only screen and (max-width: 460px) {

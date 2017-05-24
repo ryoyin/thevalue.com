@@ -47,7 +47,7 @@
     <script src="{{ asset('js/photoswipe/photoswipe-ui-default.min.js') }}"></script>
 
     <!-- custom -->
-    <link href="{{ asset('css/web.css') }}?refresh=2017052502" rel="stylesheet">
+    <link href="{{ asset('css/web.css') }}?refresh=2017052503" rel="stylesheet">
 
     <script src="{{ asset('js/js.cookie.js') }}"></script>
 
@@ -59,7 +59,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script src="{{ asset('js/general.js') }}?refresh=2017052501"></script>
+    <script src="{{ asset('js/general.js') }}?refresh=2017052502"></script>
 
     <!-- Google GA -->
     <script>
