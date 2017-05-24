@@ -53,4 +53,7 @@ return [
     'estimate-on-request' => '估價代詢',
     'click-to-enlarge' => '點擊放大',
     'related-lot' => '相關拍品',
+    'shares' => 'shares',
+    'hits' => 'hits',
+    'publish-date' => '發佈日期',
 ];

@@ -19,7 +19,7 @@
                         <ul class='ul-clean'>
                             <li class='cate'><a href="{{ route("frontend.category", ['slug' => $story['category']['slug']]) }}">{{ $story['category']['name'] }}</a></li>
                             <li class='title'><a href='{{ route('frontend.article', ['slug' => $story['slug']]) }}'>{{ $story['title'] }}</a></li>
-                            <li class='published_at'><span>Publish Date</span> {!! $story['published_at'] !!}</li>
+                            <li class='published_at'><span>@lang('thevalue.publish-date')</span> {!! $story['published_at'] !!}</li>
                             <li class='social'>
                                 <ul class='ul-clean share'>
                                     <li><a href="http://service.weibo.com/share/share.php?url={{ route("frontend.article", ['slug' => $story['slug']]) }}=&title={{ $story['title'] }}&pic={{ $image_path }}&ralateUid=&language=zh_cn" target="_blank"><i class='fa fa-weibo' aria-hidden='true'></i></a></li>
@@ -29,8 +29,8 @@
                             </li>
                             <li class='social'>
                                 <ul class='ul-clean share'>
-                                    <li class="text">{{ $story['share_counter'] }} <span>shares</span></li>
-                                    <li class="text">{{ $story['hit_counter'] }} <span>hits</li>
+                                    <li class="text">{{ $story['share_counter'] }} <span>@lang('thevalue.shares')</span></li>
+                                    <li class="text">{{ $story['hit_counter'] }} <span>@lang('thevalue.hits')</li>
                                 </ul>
                             </li>
                             {{--<li class='desc' style='clear:both'>{!! $story['short_desc'] !!}</li>--}}

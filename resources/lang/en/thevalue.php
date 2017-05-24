@@ -58,4 +58,8 @@ return [
     'estimate-on-request' => 'Estimate',
     'click-to-enlarge' => 'click to enlarge',
     'related-lot' => 'Related Lots',
+    'shares' => 'shares',
+    'hits' => 'hits',
+    'publish-date' => 'Publish Date',
+
 ];

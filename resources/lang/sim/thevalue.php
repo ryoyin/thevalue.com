@@ -54,4 +54,7 @@ return [
     'estimate-on-request' => '估价代询',
     'click-to-enlarge' => '点击放大',
     'related-lot' => '相关拍品',
+    'shares' => '分享',
+    'hits' => '点击',
+    'publish-date' => '发布日期',
 ];
