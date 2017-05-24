@@ -21,7 +21,7 @@
                             <li class='title'><a href='{{ route('frontend.article', ['slug' => $story['slug']]) }}'>{{ $story['title'] }}</a></li>
                             <li class='published_at'><span>@lang('thevalue.publish-date')</span> {!! $story['published_at'] !!}</li>
                             <?php $story['short_desc'] .= trim($story['short_desc']) == '' ? : '...'; ?>
-                            <li class='desc' style='clear:both'>{{ $story['short_desc'] }}</li>
+                            <li class='desc' style='clear:both'><a href='{{ route('frontend.article', ['slug' => $story['slug']]) }}'>{{ $story['short_desc'] }}</a></li>
                             <li class='social pull-right'>
                                 <ul class='ul-clean share'>
                                     <li><a onclick="updateCounter('{{ $story['slug'] }}', 'share_counter')" href="http://service.weibo.com/share/share.php?url={{ route("frontend.article", ['slug' => $story['slug']]) }}=&title={{ $story['title'] }}&pic={{ $image_path }}&ralateUid=&language=zh_cn" target="_blank"><i class='fa fa-weibo' aria-hidden='true'></i></a></li>
