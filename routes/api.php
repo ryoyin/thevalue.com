@@ -28,6 +28,7 @@ Route::get('/getLatestStoriesPaginationInfo', 'API\IndexController@getLatestStor
 Route::get('/getPopularStories', 'API\IndexController@getPopularStories');
 Route::get('/getPopularStoriesPaginationInfo', 'API\IndexController@getPopularStoriesPaginationInfo');
 Route::get('/getStories', 'API\IndexController@getStories');
+Route::get('/updateCounter', 'API\IndexController@updateCounter');
 
 Route::get('/user', function (Request $request) {
     return $request->user();

@@ -17,9 +17,9 @@
                         {{--<li><i class='fa fa-envelope' aria-hidden='true'></i></li>--}}
                         {{--<li><i class='fa fa-wechat' aria-hidden='true'></i></li>--}}
                         {{--<li><i class='fa fa-weibo' aria-hidden='true'></i></li>--}}
-                        <li><a href="http://service.weibo.com/share/share.php?url={{ route("frontend.article", ['slug' => $slug]) }}=&title={{ $articleDetails['title'] }}&pic={{asset($article_photo) }}&ralateUid=&language=zh_cn" target="_blank"><i class='fa fa-weibo' aria-hidden='true'></i></a></li>
-                        <li><a href="http://twitter.com/intent/tweet?text={{ $articleDetails['title'] }}&url={{ route("frontend.article", ['slug' => $slug]) }}&pic={{ asset($article_photo) }}" target="_blank"><i class='fa fa-twitter' aria-hidden='true'></i></a></li>
-                        <li><a href="http://www.facebook.com/share.php?u={{ route("frontend.article", ['slug' => $slug]) }}&t={{ $articleDetails['title'] }}&pic={{ asset($article_photo) }}" target="_blank"><i class='fa fa-facebook-f' aria-hidden='true'></i></a></li>
+                        <li><a onclick="updateCounter('{{ $slug }}', 'share_counter')" href="http://service.weibo.com/share/share.php?url={{ route("frontend.article", ['slug' => $slug]) }}=&title={{ $articleDetails['title'] }}&pic={{asset($article_photo) }}&ralateUid=&language=zh_cn" target="_blank"><i class='fa fa-weibo' aria-hidden='true'></i></a></li>
+                        <li><a onclick="updateCounter('{{ $slug }}', 'share_counter')" href="http://twitter.com/intent/tweet?text={{ $articleDetails['title'] }}&url={{ route("frontend.article", ['slug' => $slug]) }}&pic={{ asset($article_photo) }}" target="_blank"><i class='fa fa-twitter' aria-hidden='true'></i></a></li>
+                        <li><a onclick="updateCounter('{{ $slug }}', 'share_counter')" href="http://www.facebook.com/share.php?u={{ route("frontend.article", ['slug' => $slug]) }}&t={{ $articleDetails['title'] }}&pic={{ asset($article_photo) }}" target="_blank"><i class='fa fa-facebook-f' aria-hidden='true'></i></a></li>
                         <li><span class="article-shares">{{ $article['shares'] }} @lang('thevalue.shares')</span></li>
                         <li><span class="article-shares">{{ $article['hit'] }} @lang('thevalue.hits')</span></li>
                     </ul>

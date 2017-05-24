@@ -28,6 +28,10 @@ class ArticleController extends Controller
 
         $article = App\Article::where('slug', $slug)->first();
 
+        $article->hit_counter = $article->hit_counter + 1;
+
+        $article->save();
+
         $articleDetails = $this->getArticleDetails($article);
 
         // Start: get description image for gallery

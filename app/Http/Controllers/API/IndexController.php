@@ -644,4 +644,14 @@ class IndexController extends Controller
 
     }
 
+    public function updateCounter(Request $request)
+    {
+        $slug = $request->input('slug');
+        $type = $request->input('type');
+
+        $article = App\Article::where('slug', $slug)->first();
+        $article->$type = $article->$type + 1;
+        $article->save();
+    }
+
 }

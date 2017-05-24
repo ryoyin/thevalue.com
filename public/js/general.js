@@ -105,6 +105,11 @@ function shareme() {
     });
 }
 
+function updateCounter(slug, type) {
+    var url = site_root+"api/updateCounter?slug="+slug+"&type="+type;
+    $.get( url );
+}
+
 $(window).scroll(function(){
     if($(window).scrollTop() > 120){
         $(".head-dropdown-menu").css('display', 'block')
