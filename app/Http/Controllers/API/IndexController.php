@@ -317,7 +317,12 @@ class IndexController extends Controller
         }
 
         $result['categories'] = $this->getCategoriesList();
-        unset($result['categories'][1]);
+        foreach($result['categories'] as $index => $category) {
+            if($category['slug'] == 'Global-Gallery') {
+                unset($result['categories'][$index]);
+                break;
+            }
+        }
 
         return $result;
     }
