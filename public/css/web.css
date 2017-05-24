@@ -495,6 +495,11 @@ body {
   padding-top: 8px;
 }
 
+#home-content #left #block #stories .news .right .desc a {
+  text-decoration: none;
+  color: #000000;
+}
+
 #home-content #left #block #stories .news .right .published_at {
   font-size: 14px;
 }
