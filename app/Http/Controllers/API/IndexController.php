@@ -301,6 +301,26 @@ class IndexController extends Controller
         return $bannerList;
     }
 
+    public function getStories(Request $request)
+    {
+        $type = $request->input('type');
+
+        $result = array();
+
+        switch($type) {
+            case 'latest':
+                $result['latestStories'] = $this->getLatestStories();
+                break;
+            case 'popular':
+                $result['popularStories'] = $this->getPopularStories();
+                break;
+        }
+
+        $result['categories'] = $this->getCategoriesList();
+
+        return $result;
+    }
+
     public function getFeaturedArticleList($size = 'medium') {
         $featuredArticleList = array();
         $featuredArticles = App\FeaturedArticle::limit(4)->orderBy('sorting')->get();
