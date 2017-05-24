@@ -226,7 +226,14 @@ class IndexController extends Controller
     public function getCategoriesList()
     {
         $categories = New Category();
-        return $categories->getCategoriesArray();
+        $categoriesArray = $categories->getCategoriesArray();
+        foreach($categoriesArray as $index => $category) {
+            if($category['slug'] == 'Global-Gallery') {
+                unset($categoriesArray[$index]);
+                break;
+            }
+        }
+        return $categoriesArray;
     }
 
     public function getArticlePhotoList($article, $size = 'medium')
@@ -317,13 +324,7 @@ class IndexController extends Controller
         }
 
         $result['categories'] = $this->getCategoriesList();
-        foreach($result['categories'] as $index => $category) {
-            if($category['slug'] == 'Global-Gallery') {
-                unset($result['categories'][$index]);
-                break;
-            }
-        }
-
+        
         return $result;
     }
 
