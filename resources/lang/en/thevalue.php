@@ -45,7 +45,7 @@ return [
     'subscript-sent-email' => 'Subscription successful!',
     'subscription' => 'Subscription',
     'auction' => 'Auction',
-    'pre-auction' => 'Upcoming Auction',
+    'pre-auction' => 'Upcoming',
     'upcoming-auction' => 'Upcoming',
     'post-auction' => 'Post Auction',
     'browse' => 'Browse',
