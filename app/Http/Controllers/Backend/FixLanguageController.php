@@ -42,7 +42,7 @@ class FixLanguageController extends Controller
 
             $detail = $item->details()->where('lang', 'trad')->first();
 
-            $simDetail = $item->details()->where('lang', 'sim')->where('title', '')->where('auction_item_id', $item->id)->first();
+            $simDetail = $item->details()->where('lang', 'sim')->where('title', 'pending')->where('auction_item_id', $item->id)->first();
 
             if(count($simDetail) == 0) continue;
 
