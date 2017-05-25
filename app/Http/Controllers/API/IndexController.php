@@ -414,6 +414,8 @@ class IndexController extends Controller
                 'published_at' => $article->published_at->format('M d, Y h:i:s'),
                 'published_at_test_1' => $article->published_at,
                 'published_at_test_2' => date('M d, Y h:i:s', $customTime),
+                'timezone' => Carbon::now()->timezoneName,
+                'php_timezone' => date_default_timezone_get(),
             );
         }
 
