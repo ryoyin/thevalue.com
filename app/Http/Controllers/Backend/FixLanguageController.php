@@ -39,7 +39,7 @@ class FixLanguageController extends Controller
 
         foreach($details as $detail) {
 
-            $simDetail = App\AuctionItemDetail::where('lang', 'sim')->where('auction_item_id', $detail->auction_item_id)->first();
+            $simDetail = App\AuctionItemDetail::where('lang', 'sim')->where('title', '')->where('auction_item_id', $detail->auction_item_id)->first();
 
             $simDetail->title = $this->big2gb($detail->title);
             $simDetail->description = $this->big2gb($detail->description);
