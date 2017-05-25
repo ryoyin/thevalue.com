@@ -47,7 +47,7 @@
     <script src="{{ asset('js/photoswipe/photoswipe-ui-default.min.js') }}"></script>
 
     <!-- custom -->
-    <link href="{{ asset('css/web.css') }}?refresh=2017052504" rel="stylesheet">
+    <link href="{{ asset('css/web.css') }}?refresh=2017052505" rel="stylesheet">
 
     <script src="{{ asset('js/js.cookie.js') }}"></script>
 

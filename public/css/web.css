@@ -792,6 +792,10 @@ body {
   padding: 15px 0;
 }
 
+.head-dropdown-menu .lang-nav li .lang-child {
+  padding: 10px 15px !important;
+}
+
 .head-dropdown-menu .navbar-brand {
   font-family: 'LinBiolinum_R';
   color: #000000 !important;
