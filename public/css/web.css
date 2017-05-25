@@ -137,7 +137,6 @@
   }
   #home-content #left #block #stories .news .right .desc {
     padding-top: 8px;
-    display: none;
   }
   .auction-company .auction-menu {
     padding-top: 10px !important;
@@ -488,7 +487,7 @@ body {
 }
 
 #home-content #left #block #stories .news .right .desc {
-  padding-top: 8px;
+  padding-top: 15px;
 }
 
 #home-content #left #block #stories .news .right .desc a {
