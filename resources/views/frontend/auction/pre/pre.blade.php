@@ -76,7 +76,7 @@
                                             <div class="misc">
                                                 <div class="cell-name">
                                                     <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank">
-                                                        {{ $detail->title }}
+                                                        {{ $customTitle[$locale] }}
                                                     </a>
                                                 </div>
                                                 <?php
@@ -133,7 +133,7 @@
                                             <div class="misc">
                                                 <div class="cell-name">
                                                     <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank">
-                                                        {{ $detail->title }}
+                                                        {{ $customTitle[$locale] }}
                                                     </a>
                                                 </div>
                                                 <?php

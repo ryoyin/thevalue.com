@@ -115,9 +115,9 @@
                                                         $saleDateCount = date('Y/m/d H:i:s', $saleDateRaw);
                                                         $saleDate = date('Y年m月d H:i:s', $saleDateRaw);
                                                         $saleDate = array(
-                                                            'en' => date('Y-m-d H:i:s', $saleDateRaw),
-                                                            'trad' => date('Y年m月d H:i:s', $saleDateRaw),
-                                                            'sim' => date('Y年m月d H:i:s', $saleDateRaw),
+                                                            'en' => date('Y-m-d', $saleDateRaw),
+                                                            'trad' => date('Y年m月d', $saleDateRaw),
+                                                            'sim' => date('Y年m月d', $saleDateRaw),
                                                         )
                                                     ?>
 
