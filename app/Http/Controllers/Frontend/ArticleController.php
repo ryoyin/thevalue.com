@@ -99,11 +99,11 @@ class ArticleController extends Controller
             'slug' => $slug,
             'fbMeta' => $fbMetaArray,
             'articleSlug' => $article->slug,
-            'published_at' => $article->published_at->format('M d, Y'),
+            'published_at' => $article->published_at->format('M d, Y H:i:s'),
             'article' => array(
                 'shares' => $article->share_counter,
                 'hit' => $article->hit_counter,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => $article->published_at->format('M d, Y  H:i:s')
             ),
             'articleDetails' => $articleDetails,
             'articlePhotos' => $articlePhotoList,
