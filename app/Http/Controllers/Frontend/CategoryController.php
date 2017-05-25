@@ -159,6 +159,8 @@ class CategoryController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
+                'hit_counter' => $article->hit_counter,
+                'share_counter' => $article->share_counter,
                 'published_at' => $article->published_at->format('M d, Y')
             );
         }
