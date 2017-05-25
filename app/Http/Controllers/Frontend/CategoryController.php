@@ -128,7 +128,7 @@ class CategoryController extends Controller
     }
 
     public function getVideoPagination() {
-        $articleDetail = App\ArticleDetail::join('articles', 'articles.id', '=', 'article_details.article_id')->where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('articles.published_at', 'desc')->->paginate(20);
+        $articleDetail = App\ArticleDetail::join('articles', 'articles.id', '=', 'article_details.article_id')->where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('articles.published_at', 'desc')->paginate(20);
         return $articleDetail;
     }
 
