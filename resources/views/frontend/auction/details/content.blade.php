@@ -72,8 +72,8 @@
                         <div class="row">
                             @foreach($items as $iKey => $item)
                                 <?php
-                                    $customLocale = $locale == 'sim' ? 'trad' : $locale;
-                                    $itemDetail = $item->details()->where('lang', $customLocale)->first()
+//                                    $customLocale = $locale == 'sim' ? 'trad' : $locale;
+                                    $itemDetail = $item->details()->where('lang', $locale)->first()
                                 ?>
                                 <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 lot">
                                     <div class="lot-block item" onclick="redirectItem(this)" url="{{ route('frontend.auction.house.sale.item', ['slug' => $slug, 'lot' => $item->id]) }}">
