@@ -41,6 +41,8 @@
                 <div style='clear:both'></div>
             @endforeach
 
+                <div class="pull-right">{{ $categoryPagination->links() }}</div>
+
         </div>
     </div>
 

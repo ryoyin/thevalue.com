@@ -25,6 +25,8 @@ class CategoryController extends Controller
         $categoryStories = $this->getCategoryStories($category);
 //        dd($categoryStories);
 
+        $categoryPagination = $this->getArticlePagination($category);
+
         //get categories list
         $categoriesList = $this->getCategoriesList();
 
@@ -45,6 +47,7 @@ class CategoryController extends Controller
             'categoryDetail' => $categoryDetail[0],
             'categoryStories' => $categoryStories,
             'sideBanners' => $sideBanners,
+            'categoryPagination' => $categoryPagination
         );
         return view('frontend.categories.categories', $data);
     }
@@ -168,13 +171,24 @@ class CategoryController extends Controller
         return $articleList;
     }
 
+    public function getArticlePagination($category)
+    {
+        if($category->slug == 'News') {
+            $articles = App\Article::where('status', 'published')->where($this->locale, 1)->orderBy('published_at', 'desc')->paginate(20);
+        } else {
+            $articles = $category->articles()->where('status', 'published')->where($this->locale, 1)->orderBy('published_at', 'desc')->paginate(20);
+        }
+
+        return $articles;
+    }
+
     public function getCategoryStories($category, $size = 'medium') {
         $articleList = array();
 
         if($category->slug == 'News') {
-            $articles = App\Article::where('status', 'published')->where($this->locale, 1)->orderBy('published_at', 'desc')->get();
+            $articles = App\Article::where('status', 'published')->where($this->locale, 1)->orderBy('published_at', 'desc')->paginate(20);
         } else {
-            $articles = $category->articles()->where('status', 'published')->where($this->locale, 1)->orderBy('published_at', 'desc')->get();
+            $articles = $category->articles()->where('status', 'published')->where($this->locale, 1)->orderBy('published_at', 'desc')->paginate(20);
         }
 
         foreach($articles as $article) {
