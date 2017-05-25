@@ -1151,6 +1151,8 @@ body {
 
 .auction-detail .item-body .item-detail .lot-dimension {
   font-size: 17px;
+  font-weight: bold;
+  padding-bottom: 10px;
 }
 
 .auction-detail .item-body .item-detail .lot-dimension span {

@@ -9,7 +9,7 @@
         <div class="lot-stitle">{{ $lotDetail->secondary_title }}</div>
         <div class="lot-desc">{!! $lotDetail->description !!}</div>
         @if(trim($lot->dimension) != '')
-            <div class="lot-dimension"><span>@lang('thevalue.dimension')</span>{!! $lot->dimension !!}</div>
+            <div class="lot-dimension"><span>@lang('thevalue.dimension')</span><br>{!! $lot->dimension !!}</div>
         @endif
         <?php
         $estimate_initial = str_replace('HKD ', '', $lot->estimate_value_initial);
