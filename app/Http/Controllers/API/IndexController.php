@@ -406,7 +406,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at
+                'published_at' => $article->published_at->format('M d, Y h:i:s')
             );
         }
 
