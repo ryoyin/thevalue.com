@@ -19,13 +19,19 @@
 
     <div class="row" id="article-content">
 
-        <div class="col-md-8" id="left">
-            @include('frontend.article.content-left')
-        </div>
+        @if(strpos($articleDetails, 'exhibition-floor-plan'))
+            <div class="col-md-12">
+                @include('frontend.article.floorPlan')
+            </div>
+        @else
+            <div class="col-md-8" id="left">
+                @include('frontend.article.content-left')
+            </div>
 
-        <div class="col-md-4" id="right">
-            @include('frontend.article.content-right')
-        </div>
+            <div class="col-md-4" id="right">
+                @include('frontend.article.content-right')
+            </div>
+        @endif
 
     </div>
 
