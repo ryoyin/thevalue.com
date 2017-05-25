@@ -412,9 +412,9 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y h:i:s'),
+                'published_at' => $article->published_at->format('M d, Y H:i:s'),
                 'published_at_test_1' => $article->published_at->getTimestamp(),
-                'published_at_test_2' => date('M d, Y h:i:s', $customTime),
+                'published_at_test_2' => date('M d, Y H:i:s', $customTime),
             );
         }
 
