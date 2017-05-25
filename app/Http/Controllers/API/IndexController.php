@@ -395,7 +395,7 @@ class IndexController extends Controller
             }
 
             $test2 = $article->published_at;
-            $customTime = strtotime($test2) + 60*60;
+            $customTime = strtotime($test2) + 60*60*20;
 
 //            $customTime = \date('M d, Y h:i:s', $customTime);
 
