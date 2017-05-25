@@ -3,7 +3,7 @@
     <div class="title">@lang('thevalue.related-lot')</div>
     @foreach($items as $iKey => $item)
         <?php $itemDetail = $item->details()->where('lang', $locale)->first() ?>
-        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4 lot">
+        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4 lot item">
             <div class="item lot-side" onclick="redirectItem(this)" url="{{ route('frontend.auction.house.sale.item', ['slug' => $slug, 'lot' => $item->id]) }}">
                 <div class="col-md-6 col-lg-6"><img src="{{ config('app.s3_path').$item->image_fit_path }}" class="img-responsive"></div>
                 <div class="lot-detail item-detail-lot col-md-6 col-lg-6">

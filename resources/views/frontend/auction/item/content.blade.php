@@ -74,9 +74,9 @@
     jQuery(function($) {
         $("img.lazy").lazyload();
     });
-    /*jQuery(function($) {
+    jQuery(function($) {
      $('.item').matchHeight();
-     });*/
+     });
 
     function redirectExhibit(obj) {
         var url = $(obj).val();
