@@ -394,6 +394,11 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $test2 = $article->published_at->date;
+            $customTime = strtotime($test2) + 60*60*8;
+
+            $customTime = date('M d, Y h:i:s', $customTime);
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
@@ -407,7 +412,8 @@ class IndexController extends Controller
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
                 'published_at' => $article->published_at->format('M d, Y h:i:s'),
-                'published_at_test' => $article->published_at
+                'published_at_test_1' => $article->published_at,
+                'published_at_test_2' => $customTime
             );
         }
 
