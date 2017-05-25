@@ -59,4 +59,5 @@ return [
     'publish-date' => '发布日期',
     'global-gallery' => '全球艺廊',
     'auctions-info' => '拍卖资讯',
+    'dimension' => '尺寸',
 ];

@@ -63,4 +63,5 @@ return [
     'publish-date' => 'Publish Date',
     'global-gallery' => 'Global Gallery',
     'auctions-info' => 'Auctions',
+    'dimension' => 'Dimension',
 ];
