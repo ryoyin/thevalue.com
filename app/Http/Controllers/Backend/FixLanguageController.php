@@ -41,6 +41,8 @@ class FixLanguageController extends Controller
 
             $simDetail = App\AuctionItemDetail::where('lang', 'sim')->where('title', '')->where('auction_item_id', $detail->auction_item_id)->first();
 
+            if(count($simDetail) == 0) continue;
+
             $simDetail->title = $this->big2gb($detail->title);
             $simDetail->description = $this->big2gb($detail->description);
             $simDetail->maker = $this->big2gb($detail->maker);
