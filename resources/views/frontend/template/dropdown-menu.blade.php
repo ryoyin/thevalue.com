@@ -23,9 +23,27 @@
                     ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-globe" aria-hidden="true"></i> {{ $current_lang_array[App::getLocale()] }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick="redirectLang(this, 'en');" class="lang-child">English</a></li></li>
-                        <li><a href="#" onclick="redirectLang(this, 'trad');" class="lang-child">繁體中文</a></li>
-                        <li><a href="#" onclick="redirectLang(this, 'sim');" class="lang-child">简体中文</a></li>
+                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <li
+                                    @if($localeCode == App::getLocale())
+                                    class="lang-active"
+                                    @endif
+                            >
+                                <a  class="lang-child" id="global-lang-{{ $localeCode }}" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    <?php
+                                    $displayLang = array(
+                                        'en' => 'English',
+                                        'trad' => '繁體中文',
+                                        'sim' => '简体中文',
+                                    )
+                                    ?>
+                                    {{ $displayLang[$localeCode] }}
+                                </a>
+                            </li>
+                        @endforeach
+                        {{--<li><a href="#" onclick="redirectLang(this, 'en');" class="lang-child">English</a></li></li>--}}
+                        {{--<li><a href="#" onclick="redirectLang(this, 'trad');" class="lang-child">繁體中文</a></li>--}}
+                        {{--<li><a href="#" onclick="redirectLang(this, 'sim');" class="lang-child">简体中文</a></li>--}}
                     </ul>
                 </li>
             </ul>
