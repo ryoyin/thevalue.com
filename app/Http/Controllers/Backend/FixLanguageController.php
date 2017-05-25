@@ -46,7 +46,7 @@ class FixLanguageController extends Controller
 
             if(count($simDetail) == 0) continue;
 
-            $simDetail->title = 'pending';
+            $simDetail->title = 'pending2';
             $simDetail->save();
 
             $simDetail->title = $this->big2gb($detail->title);
