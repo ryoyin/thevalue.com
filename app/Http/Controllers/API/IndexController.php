@@ -85,10 +85,12 @@ class IndexController extends Controller
         //get popularStories
         $popularStoriesList = $this->getPopularStories();
 
+        $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
         $result = array(
             'categories' => $categoriesList,
             'articleSlug' => $article->slug,
-            'published_at' => $article->published_at->format('M d, Y h:i:s'),
+            'published_at' => date('M d, Y H:i:s', $customTime),
             'article' => array(
                 'shares' => $article->share_counter,
                 'hit' => $article->hit_counter
@@ -349,6 +351,8 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
             $featuredArticleList[] = array(
 //                'id' => $article->id,
                 'url' => 'article',
@@ -362,7 +366,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y h:i:s')
+                'published_at' => date('M d, Y H:i:s', $customTime),
             );
         }
 
@@ -443,6 +447,8 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
@@ -455,7 +461,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y h:i:s')
+                'published_at' => date('M d, Y H:i:s', $customTime),
             );
         }
 
@@ -478,6 +484,8 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
@@ -490,7 +498,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => date('M d, Y H:i:s', $customTime),
             );
         }
 
@@ -515,6 +523,8 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
@@ -527,7 +537,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => date('M d, Y H:i:s', $customTime),
             );
         }
 
@@ -551,6 +561,8 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
@@ -563,7 +575,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => date('M d, Y H:i:s', $customTime),
             );
         }
 
@@ -586,6 +598,8 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
+            $customTime = $article->published_at->getTimestamp() + 60*60*8;
+
             $articleList[] = array(
                 'url' => 'article',
                 'slug' => $article->slug,
@@ -598,7 +612,7 @@ class IndexController extends Controller
                 'short_desc' => $detail->short_desc,
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
-                'published_at' => $article->published_at->format('M d, Y')
+                'published_at' => date('M d, Y H:i:s', $customTime),
             );
         }
 
