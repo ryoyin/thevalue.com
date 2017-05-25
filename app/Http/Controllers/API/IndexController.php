@@ -395,7 +395,7 @@ class IndexController extends Controller
                 $image_path = $photo->image_path;
             }
 
-            $customTime = $article->published_at->getTimestamp();
+            $customTime = $article->published_at->getTimestamp() + 60*60*20;
 //            $customTime = strtotime($test2) + 60*60*20;
 
 //            $customTime = \date('M d, Y h:i:s', $customTime);
