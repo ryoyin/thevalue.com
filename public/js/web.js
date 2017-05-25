@@ -56,7 +56,7 @@ function genLastStories(latestStoriesPaginationInfo) {
     }
 
     if(latestStoriesCounter <= latestStoriesPaginationInfo.last_page && genStories) {
-        if(latestStoriesCounter <= 3) {
+        /*if(latestStoriesCounter <= 3) {
             // console.log('auto show...');
 
             $("#stories-loading-spinner").show().html('loading ...');
@@ -82,14 +82,14 @@ function genLastStories(latestStoriesPaginationInfo) {
                     $('#stories-loading-spinner').hide();
                 }
             });
-        } else {
+        } else {*/
             if(currentStories == 'latest') {
                 var type = 'latestStories';
             } else {
                 var type = 'popularStories';
             }
             $("#stories-loading-spinner").attr('type', type).show().html('click for more');
-        }
+        // }
 
     }
 }

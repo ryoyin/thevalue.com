@@ -9,6 +9,14 @@
     display: block !important;
     .lang-nav {
       width: 100px;
+      .dropdown-toggle {
+        padding-top: 10px;
+      }
+      .lang-child {
+        //padding: 10px 40px !important;
+        position: relative;
+        left: 30px;
+      }
     }
   }
 

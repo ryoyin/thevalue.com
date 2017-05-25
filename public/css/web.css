@@ -10,6 +10,13 @@
   .head-dropdown-menu .lang-nav {
     width: 100px;
   }
+  .head-dropdown-menu .lang-nav .dropdown-toggle {
+    padding-top: 10px;
+  }
+  .head-dropdown-menu .lang-nav .lang-child {
+    position: relative;
+    left: 30px;
+  }
   .navbar-custom-logo {
     position: absolute;
     top: 2px;
