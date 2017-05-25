@@ -57,7 +57,7 @@ function genLastStories(latestStoriesPaginationInfo) {
 
     if(latestStoriesCounter <= latestStoriesPaginationInfo.last_page && genStories) {
         if(latestStoriesCounter <= 3) {
-            console.log('auto show...');
+            // console.log('auto show...');
 
             $("#stories-loading-spinner").show().html('loading ...');
 
@@ -141,13 +141,16 @@ function makeStories(topic, obj) {
 
 function storyBoard(val, image_root_path, category, categoryName) {
 
+    if(val.short_desc != '') val.short_desc += '...';
+
     return "<div class='news'>\
         <div class='col-xs-12 col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
             <div class='col-xs-12 col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
         <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-        <li class='desc' style='clear:both'>"+val.short_desc+"</li>\
+        <li class='date' style='clear:both'>"+val.published_at+"</li>\
+        <li class='desc' style='clear:both'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.short_desc+"</a></li>\
         </ul>\
         </div>\
         </div>\
@@ -160,31 +163,31 @@ function showStoryCategories() {
 }
 
 function showMoreStores(obj) {
-    console.log('page: '+ latestStoriesCounter);
+    // console.log('page: '+ latestStoriesCounter);
     var type = $(obj).attr('type');
-    console.log('object type: ' + type);
+    // console.log('object type: ' + type);
 
     if(type == 'latestStories') {
-        console.log('latest');
+        // console.log('latest');
         var url = site_root+"api/getLatestStories?page="+latestStoriesCounter;
     } else {
-        console.log('popular');
+        // console.log('popular');
         var url = site_root+"api/getPopularStories?page="+latestStoriesCounter;
     }
 
-    console.log(url);
+    // console.log(url);
 
     $("#stories-loading-spinner").show().html('loading ...');
     $.ajax({
         url: url,
         dataType: 'json',
         success: function(json) {
-            console.log(json);
+            // console.log(json);
             if(type == 'latestStories') {
-                console.log('latest');
+                // console.log('latest');
                 var stories = $('#head').children('li:nth-child(1)');
             } else {
-                console.log('popular');
+                // console.log('popular');
                 var stories = $('#head').children('li:nth-child(2)');
             }
             var topicList = makeStories(json, stories);
