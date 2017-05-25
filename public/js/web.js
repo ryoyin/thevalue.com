@@ -149,7 +149,7 @@ function storyBoard(val, image_root_path, category, categoryName) {
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
         <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-        <li class='date' style='clear:both'>"+val.published_at+"</li>\
+        <li class='date' style='clear:both'>"+val.published_at_hktime+"</li>\
         <li class='desc' style='clear:both'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.short_desc+"</a></li>\
         </ul>\
         </div>\

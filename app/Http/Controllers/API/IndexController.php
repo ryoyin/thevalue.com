@@ -409,7 +409,7 @@ class IndexController extends Controller
                 'description' => $detail->description,
                 'category_id' => $article->category_id,
                 'published_at' => $article->published_at->format('M d, Y H:i:s'),
-                'published_at_hktime' => $article->published_at->format('M d, Y H:i:s'),
+                'published_at_hktime' => $article->published_at->addHour(8)->format('M d, Y H:i:s'),
             );
         }
 
