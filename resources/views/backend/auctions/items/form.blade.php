@@ -132,7 +132,7 @@
               <!-- text input -->
               <div class="form-group">
                   <label>Dimension</label>
-                  <input name="dimension" type="text" class="form-control" placeholder="Enter ..." value="{{ $item['dimension'] }}" required>
+                  <input name="dimension" type="text" class="form-control" placeholder="Enter ..." value="{{ $item['dimension'] }}">
               </div>
 
               <div class="box-footer" style="text-align: right;">
