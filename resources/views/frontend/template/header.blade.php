@@ -3,9 +3,9 @@
     <div class="pull-left" id="global-lang-block" onclick="showLang();">
         <i class="fa fa-globe pull-left" aria-hidden="true"></i>
         <ul id="global-lang" class="ul-clean pull-left">
-            <li id="global-lang-en"><a href="#" onclick="changeLang(this, 'en');">English</a></li>
-            <li id="global-lang-trad"><a href="#" onclick="changeLang(this, 'trad');">繁體中文</a></li>
-            <li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">简体中文</a></li>
+            <li id="global-lang-en"><a href="#" onclick="changeLang(this, 'en');">EN</a></li>
+            <li id="global-lang-trad"><a href="#" onclick="changeLang(this, 'trad');">繁</a></li>
+            <li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">简</a></li>
         </ul>
     </div>
 
