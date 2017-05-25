@@ -54,10 +54,10 @@ class AuctionController extends Controller
 
     }
 
-    public function post()
+    /*public function post()
     {
 
-    }
+    }*/
 
     public function houseUpcoming($house, Request $request)
     {

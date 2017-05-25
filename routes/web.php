@@ -35,7 +35,7 @@ function()
 //    Route::get('/auction/{house}/{event}', 'Frontend\AuctionController@event')->name('frontend.auction.house.event');
     Route::get('/auction/exhibition/{slug}', 'Frontend\AuctionController@sale')->name('frontend.auction.house.sale');
     Route::get('/auction/exhibition/{slug}/{lot}', 'Frontend\AuctionController@item')->name('frontend.auction.house.sale.item');
-    Route::get('/post-auction', 'Frontend\AuctionController@post')->name('frontend.auction.post');
+//    Route::get('/post-auction', 'Frontend\AuctionController@post')->name('frontend.auction.post');
 
 });
 
@@ -50,7 +50,7 @@ Route::post('/share-the-value', 'API\SubscriptController@subscription');
 //Route::get('/christie-import-dimension', 'Scripts\ImportChristieSaleController@importDimension');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
-Route::get('/fix-auction', 'Backend\FixLanguageController@fixAuction');
+//Route::get('/fix-auction', 'Backend\FixLanguageController@fixAuction');
 
 Route::get('/app-qr-code', 'Frontend\PageController@RedirectQRCode')->name('frontend.redirectQRCode');
 
