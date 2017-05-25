@@ -88,6 +88,7 @@ class CategoryController extends Controller
             'categoryDetail' => $categoryDetail,
             'categoryStories' => $categoryStories,
             'sideBanners' => $indexSideBannerList,
+            'categoryPagination' => $this->getVideoPagination(),
         );
 
 //        dd($result);
@@ -126,9 +127,14 @@ class CategoryController extends Controller
         return $bannerList;
     }
 
+    public function getVideoPagination() {
+        $articleDetail = App\ArticleDetail::join('articles', 'articles.id', '=', 'article_details.article_id')->where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('articles.published_at', 'desc')->->paginate(20);
+        return $articleDetail;
+    }
+
     public function getSearchVideo() {
         $articleList = array();
-        $articleDetail = App\ArticleDetail::join('articles', 'articles.id', '=', 'article_details.article_id')->where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('articles.published_at', 'desc')->get();
+        $articleDetail = App\ArticleDetail::join('articles', 'articles.id', '=', 'article_details.article_id')->where('lang', $this->locale)->where('description', 'like', '%iframe%')->orderBy('articles.published_at', 'desc')->->paginate(20);
 
         foreach($articleDetail as $detail) {
             $article = $detail->article;
