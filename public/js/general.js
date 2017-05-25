@@ -19,7 +19,8 @@ function showLang() {
 function changeLang(obj, lang) {
     if($('#global-lang').hasClass('open')) {
         // Cookies.set('lang', lang);
-        window.location.href = site_root+lang;
+        var url = $(obj).attr('url');
+        window.location.href = url;
         // console.log(site_root+lang);
     }
 }

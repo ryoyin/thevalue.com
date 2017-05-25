@@ -3,9 +3,27 @@
     <div class="pull-left" id="global-lang-block" onclick="showLang();">
         <i class="fa fa-globe pull-left" aria-hidden="true"></i>
         <ul id="global-lang" class="ul-clean pull-left">
-            <li id="global-lang-en"><a href="#" onclick="changeLang(this, 'en');">EN</a></li>
-            <li id="global-lang-trad"><a href="#" onclick="changeLang(this, 'trad');">繁</a></li>
-            <li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">简</a></li>
+            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                <li
+                        @if($localeCode == App::getLocale())
+                        class="lang-active"
+                        @endif
+                >
+                    <a href="#" id="global-lang-{{ $localeCode }}" rel="alternate" hreflang="{{ $localeCode }}" url="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" onclick="changeLang(this, '{{ $localeCode }}');">
+                        <?php
+                        $displayLang = array(
+                            'en' => 'EN',
+                            'trad' => '繁',
+                            'sim' => '简',
+                        )
+                        ?>
+                        {{ $displayLang[$localeCode] }}
+                    </a>
+                </li>
+            @endforeach
+            {{--<li id="global-lang-en"><a href="#" onclick="changeLang(this, 'en');">EN</a></li>--}}
+            {{--<li id="global-lang-trad"><a href="#" onclick="changeLang(this, 'trad');">繁</a></li>--}}
+            {{--<li id="global-lang-sim"><a href="#" onclick="changeLang(this, 'sim');">简</a></li>--}}
         </ul>
     </div>
 
