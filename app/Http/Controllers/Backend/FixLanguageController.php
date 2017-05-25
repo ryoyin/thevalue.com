@@ -35,7 +35,7 @@ class FixLanguageController extends Controller
     {
 
         // print $this->big2gb("彰化一整天的blog-UTF8繁體轉簡體function範例");
-        $items = App\AuctionItem::all();
+        $items = App\AuctionItem::join('auction_item_details', 'auction_items.id', '=', 'auction_item_details.auction_item_id')->where('auction_item_details.title', 'pending')->select('auction_items.*')->get();
 
 
         foreach($items as $item) {
