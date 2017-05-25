@@ -71,7 +71,10 @@
 
                         <div class="row">
                             @foreach($items as $iKey => $item)
-                                <?php $itemDetail = $item->details()->where('lang', $locale)->first() ?>
+                                <?php
+                                    $customLocale = $locale == 'sim' ? 'trad' : $locale;
+                                    $itemDetail = $item->details()->where('lang', $customLocale)->first()
+                                ?>
                                 <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 lot">
                                     <div class="lot-block item" onclick="redirectItem(this)" url="{{ route('frontend.auction.house.sale.item', ['slug' => $slug, 'lot' => $item->id]) }}">
                                         <div class=""><img data-original="{{ config('app.s3_path').$item->image_fit_path }}" class="img-responsive lazy"></div>
@@ -88,7 +91,7 @@
                                             <?php
                                                 $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
                                                 $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
-                                                $estimate = trans('thevalue.estimate').': '.$item->currency_code.' - '.$estimate_initial.' - '.$estimate_end;
+                                                $estimate = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate_initial.' - '.$estimate_end;
 
                                                 if($estimate_initial == '' && $estimate_end == '') {
                                                     $estimate = trans('thevalue.estimate-on-request');

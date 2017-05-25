@@ -12,7 +12,7 @@
     <div class="container">
         <div class="navbar-header">
             <div style="" class="navbar-brand navbar-custom-logo"><a class="navbar-brand" style="float: none;" href="{{ route('frontend.index') }}">THE VALUE</a></div>
-            <ul class="nav navbar-nav" style="float: left; text-align: center; position:relative; z-index: 10; width: 100px;">
+            <ul class="nav navbar-nav lang-nav">
                 <li class="dropdown lang-list-first">
                     <?php
                     $current_lang_array = array(

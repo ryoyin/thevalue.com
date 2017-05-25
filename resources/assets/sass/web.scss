@@ -7,6 +7,9 @@
 
   .head-dropdown-menu {
     display: block !important;
+    .lang-nav {
+      width: 100px;
+    }
   }
 
   .navbar-custom-logo {
@@ -894,6 +897,19 @@ body {
   display: none;
   background-color: #fafafa;
 
+  .lang-nav {
+    float: left;
+    text-align: center;
+    position:relative;
+    z-index: 10;
+    //width: 100px;
+    li {
+      a {
+        padding: 15px 0;
+      }
+    }
+  }
+
   .navbar-brand {
 
     font-family: 'LinBiolinum_R';
@@ -909,6 +925,8 @@ body {
         color: #000000 !important;
       }
     }
+
+
 
   }
 

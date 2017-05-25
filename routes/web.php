@@ -50,6 +50,7 @@ Route::post('/share-the-value', 'API\SubscriptController@subscription');
 //Route::get('/christie-import-dimension', 'Scripts\ImportChristieSaleController@importDimension');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
+Route::get('/fix-auction', 'Backend\FixLanguageController@fixAuction');
 
 Route::get('/app-qr-code', 'Frontend\PageController@RedirectQRCode')->name('frontend.redirectQRCode');
 

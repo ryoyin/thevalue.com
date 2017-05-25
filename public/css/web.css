@@ -7,6 +7,9 @@
   .head-dropdown-menu {
     display: block !important;
   }
+  .head-dropdown-menu .lang-nav {
+    width: 100px;
+  }
   .navbar-custom-logo {
     position: absolute;
     top: 2px;
@@ -776,6 +779,17 @@ body {
 .head-dropdown-menu {
   display: none;
   background-color: #fafafa;
+}
+
+.head-dropdown-menu .lang-nav {
+  float: left;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.head-dropdown-menu .lang-nav li a {
+  padding: 15px 0;
 }
 
 .head-dropdown-menu .navbar-brand {
