@@ -96,9 +96,9 @@
                                             <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
                                             <div class="col-xs-7 detail">
 
-                                                <div class="misc">
+                                                <div class="misc" style="font-size: 12px">
 
-                                                    <div class="cell-name">{{ $sale->title }}</div>
+                                                    <div class="cell-name" style="font-size: 12px">{{ $saleDetail->title }}</div>
                                                     @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
                                                     @lang('thevalue.browse-lots')：<span>{{ $sale->total_lots }}</span> <br>
 
