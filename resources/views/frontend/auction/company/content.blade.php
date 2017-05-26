@@ -98,7 +98,7 @@
 
                                                 <div class="misc" style="font-size: 12px">
 
-                                                    <div class="cell-name" style="font-size: 12px">{{ $saleDetail->title }}</div>
+                                                    <div class="cell-name" style="font-size: 12px">{{ mb_substr($saleDetail->title, 0, 50, 'utf-8') }}...</div>
                                                     @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
                                                     @lang('thevalue.browse-lots')：<span>{{ $sale->total_lots }}</span> <br>
 
