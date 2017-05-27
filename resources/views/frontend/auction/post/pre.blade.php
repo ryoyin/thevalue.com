@@ -1,6 +1,7 @@
 <div class="pre-auction-block pre-ab-1">
     @foreach($series as $auction)
         <?php
+            if($auction->id == 2) break;
             $house = $auction->house;
             $houseDetail = $house->details->where('lang', $locale)->first();
 
@@ -10,7 +11,7 @@
                 $browseMore = 'http://www.sothebys.com/'.$customLocale[$locale].'/auctions.html';
                 $target = 'target="_blank"';
             } else {
-                $browseMore = route('frontend.auction.house.upcoming', ['slug' => $house->slug]);
+                $browseMore = route('frontend.auction.house.post', ['slug' => $house->slug]);
                 $target = '';
             }
         ?>
@@ -39,7 +40,7 @@
                     $sales = $auction->sales();
                     switch($auction->id) {
                         case 1;
-                            $salesGroup1 = $sales->wherein('number', [15710, 14336, 14337, 14338, 14715, 14716])->get();
+                            $salesGroup1 = $sales->wherein('number', [13267])->get();
                             break;
                         case 2:
                             $salesGroup1 = $sales->wherein('number', [14715, 14716, 13268, 13269])->get();

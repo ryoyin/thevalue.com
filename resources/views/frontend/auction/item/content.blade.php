@@ -19,13 +19,25 @@
             {{--<div class="hidden-md hidden-lg">--}}
             <div class="">
 
+                <?php
+                    $nowDateTime = date('Y-m-d 00:00:00');
+
+                    if($sale->start_date >= $nowDateTime) {
+                        $auctionTypeName = trans('thevalue.upcoming-auction');
+                        $auctionType = 'upcoming';
+                    } else {
+                        $auctionTypeName = trans('thevalue.post-auction');
+                        $auctionType = 'post';
+                    }
+                ?>
+
                 <div class="pre-auction-block">
                     <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}"">@lang('thevalue.browse')</a></div>
+                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => $auctionType = 'post']) }}">@lang('thevalue.browse')</a></div>
                     <div class="series">
-                        <div class="title">@lang('thevalue.upcoming-auction') - {{ $seriesDetail->name }}</div>
+                        <div class="title">{{ $seriesDetail->name }}</div>
                         <div class="input-group selection">
-                            <span class="input-group-addon" id="basic-addon1">@lang('please-select')</span>
+                            <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
                             <?php
                             $seriesSales = $series->sales()->orderBy('start_date')->get();
                             ?>

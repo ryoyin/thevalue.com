@@ -39,8 +39,8 @@
 
             <div id="category-head" class="tab auction-menu">
                 <ul>
-                    <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-1 active">@lang('thevalue.pre-auction')</a></li>
-                    <li><a href="{{ route('frontend.auction.house.post', ['house' => $house->slug]) }}" class="tab-2">@lang('thevalue.post-auction')</a></li>
+                    <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-1">@lang('thevalue.pre-auction')</a></li>
+                    <li><a href="{{ route('frontend.auction.house.post', ['house' => $house->slug]) }}" class="tab-2 active">@lang('thevalue.post-auction')</a></li>
                     <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-3">@lang('thevalue.about-us')</a></li>
                 </ul>
             </div>
@@ -87,7 +87,7 @@
 
                         <div class="swiper-wrapper">
                             @foreach($seriesArray as $series)
-                                <?php $sales = $series->sales()->where('start_date', '>=', date('Y-m-d'))->orderBy('start_date')->get(); ?>
+                                <?php $sales = $series->sales()->where('start_date', '<', date('Y-m-d'))->orderBy('start_date')->get(); ?>
 
                                 @foreach($sales as $sIndex => $sale)
                                     <?php $saleDetail = $sale->details()->where('lang', $locale)->first(); ?>
@@ -122,16 +122,6 @@
                                                     ?>
 
                                                     <div>{{ $saleDate[$locale] }}</div>
-                                                    {{--<div id="date-counter-{{ $sIndex }}" class="date-counter"></div>--}}
-
-                                                    {{--<script type="text/javascript">
-                                                        $("#date-counter-{{ $sIndex }}")
-                                                            .countdown("{{ $saleDateCount }}", function(event) {
-                                                                $(this).text(
-                                                                    event.strftime('%D days %H:%M:%S')
-                                                                );
-                                                            });
-                                                    </script>--}}
 
                                                     <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use App;
+use Carbon\Carbon;
 
 class ImportChristieSaleController extends Controller
 {
@@ -81,6 +82,40 @@ class ImportChristieSaleController extends Controller
                     $itemDetail->save();
 
                 }
+
+            }
+        }
+
+    }
+
+    public function getRealizedPrice()
+    {
+        $sales = App\AuctionSale::where('end_date', '<', Carbon::now()->format('Y-m-d'))->get();
+
+        foreach($sales as $sale) {
+            $items = $sale->items()->where('sold_value', null)->get();
+
+            $int_sale_id = $sale->christieSale->int_sale_id;
+
+            foreach($items as $item) {
+
+                $content = $this->getLotLocale($int_sale_id, 'en', $item->number);
+
+                if(!$content) {
+                    $item->sold_value = 'withdraw';
+                    $item->save();
+                    continue;
+                }
+
+                if($content['sold_value'] == null) {
+                    $item->sold_value = 'bought in';
+                    $item->save();
+                    continue;
+                }
+
+                $item->sold_value = $content['sold_value'];
+
+                $item->save();
 
             }
         }
@@ -736,7 +771,7 @@ class ImportChristieSaleController extends Controller
     {
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
         $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.str_replace(' ', '', $lotNumber).'&intsaleid='.$saleNumber;
-        echo "Getting Lot Locale From: ".$url."\n";
+        echo "Getting Lot Locale From: ".$url."<br>\n";
 
         $cSession = curl_init();
         curl_setopt($cSession, CURLOPT_URL, $url);
@@ -753,12 +788,13 @@ class ImportChristieSaleController extends Controller
         libxml_use_internal_errors(true);
         $spider->loadHTML($spider_result);
 
-//        exit;
-
         $contentArray = array();
 
         // main_center_0_lblLotPrimaryTitle
         $title = $spider->getElementByID('main_center_0_lblLotPrimaryTitle');
+
+        if($title == null) return false; // the lot withdraw
+
         $contentArray['title'] = $title->textContent;
 
         // main_center_0_lblLotSecondaryTitle
@@ -773,7 +809,7 @@ class ImportChristieSaleController extends Controller
         $description = $spider->getElementByID('main_center_0_lblLotDescription');
         $contentArray['description'] = $description->ownerDocument->saveHTML($description);
 
-        // main_center_0_lblLotDescription
+        // main_center_0_lblLotProvenance
         $provenance = $spider->getElementByID('main_center_0_lblLotProvenance');
         if($provenance == null) {
             $provenance = null;
@@ -782,11 +818,16 @@ class ImportChristieSaleController extends Controller
         }
         $contentArray['provenance'] = $provenance;
 
-        // main_center_0_lblLotDescription
-        /*$postLotText = $spider->getElementByID('main_center_0_lblPostLotText');
-        $contentArray['postLotText'] = $postLotText->ownerDocument->saveHTML($postLotText);
+        // main_center_0_lblPriceRealizedPrimary
+        $sold_value = $spider->getElementByID('main_center_0_lblPriceRealizedPrimary');
 
-        main_center_0_lblPreLotText*/
+        if($sold_value == null) {
+            $sold_value = null;
+        } else {
+            $sold_value = trim($sold_value->textContent);
+        }
+
+        $contentArray['sold_value'] = $sold_value;
 
         return $contentArray;
 

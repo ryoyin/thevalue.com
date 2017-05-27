@@ -59,4 +59,7 @@ return [
     'global-gallery' => '全球藝廊',
     'auctions-info' => '拍賣資訊',
     'dimension' => '尺寸',
+    'realised-price' => '成交價',
+    'bought-in' => '未成交',
+    'withdraw' => '未成交',
 ];

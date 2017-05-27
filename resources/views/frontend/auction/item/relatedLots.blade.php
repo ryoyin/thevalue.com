@@ -17,16 +17,32 @@
                     ?>
                     <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitleArray[$locale] }}</div>
                     <?php
-                    $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
-                    $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
-                    $estimate = $estimate_initial.' - '.$estimate_end;
-                    $estimate = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
 
-                    if($estimate_initial == '' && $estimate_end == '') {
-                        $estimate = trans('thevalue.estimate-on-request');
-                    }
+                        if($item->sold_value != null) {
+                            switch($item->sold_value) {
+                                case 'bought in':
+                                    $lotValue = trans('thevalue.bought-in');
+                                    break;
+                                case 'withdraw':
+                                    $lotValue = trans('thevalue.withdraw');
+                                    break;
+                                default:
+                                    $soldValue = str_replace('HKD ', '', $item->sold_value);
+                                    $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
+                            }
+                        } else {
+                            $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
+                            $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
+                            $estimate = $estimate_initial.' - '.$estimate_end;
+                            $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
+
+                            if($estimate_initial == '' && $estimate_end == '') {
+                                $lotValue = trans('thevalue.estimate-on-request');
+                            }
+                        }
+
                     ?>
-                    <div class="lot-value">{{ $estimate }}</div>
+                    <div class="lot-value">{{ $lotValue }}</div>
                 </div>
             </div>
         </div>

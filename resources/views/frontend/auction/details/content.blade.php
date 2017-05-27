@@ -19,11 +19,24 @@
             {{--<div class="hidden-md hidden-lg">--}}
             <div class="">
 
+                <?php
+                $nowDateTime = date('Y-m-d 00:00:00');
+
+                if($sale->start_date >= $nowDateTime) {
+                    $auctionTypeName = trans('thevalue.upcoming-auction');
+                    $auctionType = 'upcoming';
+                } else {
+                    $auctionTypeName = trans('thevalue.post-auction');
+                    $auctionType = 'post';
+                }
+
+                ?>
+
                 <div class="pre-auction-block">
                     <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}">@lang('thevalue.browse')</a></div>
+                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => $auctionType]) }}">@lang('thevalue.browse')</a></div>
                     <div class="series">
-                        <div class="title">@lang('thevalue.upcoming-auction') - {{ $seriesDetail->name }}</div>
+                        <div class="title">{{ $seriesDetail->name }}</div>
                         <div class="input-group selection">
                             <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
                             <?php
@@ -42,7 +55,7 @@
                         </div>
 
                         <div class="misc">
-                            <div class="cell-name">{{ $saleDetail->title }}</div>
+                            <div class="cell-name">{{ $auctionTypeName }} - {{ $saleDetail->title }}</div>
                             <?php
                             $sDate = strtotime($sale->start_date);
                             $sDate = array(
@@ -53,21 +66,23 @@
                             ?>
 
                             <div style="float:left">@lang('thevalue.auction-date')： {{ $sDate[$locale] }}</div>
-                            <div id="date-counter-1" class="date-counter" style="float:left"></div>
+                            @if($auctionType == 'upcoming')
+                                <div id="date-counter-1" class="date-counter" style="float:left"></div>
+
+                                <script type="text/javascript">
+                                    $("#date-counter-1")
+                                        .countdown("{{ $sale->start_date }}", function(event) {
+                                            $(this).text(
+                                                event.strftime('(%D days %H:%M:%S)')
+                                            );
+                                        });
+                                </script>
+                            @endif
                             <div style="clear:both"></div>
                             @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
                             @lang('thevalue.total-lots')：<span>{{ $sale->total_lots }}</span> <br>
 
                         </div>
-
-                        <script type="text/javascript">
-                            $("#date-counter-1")
-                                .countdown("{{ $sale->start_date }}", function(event) {
-                                    $(this).text(
-                                        event.strftime('(%D days %H:%M:%S)')
-                                    );
-                                });
-                        </script>
 
                         <div class="row">
                             @foreach($items as $iKey => $item)
@@ -89,15 +104,29 @@
                                             ?>
                                             <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitleArray[$locale] }}</div>
                                             <?php
-                                                $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
-                                                $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
-                                                $estimate = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate_initial.' - '.$estimate_end;
+                                                if($item->sold_value != null) {
+                                                   switch($item->sold_value) {
+                                                       case 'bought in':
+                                                           $lotValue = trans('thevalue.bought-in');
+                                                           break;
+                                                       case 'withdraw':
+                                                           $lotValue = trans('thevalue.withdraw');
+                                                           break;
+                                                       default:
+                                                           $soldValue = str_replace('HKD ', '', $item->sold_value);
+                                                           $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
+                                                   }
+                                                } else {
+                                                    $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
+                                                    $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
+                                                    $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate_initial.' - '.$estimate_end;
 
-                                                if($estimate_initial == '' && $estimate_end == '') {
-                                                    $estimate = trans('thevalue.estimate-on-request');
+                                                    if($estimate_initial == '' && $estimate_end == '') {
+                                                        $lotValue = trans('thevalue.estimate-on-request');
+                                                    }
                                                 }
                                             ?>
-                                            <div class="lot-value">{{ $estimate }}</div>
+                                            <div class="lot-value">{{ $lotValue }}</div>
                                         </div>
                                     </div>
                                 </div>
