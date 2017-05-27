@@ -13,7 +13,7 @@
                     <li><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}" class="active">@lang('thevalue.pre-auction')</a></li>
                     <?php
                         $uri = null;
-                        if(isset($_GET['type']) && $_GET['type'] == 'appview') $uri = '?type=appview';
+//                        if(isset($_GET['type']) && $_GET['type'] == 'appview') $uri = '?type=appview';
                     ?>
                         <li><a href="{{ route('frontend.auction.auction', ['slug' => 'post']) }}{{ $uri }}">@lang('thevalue.post-auction')</a></li>
                     {{--<li><a href="#">@lang('thevalue.post-auction')</a></li>--}}
