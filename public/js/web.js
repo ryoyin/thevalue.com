@@ -143,13 +143,17 @@ function storyBoard(val, image_root_path, category, categoryName) {
 
     if(val.short_desc != '') val.short_desc += '...';
 
+    var publish_time = val.published_at_hktime;
+    var publish_time_date_val = publish_time.length - 8;
+    publish_time = publish_time.substr(0, publish_time_date_val);
+
     return "<div class='news'>\
         <div class='col-xs-12 col-md-5 left'><a href='"+site_root+default_language+"/article/"+val.slug+"'><img src='"+image_root_path+val.photo.image_path+"' class='img-responsive' style='width:100%'></a></div>\
             <div class='col-xs-12 col-md-7 right'>\
             <ul class='ul-clean'>\
             <li class='cate'><a href='"+site_root+default_language+"/category/"+category.slug+"'>"+categoryName+"</a></li>\
         <li class='title'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.title+"</a></li>\
-        <li class='date' style='clear:both'>"+val.published_at_hktime+"</li>\
+        <li class='date' style='clear:both'>"+publish_time+"</li>\
         <li class='desc' style='clear:both'><a href='"+site_root+default_language+"/article/"+val.slug+"'>"+val.short_desc+"</a></li>\
         </ul>\
         </div>\
