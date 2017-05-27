@@ -83,6 +83,7 @@
                 </tr>
                 </tfoot>--}}
               </table>
+              {{ $articles->links() }}
             </div><!-- /.box-body -->
           </div><!-- /.box -->
         </div>
