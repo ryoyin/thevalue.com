@@ -78,6 +78,7 @@
               </tr>
               </tfoot>--}}
             </table>
+            {{ $photos->links() }}
           </div><!-- /.box-body -->
         </div><!-- /.box -->
       </div>
@@ -100,7 +101,9 @@
 <script>
   $(function () {
     $("#research").DataTable({
-      "order": [[0, "desc"]]
+      "order": [[0, "desc"]],
+      "paging":   false,
+        "info":     false
     });
   });
 

@@ -16,7 +16,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
+        $photos = Photo::orderBy('created_at', 'desc')->paginate(50);
 
         $data = array(
             'menu' => array('photo', 'photo.list'),
