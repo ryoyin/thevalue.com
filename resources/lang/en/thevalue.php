@@ -64,4 +64,7 @@ return [
     'global-gallery' => 'Global Gallery',
     'auctions-info' => 'Auctions',
     'dimension' => 'Dimension',
+    'realised-price' => 'Price Realised',
+    'bought-in' => 'Bought In',
+    'withdraw' => 'Withdraw',
 ];

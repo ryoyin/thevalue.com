@@ -31,7 +31,7 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
-        $auctionDateLogic = array('upcoming' => '>', 'post' => '<');
+        $auctionDateLogic = array('upcoming' => '>', 'post' => '>');
         $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now())->get();
 
         $data = array(
@@ -50,7 +50,15 @@ class AuctionController extends Controller
             }
         }
 
-        return view('frontend.auction.pre.main', $data);
+        switch($slug) {
+            case 'upcoming':
+                return view('frontend.auction.pre.main', $data);
+                break;
+            case 'post':
+                return view('frontend.auction.post.main', $data);
+                break;
+        }
+
 
     }
 
@@ -99,6 +107,49 @@ class AuctionController extends Controller
         }
 
         return view('frontend.auction.company.main', $data);
+
+    }
+
+    public function housePost($house, Request $request)
+    {
+        $locale = App::getLocale();
+
+        $fbMetaArray = array(
+            'site_name' => "TheValue",
+            'url' => route('frontend.disclaimer'),
+            'type' => "website",
+            'title' => "TheValue Upcoming Auction",
+            "description" => "The Value 收取我們最新資訊",
+            "image" => asset('images/rocketfellercenter.jpg'),
+            "app_id" => "1149533345170108"
+        );
+
+        $house = App\AuctionHouse::where('slug', $house)->first();
+        $houseDetail = $house->details()->where('lang', $locale)->first();
+        $seriesArray = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->get();
+//        dd($seriesArray);
+        $presetSeries = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->first();
+
+        $data = array(
+            'fbMeta' => $fbMetaArray,
+            'categories' => $this->getCategoriesList(),
+            'house' => $house,
+            'locale' => $locale,
+            'houseDetail' => $houseDetail,
+            'seriesArray' => $seriesArray,
+            'presetSeries' => $presetSeries
+        );
+
+        if($request->input('type') !== null) {
+            switch ($request->input('type')) {
+                case 'appview':
+                    $data['appMode'] = true;
+                    return view('mobile.auctionCompany', $data);
+                    break;
+            }
+        }
+
+        return view('frontend.auction.company.post', $data);
 
     }
 

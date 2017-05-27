@@ -30,7 +30,7 @@ function()
     Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');
     Route::get('/auction/{slug}', 'Frontend\AuctionController@auction')->name('frontend.auction.auction');
     Route::get('/auction/{house}/upcoming', 'Frontend\AuctionController@houseUpcoming')->name('frontend.auction.house.upcoming');
-//    Route::get('/auction/{house}/post', 'Frontend\AuctionController@house')->name('frontend.auction.house');
+    Route::get('/auction/{house}/post', 'Frontend\AuctionController@housePost')->name('frontend.auction.house.post');
 //    Route::get('/auction/{house}/about', 'Frontend\AuctionController@house')->name('frontend.auction.house');
 //    Route::get('/auction/{house}/{event}', 'Frontend\AuctionController@event')->name('frontend.auction.house.event');
     Route::get('/auction/exhibition/{slug}', 'Frontend\AuctionController@sale')->name('frontend.auction.house.sale');
@@ -73,6 +73,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/item/list/{saleID?}', 'Backend\AuctionController@itemList')->name('backend.auction.itemList');
     Route::get('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemEdit')->name('backend.auction.itemEdit');
     Route::post('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemUpdate')->name('backend.auction.itemUpdate');
+
+    //get realized-price
+    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
 
 });
 

@@ -21,8 +21,31 @@
         if($estimate_initial == '' && $estimate_end == '') {
             $estimate = trans('thevalue.estimate-on-request');
         }
+
         ?>
         <div class="lot-estimate">{!! $estimate !!}</div>
+
+        <div style="height: 20px;"></div>
+
+        <?php
+            if($lot->sold_value != null) {
+                switch($lot->sold_value) {
+                    case 'bought in':
+                        $realized = trans('thevalue.bought-in');
+                        break;
+                    case 'withdraw':
+                        $realized = trans('thevalue.withdraw');
+                        break;
+                    default:
+                        $soldValue = str_replace('HKD ', '', $lot->sold_value);
+                        $realized = trans('thevalue.realised-price').'<br> '.$lot->currency_code.' '.$soldValue;
+                }
+
+        ?>
+        <div class="lot-estimate">{!! $realized !!}</div>
+        <?php
+            }
+        ?>
     </div>
 </div>
 

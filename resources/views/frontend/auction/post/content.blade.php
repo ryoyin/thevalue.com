@@ -10,8 +10,8 @@
 
             <div id="category-head" class="auction-menu auction-custom-menu">
                 <ul>
-                    <li><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}" class="active">@lang('thevalue.pre-auction')</a></li>
-                    <li><a href="{{ route('frontend.auction.auction', ['slug' => 'post']) }}">@lang('thevalue.post-auction')</a></li>
+                    <li><a href="{{ route('frontend.auction.auction', ['slug' => 'upcoming']) }}">@lang('thevalue.pre-auction')</a></li>
+                    <li><a href="{{ route('frontend.auction.auction', ['slug' => 'post']) }}" class="active">@lang('thevalue.post-auction')</a></li>
                     {{--<li><a href="#">@lang('thevalue.post-auction')</a></li>--}}
                 </ul>
             </div>
@@ -19,7 +19,7 @@
             <div style="clear: both"></div>
 
             {{--<div class="hidden-md hidden-lg">--}}
-            <div class="">@include('frontend.auction.pre.swiper')</div>
+            <div class="">@include('frontend.auction.post.swiper')</div>
 
             {{--<div class="hidden-xs hidden-sm col-md-9 col-lg-9">--}}
 
