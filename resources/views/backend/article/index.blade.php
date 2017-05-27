@@ -33,6 +33,7 @@
               <h3 class="box-title">List</h3> <a href="{{ action('Backend\ArticleController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
             </div><!-- /.box-header -->
             <div class="box-body">
+              {{ $articles->links() }}
               <table id="research" class="table table-bordered table-striped">
                 {{--category_id, slug, photo_id, hit_counter, share_counter--}}
                 <thead>

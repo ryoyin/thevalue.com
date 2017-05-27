@@ -35,6 +35,7 @@
             <h3 class="box-title">List</h3> <a href="{{ action('Backend\PhotoController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
           </div><!-- /.box-header -->
           <div class="box-body">
+            {{ $photos->links() }}
             <table id="research" class="table table-bordered table-striped">
               <thead>
                 <th>ID</th>
