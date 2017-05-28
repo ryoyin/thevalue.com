@@ -66,8 +66,7 @@
                             ?>
 
                             <div style="float:left">@lang('thevalue.auction-date')： {{ $sDate[$locale] }}</div>
-                            @if($auctionType == 'upcoming')
-                                <div id="date-counter-1" class="date-counter" style="float:left"></div>
+                                {{--<div id="date-counter-1" class="date-counter" style="float:left"></div>
 
                                 <script type="text/javascript">
                                     $("#date-counter-1")
@@ -76,8 +75,7 @@
                                                 event.strftime('(%D days %H:%M:%S)')
                                             );
                                         });
-                                </script>
-                            @endif
+                                </script>--}}
                             <div style="clear:both"></div>
                             @lang('thevalue.auction-location')：<span>{{ $saleDetail->location }}</span><br>
                             @lang('thevalue.total-lots')：<span>{{ $sale->total_lots }}</span> <br>

@@ -16,7 +16,7 @@ class ImportChristieSaleController extends Controller
     // Run in tinker
     // php artisan tinker
     // $controller = app()->make('App\Http\Controllers\Scripts\ImportChristieSaleController');
-    // app()->call([$controller, 'importDimension'], []);
+    // app()->call([$controller, 'getRealizedPrice'], []);
 
     public function index()
     {
