@@ -32,15 +32,14 @@
         centeredSlides: true,
         spaceBetween: 30,
         grabCursor: true,
-        slideTo: 0,
-        scrollbarHide: false,
+        slideTo: 1,
     });
 
-    for(var i=0; i < swiper.length; i++) {
+    /*for(var i=0; i < swiper.length; i++) {
         swiper[i].slideTo(slideTo);
-    }
+    }*/
 
-//    swiper.slideTo(1);
+    swiper.slideTo(2);
 
     $(window).resize(function() {
         if(window.screen.availWidth <=460) {
@@ -53,12 +52,18 @@
         }
     });
 
-    function updateSwiper(slidesPerView, swiperTo) {
+    /*function updateSwiper(slidesPerView, swiperTo) {
         for(var i=0; i < swiper.length; i++) {
             swiper[i].params.slidesPerView = slidesPerView;
             swiper[i].update();
             swiper[i].slideTo(swiperTo);
         }
+    }*/
+
+    function updateSwiper(slidesPerView, swiperTo) {
+        swiper.params.slidesPerView = slidesPerView;
+        swiper.update();
+        swiper.slideTo(swiperTo);
     }
 
    //    console.log(swiper);
