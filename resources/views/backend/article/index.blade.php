@@ -54,15 +54,8 @@
                     <td>{{ $article->category->slug }}</td>
                     <td>{{ $article->slug }}</td>
 
-                    <?php
-                      $image_path = $article->photo->image_medium_path == "" ? $article->photo->image_path : $article->photo->image_medium_path;
-                      if(file_exists(asset($image_path))) {
-                          $image_path = asset($image_path);
-                      } else {
-                          $image_path = "";
-                      }
-                    ?>
-                    <td><img src="{{ $image_path }}" style="height: 100px;"></td>
+                    <?php $image_path = $article->photo->image_medium_path == "" ? $article->photo->image_path : $article->photo->image_medium_path; ?>
+                    <td><img src="{{ asset($image_path) }}" style="height: 100px;"></td>
 
                     <td>{{ $article->hit_counter }}</td>
                     <td>{{ $article->share_counter }}</td>
