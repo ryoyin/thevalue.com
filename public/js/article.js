@@ -30,17 +30,17 @@ function makePopularStories() {
             var image_root_path = site_root;
         }
 
-        popularStoriesList.push('<div style="clear:both"></div>\
-            <div class="popular-news-block">\
+        popularStoriesList.push('\
+        <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 popular-news-block">\
             <div id="popular-news">\
-            <div class="col-md-5 left"><a href="'+site_root+default_language+'/article/'+val.slug+'"><img src="'+image_root_path+val.photo.image_path+'" class="img-responsive"></a></div>\
-            <div class="col-md-7 right">\
-            <ul class="ul-clean">\
-            <li><a href="'+site_root+default_language+'/category/'+category.slug+'">'+categoryName+'</a></li>\
-        <li><a href="'+site_root+default_language+'/article/'+val.slug+'">'+val.title+'</a></li>\
-        </ul>\
-        </div>\
-        </div>\
+                <div class="col-md-5 left"><a href="'+site_root+default_language+'/article/'+val.slug+'"><img src="'+image_root_path+val.photo.image_path+'" class="img-responsive"></a></div>\
+                <div class="col-md-7 right">\
+                    <ul class="ul-clean">\
+                        <li><a href="'+site_root+default_language+'/category/'+category.slug+'">'+categoryName+'</a></li>\
+                        <li><a href="'+site_root+default_language+'/article/'+val.slug+'">'+val.title+'</a></li>\
+                    </ul>\
+                </div>\
+            </div>\
         </div>');
     });
 

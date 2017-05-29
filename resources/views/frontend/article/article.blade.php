@@ -6,7 +6,7 @@
         var slug = "{{ $slug }}";
     </script>
 
-    <script src="{{ asset('js/article.js') }}?refresh=20170419"></script>
+    <script src="{{ asset('js/article.js') }}?refresh=2017052901"></script>
     <script src="{{ asset('js/fluidvids.js') }}"></script>
 
     @if(count($articlePhotos) > 1)
