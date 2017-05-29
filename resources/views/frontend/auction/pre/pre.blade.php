@@ -39,7 +39,7 @@
                     $sales = $auction->sales();
                     switch($auction->id) {
                         case 1;
-                            $salesGroup1 = $sales->wherein('number', [15710, 14336, 14337, 14338, 14715, 14716])->get();
+                            $salesGroup1 = $sales->wherein('number', [15710, 14338, 14715, 14716])->get();
                             break;
                         case 2:
                             $salesGroup1 = $sales->wherein('number', [14715, 14716, 13268, 13269])->get();
