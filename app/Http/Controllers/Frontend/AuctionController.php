@@ -31,8 +31,9 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
-        $auctionDateLogic = array('upcoming' => '>', 'post' => '>');
-        $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now())->get();
+        $auctionDateLogic = array('upcoming' => '>=', 'post' => '>=');
+        $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->get();
+//        dd($series);
 
         $data = array(
             'locale' => App::getLocale(),
@@ -83,9 +84,9 @@ class AuctionController extends Controller
 
         $house = App\AuctionHouse::where('slug', $house)->first();
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $seriesArray = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->get();
+        $seriesArray = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->get();
 //        dd($seriesArray);
-        $presetSeries = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->first();
+        $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->first();
 
         $data = array(
             'fbMeta' => $fbMetaArray,
@@ -126,9 +127,9 @@ class AuctionController extends Controller
 
         $house = App\AuctionHouse::where('slug', $house)->first();
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $seriesArray = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->get();
+        $seriesArray = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->get();
 //        dd($seriesArray);
-        $presetSeries = $house->series()->whereDate('end_date', '>', Carbon::now())->orderBy('start_date')->first();
+        $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->first();
 
         $data = array(
             'fbMeta' => $fbMetaArray,
