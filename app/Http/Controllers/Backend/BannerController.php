@@ -57,6 +57,14 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
+        // check photo exist
+        $checkPhoto = $this->checkPhoto($request->photo_id);
+
+        if(!$checkPhoto) {
+            return redirect('tvadmin/banners')->with('alert-warning', 'Photo not found!');;
+        }
+
+        // save banner
         $banner = new App\Banner;
         $banner->photo_id = $request->photo_id;
         $banner->position = $request->position;
@@ -65,6 +73,19 @@ class BannerController extends Controller
         $banner->save();
 
         return redirect('tvadmin/banners')->with('alert-success', 'Banner was successful added!');;
+    }
+
+    private function checkPhoto($id)
+    {
+        // check photo exist
+        $photoID = $id;
+        $photo = App\Photo::find($photoID);
+
+        if(count($photo) == 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -124,6 +145,12 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // check photo exist
+        $checkPhoto = $this->checkPhoto($request->photo_id);
+
+        if(!$checkPhoto) {
+            return redirect('tvadmin/banners')->with('alert-warning', 'Photo not found!');;
+        }
 
         $banner = App\Banner::find($id);
         $banner->photo_id = $request->photo_id;

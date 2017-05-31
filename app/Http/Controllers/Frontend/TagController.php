@@ -16,6 +16,7 @@ class TagController extends Controller
         $this->locale = App::getLocale();
 
         $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
 
         $tag = App\Tag::where('slug', $slug)->first();
         $tagDetail = $tag->details->where('lang', $this->locale);
@@ -46,6 +47,7 @@ class TagController extends Controller
             'tagDetail' => $tagDetail[0],
             'tagStories' => $tagStories,
             'sideBanners' => $sideBanners,
+            'menuBanner' => $menuBanner,
         );
 
         return view('frontend.tags.tags', $data);

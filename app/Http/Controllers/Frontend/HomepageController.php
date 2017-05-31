@@ -17,6 +17,7 @@ class HomepageController extends Controller
 
         $indexTopBannerList = $this->getBannerList('indexTopBanner', 'large');
         $indexSideBannerList = $this->getBannerList('indexSideBanner', 'medium');
+        $indexMenuBanner = $this->getBannerList('indexMenuBanner', 'large');
         //get featured articles
         $featuredArticleList = $this->getFeaturedArticleList();
 
@@ -35,6 +36,7 @@ class HomepageController extends Controller
             'categories' => $this->getCategoriesList(),
             'topBanners' => $indexTopBannerList,
             'sideBanners' => $indexSideBannerList,
+            'menuBanner' => $indexMenuBanner,
             'featuredArticles' => $featuredArticleList,
         );
 

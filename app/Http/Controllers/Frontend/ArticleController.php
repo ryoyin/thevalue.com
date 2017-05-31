@@ -81,6 +81,8 @@ class ArticleController extends Controller
         //get tags list
         $tagsList = $this->getTags($article);
 
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+
         $fbMetaArray = array(
             'site_name' => "TheValue",
             'url' => "http://www.thevalue.com/".$lang."/article/".$slug,
@@ -112,6 +114,7 @@ class ArticleController extends Controller
             'appMode' => false,
             'categories' => $this->getCategoriesList(),
             'gallery' => $gallery_image_array,
+            'menuBanner' => $menuBanner
         );
 
         if($request->input('type') !== null) {
@@ -183,6 +186,31 @@ class ArticleController extends Controller
     {
         $categories = New Category();
         return $categories->getCategoriesArray();
+    }
+
+    public function getBannerList($position, $size = 'medium')
+    {
+        $bannerList = array();
+        $banners = App\Banner::where('position', $position)->orderBy('sorting')->get();
+
+        foreach($banners as $banner) {
+            $photo = $banner->photo;
+
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
+            $bannerList[] = array(
+                'alt' => $photo->alt,
+                'image_path' => $image_path,
+                's3' => $photo->push_s3
+            );
+        }
+        return $bannerList;
     }
 }
 

@@ -8,7 +8,8 @@
     }
 </style>
 <!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top head-dropdown-menu">
+{{--navbar-fixed-top--}}
+<nav class="navbar navbar-default head-dropdown-menu">
     <div class="container">
         <div class="navbar-header">
             <div style="" class="navbar-brand navbar-custom-logo"><a class="navbar-brand" style="float: none;" href="{{ route('frontend.index') }}">THE VALUE</a></div>

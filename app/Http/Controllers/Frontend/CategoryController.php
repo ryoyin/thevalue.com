@@ -17,6 +17,7 @@ class CategoryController extends Controller
         $this->locale = App::getLocale();
 
         $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
 
         $category = App\Category::where('slug', $slug)->first();
         $categoryDetail = $this->getCategoriesList($category->id);
@@ -47,6 +48,7 @@ class CategoryController extends Controller
             'categoryDetail' => $categoryDetail[0],
             'categoryStories' => $categoryStories,
             'sideBanners' => $sideBanners,
+            'menuBanner' => $menuBanner,
             'categoryPagination' => $categoryPagination
         );
         return view('frontend.categories.categories', $data);
@@ -67,6 +69,7 @@ class CategoryController extends Controller
 
         //get side banners
         $indexSideBannerList = $this->getBannerList('indexSideBanner');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
 
         //get popularStories
         $categoryStories = $this->getSearchVideo();
@@ -88,6 +91,7 @@ class CategoryController extends Controller
             'categoryDetail' => $categoryDetail,
             'categoryStories' => $categoryStories,
             'sideBanners' => $indexSideBannerList,
+            'menuBanner' => $menuBanner,
             'categoryPagination' => $this->getVideoPagination(),
         );
 

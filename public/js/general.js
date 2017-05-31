@@ -112,11 +112,29 @@ function updateCounter(slug, type) {
 }
 
 $(window).scroll(function(){
-    if($(window).scrollTop() > 120){
-        $(".head-dropdown-menu").css('display', 'block')
+
+    var scrollPX = 120;
+
+    if($('#top-menu-banner').length) {
+
+        var width = $(window).width();
+
+        if(width <= 460) {
+            scrollPX = 160;
+        } else if(width <= 991) {
+            scrollPX = 350;
+        } else {
+            scrollPX = 400;
+        }
+
     }
 
-    if($(window).scrollTop() < 120){
-        $(".head-dropdown-menu").css('display', 'none');
+    if($(window).scrollTop() > scrollPX){
+        $(".head-dropdown-menu").css('display', 'block').addClass('navbar-fixed-top');
     }
+
+    if($(window).scrollTop() < scrollPX){
+        $(".head-dropdown-menu").css('display', 'none').removeClass('navbar-fixed-top');;
+    }
+
 });

@@ -7,8 +7,10 @@
 
   .head-dropdown-menu {
     display: block !important;
+    margin-bottom: 0;
     .lang-nav {
       width: 100px;
+      margin: 7.5px -15px 0;
       .dropdown-toggle {
         padding-top: 10px;
       }
@@ -50,7 +52,7 @@
 
 
   #carousel-main-banner {
-    margin: 50px -15px 0 -15px;
+    margin: 0 -15px 0 -15px;
   }
 
   #article-single-img {
@@ -106,7 +108,7 @@
 
 
         #category-head {
-          padding-top: 60px;
+          //padding-top: 60px;
           font-size: 14px;
           span {
             font-weight: bold;
@@ -993,7 +995,7 @@ body {
 .auction {
 
   .logo {
-    padding-top: 70px;
+    padding-top: 20px;
     text-align: center;
 
     img {
@@ -1010,7 +1012,7 @@ body {
   }
 
   .auction-menu {
-    padding-top: 50px;
+    padding-top: 20px;
     font-size: 14px;
     span {
       font-weight: bold;
@@ -1523,11 +1525,11 @@ body {
   //border: 1px solid #000000 !important;
 }
 
-@media only screen and (max-width: 460px) {
+/*@media only screen and (max-width: 460px) {
   .auction-custom-menu {
-    padding-top: 50px !important;
+    //padding-top: 50px !important;
   }
-}
+}*/
 
 .item-detail-pagination {
   .active {
@@ -1560,4 +1562,16 @@ body {
   border: 4px double #8c8c8c;
   color: #8c8c8c;
   cursor: pointer;
+}
+
+.advert {
+  li {
+    padding-bottom: 15px;
+  }
+}
+
+#top-menu-banner {
+  img {
+    margin: auto;
+  }
 }

@@ -35,11 +35,14 @@ class AuctionController extends Controller
         $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->get();
 //        dd($series);
 
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+
         $data = array(
             'locale' => App::getLocale(),
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
             'series' => $series,
+            'menuBanner' => $menuBanner,
         );
 
         if($request->input('type') !== null) {
@@ -88,6 +91,8 @@ class AuctionController extends Controller
 //        dd($seriesArray);
         $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->first();
 
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+
         $data = array(
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
@@ -95,7 +100,8 @@ class AuctionController extends Controller
             'locale' => $locale,
             'houseDetail' => $houseDetail,
             'seriesArray' => $seriesArray,
-            'presetSeries' => $presetSeries
+            'presetSeries' => $presetSeries,
+            'menuBanner' => $menuBanner,
         );
 
         if($request->input('type') !== null) {
@@ -131,6 +137,8 @@ class AuctionController extends Controller
 //        dd($seriesArray);
         $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->first();
 
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+
         $data = array(
             'fbMeta' => $fbMetaArray,
             'categories' => $this->getCategoriesList(),
@@ -138,7 +146,8 @@ class AuctionController extends Controller
             'locale' => $locale,
             'houseDetail' => $houseDetail,
             'seriesArray' => $seriesArray,
-            'presetSeries' => $presetSeries
+            'presetSeries' => $presetSeries,
+            'menuBanner' => $menuBanner,
         );
 
         if($request->input('type') !== null) {
@@ -175,6 +184,7 @@ class AuctionController extends Controller
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
         $items = $sale->items()->orderBy('id')->paginate(48);
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
 
         $data = array(
             'slug' => $slug,
@@ -187,7 +197,8 @@ class AuctionController extends Controller
             'houseDetail' => $houseDetail,
             'series' => $series,
             'seriesDetail' => $seriesDetail,
-            'items' => $items
+            'items' => $items,
+            'menuBanner' => $menuBanner,
         );
 
         if($request->input('type') !== null) {
@@ -224,6 +235,7 @@ class AuctionController extends Controller
         $rSales = $series->sales()->inRandomOrder()->limit(4)->get();
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
 
 //        $allItems = $sale->items()->orderBy('id')->get();
         $lot = App\AuctionItem::where('id', $lot)->first();
@@ -245,7 +257,8 @@ class AuctionController extends Controller
             'items' => $items,
 //            'allItems' => $allItems,
             'lot' => $lot,
-            'lotDetail' => $lotDetail
+            'lotDetail' => $lotDetail,
+            'menuBanner' => $menuBanner,
         );
 
         if($request->input('type') !== null) {
@@ -293,6 +306,31 @@ class AuctionController extends Controller
             }
         }
         return $s2;
+    }
+
+    public function getBannerList($position, $size = 'medium')
+    {
+        $bannerList = array();
+        $banners = App\Banner::where('position', $position)->orderBy('sorting')->get();
+
+        foreach($banners as $banner) {
+            $photo = $banner->photo;
+
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
+            $bannerList[] = array(
+                'alt' => $photo->alt,
+                'image_path' => $image_path,
+                's3' => $photo->push_s3
+            );
+        }
+        return $bannerList;
     }
 
 }
