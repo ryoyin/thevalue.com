@@ -6,7 +6,7 @@
     <div class="col-sm-7 col-md-7 item-detail">
         <div class="lot-number">Lot {{ $lot->number }}</div>
         <div class="lot-title">{{ $lotDetail->title }}</div>
-        <div class="lot-stitle">{{ $lotDetail->secondary_title }}</div>
+        <div class="lot-stitle">{{ $lotDetail->misc }}</div>
         <div class="lot-desc">{!! $lotDetail->description !!}</div>
         @if(trim($lot->dimension) != '')
             <div class="lot-dimension"><span>@lang('thevalue.dimension')</span><br>{!! $lot->dimension !!}</div>
