@@ -2,7 +2,7 @@
 <!-- thevalue-auto -->
 <ins class="adsbygoogle"
      style="display:block"
-     data-ad-client="ca-pub-8545127753274353"
+     data-ad-client="8545127753274353"
      data-ad-slot="7391805026"
      data-ad-format="auto"></ins>
 <script>
