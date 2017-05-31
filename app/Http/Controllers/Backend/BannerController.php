@@ -41,7 +41,8 @@ class BannerController extends Controller
             'banner' => array(
                 'photo_id' => old('photo_id'),
                 'position' => old('position'),
-                'sorting' => old('sorting')
+                'sorting' => old('sorting'),
+                'status' => old('status')
             ),
         );
 
@@ -60,6 +61,7 @@ class BannerController extends Controller
         $banner->photo_id = $request->photo_id;
         $banner->position = $request->position;
         $banner->sorting = $request->sorting;
+        $banner->status = $request->status;
         $banner->save();
 
         return redirect('tvadmin/banners')->with('alert-success', 'Banner was successful added!');;
@@ -90,13 +92,15 @@ class BannerController extends Controller
             $banner = array(
                 'photo_id' => $banner->photo_id,
                 'position' => $banner->position,
-                'sorting' => $banner->sorting
+                'sorting' => $banner->sorting,
+                'status' => $banner->status
             );
         } else {
             $banner = array(
                 'photo_id' => old('photo_id'),
                 'position' => old('position'),
-                'sorting' => old('sorting')
+                'sorting' => old('sorting'),
+                'status' => old('status')
             );
         }
 
@@ -125,6 +129,7 @@ class BannerController extends Controller
         $banner->photo_id = $request->photo_id;
         $banner->position = $request->position;
         $banner->sorting = $request->sorting;
+        $banner->status = $request->status;
         $banner->save();
 
         return redirect('tvadmin/banners')->with('alert-success', 'Banner was successful updated!');;

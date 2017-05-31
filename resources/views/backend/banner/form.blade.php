@@ -48,17 +48,39 @@
               <!-- text input -->
               <div class="form-group">
                 <label>Photo ID</label>
-                <input name="photo_id" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['photo_id'] }}">
+                <input name="photo_id" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['photo_id'] }}" required>
               </div>
               <!-- text input -->
               <div class="form-group">
                   <label>Position</label>
-                  <input name="position" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['position'] }}">
+                  <select name="position" id="position" class="form-control">
+                      @foreach(config('app.banner_positions') as $position)
+                          <option value="{{ $position }}"
+                            @if($banner['position'] == $position)
+                                selected
+                            @endif
+                          >{{ $position }}</option>
+                      @endforeach
+                  </select>
+                  {{--<input name="position" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['position'] }}" required>--}}
               </div>
               <!-- text input -->
               <div class="form-group">
                   <label>Sorting</label>
-                  <input name="sorting" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['sorting'] }}">
+                  <input name="sorting" type="text" class="form-control" placeholder="Enter ..." value="{{ $banner['sorting'] }}" required>
+              </div>
+
+              <div class="form-group">
+                  <label>Status</label>
+                  <select name="status" id="status" class="form-control">
+                      @foreach(config('app.simple_status') as $status)
+                        <option
+                            @if($status == $banner['status'])
+                                selected
+                            @endif
+                            value="{{ $status }}">{{ $status }}</option>
+                      @endforeach
+                  </select>
               </div>
           </div><!-- /.box-body -->
         </div><!-- /.box -->

@@ -39,6 +39,7 @@
                 <th>Image</th>
                 <th>Position</th>
                 <th>Sorting</th>
+                <th>Status</th>
                 <th style="text-align: center;">Action</th>
                 </tr>
                 </thead>
@@ -51,6 +52,7 @@
                     <td><img src="{{ asset($image_path) }}" style="height: 100px;"></td>
                     <td>{{ $banner->position }}</td>
                     <td>{{ $banner->sorting }}</td>
+                    <td>{{ $banner->status }}</td>
                     <td align="center">
                       <a href="{{ url('tvadmin/banners/'.$banner->id.'/edit') }}" class="btn btn-warning">Modify</a>
                       <form action="{{ url('tvadmin/banners/'.$banner->id) }}" method="POST" style="display: inline-block">
