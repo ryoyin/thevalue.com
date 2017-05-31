@@ -54,7 +54,13 @@
                     <td>{{ $article->category->slug }}</td>
                     <td>{{ $article->slug }}</td>
 
-                    <?php $image_path = $article->photo->image_medium_path == "" ? $article->photo->image_path : $article->photo->image_medium_path; ?>
+                    <?php
+                      if($article->photo == null) {
+                        $image_path = '';
+                      } else {
+                        $image_path = $article->photo->image_medium_path == "" ? $article->photo->image_path : $article->photo->image_medium_path;
+                      }
+                    ?>
                     <td><img src="{{ asset($image_path) }}" style="height: 100px;"></td>
 
                     <td>{{ $article->hit_counter }}</td>

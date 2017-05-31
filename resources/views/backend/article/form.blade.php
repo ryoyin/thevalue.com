@@ -177,6 +177,18 @@
                   <input name="share_counter" type="text" class="form-control" placeholder="Enter ..." value="{{ $article['share_counter'] }}" required>
               </div>
               <!-- text input -->
+              <div class="box-footer" style="text-align: right;">
+                  @if(isset($formMethod))
+                      <button type="text" class="btn btn-primary" onclick="preview();">Preview</button>
+                      <script>
+                          function preview() {
+                              window.open('{{ route('frontend.article', ['slug' => $article['slug']]) }}','_blank');
+                          }
+                      </script>
+                  @endif
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <!-- select -->
               <div class="form-group">
                   <label>Publish Date</label>
                   <?php
@@ -187,7 +199,7 @@
                   ?>
                   <input name="published_at" type="text" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS" value="{{ $published_at }}" required>
               </div>
-              <!-- select -->
+
               <div class="form-group">
                   <label>Status</label>
                   <select name="status" class="form-control">
@@ -199,10 +211,6 @@
                       >{{ $item }}</option>
                   @endforeach
                   </select>
-              </div>
-
-              <div class="box-footer" style="text-align: right;">
-                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
 
           </div><!-- /.box-body -->
@@ -255,6 +263,7 @@ function changeLang(obj) {
         });
         $(".textarea").wysihtml5();
     });
+
 </script>
 
 
