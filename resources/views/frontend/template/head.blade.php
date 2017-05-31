@@ -100,11 +100,11 @@
     <meta name="msapplication-TileImage" content="{{ asset("images/icons/ms-icon-144x144.png") }}"> <meta name="theme-color" content="#ffffff">
 
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
+    {{--<script>
         (adsbygoogle = window.adsbygoogle || []).push({
             google_ad_client: "pub-8545127753274353",
             enable_page_level_ads: true
         });
-    </script>
+    </script>--}}
 
 </head>
