@@ -19,9 +19,12 @@
                     <?php
 
                         if($item->status != 'pending') {
-                            switch($item->sold_value) {
-                                case '':
+                            switch($item->status) {
+                                case 'bought in':
                                     $lotValue = trans('thevalue.bought-in');
+                                    break;
+                                case 'withdraw':
+                                    $lotValue = trans('thevalue.withdraw');
                                     break;
                                 default:
                                     $soldValue = number_format( (int)$item->sold_value, 0, ".", "," );

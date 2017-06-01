@@ -29,12 +29,12 @@
 
         <?php
             if($lot->status != 'pending') {
-                switch($lot->sold_value) {
+                switch($lot->status) {
                     case 'bought in':
                         $realized = trans('thevalue.bought-in');
                         break;
                     case 'withdraw':
-                        $realized = trans('thevalue.bought-in');
+                        $realized = trans('thevalue.withdraw');
                         break;
                     default:
                         $soldValue = number_format( (int)$lot->sold_value, 0, ".", "," );
