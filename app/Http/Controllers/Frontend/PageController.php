@@ -132,7 +132,8 @@ class PageController extends Controller
 
         //redirect android to google app store
         if($agent->isAndroidOS()) {
-            return Redirect::to(asset('app/android/thevalue-app-release-1.4.apk'));
+//            return Redirect::to(asset('app/android/thevalue-app-release-1.4.apk'));
+            return Redirect::to('https://play.google.com/store/apps/details?id=com.thevaluecoreapp');
         }
 
         //redirect PC user to web page
