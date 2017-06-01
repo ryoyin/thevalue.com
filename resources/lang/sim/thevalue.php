@@ -51,7 +51,7 @@ return [
     'browse-lots' => '观看展品',
     'please-select' => '请选择 :',
     'estimate' => '估价',
-    'estimate-on-request' => '估价代询',
+    'estimate-on-request' => '估价待询',
     'click-to-enlarge' => '点击放大',
     'related-lot' => '相关拍品',
     'shares' => '分享',

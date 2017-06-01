@@ -50,7 +50,7 @@ return [
     'browse-lots' => '觀看展品',
     'please-select' => '請選擇 :',
     'estimate' => '估價',
-    'estimate-on-request' => '估價代詢',
+    'estimate-on-request' => '估價待詢',
     'click-to-enlarge' => '點擊放大',
     'related-lot' => '相關拍品',
     'shares' => 'shares',
