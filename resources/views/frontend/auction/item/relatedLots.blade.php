@@ -33,7 +33,7 @@
                             $estimate = $estimate_initial.' - '.$estimate_end;
                             $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
 
-                            if($estimate_initial == 0 && $estimate_end == 0) {
+                            if($estimate_initial == '' && $estimate_end == '') {
                                 $lotValue = trans('thevalue.estimate-on-request');
                             }
                         }
