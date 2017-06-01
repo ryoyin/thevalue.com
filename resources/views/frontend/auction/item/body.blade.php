@@ -7,7 +7,6 @@
         <div class="lot-number">Lot {{ $lot->number }}</div>
         <div class="lot-title">{{ $lotDetail->title }}</div>
         <div class="lot-stitle">{{ $lotDetail->misc }}</div>
-        <div class="lot-desc">{!! $lotDetail->description !!}</div>
         @if(trim($lot->dimension) != '')
             <div class="lot-dimension"><span>@lang('thevalue.dimension')</span><br>{!! $lot->dimension !!}</div>
         @endif
@@ -16,7 +15,7 @@
         $estimate_end = str_replace('HKD ', '', $lot->estimate_value_end);
         $estimate = $estimate_initial.' - '.$estimate_end;
 
-        $estimate = trans('thevalue.estimate').'<br>'.$lot->currency_code.' '.$estimate;
+        $estimate = '<span>'.trans('thevalue.estimate').'</span><br>'.$lot->currency_code.' '.$estimate;
 
         if($estimate_initial == '' && $estimate_end == '') {
             $estimate = trans('thevalue.estimate-on-request');
@@ -38,7 +37,7 @@
                         break;
                     default:
                         $soldValue = str_replace('HKD ', '', $lot->sold_value);
-                        $realized = trans('thevalue.realised-price').'<br> '.$lot->currency_code.' '.$soldValue;
+                        $realized = '<span>'.trans('thevalue.realised-price').'</span><br> '.$lot->currency_code.' '.$soldValue;
                 }
 
         ?>
@@ -46,6 +45,8 @@
         <?php
             }
         ?>
+
+        <div class="lot-desc">{!! $lotDetail->description !!}</div>
     </div>
 </div>
 

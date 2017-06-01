@@ -1379,23 +1379,28 @@ body {
         font-size: 17px;
       }
       .lot-desc {
-        padding: 30px 0;
+        //padding: 30px 0;
         font-size: 17px;
       }
       .lot-dimension {
         //padding: 30px 0;
         font-size: 17px;
-        font-weight: bold;
+        //font-weight: bold;
 
-        padding-bottom: 10px;
+        padding: 10px 0 0;
 
         span {
           font-weight: bold;
         }
       }
       .lot-estimate {
-        font-weight: bold;
+        //font-weight: bold;
         font-size: 17px;
+
+        padding: 10px 0 0;
+        span {
+          font-weight: bold;
+        }
       }
     }
 
