@@ -116,7 +116,7 @@
                                                     $estimate_initial = $item->estimate_value_initial;
                                                     $estimate_end = $item->estimate_value_end;
 
-                                                    if($estimate_initial == '' && $estimate_end == '') {
+                                                    if($estimate_initial == 0 && $estimate_end == 0) {
                                                         $lotValue = trans('thevalue.estimate-on-request');
                                                     } else {
                                                         $estimate_initial = number_format( (int)$estimate_initial, 0, ".", "," );

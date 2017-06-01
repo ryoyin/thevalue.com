@@ -17,7 +17,7 @@
 
         $estimate = '<span>'.trans('thevalue.estimate').'</span><br>'.$lot->currency_code.' '.$estimate;
 
-        if($estimate_initial == '' && $estimate_end == '') {
+        if($estimate_initial == 0 && $estimate_end == 0) {
             $estimate = trans('thevalue.estimate-on-request');
         }
 

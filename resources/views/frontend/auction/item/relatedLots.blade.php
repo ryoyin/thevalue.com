@@ -20,23 +20,20 @@
 
                         if($item->sold_value != null) {
                             switch($item->sold_value) {
-                                case 'bought in':
+                                case 0:
                                     $lotValue = trans('thevalue.bought-in');
                                     break;
-                                case 'withdraw':
-                                    $lotValue = trans('thevalue.withdraw');
-                                    break;
                                 default:
-                                    $soldValue = str_replace('HKD ', '', $item->sold_value);
+                                    $soldValue = number_format( (int)$item->sold_value, 0, ".", "," );
                                     $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
                             }
                         } else {
-                            $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
-                            $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
+                            $estimate_initial = number_format( (int)$item->estimate_value_initial, 0, ".", "," );
+                            $estimate_end = number_format( (int)$item->estimate_value_end, 0, ".", "," );;
                             $estimate = $estimate_initial.' - '.$estimate_end;
                             $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
 
-                            if($estimate_initial == '' && $estimate_end == '') {
+                            if($estimate_initial == 0 && $estimate_end == 0) {
                                 $lotValue = trans('thevalue.estimate-on-request');
                             }
                         }
