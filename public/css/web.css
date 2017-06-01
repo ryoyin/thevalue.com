@@ -1181,6 +1181,7 @@ body {
 
 .auction-detail .item-body .item-detail .lot-desc {
   font-size: 17px;
+  border-top: 4px double #000;
 }
 
 .auction-detail .item-body .item-detail .lot-dimension {
