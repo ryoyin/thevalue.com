@@ -111,7 +111,7 @@
                                                            $lotValue = trans('thevalue.withdraw');
                                                            break;
                                                        default:
-                                                           $soldValue = number_format( $item->sold_value, 0, ".", "," );
+                                                           $soldValue = number_format( (int)$item->sold_value, 0, ".", "," );
                                                            $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
                                                    }
                                                 } else {
@@ -122,8 +122,8 @@
                                                     if($estimate_initial == '' && $estimate_end == '') {
                                                         $lotValue = trans('thevalue.estimate-on-request');
                                                     } else {
-                                                        $estimate_initial = number_format( $estimate_initial, 0, ".", "," );
-                                                        $estimate_end = number_format( $estimate_end, 0, ".", "," );
+                                                        $estimate_initial = number_format( (int)$estimate_initial, 0, ".", "," );
+                                                        $estimate_end = number_format( (int)$estimate_end, 0, ".", "," );
                                                         $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate_initial.' - '.$estimate_end;
                                                     }
                                                 }
