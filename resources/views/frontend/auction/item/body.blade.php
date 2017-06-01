@@ -39,12 +39,12 @@
                 }
 
         ?>
-        <div style="height: 20px;"></div>
         <div class="lot-estimate">{!! $realized !!}</div>
         <?php
             }
         ?>
 
+        <div style="height: 20px;"></div>
         <div class="lot-desc">{!! $lotDetail->description !!}</div>
     </div>
 </div>
