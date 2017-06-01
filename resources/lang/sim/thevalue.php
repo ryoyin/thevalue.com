@@ -63,4 +63,6 @@ return [
     'realised-price' => '成交价',
     'bought-in' => '未成交',
     'withdraw' => '未成交',
+    'no-upcoming-auction' => '未有预展拍卖记录',
+
 ];

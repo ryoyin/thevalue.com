@@ -48,7 +48,7 @@
 
                 <div style="clear: both"></div>
 
-                <div style="padding: 100px; height: 300px; font-weight: bold; font-size: 30px; text-align: center;">No Upcoming Auction.</div>
+                <div style="padding: 100px; height: 300px; font-weight: bold; font-size: 30px; text-align: center;">@lang('thevalue.no-upcoming-auction')</div>
 
             </div>
 

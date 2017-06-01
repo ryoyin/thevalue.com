@@ -67,4 +67,5 @@ return [
     'realised-price' => 'Price Realised',
     'bought-in' => 'Bought In',
     'withdraw' => 'Withdraw',
+    'no-upcoming-auction' => 'No Upcoming Auction',
 ];
