@@ -919,4 +919,61 @@ class ImportChristieSaleController extends Controller
 
     }
 
+    public function convertPrice()
+    {
+
+        $items = App\AuctionItem::all();
+
+        foreach($items as $item) {
+
+            $save = false;
+
+            $estimateInitial = $item->estimate_value_initial;
+            $estimateEnd = $item->estimate_value_end;
+            $soldValue = $item->sold_value;
+
+            if(!is_numeric($estimateInitial)) {
+                echo $estimateInitial;
+                echo '<br>';
+                $item->estimate_value_initial = $this->convertValue($estimateInitial);
+                $save = true;
+            }
+
+            if(!is_numeric($estimateEnd)) {
+                echo $estimateEnd;
+                echo '<br>';
+                $item->estimate_value_end = $this->convertValue($estimateEnd);
+                $save = true;
+            }
+
+            if(!is_numeric($soldValue)) {
+                echo $soldValue;
+                echo '<br>';
+                $item->sold_value = $this->convertValue($soldValue);
+                $save = true;
+            }
+
+            if($save) $item->save();
+
+//            break;
+
+        }
+
+    }
+
+    private function convertValue($value)
+    {
+        $value = str_replace(',', '', $value);
+
+        $exValue = explode(' ', $value);
+
+        if(count($exValue) == 2) {
+            $value = $exValue[1];
+        }
+
+        $value = trim($value);
+
+        return $value;
+    }
+
 }

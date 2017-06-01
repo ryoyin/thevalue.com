@@ -12,7 +12,8 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "intervention/image": "^2.3",
         "aws/aws-sdk-php-laravel": "~3.0",
-        "jenssegers/agent": "^2.5"
+        "jenssegers/agent": "^2.5",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

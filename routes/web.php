@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     //get realized-price
     Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
+    Route::get('/christie-convert-price', 'Scripts\ImportChristieSaleController@convertPrice');
 
 });
 

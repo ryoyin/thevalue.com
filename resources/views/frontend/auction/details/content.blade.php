@@ -111,16 +111,20 @@
                                                            $lotValue = trans('thevalue.withdraw');
                                                            break;
                                                        default:
-                                                           $soldValue = str_replace('HKD ', '', $item->sold_value);
+                                                           $soldValue = number_format( $item->sold_value, 0, ".", "," );
                                                            $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
                                                    }
                                                 } else {
-                                                    $estimate_initial = str_replace('HKD ', '', $item->estimate_value_initial);
-                                                    $estimate_end = str_replace('HKD ', '', $item->estimate_value_end);
-                                                    $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate_initial.' - '.$estimate_end;
+
+                                                    $estimate_initial = $item->estimate_value_initial;
+                                                    $estimate_end = $item->estimate_value_end;
 
                                                     if($estimate_initial == '' && $estimate_end == '') {
                                                         $lotValue = trans('thevalue.estimate-on-request');
+                                                    } else {
+                                                        $estimate_initial = number_format( $estimate_initial, 0, ".", "," );
+                                                        $estimate_end = number_format( $estimate_end, 0, ".", "," );
+                                                        $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate_initial.' - '.$estimate_end;
                                                     }
                                                 }
                                             ?>
