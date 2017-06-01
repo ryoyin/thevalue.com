@@ -93,7 +93,7 @@ class ImportChristieSaleController extends Controller
         $sales = App\AuctionSale::where('end_date', '<', Carbon::now()->format('Y-m-d'))->get();
 
         foreach($sales as $sale) {
-            $items = $sale->items()->where('sold_value', null)->get();
+            $items = $sale->items()->where('status', 'pending')->get();
 
             $int_sale_id = $sale->christieSale->int_sale_id;
 
@@ -102,22 +102,27 @@ class ImportChristieSaleController extends Controller
                 $content = $this->getLotLocale($int_sale_id, 'en', $item->number);
 
                 if(!$content) {
-                    $item->sold_value = 'withdraw';
+                    $item->sold_value = null;
+                    $item->status = 'withdraw';
                     $item->save();
                     continue;
                 }
 
                 if($content['sold_value'] == null) {
-                    $item->sold_value = 'bought in';
+                    $item->sold_value = null;
+                    $item->status = 'bought in';
                     $item->save();
                     continue;
                 }
 
-                $item->sold_value = $content['sold_value'];
-
+                $item->sold_value = $this->convertValue($content['sold_value']);
+                $item->status = 'sold';
                 $item->save();
 
             }
+
+            break;
+
         }
 
     }
