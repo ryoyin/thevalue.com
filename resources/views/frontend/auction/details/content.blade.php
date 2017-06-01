@@ -102,7 +102,7 @@
                                             ?>
                                             <div class="lot-title"><span>Lot {{ $item->number }}</span> <br>{{ $itemTitleArray[$locale] }}</div>
                                             <?php
-                                                if($item->sold_value != null) {
+                                                if($item->status != 'pending') {
                                                    switch($item->sold_value) {
                                                        case '':
                                                            $lotValue = trans('thevalue.bought-in');

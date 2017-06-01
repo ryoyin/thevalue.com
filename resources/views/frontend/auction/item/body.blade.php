@@ -28,9 +28,12 @@
         <div class="lot-estimate">{!! $estimate !!}</div>
 
         <?php
-            if($lot->sold_value != null) {
+            if($lot->status != 'pending') {
                 switch($lot->sold_value) {
-                    case '':
+                    case 'bought in':
+                        $realized = trans('thevalue.bought-in');
+                        break;
+                    case 'withdraw':
                         $realized = trans('thevalue.bought-in');
                         break;
                     default:
