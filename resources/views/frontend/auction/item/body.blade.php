@@ -27,7 +27,7 @@
         <?php
             if($lot->sold_value != null) {
                 switch($lot->sold_value) {
-                    case 0:
+                    case '':
                         $realized = trans('thevalue.bought-in');
                         break;
                     default:

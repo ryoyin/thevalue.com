@@ -20,7 +20,7 @@
 
                         if($item->sold_value != null) {
                             switch($item->sold_value) {
-                                case 0:
+                                case '':
                                     $lotValue = trans('thevalue.bought-in');
                                     break;
                                 default:
