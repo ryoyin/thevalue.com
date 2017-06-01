@@ -11,14 +11,17 @@
             <div class="lot-dimension"><span>@lang('thevalue.dimension')</span><br>{!! $lot->dimension !!}</div>
         @endif
         <?php
-        $estimate_initial = number_format( (int)$lot->estimate_value_initial, 0, ".", "," );
-        $estimate_end = number_format( (int)$lot->estimate_value_end, 0, ".", "," );
-        $estimate = $estimate_initial.' - '.$estimate_end;
-
-        $estimate = '<span>'.trans('thevalue.estimate').'</span><br>'.$lot->currency_code.' '.$estimate;
+        $estimate_initial = $lot->estimate_value_initial;
+        $estimate_end = $lot->estimate_value_end;
 
         if($estimate_initial == '' && $estimate_end == '') {
             $estimate = trans('thevalue.estimate-on-request');
+        } else {
+            $estimate_initial = number_format( (int)$estimate_initial, 0, ".", "," );
+            $estimate_end = number_format( (int)$estimate_end, 0, ".", "," );
+            $estimate = $estimate_initial.' - '.$estimate_end;
+
+            $estimate = '<span>'.trans('thevalue.estimate').'</span><br>'.$lot->currency_code.' '.$estimate;
         }
 
         ?>

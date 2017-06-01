@@ -28,13 +28,15 @@
                                     $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
                             }
                         } else {
-                            $estimate_initial = number_format( (int)$item->estimate_value_initial, 0, ".", "," );
-                            $estimate_end = number_format( (int)$item->estimate_value_end, 0, ".", "," );;
-                            $estimate = $estimate_initial.' - '.$estimate_end;
-                            $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
-
+                            $estimate_initial = $item->estimate_value_initial;
+                            $estimate_end = $item->estimate_value_end;
                             if($estimate_initial == '' && $estimate_end == '') {
                                 $lotValue = trans('thevalue.estimate-on-request');
+                            } else {
+                                $estimate_initial = number_format( (int)$estimate_initial, 0, ".", "," );
+                                $estimate_end = number_format( (int)$estimate_end, 0, ".", "," );;
+                                $estimate = $estimate_initial.' - '.$estimate_end;
+                                $lotValue = trans('thevalue.estimate').': '.$item->currency_code.' '.$estimate;
                             }
                         }
 
