@@ -24,8 +24,6 @@
         ?>
         <div class="lot-estimate">{!! $estimate !!}</div>
 
-        <div style="height: 20px;"></div>
-
         <?php
             if($lot->sold_value != null) {
                 switch($lot->sold_value) {
@@ -41,6 +39,7 @@
                 }
 
         ?>
+        <div style="height: 20px;"></div>
         <div class="lot-estimate">{!! $realized !!}</div>
         <?php
             }
