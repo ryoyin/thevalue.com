@@ -27,11 +27,8 @@
         <?php
             if($lot->sold_value != null) {
                 switch($lot->sold_value) {
-                    case 'bought in':
+                    case 0:
                         $realized = trans('thevalue.bought-in');
-                        break;
-                    case 'withdraw':
-                        $realized = trans('thevalue.withdraw');
                         break;
                     default:
                         $soldValue = number_format( (int)$lot->sold_value, 0, ".", "," );

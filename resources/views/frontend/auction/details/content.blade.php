@@ -104,11 +104,8 @@
                                             <?php
                                                 if($item->sold_value != null) {
                                                    switch($item->sold_value) {
-                                                       case 'bought in':
+                                                       case 0:
                                                            $lotValue = trans('thevalue.bought-in');
-                                                           break;
-                                                       case 'withdraw':
-                                                           $lotValue = trans('thevalue.withdraw');
                                                            break;
                                                        default:
                                                            $soldValue = number_format( (int)$item->sold_value, 0, ".", "," );
