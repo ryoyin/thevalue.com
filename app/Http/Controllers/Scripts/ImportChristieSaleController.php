@@ -58,6 +58,67 @@ class ImportChristieSaleController extends Controller
 
     }
 
+    public function getRealized2()
+    {
+        set_time_limit(600);
+
+        $christieSales = App\ChristieSale::where('status', 1)->orderBy('int_sale_id')->get();
+
+        foreach($christieSales as $christieSale) {
+
+
+            $christieIntSaleID = $christieSale->int_sale_id;
+            $content = $this->getContent($christieIntSaleID); // get content from christie
+
+            echo 'Spider '.$christieIntSaleID.' start';
+            echo "\n";
+
+            $saleArray = $this->makeSaleInfo($christieIntSaleID, $content, false);
+
+            if ($saleArray === false) {
+                exit;
+            }
+
+            $sale = $christieSale->sale;
+
+            foreach($saleArray['lots'] as $lot) {
+                $item = $sale->items()->where('number', $lot['number'])->where('status', 'pending')->first();
+                if(count($item) > 0){
+                    if($lot['price'] != null) {
+                        $item->sold_value = $this->convertValue2($lot['price']);
+                        $item->status = 'sold';
+                    } else {
+                        $item->sold_value = null;
+                        $item->status = 'bought in';
+                    }
+                    $item->save();
+                }
+            }
+
+            $items = $sale->items()->where('status', 'pending')->get();
+
+            foreach($items as $item) {
+                $item->status = 'withdraw';
+                $item->save();
+            }
+
+//            $saleJSON = json_encode($saleArray);
+
+//            $christieSale->get_json = 1;
+//
+//            $christieSale->save();
+
+            // dd($saleArray);
+
+            echo 'Spider '.$christieIntSaleID.' end';
+            echo "\n";
+
+            break;
+
+        }
+
+    }
+
     public function insertItemMissingDetail()
     {
         $sales = App\AuctionSale::all();
@@ -324,7 +385,7 @@ class ImportChristieSaleController extends Controller
         return $result;
     }
 
-    private function makeSaleInfo($saleNumber, $content)
+    private function makeSaleInfo($saleNumber, $content, $getLang = true)
     {
         $sale = array();
 
@@ -411,13 +472,15 @@ class ImportChristieSaleController extends Controller
             }
         }
 
-        // Get sale trad-chinese title
-        $saleLandingTrad = $this->GetSaleLanding($saleNumber, 'trad');
-        $sale['sale']['trad'] = $this->GetSaleInfoByLang($saleLandingTrad, 'trad');
+        if($getLang) {
+            // Get sale trad-chinese title
+            $saleLandingTrad = $this->GetSaleLanding($saleNumber, 'trad');
+            $sale['sale']['trad'] = $this->GetSaleInfoByLang($saleLandingTrad, 'trad');
 
-        // Get sale sim-chinese title
-        $saleLandingSim = $this->GetSaleLanding($saleNumber, 'sim');
-        $sale['sale']['sim'] = $this->GetSaleInfoByLang($saleLandingSim, 'sim');
+            // Get sale sim-chinese title
+            $saleLandingSim = $this->GetSaleLanding($saleNumber, 'sim');
+            $sale['sale']['sim'] = $this->GetSaleInfoByLang($saleLandingSim, 'sim');
+        }
 
         // Start: get Viewing Times & Location - viewing_times
         // Sale viewing time, location
@@ -511,12 +574,14 @@ class ImportChristieSaleController extends Controller
             $lots_array['maker'] = trim($lot_info_span[2]->textContent);
             $lots_array['medium-dimensions'] = trim($lot_info_span[3]->textContent);
 
-            $localeENResult = $this->getLotLocale($saleNumber, 'en', $lots_array['number']);
-            $lots_array['en'] = $localeENResult;
-            $localeTradResult = $this->getLotLocale($saleNumber, 'trad', $lots_array['number']);
-            $lots_array['trad'] = $localeTradResult;
-            $localeSimResult = $this->getLotLocale($saleNumber, 'sim', $lots_array['number']);
-            $lots_array['sim'] = $localeSimResult;
+            if($getLang) {
+                $localeENResult = $this->getLotLocale($saleNumber, 'en', $lots_array['number']);
+                $lots_array['en'] = $localeENResult;
+                $localeTradResult = $this->getLotLocale($saleNumber, 'trad', $lots_array['number']);
+                $lots_array['trad'] = $localeTradResult;
+                $localeSimResult = $this->getLotLocale($saleNumber, 'sim', $lots_array['number']);
+                $lots_array['sim'] = $localeSimResult;
+            }
 
             //     echo $lot_tds[2]->ownerDocument->saveHTML($lot_tds[2]);
 
@@ -971,6 +1036,21 @@ class ImportChristieSaleController extends Controller
         $value = str_replace(',', '', $value);
 
         $exValue = explode(' ', $value);
+
+        if(count($exValue) == 2) {
+            $value = $exValue[1];
+        }
+
+        $value = trim($value);
+
+        return $value;
+    }
+
+    private function convertValue2($value)
+    {
+        $value = str_replace(',', '', $value);
+
+        $exValue = explode('$', $value);
 
         if(count($exValue) == 2) {
             $value = $exValue[1];
