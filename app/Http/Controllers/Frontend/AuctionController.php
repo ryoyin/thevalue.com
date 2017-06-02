@@ -36,7 +36,7 @@ class AuctionController extends Controller
         $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->get();
 
         if($slug == 'post') {
-            $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->subDays(2)->format('Y-m-d'))->get();
+            $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->subDays(10)->format('Y-m-d'))->get();
         }
 //        dd($series);
 
@@ -151,9 +151,9 @@ class AuctionController extends Controller
 
         $house = App\AuctionHouse::where('slug', $house)->first();
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $seriesArray = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(2)->format('Y-m-d'))->orderBy('start_date')->get();
+        $seriesArray = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(10)->format('Y-m-d'))->orderBy('start_date')->get();
 //        dd($seriesArray);
-        $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(2)->format('Y-m-d'))->orderBy('start_date')->first();
+        $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(10)->format('Y-m-d'))->orderBy('start_date')->first();
 
         $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
 
