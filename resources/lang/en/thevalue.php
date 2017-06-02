@@ -68,4 +68,5 @@ return [
     'bought-in' => 'Bought In',
     'withdraw' => 'Withdraw',
     'no-upcoming-auction' => 'No Upcoming Auction',
+    'download-android-apk' => 'Download Android APK',
 ];

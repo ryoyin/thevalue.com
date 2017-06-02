@@ -1461,6 +1461,7 @@ body {
     text-decoration: none;
     color: #000000;
   }
+  //clear: both;
 }
 
 @media only screen and (max-width: 460px) {
@@ -1579,5 +1580,23 @@ body {
 #top-menu-banner {
   img {
     margin: auto;
+  }
+}
+
+.footer-download-link {
+  img {
+    height: 60px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      float: left;
+      padding-left: 10px;
+    }
+  }
+  .android-apk-logo {
+    height: 45px;
   }
 }

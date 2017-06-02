@@ -1352,4 +1352,23 @@ body {
   margin: auto;
 }
 
+.footer-download-link img {
+  height: 60px;
+}
+
+.footer-download-link ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-download-link ul li {
+  float: left;
+  padding-left: 10px;
+}
+
+.footer-download-link .android-apk-logo {
+  height: 45px;
+}
+
 /*# sourceMappingURL=web.css.map */

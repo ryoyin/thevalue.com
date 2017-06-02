@@ -2,6 +2,15 @@
 
     @include('frontend.misc.sideBanner')
 
-    <a href="{{ asset('app/android/thevalue-app-release-1.4.apk') }}" class="img-responsive"><img src="{{ asset('images/company_logo/gp-logo.png') }}" style="padding-top: 10px"></a>
+    <div class="row">
+        <div class="col-md-12 col-lg-12"><a href="https://itunes.apple.com/app/the-value/id1204432093" target="_blank"><img src="{{ asset('images/company_logo/app_store_download_icon.png') }}" style="padding-top: 10px; width: 100%" class="img-responsive"></a></div>
+        <div class="col-md-12 col-lg-12"><a href="https://play.google.com/store/apps/details?id=com.thevaluecoreapp" target="_blank"><img src="{{ asset('images/company_logo/gp-logo.png') }}" style="padding-top: 10px" class="img-responsive"></a></div>
+        <div class="col-md-12 col-lg-12" style="text-align: center;">
+            <a href="{{ asset('app/android/thevalue-app-release-1.4.apk') }}" style="text-decoration: none; color: #000;">
+                <img src="{{ asset('images/company_logo/Android_Robot_100.png') }}" style="padding-top: 10px"><br>
+                <span>@lang('thevalue.download-android-apk')</span>
+            </a>
+        </div>
+    </div>
 
 </div> <!-- home-right-col -->
