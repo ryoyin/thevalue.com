@@ -8,15 +8,16 @@
 @if(isset($menuBanner) && count($menuBanner) > 0)
     <div id="top-menu-banner">
         <?php
-        //        dd($menuBanner);
-        $menuBanner = $menuBanner[0];
-        if($menuBanner['s3']) {
-            $image_path = config('app.s3_path').$menuBanner['image_path'];
-        } else {
-            $image_path = asset($menuBanner['image_path']);
-        }
+            //        dd($menuBanner);
+            foreach($menuBanner as $mBanner) {
+                if($mBanner['s3']) {
+                    $image_path = config('app.s3_path').$mBanner['image_path'];
+                } else {
+                    $image_path = asset($mBanner['image_path']);
+                }
+                echo '<img src="'.$image_path.'" class="img-responsive">';
+            }
         ?>
-        <img src="{{ $image_path }}" class="img-responsive">
     </div>
 @endif
 
