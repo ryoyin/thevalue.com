@@ -20,6 +20,8 @@ class ArticleController extends Controller
 
         $article = App\Article::where('slug', $slug)->first();
 
+        if(count($article) == 0) abort(404);
+
         $article->hit_counter = $article->hit_counter + 1;
 
         $article->save();
