@@ -1,4 +1,4 @@
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+{{--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- thevalue-auto -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -7,7 +7,7 @@
      data-ad-format="auto"></ins>
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+</script>--}}
 
 <div class="header">
     <div class="news pull-left">POPULAR NEWS</div>

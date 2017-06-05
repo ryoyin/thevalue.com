@@ -246,7 +246,7 @@ return [
     ],
 
     'supported_languages' => ['en' => 'en', 'trad' => 'trad', 'sim' => 'sim'],
-    'banner_positions' => ['indexMenuBanner', 'indexSideBanner', 'indexTopBanner'],
+    'banner_positions' => ['indexMenuBanner', 'indexSideBanner', 'indexTopBanner', 'appArticleBanner'],
     'status' => ['draft' => 'Draft', 'pending' => 'Pending', 'published' => 'Published', 'suspend' => 'Suspend'],
     'simple_status' => ['pending' => 'Pending', 'published' => 'Published', 'suspend' => 'Suspend'],
     's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',

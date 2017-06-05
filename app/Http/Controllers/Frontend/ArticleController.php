@@ -13,14 +13,6 @@ class ArticleController extends Controller
 
     public function index($slug, Request $request)
     {
-        /*if(isset($_COOKIE['lang'])) {
-            $lang = $_COOKIE['lang'];
-            App::setLocale($lang);
-        } else {
-//            echo "laravel change";
-            $lang = App::getLocale();
-            $_COOKIE['lang'] = $lang;
-        }*/
 
         $lang = App::getLocale();
 
@@ -52,7 +44,19 @@ class ArticleController extends Controller
             $img_count ++;
         }
 
-//        dd($matches[2]);
+        $appArticleBanner = $this->getBannerList('appArticleBanner', 'medium');
+
+        if(count($appArticleBanner) > 0) {
+            foreach($appArticleBanner as $sKey => $apPhoto) {
+                $found_image_result = getimagesize($apPhoto['image_path']);
+                $gallery_image_array[$img_count] = $found_image_result;
+
+                $found_image_path = $apPhoto['s3'] ? config("app.s3_path").$apPhoto['image_path'] : asset($apPhoto['image_path']);
+                $gallery_image_array[$img_count]['image_path'] = $found_image_path;
+                $img_count ++;
+            }
+        }
+
         foreach($matches[2] as $sKey => $src) {
             $found_image = str_replace('src=', '', $src);
             $found_image = str_replace('"', '', $found_image);
@@ -82,6 +86,9 @@ class ArticleController extends Controller
         $tagsList = $this->getTags($article);
 
         $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+
+
+//        dd($appArticleBanner);
 
         $fbMetaArray = array(
             'site_name' => "TheValue",
@@ -114,7 +121,8 @@ class ArticleController extends Controller
             'appMode' => false,
             'categories' => $this->getCategoriesList(),
             'gallery' => $gallery_image_array,
-            'menuBanner' => $menuBanner
+            'menuBanner' => $menuBanner,
+            'appArticleBanner' => $appArticleBanner,
         );
 
         if($request->input('type') !== null) {
