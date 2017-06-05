@@ -67,14 +67,14 @@
                     <td>{{ $article->share_counter }}</td>
                     <td align="center">
                       <a href="{{ url('tvadmin/articles/'.$article->id.'/edit') }}" class="btn btn-warning">Modify</a>
-                      <form action="{{ url('tvadmin/articles/'.$article->id) }}" method="POST" style="display: inline-block">
+                      {{--<form action="{{ url('tvadmin/articles/'.$article->id) }}" method="POST" style="display: inline-block">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
                         <button type="submit" class="btn btn-danger" onclick="return delete_research('{{ $article['id'] }}');">
                           <i class="fa fa-trash"></i> Delete
                         </button>
-                      </form>
+                      </form>--}}
                   </tr>
                 @endforeach
 

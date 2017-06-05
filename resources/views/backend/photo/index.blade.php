@@ -56,14 +56,14 @@
                   <td><input type="text" value = "{{ url($photo->image_path) }}"> <a href="#" onclick="copyClipBoard(this);">copy</a></td>
                   <td align="center">
                     <a href="{{ url('tvadmin/photos/'.$photo->id.'/edit') }}" class="btn btn-warning">Modify</a>
-                    <form action="{{ url('tvadmin/photos/'.$photo->id) }}" method="POST" style="display: inline-block">
+                    {{--<form action="{{ url('tvadmin/photos/'.$photo->id) }}" method="POST" style="display: inline-block">
                       {{ csrf_field() }}
                       {{ method_field('DELETE') }}
 
                       <button type="submit" class="btn btn-danger" onclick="return delete_item('{{ $photo['id'] }}');">
                         <i class="fa fa-trash"></i> Delete
                       </button>
-                    </form>
+                    </form>--}}
                 </tr>
               @endforeach
 
