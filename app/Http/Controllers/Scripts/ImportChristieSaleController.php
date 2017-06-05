@@ -628,8 +628,7 @@ class ImportChristieSaleController extends Controller
         $sale['title'] = $titleBlock->textContent;
 
         $saleInfo = $dom->getElementById('SaleInformation');
-//        echo $saleInfo->textContent;
-//        exit;
+
         $locationBlock = $saleInfo->getElementsByTagName('strong');
         $sale['location'] = $locationBlock[0]->textContent;
 

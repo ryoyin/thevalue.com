@@ -70,6 +70,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tvadmin/tags', 'Backend\TagController');
     Route::resource('tvadmin/notifications', 'Backend\NotificationController');
 
+    // Auction Christie Crawler
+    Route::get('tvadmin/auction/crawler/christie', 'Backend\Crawler\ChristieController@index')->name('backend.auction.christie.index');
+    Route::post('tvadmin/auction/crawler/christie/crawler', 'Backend\Crawler\ChristieController@crawler')->name('backend.auction.christie.crawler');
+    Route::get('tvadmin/auction/crawler/christie/crawler/remove/{intSaleID}', 'Backend\Crawler\ChristieController@crawlerRemove')->name('backend.auction.christie.crawler.remove');
+    Route::get('tvadmin/auction/crawler/christie/capture', 'Backend\Crawler\ChristieController@capture')->name('backend.auction.christie.capture');
+    Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
+
     // Auction Item
     Route::get('tvadmin/auction/item/list/{saleID?}', 'Backend\AuctionController@itemList')->name('backend.auction.itemList');
     Route::get('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemEdit')->name('backend.auction.itemEdit');
