@@ -9,14 +9,18 @@
     <div id="top-menu-banner">
         <?php
             //        dd($menuBanner);
-            foreach($menuBanner as $mBanner) {
-                if($mBanner['s3']) {
-                    $image_path = config('app.s3_path').$mBanner['image_path'];
-                } else {
-                    $image_path = asset($mBanner['image_path']);
-                }
-                echo '<img src="'.$image_path.'" class="img-responsive">';
+            $mBanner = array_rand($menuBanner);
+
+            ($mBanner);
+
+            $mBanner = $menuBanner[$mBanner];
+            if($mBanner['s3']) {
+                $image_path = config('app.s3_path').$mBanner['image_path'];
+            } else {
+                $image_path = asset($mBanner['image_path']);
             }
+            echo '<img src="'.$image_path.'" class="img-responsive">';
+
         ?>
     </div>
 @endif

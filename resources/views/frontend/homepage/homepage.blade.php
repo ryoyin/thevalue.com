@@ -11,13 +11,13 @@
 
             foreach($featuredArticles as $feArtIndex => $featuredArticle) {
 
-                    foreach($categories as $cate) {
-                        if($featuredArticle['category_id'] == $cate['id']) {
-                            $categoryName = $cate['name'];
-                            if($cate['name'] != $cate['default_name']) $categoryName = $cate['default_name']." ".$cate['name'];
-                            $categorySlug = $cate['slug'];
-                        }
+                foreach($categories as $cate) {
+                    if($featuredArticle['category_id'] == $cate['id']) {
+                        $categoryName = $cate['name'];
+                        if($cate['name'] != $cate['default_name']) $categoryName = $cate['default_name']." ".$cate['name'];
+                        $categorySlug = $cate['slug'];
                     }
+                }
 
                 $image_path = $featuredArticle['photo']['s3'] ? config("app.s3_path").$featuredArticle['photo']['image_path'] : asset($featuredArticle['photo']['image_path']);
         ?>
