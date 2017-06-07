@@ -31,6 +31,13 @@ class ImageResizeSyncController extends Controller
 
             echo 'Resizing: '.$photo['image_path'];
             echo "\n";
+
+            if(strpos($photo['image_path'], 'gif')) {
+                $photo->resized = 1;
+                $photo->save();
+                continue;
+            }
+
             $imagePath = $baseDirectory.'/'.$photo->image_path;
 
             // backup original image

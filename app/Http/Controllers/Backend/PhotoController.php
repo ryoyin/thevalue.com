@@ -58,13 +58,20 @@ class PhotoController extends Controller
         $uploaded_file = NULL;
         $isValidFile = FALSE;
 
+//        dd($_FILES);
+
         if ($request->hasFile('uploaded_file')) {
 
             $uploaded_file = $request->file('uploaded_file');
 
+//            dd($uploaded_file);
+
             $mimeType = $uploaded_file->getMimeType();
 
-            $validFileType = array('png', 'pdf', 'jpeg');
+//            echo $mimeType;
+//            exit;
+
+            $validFileType = array('png', 'pdf', 'jpeg', 'gif');
 
             foreach($validFileType AS $fileType) {
 
@@ -92,7 +99,7 @@ class PhotoController extends Controller
             }
 
         } else {
-            return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed!');
+            return redirect('tvadmin/photos/create')->with('fileerrors', 'File upload failed! No file found!');
         }
 
         $photo = new App\Photo;
@@ -100,7 +107,7 @@ class PhotoController extends Controller
         $photo->image_path = $alternative_path.$filename;
         $photo->save();
 
-        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful added!');;
+        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful added!');
     }
 
     /**
@@ -166,7 +173,7 @@ class PhotoController extends Controller
 
             $mimeType = $uploaded_file->getMimeType();
 
-            $validFileType = array('png', 'pdf', 'jpeg');
+            $validFileType = array('png', 'pdf', 'jpeg', 'gif');
 
             foreach($validFileType AS $fileType) {
 
@@ -208,7 +215,7 @@ class PhotoController extends Controller
 
         $photo->save();
 
-        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful updated!');;
+        return redirect('tvadmin/photos')->with('alert-success', 'Photo was successful updated!');
     }
 
     /**
