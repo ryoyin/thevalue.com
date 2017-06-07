@@ -8,12 +8,10 @@
 @if(isset($menuBanner) && count($menuBanner) > 0)
     <div id="top-menu-banner">
         <?php
-            //        dd($menuBanner);
-            $mBanner = array_rand($menuBanner);
+            $randomNumber = rand(0, 2);
+            if($randomNumber == 2 ) $randomNumber = 0;
 
-            ($mBanner);
-
-            $mBanner = $menuBanner[$mBanner];
+            $mBanner = $menuBanner[$randomNumber];
             if($mBanner['s3']) {
                 $image_path = config('app.s3_path').$mBanner['image_path'];
             } else {
