@@ -14,7 +14,7 @@ class ImageResizeSyncController extends Controller
 
     public function index()
     {
-        ini_set('memory_limit','256M');
+        ini_set('memory_limit','1024M');
 
         chdir(base_path());
 
