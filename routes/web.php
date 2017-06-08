@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/bjac-insertItem4', 'Backend\BJAntiqueCityController@insertItem4');
     Route::get('/bjac-insertItem5', 'Backend\BJAntiqueCityController@insertItem5');
     Route::get('/bjac-imgResize', 'Backend\BJAntiqueCityController@imgResize');
+    Route::get('/bjac-imgResizeFill', 'Backend\BJAntiqueCityController@imgResize');
 
 });
 

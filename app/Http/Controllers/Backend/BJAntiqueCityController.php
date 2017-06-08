@@ -843,21 +843,23 @@ class BJAntiqueCityController extends Controller
         }
     }
 
+
+
     private function resizeImage($file, $width)
     {
 
         echo "new path: ".$file;
         echo "<br>\n";
 
-        $img = Image::make('storage/app/'.$file);
+//        $img = Image::make('storage/app/'.$file);
 
         $root = base_path();
         $filePath = str_replace(".jpg", '', $file).'-'.$width.'.jpg';
         $newPath = $root.'/public/'.$filePath;
 
-        $img->widen($width, function ($constraint) {
-            $constraint->upsize();
-        })->save($newPath);
+//        $img->widen($width, function ($constraint) {
+//            $constraint->upsize();
+//        })->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 
@@ -868,13 +870,13 @@ class BJAntiqueCityController extends Controller
 
     private function createFitImage($file, $width)
     {
-        $img = Image::make('storage/app/'.$file);
+//        $img = Image::make('storage/app/'.$file);
 
         $root = base_path();
         $filePath = str_replace(".jpg", '', $file).'-'.$width.'.jpg';
         $newPath = $root.'/public/'.$filePath;
 
-        $img->fit($width)->save($newPath);
+//        $img->fit($width)->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 
