@@ -87,7 +87,7 @@ class ArticleController extends Controller
         //get tags list
         $tagsList = $this->getTags($article);
 
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
 
 //        dd($appArticleBanner);

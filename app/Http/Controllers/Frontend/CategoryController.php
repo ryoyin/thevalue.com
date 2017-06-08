@@ -17,7 +17,7 @@ class CategoryController extends Controller
         $this->locale = App::getLocale();
 
         $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         $category = App\Category::where('slug', $slug)->first();
         $categoryDetail = $this->getCategoriesList($category->id);
@@ -69,7 +69,7 @@ class CategoryController extends Controller
 
         //get side banners
         $indexSideBannerList = $this->getBannerList('indexSideBanner');
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         //get popularStories
         $categoryStories = $this->getSearchVideo();

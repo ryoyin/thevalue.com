@@ -16,7 +16,7 @@ class TagController extends Controller
         $this->locale = App::getLocale();
 
         $sideBanners = $this->getBannerList('indexSideBanner', 'medium');
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         $tag = App\Tag::where('slug', $slug)->first();
         $tagDetail = $tag->details->where('lang', $this->locale);

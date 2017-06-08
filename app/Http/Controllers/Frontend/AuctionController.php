@@ -40,7 +40,7 @@ class AuctionController extends Controller
         }
 //        dd($series);
 
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         $data = array(
             'locale' => App::getLocale(),
