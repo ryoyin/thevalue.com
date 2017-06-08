@@ -52,6 +52,13 @@ Route::post('/share-the-value', 'API\SubscriptController@subscription');
 
 //Route::get('image-resize-sync', 'ImageResizeSyncController@index')->name('system.imageResizeSync');
 //Route::get('/fix-auction', 'Backend\FixLanguageController@fixAuction');
+Route::get('/bjac-saleInjection', 'Backend\BJAntiqueCityController@saleInjection');
+Route::get('/bjac-insertItem1', 'Backend\BJAntiqueCityController@insertItem1');
+Route::get('/bjac-insertItem2', 'Backend\BJAntiqueCityController@insertItem2');
+Route::get('/bjac-insertItem3', 'Backend\BJAntiqueCityController@insertItem3');
+Route::get('/bjac-insertItem4', 'Backend\BJAntiqueCityController@insertItem4');
+Route::get('/bjac-insertItem5', 'Backend\BJAntiqueCityController@insertItem5');
+Route::get('/bjac-imgResize', 'Backend\BJAntiqueCityController@imgResize');
 
 Route::get('/app-qr-code', 'Frontend\PageController@RedirectQRCode')->name('frontend.redirectQRCode');
 

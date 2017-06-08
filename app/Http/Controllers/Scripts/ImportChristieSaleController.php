@@ -723,6 +723,7 @@ class ImportChristieSaleController extends Controller
             $item->image_large_path = $this->resizeImage($file, $storePath, 1140);
             $item->image_medium_path = $this->resizeImage($file, $storePath, 500);
             $item->image_small_path = $this->resizeImage($file, $storePath, 150);
+            $item->image_fit_path = $this->createFitImage($file, $storePath, 250);
             $item->save();
 
         }

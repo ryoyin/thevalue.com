@@ -33,7 +33,7 @@
 
                 <div class="pre-auction-block">
                     <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
-                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => $auctionType = 'post']) }}">@lang('thevalue.browse')</a></div>
+                    <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => $auctionType]) }}">@lang('thevalue.browse')</a></div>
                     <div class="series">
                         <div class="title">{{ $seriesDetail->name }}</div>
                         <div class="input-group selection">

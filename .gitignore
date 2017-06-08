@@ -3,7 +3,7 @@
 /public/images/*
 /public/spider
 !/public/images/company_logo/
-!/public/images/sales/
+/public/images/sales/
 /storage/*.key
 /vendor
 /.idea
