@@ -90,7 +90,7 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         $house = App\AuctionHouse::where('slug', $house)->first();
         $houseDetail = $house->details()->where('lang', $locale)->first();
@@ -155,7 +155,7 @@ class AuctionController extends Controller
 //        dd($seriesArray);
         $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(10)->format('Y-m-d'))->orderBy('start_date')->first();
 
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         $data = array(
             'fbMeta' => $fbMetaArray,
@@ -202,7 +202,7 @@ class AuctionController extends Controller
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
         $items = $sale->items()->orderBy('id')->paginate(48);
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
         $data = array(
             'slug' => $slug,
@@ -253,7 +253,7 @@ class AuctionController extends Controller
         $rSales = $series->sales()->inRandomOrder()->limit(4)->get();
         $house = $series->house;
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $menuBanner = $this->getBannerList('indexMenuBanner', 'medium');
+        $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
 //        $allItems = $sale->items()->orderBy('id')->get();
         $lot = App\AuctionItem::where('id', $lot)->first();
