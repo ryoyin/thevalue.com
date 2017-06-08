@@ -164,6 +164,8 @@
 
 </div>
 
+<div style="height: 25px;"></div>
+
 <script>
     jQuery(function($) {
         $('.item').matchHeight();
