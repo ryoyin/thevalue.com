@@ -135,6 +135,12 @@
                   <input name="dimension" type="text" class="form-control" placeholder="Enter ..." value="{{ $item['dimension'] }}">
               </div>
 
+              <!-- text input -->
+              <div class="form-group">
+                  <label>Sorting</label>
+                  <input name="sorting" type="text" class="form-control" placeholder="Enter ..." value="{{ $item['sorting'] }}" required>
+              </div>
+
               <div class="box-footer" style="text-align: right;">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>

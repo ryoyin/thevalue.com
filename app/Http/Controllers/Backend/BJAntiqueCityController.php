@@ -931,4 +931,21 @@ class BJAntiqueCityController extends Controller
         echo $filePath."\n";
     }
 
+    public function autoSorting()
+    {
+        $sales = App\AuctionSale::all();
+
+        foreach($sales as $sale) {
+            $items = $sale->items()->orderBy('id')->get();
+            $count = 10;
+
+            foreach($items as $item) {
+                $item->sorting = $count;
+                $item->save();
+
+                $count += 10;
+            }
+        }
+    }
+
 }

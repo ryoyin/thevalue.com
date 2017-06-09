@@ -22,7 +22,7 @@ class AuctionController extends Controller
         if($saleID != null) {
             $sale = App\AuctionSale::where('id', $saleID)->first();
             $saleDetail = $sale->details()->where('lang', $locale)->first();
-            $items = $sale->items;
+            $items = $sale->items()->orderBy('sorting')->get();
         }
 
         $articles = array();
@@ -61,6 +61,7 @@ class AuctionController extends Controller
                 'id' => $item->id,
                 'slug' => $item->slug,
                 'dimension' => $item->dimension,
+                'sorting' => $item->sorting,
                 'image_medium_path' => $item->image_medium_path,
             );
 
@@ -78,6 +79,7 @@ class AuctionController extends Controller
             $itemInfo = array(
                 'slug' => old('slug'),
                 'dimension' => old('dimension'),
+                'sorting' => old('sorting'),
             );
         }
 
@@ -109,6 +111,7 @@ class AuctionController extends Controller
         $item = App\AuctionItem::find($itemID);
         $item->slug = $request->slug;
         $item->dimension = $request->dimension;
+        $item->sorting = $request->sorting;
         $item->save();
 
 
