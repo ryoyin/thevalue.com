@@ -89,14 +89,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 
     // beijing antique city
-    Route::get('/bjac-saleInjection', 'Backend\BJAntiqueCityController@saleInjection');
-    Route::get('/bjac-insertItem1', 'Backend\BJAntiqueCityController@insertItem1');
-    Route::get('/bjac-insertItem2', 'Backend\BJAntiqueCityController@insertItem2');
-    Route::get('/bjac-insertItem3', 'Backend\BJAntiqueCityController@insertItem3');
-    Route::get('/bjac-insertItem4', 'Backend\BJAntiqueCityController@insertItem4');
-    Route::get('/bjac-insertItem5', 'Backend\BJAntiqueCityController@insertItem5');
-    Route::get('/bjac-imgResize', 'Backend\BJAntiqueCityController@imgResize');
-    Route::get('/bjac-imgResizeFill', 'Backend\BJAntiqueCityController@imgResize');
+//    Route::get('/bjac-saleInjection', 'Backend\BJAntiqueCityController@saleInjection');
+//    Route::get('/bjac-insertItem1', 'Backend\BJAntiqueCityController@insertItem1');
+//    Route::get('/bjac-insertItem2', 'Backend\BJAntiqueCityController@insertItem2');
+//    Route::get('/bjac-insertItem3', 'Backend\BJAntiqueCityController@insertItem3');
+//    Route::get('/bjac-insertItem4', 'Backend\BJAntiqueCityController@insertItem4');
+//    Route::get('/bjac-insertItem5', 'Backend\BJAntiqueCityController@insertItem5');
+//    Route::get('/bjac-imgResize', 'Backend\BJAntiqueCityController@imgResize');
+//    Route::get('/bjac-imgResizeFill', 'Backend\BJAntiqueCityController@imgResize');
 
 });
 

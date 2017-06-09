@@ -431,7 +431,7 @@ class BJAntiqueCityController extends Controller
 
         $sale = App\AuctionSale::where('slug', $slug)->first();
 
-        $file = Storage::disk('local')->get($path.'jade.csv');
+        $file = Storage::disk('local')->get($path.'jade_2.csv');
 
         $exCSV = explode("\n", $file);
 
@@ -851,15 +851,15 @@ class BJAntiqueCityController extends Controller
         echo "new path: ".$file;
         echo "<br>\n";
 
-//        $img = Image::make('storage/app/'.$file);
+        $img = Image::make('storage/app/'.$file);
 
         $root = base_path();
         $filePath = str_replace(".jpg", '', $file).'-'.$width.'.jpg';
         $newPath = $root.'/public/'.$filePath;
 
-//        $img->widen($width, function ($constraint) {
-//            $constraint->upsize();
-//        })->save($newPath);
+        $img->widen($width, function ($constraint) {
+            $constraint->upsize();
+        })->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 
@@ -870,13 +870,13 @@ class BJAntiqueCityController extends Controller
 
     private function createFitImage($file, $width)
     {
-//        $img = Image::make('storage/app/'.$file);
+        $img = Image::make('storage/app/'.$file);
 
         $root = base_path();
         $filePath = str_replace(".jpg", '', $file).'-'.$width.'.jpg';
         $newPath = $root.'/public/'.$filePath;
 
-//        $img->fit($width)->save($newPath);
+        $img->fit($width)->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 
@@ -887,7 +887,7 @@ class BJAntiqueCityController extends Controller
 
     public function uploadS3()
     {
-        $slug = 'beijing-antique-2017-spring-ancient-chinese-paintings';
+        $slug = 'beijing-antique-2017-spring-ancient-buddha-status';
 
         $sale = App\AuctionSale::where('slug', $slug)->first();
 
@@ -905,6 +905,19 @@ class BJAntiqueCityController extends Controller
             $this->pushS3($baseDirectory, $item->image_medium_path);
             $this->pushS3($baseDirectory, $item->image_small_path);
 
+        }
+    }
+
+    public function uploadS3Indv()
+    {
+        $items = App\AuctionItem::where('id', '>=', 2840)->get();
+        $baseDirectory = base_path().'/public';
+
+        foreach($items as $item) {
+            $this->pushS3($baseDirectory, $item->image_fit_path);
+            $this->pushS3($baseDirectory, $item->image_large_path);
+            $this->pushS3($baseDirectory, $item->image_medium_path);
+            $this->pushS3($baseDirectory, $item->image_small_path);
         }
     }
 
