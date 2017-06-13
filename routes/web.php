@@ -78,6 +78,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/christie/capture', 'Backend\Crawler\ChristieController@capture')->name('backend.auction.christie.capture');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
 
+    // Auction YiDu Crawler
+    Route::get('tvadmin/auction/crawler/yidu', 'Backend\Crawler\YiDuController@index')->name('backend.auction.yidu.index');
+    Route::post('tvadmin/auction/crawler/yidu/crawler', 'Backend\Crawler\YiDuController@crawler')->name('backend.auction.yidu.crawler');
+    Route::get('tvadmin/auction/crawler/yidu/capture/{intSaleID}', 'Backend\Crawler\YiDuController@makeSaleInfo')->name('backend.auction.yidu.crawler.capture');
+    Route::get('tvadmin/auction/crawler/yidu/capture/items/{intSaleID}', 'Backend\Crawler\YiDuController@parseItems')->name('backend.auction.yidu.crawler.capture.items');
+    Route::get('tvadmin/auction/crawler/yidu/capture/items/images/{intSaleID}', 'Backend\Crawler\YiDuController@makeSaleInfo')->name('backend.auction.yidu.crawler.capture.images');
+    Route::get('tvadmin/auction/crawler/yidu/crawler/remove/{intSaleID}', 'Backend\Crawler\YiDuController@crawlerRemove')->name('backend.auction.yidu.crawler.remove');
+
     // Auction Item
     Route::get('tvadmin/auction/item/list/{saleID?}', 'Backend\AuctionController@itemList')->name('backend.auction.itemList');
     Route::get('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemEdit')->name('backend.auction.itemEdit');
