@@ -37,138 +37,14 @@
                 <div class="datetime">@lang('thevalue.auction-date'): {{ $auctionDate[$locale] }}</div>
                 <div class="datetime">@lang('thevalue.auction-location'): {{ $auctionDetail->location }}</div>
                 <?php
-                    $sales = $auction->sales();
-                    switch($auction->id) {
-                        case 1;
-                            $salesGroup1 = $sales->wherein('number', [13267, 13268, 13269, 14336, 14337])->get();
-                            break;
-                        case 2:
-                            $salesGroup1 = $sales->wherein('number', [14715, 14716, 13268, 13269])->get();
-                            break;
-                    }
+                    $sales = $auction->sales;
 
-                    /*$sales = $auction->sales();
-                    $salesGroup2 = $sales->wherein('number', [15710, 14336, 14337, 14338])->get();
-                    $sales = $auction->sales();
-                    $salesGroup3 = $sales->wherein('number', [14809, 15657, 15658, 14612])->get();
-                    $sales = $auction->sales();
-                    $salesGroup4 = $sales->wherein('number', [14715, 14716, 14557])->get();*/
                     $saleCounter = 0;
                 ?>
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            @if(count($salesGroup1) == 0)
-                                <div class="swiper-slide">
-                                    <div class="row">
-                                        <?php
-                                            $saleCounter ++;
-                                            $customTitle = array('en' => 'Qing dynasty jades from a Hong Kong Collection','trad' => '瓊林美玉 – 香港清玉收藏','sim' => '琼林美玉 - 香港清玉收藏');
-                                        ?>
-                                        <div class="col-xs-5">
-                                            <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank">
-                                                <img src='{{ asset('images/company_logo/HK0771_auctionlist.jpg') }}' class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="col-xs-7 detail">
-
-                                            <a class="cell-name" href="#">{{ $houseDetail->name }}</a><br>
-
-                                            <div class="misc">
-                                                <div class="cell-name">
-                                                    <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank">
-                                                        {{ $customTitle[$locale] }}
-                                                    </a>
-                                                </div>
-                                                <?php
-                                                $sDate = strtotime('2017-06-01 10:00:00');
-                                                $saleDate = array(
-                                                    'en' => date('Y-m-d', $sDate),
-                                                    'trad' => date('Y年m月d日', $sDate),
-                                                    'sim' => date('Y年m月d日', $sDate),
-                                                );
-                                                ?>
-
-                                                <div>{{ $saleDate[$locale] }}</div>
-{{--                                                <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>--}}
-                                                <div style="height: 15px"></div>
-                                                {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
-                                                @lang('thevalue.total-lots')：<span>100</span><br>
-                                                <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html" target="_blank" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
-
-                                            </div>
-
-                                            {{--<script type="text/javascript">
-                                                $("#date-counter-{{ $saleCounter }}")
-                                                    .countdown("{{ date('Y-m-d', $sDate) }}", function(event) {
-                                                        $(this).text(
-                                                            event.strftime('%D days %H:%M:%S')
-                                                        );
-                                                    });
-                                            </script>--}}
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="row">
-                                        <?php
-                                        $saleCounter ++;
-
-                                        $locale = App::getLocale();
-                                        $customTitle = array(
-                                            'en' => 'Chinese Art, including the late John Payne collection of Japanese prints',
-                                            'trad' => '中國藝術品 - 包括John Payne舊藏日本版畫',
-                                            'sim' => '中国艺术品 - 包括John Payne旧版日本版画',
-                                        )
-                                        ?>
-                                        <div class="col-xs-5">
-                                            <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank">
-                                                <img src='{{ asset('images/company_logo/HK0732_auctionlist.jpg') }}' class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="col-xs-7 detail">
-
-                                            <a class="cell-name" href="{{ $browseMore }}">{{ $houseDetail->name }}</a><br>
-
-                                            <div class="misc">
-                                                <div class="cell-name">
-                                                    <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank">
-                                                        {{ $customTitle[$locale] }}
-                                                    </a>
-                                                </div>
-                                                <?php
-                                                $sDate = strtotime('2017-06-01 14:00:00');
-                                                $saleDate = array(
-                                                    'en' => date('Y-m-d', $sDate),
-                                                    'trad' => date('Y年m月d日', $sDate),
-                                                    'sim' => date('Y年m月d日', $sDate),
-                                                );
-                                                ?>
-
-                                                <div>{{ $saleDate[$locale] }}</div>
-{{--                                                <div id="date-counter-{{ $saleCounter }}" class="date-counter"></div>--}}
-                                                <div style="height: 15px"></div>
-                                                {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
-                                                @lang('thevalue.total-lots')：<span>483</span><br>
-                                                <a href="http://www.sothebys.com/{{ $customLocale[$locale] }}/auctions/2017/chinese-art-hk0732.html" target="_blank" class="btn btn-primary btn-browse">@lang('thevalue.browse-lots')</a>
-
-                                            </div>
-
-                                            {{--<script type="text/javascript">
-                                                $("#date-counter-{{ $saleCounter }}")
-                                                    .countdown("{{ date('Y-m-d', $sDate) }}", function(event) {
-                                                        $(this).text(
-                                                            event.strftime('%D days %H:%M:%S')
-                                                        );
-                                                    });
-                                            </script>--}}
-
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                            @foreach($salesGroup1 as $saleIndex => $sale)
+                            @foreach($sales as $saleIndex => $sale)
                                 <?php
                                     $saleCounter ++;
                                     $detail = $sale->details()->where('lang', $locale)->first();
