@@ -180,7 +180,9 @@ class ImageResizeSyncController extends Controller
                         echo $filename."\n";
 
                         // search image at photo library
-                        $photo = Photo::where('image_path', 'like', '%'.$filename)->first();
+                        $photo = Photo::where('image_path', 'like', '%/'.$filename)->first();
+
+//                        dd($photo);
 
                         if(count($photo) && $photo->image_medium_path != "") { //found image
 
