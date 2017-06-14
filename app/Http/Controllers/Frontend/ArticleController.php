@@ -46,7 +46,7 @@ class ArticleController extends Controller
             $img_count ++;
         }
 
-        $appArticleBanner = $this->getBannerList('appArticleBanner', 'medium');
+        $appArticleBanner = $this->getBannerListRandom('appArticleBanner', 'medium');
 
         if(count($appArticleBanner) > 0) {
             foreach($appArticleBanner as $sKey => $apPhoto) {
@@ -202,6 +202,31 @@ class ArticleController extends Controller
     {
         $bannerList = array();
         $banners = App\Banner::where('position', $position)->orderBy('sorting')->get();
+
+        foreach($banners as $banner) {
+            $photo = $banner->photo;
+
+            $image_path = "image_".$size."_path";
+
+            if($photo->$image_path != null) {
+                $image_path = $photo->$image_path;
+            } else {
+                $image_path = $photo->image_path;
+            }
+
+            $bannerList[] = array(
+                'alt' => $photo->alt,
+                'image_path' => $image_path,
+                's3' => $photo->push_s3
+            );
+        }
+        return $bannerList;
+    }
+
+    public function getBannerListRandom($position, $size = 'medium')
+    {
+        $bannerList = array();
+        $banners = App\Banner::where('position', $position)->inRandomOrder()->limit(1)->get();
 
         foreach($banners as $banner) {
             $photo = $banner->photo;
