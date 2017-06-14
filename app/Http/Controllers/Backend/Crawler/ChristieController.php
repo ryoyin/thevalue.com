@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\File;
 
 use Intervention\Image\Facades\Image;
 
+// Run in tinker
+// php artisan tinker
+// $controller = app()->make('App\Http\Controllers\Backend\Crawler\ChristieController');
+// app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
+
 class ChristieController extends Controller
 {
     public function index()
@@ -103,7 +108,7 @@ class ChristieController extends Controller
             'intSaleID' => $intSaleID,
         );
 
-        //dd($saleArray);
+//        dd($saleArray);
 
         return view('backend.auctions.crawler.christie.captureItemList', $data);
     }
@@ -476,6 +481,124 @@ class ChristieController extends Controller
 
         return $contentArray;
 
+    }
+
+    public function downloadImages($intSaleID)
+    {
+        set_time_limit(6000);
+
+        $intSaleID = trim($intSaleID);
+
+        $locale = App::getLocale();
+
+        $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray['lots']);
+
+        $storePath = 'spider/christie/sale/'.$intSaleID.'/';
+
+        foreach($saleArray['lots'] as $lot) {
+            $link = str_replace('s.jpg', 'a.jpg', $lot['image_path']);
+
+            $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
+
+            $resize = $this->imgResize($intSaleID, $lot['number']);
+
+//            exit;
+
+        }
+
+    }
+
+    private function GetImageFromUrl($storePath, $link, $image_name)
+    {
+        $image_path = $storePath.$image_name.'.jpg';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch, CURLOPT_URL,$link);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $image=curl_exec($ch);
+
+        curl_close($ch);
+
+        Storage::disk('local')->put($image_path, $image);
+
+        return $image_path;
+    }
+
+    public function imgResize($intSaleID, $lotNumber)
+    {
+        $file = 'spider/christie/sale/'.$intSaleID.'/'.$lotNumber.'.jpg';
+
+        echo $file;
+        echo "\n";
+        echo '<br>';
+
+        $exFile = explode('/', $file);
+        $christieIntSaleID = $exFile[3];
+
+        $storePath = 'images/auctions/christie/sale/' . $christieIntSaleID . '/';
+
+        if(!file_exists(base_path().'/public/'.$storePath)) mkdir(base_path().'/public/'.$storePath);
+
+        $image_large_path = $this->resizeImage($file, $storePath, 1140);
+        $image_medium_path = $this->resizeImage($file, $storePath, 500);
+        $image_small_path = $this->resizeImage($file, $storePath, 150);
+        $image_fit_path = $this->createFitImage($file, $storePath, 250);
+    }
+
+    private function resizeImage($file, $resizePath, $width)
+    {
+
+        echo $file;
+        echo '<br>';
+
+        echo base_path();
+        echo '<br>';
+
+        $img = Image::make(base_path().'/'.'storage/app/'.$file);
+
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+
+        $newPath = $resizePath.str_replace('.'.$fileExtension, '', basename($file)).'-'.$width.'.'.$fileExtension;
+
+        echo $newPath;
+        echo "\n";
+
+        $img->widen($width, function ($constraint) {
+            $constraint->upsize();
+        })->save(base_path().'/public/'.$newPath);
+
+//        Storage::disk('local')->put($newPath, $img);
+
+        $img = null;
+
+        return $newPath;
+    }
+
+    private function createFitImage($file, $resizePath, $width)
+    {
+        $img = Image::make(base_path().'/'.'storage/app/'.$file);
+
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+
+        $newPath = $resizePath.str_replace('.'.$fileExtension, '', basename($file)).'-fit-'.$width.'.'.$fileExtension;
+
+        echo $newPath;
+        echo "\n";
+
+        $img->fit($width)->save(base_path().'/public/'.$newPath);
+
+//        Storage::disk('local')->put($newPath, $img);
+
+        $img = null;
+
+        return $newPath;
     }
 
 }

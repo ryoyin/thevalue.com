@@ -39,6 +39,23 @@ function()
 
 });
 
+Route::get('storage/{filename}', function ($filename)
+{
+    $path = storage_path('public/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
+
 Route::post('/share-the-value', 'API\SubscriptController@subscription');
 //Route::get('/christie-spider', 'Scripts\ImportChristieSaleController@index');
 //Route::get('/christie-spider-2', 'Scripts\ImportChristieSaleController@getRealized2');
@@ -71,12 +88,16 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tvadmin/tags', 'Backend\TagController');
     Route::resource('tvadmin/notifications', 'Backend\NotificationController');
 
+    //Auction House
+    Route::resource('tvadmin/auction/house', 'Backend\AuctionHouseController');
+
     // Auction Christie Crawler
     Route::get('tvadmin/auction/crawler/christie', 'Backend\Crawler\ChristieController@index')->name('backend.auction.christie.index');
     Route::post('tvadmin/auction/crawler/christie/crawler', 'Backend\Crawler\ChristieController@crawler')->name('backend.auction.christie.crawler');
     Route::get('tvadmin/auction/crawler/christie/crawler/remove/{intSaleID}', 'Backend\Crawler\ChristieController@crawlerRemove')->name('backend.auction.christie.crawler.remove');
     Route::get('tvadmin/auction/crawler/christie/capture', 'Backend\Crawler\ChristieController@capture')->name('backend.auction.christie.capture');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
+    Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/downloadImages', 'Backend\Crawler\ChristieController@downloadImages')->name('backend.auction.christie.capture.downloadImages');
 
     // Auction YiDu Crawler
     Route::get('tvadmin/auction/crawler/yidu', 'Backend\Crawler\YiDuController@index')->name('backend.auction.yidu.index');
@@ -94,6 +115,8 @@ Route::group(['middleware' => 'auth'], function() {
     //get realized-price
     Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
     Route::get('/christie-convert-price', 'Scripts\ImportChristieSaleController@convertPrice');
+
+
 
 
     // beijing antique city

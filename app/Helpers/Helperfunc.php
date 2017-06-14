@@ -11,3 +11,7 @@ function isActiveMenu($needle, $haystack) {
 function isDone($value) {
     return $value == 1 ? 'Done' : 'Pending';
 }
+
+function showStatusSim($value) {
+    return $value == 1 ? 'On' : 'Off';
+}

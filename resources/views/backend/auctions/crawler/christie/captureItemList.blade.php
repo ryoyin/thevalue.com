@@ -76,6 +76,7 @@
                                                     @if($saleArray !== false)
                                                         <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
                                                     @endif
+                                                    <a href="{{ route('backend.auction.christie.capture.downloadImages', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Download Images</a>
                                                     <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
                                                 </td>
                                             </tr>
@@ -95,7 +96,7 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <th>No.</th>
-                                    <th>Description</th>
+                                    <th>Content</th>
                                     <th></th>
                                 </thead>
                                 <tbody>
@@ -111,19 +112,34 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>{!! $lot['en']['description'] !!}</td>
-                                                            <td>{!! $lot['trad']['description'] !!}</td>
-                                                            <td>{!! $lot['sim']['description'] !!}</td>
+                                                            <td>
+                                                                <b>Title:</b><br>{!! $lot['en']['title'] !!}
+                                                                <hr>
+                                                                <b>Desc:</b><br>{!! $lot['en']['description'] !!}
+                                                            </td>
+                                                            <td>
+                                                                <b>Title:</b><br>{!! $lot['trad']['title'] !!}
+                                                                <hr>
+                                                                <b>Desc:</b><br>{!! $lot['trad']['description'] !!}
+                                                            </td>
+                                                            <td>
+                                                                <b>Title:</b><br>{!! $lot['sim']['title'] !!}
+                                                                <hr>
+                                                                <b>Desc:</b><br>{!! $lot['sim']['description'] !!}
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
-                                                <div>Image Path: <a href="{{ $lot['image_path'] }}" target="_blank">{{ $lot['image_path'] }}</a></div>
-                                                <div>Maker: {{ $lot['maker'] }}</div>
-                                                <div>Dimensions: {{ $lot['medium-dimensions'] }}</div>
-                                                <div>Estimate: {{ $lot['estimate'] }}</div>
-                                                <div>Realized: {{ $lot['price'] }}</div>
+                                                <div><b>Image Path:</b> <a href="{{ $lot['image_path'] }}" target="_blank">{{ $lot['image_path'] }}</a></div>
+                                                <div><b>Maker:</b> {{ $lot['maker'] }}</div>
+                                                <div><b>Dimensions:</b> {{ $lot['medium-dimensions'] }}</div>
+                                                <div><b>Estimate:</b> {{ $lot['estimate'] }}</div>
+                                                <div><b>Realized:</b> {{ $lot['price'] }}</div>
+                                                <div>
+                                                    <img src="{{ asset('images/auctions/christie/sale/'.$intSaleID.'/'.$lot['number'].'-150.jpg') }}" class="img-responsive">
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
