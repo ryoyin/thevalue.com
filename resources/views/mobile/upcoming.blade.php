@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <div style="height: 35px;"></div>
-    
+    <div style="height: 40px;"></div>
+
     @include('frontend.auction.pre.content')
 
 @endsection
