@@ -20,10 +20,8 @@ class ChristieController extends Controller
 
         $data = array(
             'locale' => $locale,
-            'menu' => array('auction', 'christie.index'),
+            'menu' => array('auction', 'crawler', 'christie.index'),
         );
-
-//        dd($data);
 
         return view('backend.auctions.crawler.christie.index', $data);
     }

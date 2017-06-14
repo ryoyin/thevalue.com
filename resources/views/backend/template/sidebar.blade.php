@@ -33,7 +33,7 @@
       <!-- Optionally, you can add icons to the links -->
       {{--<li><a href="{{ route('admin-blog') }}"><i class="fa fa-camera-retro"></i> <span>圖片庫   </span></a></li>--}}
       <li class="treeview {{ isActiveMenu('photo', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Photo Library</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-picture-o"></i> <span>Photo Library</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('photo.list', $menu) }}"><a href="#"><a href="{{ action('Backend\PhotoController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Photo List   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('photo.create', $menu) }}"><a href="{{ action('Backend\PhotoController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Photo   </span></a></li>--}}
@@ -41,7 +41,7 @@
       </li>
 
       <li class="treeview {{ isActiveMenu('banner', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Banner</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-picture-o"></i> <span>Banner</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('banner.list', $menu) }}"><a href="#"><a href="{{ action('Backend\BannerController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Banner List   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
@@ -49,7 +49,7 @@
       </li>
 
       <li class="treeview {{ isActiveMenu('article', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Article</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-paragraph"></i> <span>Article</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('article.list', $menu) }}"><a href="#"><a href="{{ action('Backend\ArticleController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Article List   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
@@ -57,7 +57,7 @@
       </li>
 
       <li class="treeview {{ isActiveMenu('featuredArticle', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Featured Article</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-paragraph"></i> <span>Featured Article</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('featuredArticle.list', $menu) }}"><a href="#"><a href="{{ action('Backend\FeaturedArticleController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Featured Article List   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
@@ -65,7 +65,7 @@
       </li>
 
       <li class="treeview {{ isActiveMenu('category', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Category</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-list"></i> <span>Category</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('category.list', $menu) }}"><a href="#"><a href="{{ action('Backend\CategoryController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Categories List   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
@@ -74,7 +74,7 @@
 
 
       <li class="treeview {{ isActiveMenu('tag', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Tag</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-tags"></i> <span>Tag</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('tag.list', $menu) }}"><a href="#"><a href="{{ action('Backend\TagController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Tags List   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
@@ -82,7 +82,7 @@
       </li>
 
       <li class="treeview {{ isActiveMenu('notification', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Notification</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-bell-o"></i> <span>Notification</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('notification.list', $menu) }}"><a href="#"><a href="{{ action('Backend\NotificationController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Notification   </span></a></a></li>
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
@@ -90,11 +90,28 @@
       </li>
 
       <li class="treeview {{ isActiveMenu('auction', $menu) }}">
-        <a href="#" class="active"><i class="fa fa-file-text-o"></i> <span>Auctions</span> <i class="fa fa-angle-left pull-right"></i></a>
+        <a href="#" class="active"><i class="fa fa-suitcase"></i> <span>Auctions</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
-          <li class="{{ isActiveMenu('christie.index', $menu) }}"><a href="#"><a href="{{ route('backend.auction.christie.index') }}"><i class="fa fa-dot-circle-o"></i> <span>Christie   </span></a></a></li>
-          <li class="{{ isActiveMenu('christie.capture', $menu) }}"><a href="#"><a href="{{ route('backend.auction.christie.capture') }}"><i class="fa fa-dot-circle-o"></i> <span>Christie Capture   </span></a></a></li>
-          <li class="{{ isActiveMenu('items.list', $menu) }}"><a href="#"><a href="{{ route('backend.auction.itemList') }}"><i class="fa fa-dot-circle-o"></i> <span>Item List   </span></a></a></li>
+          <li class="treeview {{ isActiveMenu('crawler', $menu) }}">
+            <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Crawler</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <ul class="treeview-menu">
+              <li class="{{ isActiveMenu('yidu.index', $menu) }}">
+                <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>YiDu</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li class="{{ isActiveMenu('yidu.index', $menu) }}"><a href="{{ route('backend.auction.yidu.index') }}"><i class="fa fa-dot-circle-o"></i> <span>YiDu   </span></a></li>
+                </ul>
+              </li>
+              <li class="{{ isActiveMenu('christie.index', $menu) }}">
+                <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Christie</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li class="{{ isActiveMenu('christie.index', $menu) }}"><a href="{{ route('backend.auction.christie.index') }}"><i class="fa fa-dot-circle-o"></i> <span>Christie   </span></a></li>
+                  <li class="{{ isActiveMenu('christie.capture', $menu) }}"><a href="{{ route('backend.auction.christie.capture') }}"><i class="fa fa-dot-circle-o"></i> <span>Christie Capture   </span></a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="{{ isActiveMenu('items.list', $menu) }}"><a href="{{ route('backend.auction.itemList') }}"><i class="fa fa-dot-circle-o"></i> <span>Item List   </span></a></li>
+
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
         </ul>
       </li>
