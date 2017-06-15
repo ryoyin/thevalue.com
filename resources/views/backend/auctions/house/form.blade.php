@@ -98,6 +98,13 @@
           <div class="box-body">
               <!-- text input -->
               <div class="form-group">
+                  <label>Logo</label>
+                  @if(isset($house['image_path']))
+                    <img src="{{ asset($house['image_path']) }}" class="img-responsive">
+                  @endif
+                  <input name="uploaded_file" type="file" class="form-control" required>
+              </div>
+              <div class="form-group">
                   <label>Slug</label>
                   <input name="slug" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['slug'] }}" required>
               </div>
@@ -117,15 +124,15 @@
                   <label>Status</label>
                   <select name="status" id="status" class="form-control">
                       <option
-                              @if(0 == @$house['status'])
-                              selected
-                              @endif
-                              value="0">Off</option>
+                          @if(0 == @$house['status'])
+                          selected
+                          @endif
+                          value="0">Off</option>
                       <option
-                              @if(1 == @$house['status'])
-                              selected
-                              @endif
-                              value="1">On</option>
+                          @if(1 == @$house['status'])
+                          selected
+                          @endif
+                          value="1">On</option>
                   </select>
               </div>
 

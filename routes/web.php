@@ -90,6 +90,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     //Auction House
     Route::resource('tvadmin/auction/house', 'Backend\AuctionHouseController');
+    Route::resource('tvadmin/auction/series', 'Backend\AuctionSeriesController');
 
     // Auction Christie Crawler
     Route::get('tvadmin/auction/crawler/christie', 'Backend\Crawler\ChristieController@index')->name('backend.auction.christie.index');

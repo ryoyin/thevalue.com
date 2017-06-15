@@ -496,12 +496,41 @@ class ChristieController extends Controller
 
         $saleArray = json_decode($json, true);
 
-//        dd($saleArray['lots']);
+        dd($saleArray);
 
         $storePath = 'spider/christie/sale/'.$intSaleID.'/';
 
         foreach($saleArray['lots'] as $lot) {
             $link = str_replace('s.jpg', 'a.jpg', $lot['image_path']);
+
+            echo $storePath.$lot['number'].'.jpg<br>';
+
+            $publicStoragePath = base_path().'/public/images/auctions/christie/sale/'.$intSaleID.'/';
+
+            $existImage = array();
+            $existImage[] = $publicStoragePath.$lot['number'].'-150.jpg';
+            $existImage[] = $publicStoragePath.$lot['number'].'-500.jpg';
+            $existImage[] = $publicStoragePath.$lot['number'].'-1140.jpg';
+            $existImage[] = $publicStoragePath.$lot['number'].'-fit-250.jpg';
+
+            $imageExists = false;
+
+            foreach($existImage as $image) {
+                echo $image;
+                echo '<br>';
+                if(file_exists($image)) {
+                    $imageExists = true;
+                    echo 'file exist';
+                    echo '<br>';
+                    continue;
+                }
+            }
+
+            if($imageExists) {
+                continue;
+            }
+
+//            exit;
 
             $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
 
@@ -510,6 +539,8 @@ class ChristieController extends Controller
 //            exit;
 
         }
+
+        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
 
     }
 

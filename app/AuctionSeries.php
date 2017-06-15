@@ -18,6 +18,11 @@ class AuctionSeries extends Model
         return $this->hasMany('App\AuctionSeriesDetail');
     }
 
+    public function getDetailByLang($lang)
+    {
+        return $this->details()->where('lang', $lang)->first();
+    }
+
     public function sales()
     {
         return $this->hasMany('App\AuctionSale');

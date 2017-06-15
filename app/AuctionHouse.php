@@ -18,4 +18,9 @@ class AuctionHouse extends Model
         return $this->hasMany('App\AuctionHouseDetail');
     }
 
+    public function getDetailByLang($lang)
+    {
+        return $this->details()->where('lang', $lang)->first();
+    }
+
 }

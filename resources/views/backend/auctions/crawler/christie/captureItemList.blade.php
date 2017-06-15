@@ -39,49 +39,60 @@
                         <div class="box-body">
 
                             <div class="form-group">
-
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <th>Image</th>
-                                        <th>Int Sale ID</th>
-                                        <th>Sale ID</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </thead>
+                                <table class="table table-bordered table-striped sale-header">
                                     <tbody>
+                                        <tr>
+                                            <td><img src="{{ $saleArray['sale']['image_path'] }}" height="150px"></td>
+                                            <td>
+                                                <b>Christie Internal ID:</b> {{ $intSaleID }}
+                                                <br>
+                                                <b>Sale ID:</b> {{ $saleArray['sale']['id'] }}<br>
+                                                <b>Auction Date:</b> {{ $saleArray['sale']['date']['datetime'] }}<br>
+                                                <b>Viewing Date:</b><br>
+                                                @foreach($saleArray['viewing']['time'] as $viewingTime)
+                                                    {{ $viewingTime['start_datetime'] }} - {{ $viewingTime['end_datetime'] }}<br>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                <b>EN</b> -{{ $saleArray['sale']['en']['title'] }}<br>
+                                                <b>Trad</b> -{{ $saleArray['sale']['trad']['title'] }}<br>
+                                                <b>Sim</b> -{{ $saleArray['sale']['sim']['title'] }}
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" id="int_sale_id" name="int_sale_id" value="{{ $intSaleID }}">
+                                                    <input type="submit" value="Try Again" class="btn btn-warning">
+                                                </form>
+                                                @if($saleArray !== false)
+                                                    <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
+                                                @endif
+                                                <a href="{{ route('backend.auction.christie.capture.downloadImages', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Download Images</a>
+                                                <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
+                                                <p>
+                                                <form method="POST" action="/" class="form-group">
+                                                    <div class="form-group">
+                                                        <label>Country</label>
+                                                        <input name="country" type="text" class="form-control" placeholder="Enter ..." required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Currency</label>
+                                                        <input name="currency_code" type="text" class="form-control" placeholder="Enter ..." required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Series</label>
+                                                        <input name="auction_series_id" type="text" class="form-control" placeholder="Enter ..." required>
+                                                    </div>
+                                                    <div class="form-footer">
+                                                        <input name="auction_series_id" type="submit" class="form-control">
+                                                    </div>
+                                                </form>
 
-                                            <tr>
-                                                <td><img src="{{ $saleArray['sale']['image_path'] }}" height="150px"></td>
-                                                <td>{{ $intSaleID }}</td>
-                                                <td>{{ $saleArray['sale']['id'] }}</td>
-                                                <td>
-                                                    EN -{{ $saleArray['sale']['en']['title'] }}<br>
-                                                    Trad -{{ $saleArray['sale']['trad']['title'] }}<br>
-                                                    Sim -{{ $saleArray['sale']['sim']['title'] }}
-                                                </td>
-                                                <td>
-                                                    @if($saleArray === false)
-                                                        Bad
-                                                    @else
-                                                        Good
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
-                                                        {{ csrf_field() }}
-                                                        <input type="hidden" id="int_sale_id" name="int_sale_id" value="{{ $intSaleID }}">
-                                                        <input type="submit" value="Try Again" class="btn btn-warning">
-                                                    </form>
-                                                    @if($saleArray !== false)
-                                                        <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
-                                                    @endif
-                                                    <a href="{{ route('backend.auction.christie.capture.downloadImages', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Download Images</a>
-                                                    <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
-                                                </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
+
 
                             </div>
 

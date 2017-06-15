@@ -93,6 +93,7 @@
         <a href="#" class="active"><i class="fa fa-suitcase"></i> <span>Auctions</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
           <li class="{{ isActiveMenu('auction.house.index', $menu) }}"><a href="{{ action('Backend\AuctionHouseController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Houses   </span></a></li>
+          <li class="{{ isActiveMenu('auction.series.list', $menu) }}"><a href="{{ action('Backend\AuctionSeriesController@index') }}"><i class="fa fa-dot-circle-o"></i> <span>Series   </span></a></li>
           <li class="treeview {{ isActiveMenu('crawler', $menu) }}">
             <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Crawler</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
