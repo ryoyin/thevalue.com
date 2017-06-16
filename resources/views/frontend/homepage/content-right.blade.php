@@ -1,15 +1,15 @@
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- thevalue-auto -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8545127753274353"
-     data-ad-slot="7391805026"
-     data-ad-format="auto"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 <div id="right" class="hidden-xs hidden-sm col-md-3">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- thevalue-auto -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8545127753274353"
+         data-ad-slot="7391805026"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     @include('frontend.misc.sideBanner')
 
