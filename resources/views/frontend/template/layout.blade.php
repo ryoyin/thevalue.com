@@ -8,8 +8,8 @@
 @if(isset($menuBanner) && count($menuBanner) > 0)
     <div id="top-menu-banner">
         <?php
-            $randomNumber = rand(0, 4);
-            if($randomNumber != 1 ) $randomNumber = 0;
+//            $randomNumber = rand(0, 4);
+            $randomNumber = 0;
 
             $mBanner = $menuBanner[$randomNumber];
             if($mBanner['s3']) {
