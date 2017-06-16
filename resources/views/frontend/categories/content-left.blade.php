@@ -43,6 +43,7 @@
                     if($adCounter == 4) {
                         $adCounter = 0;
                 ?>
+                    <div style="height: 10px"></div>
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-8545127753274353"
@@ -51,6 +52,7 @@
                     <script>
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
+                    <div style="height: 20px"></div>
                 <?
                     } else {
                         $adCounter ++;
