@@ -3,7 +3,7 @@
     <div id="block" style="border: 0px !important">
         <div id="category-head">Home > <span>{{ $categoryDetail['name'] }}</span></div>
         <div id="stories">
-            <?php $adCoutner = 0; ?>
+            <?php $adCounter = 0; ?>
             @foreach($categoryStories as $story)
                 {{--{{ dd($categoryDetail) }}--}}
                 <?php
