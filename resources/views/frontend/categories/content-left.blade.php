@@ -3,7 +3,7 @@
     <div id="block" style="border: 0px !important">
         <div id="category-head">Home > <span>{{ $categoryDetail['name'] }}</span></div>
         <div id="stories">
-
+            <?php $adCoutner = 0; ?>
             @foreach($categoryStories as $story)
                 {{--{{ dd($categoryDetail) }}--}}
                 <?php
@@ -39,6 +39,23 @@
                     </div>
                 </div>
                 <div style='clear:both'></div>
+                <?php
+                    $adCounter ++;
+                    if($adCounter == 4) {
+                ?>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-8545127753274353"
+                         data-ad-slot="7391805026"
+                         data-ad-format="auto"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                <?
+                    } else {
+                       $adCounter = 0;
+                    }
+                ?>
             @endforeach
 
                 <div class="pull-right">{{ $categoryPagination->links() }}</div>
