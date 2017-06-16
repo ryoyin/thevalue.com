@@ -208,6 +208,8 @@ class PhotoController extends Controller
 
         $photo = App\Photo::find($id);
         $photo->alt = $request->alt;
+        $photo->resized = 0;
+        $photo->push_s3 = 0;
 
         if($isValidFile) {
             $photo->image_path = $alternative_path.$filename;
