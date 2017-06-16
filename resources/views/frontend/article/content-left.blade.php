@@ -1,5 +1,15 @@
 <ul class='ul-clean'>
     <li class='title' id="article-title">{{ $articleDetails['title'] }}</li>
+    <li>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8545127753274353"
+             data-ad-slot="7391805026"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </li>
     <li class='notes' id="article-note">{{ $articleDetails['note'] }}</li>
     <li>
         <ul class='misc ul-clean'>
