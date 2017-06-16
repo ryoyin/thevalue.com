@@ -9,6 +9,8 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
+<div style="height: 20px"></div>
+
 <div style="text-align: center" class="footer-download-link">
     <ul>
         <li><a href="https://itunes.apple.com/app/the-value/id1204432093" target="_blank"><img src="{{ asset('images/company_logo/app_store_download_icon.png') }}"></a></li>
