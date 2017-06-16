@@ -40,8 +40,8 @@
                 </div>
                 <div style='clear:both'></div>
                 <?php
-                    $adCounter ++;
                     if($adCounter == 4) {
+                        $adCounter = 0;
                 ?>
                     <ins class="adsbygoogle"
                          style="display:block"
@@ -53,7 +53,7 @@
                     </script>
                 <?
                     } else {
-                       $adCounter = 0;
+                        $adCounter ++;
                     }
                 ?>
             @endforeach
