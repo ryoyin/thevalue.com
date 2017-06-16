@@ -52,6 +52,14 @@
                   <input name="en-name" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['en-name'] }}" required>
               </div>
               <div class="form-group">
+                  <label>Country</label>
+                  <input name="en-country" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['en-country'] }}" required>
+              </div>
+              <div class="form-group">
+                  <label>City</label>
+                  <input name="en-city" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['en-city'] }}" required>
+              </div>
+              <div class="form-group">
                   <label>Address</label>
                   <input name="en-address" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['en-address'] }}">
               </div>
@@ -66,6 +74,14 @@
                   <input name="trad-name" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['trad-name'] }}" required>
               </div>
               <div class="form-group">
+                  <label>Country</label>
+                  <input name="trad-country" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['trad-country'] }}" required>
+              </div>
+              <div class="form-group">
+                  <label>City</label>
+                  <input name="trad-city" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['trad-city'] }}" required>
+              </div>
+              <div class="form-group">
                   <label>Address</label>
                   <input name="trad-address" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['trad-address'] }}">
               </div>
@@ -78,6 +94,14 @@
               <div class="form-group">
                   <label>Name</label>
                   <input name="sim-name" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['sim-name'] }}" required>
+              </div>
+              <div class="form-group">
+                  <label>Country</label>
+                  <input name="sim-country" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['sim-country'] }}" required>
+              </div>
+              <div class="form-group">
+                  <label>City</label>
+                  <input name="sim-city" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['sim-city'] }}" required>
               </div>
               <div class="form-group">
                   <label>Address</label>
@@ -102,7 +126,7 @@
                   @if(isset($house['image_path']))
                     <img src="{{ asset($house['image_path']) }}" class="img-responsive">
                   @endif
-                  <input name="uploaded_file" type="file" class="form-control" required>
+                  <input name="uploaded_file" type="file" class="form-control">
               </div>
               <div class="form-group">
                   <label>Slug</label>
@@ -119,6 +143,14 @@
               <div class="form-group">
                   <label>Email</label>
                   <input name="email" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['email'] }}" >
+              </div>
+              <div class="form-group">
+                  <label>Dollar Sign</label>
+                  <input name="dollar_sign" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['dollar_sign'] }}" >
+              </div>
+              <div class="form-group">
+                  <label>Currency Code</label>
+                  <input name="currency_code" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['currency_code'] }}" >
               </div>
               <div class="form-group">
                   <label>Status</label>

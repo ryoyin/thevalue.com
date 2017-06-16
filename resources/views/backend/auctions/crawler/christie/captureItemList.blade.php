@@ -70,21 +70,14 @@
                                                 <a href="{{ route('backend.auction.christie.capture.downloadImages', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Download Images</a>
                                                 <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
                                                 <p>
-                                                <form method="POST" action="/" class="form-group">
-                                                    <div class="form-group">
-                                                        <label>Country</label>
-                                                        <input name="country" type="text" class="form-control" placeholder="Enter ..." required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Currency</label>
-                                                        <input name="currency_code" type="text" class="form-control" placeholder="Enter ..." required>
-                                                    </div>
+                                                <form method="POST" action="{{ route('backend.auction.christie.import.sale', ['intSaleID' => $intSaleID]) }}" class="form-group">
+                                                    {{ csrf_field() }}
                                                     <div class="form-group">
                                                         <label>Series</label>
                                                         <input name="auction_series_id" type="text" class="form-control" placeholder="Enter ..." required>
                                                     </div>
                                                     <div class="form-footer">
-                                                        <input name="auction_series_id" type="submit" class="form-control">
+                                                        <input name="submit" type="submit" class="form-control">
                                                     </div>
                                                 </form>
 

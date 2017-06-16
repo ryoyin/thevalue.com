@@ -116,16 +116,31 @@
                           <?php
                               $houseDetail = $house->getDetailByLang('trad');
                           ?>
-                          <option value="{{ $house->id }}">{{ $houseDetail->name }}</option>
+                          <option value="{{ $house->id }}"
+                            @if(isset($series['auction_house_id']))
+                                @if($house->id == $series['auction_house_id'])
+                                    selected
+                                @endif
+                            @endif
+                          >{{ $houseDetail->name }}</option>
                       @endforeach
                   </select>
               </div>
               <div class="form-group">
                   <label>Status</label>
                   <select name="status" id="status" class="form-control">
-                      <option value="pending">Pending</option>
-                      <option value="published">Published</option>
-                      <option value="withdraw">Withdraw</option>
+                      <?php
+                        $statusArray = array('pending', 'published', 'withdraw');
+                        ?>
+                      @foreach($statusArray as $status)
+                          <option value="{{ $status }}"
+                              @if(isset($series['status']))
+                                  @if($series['status'] == $status)
+                                      selected
+                                  @endif
+                              @endif
+                          >{{ $status }}</option>
+                      @endforeach
                   </select>
               </div>
 

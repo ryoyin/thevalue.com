@@ -72,6 +72,61 @@ class AuctionSeriesController extends Controller
         return redirect('tvadmin/auction/series')->with('alert-success', 'Series was successful added!');;
     }
 
+    public function edit($id)
+    {
+        $series = App\AuctionSeries::find($id);
+        $seriesDetails = $series->details;
+
+        $houses = App\AuctionHouse::all();
+
+        foreach($seriesDetails as $seriesDetail) {
+            $series[$seriesDetail->lang.'-name'] = $seriesDetail->name;
+            $series[$seriesDetail->lang.'-country'] = $seriesDetail->country;
+            $series[$seriesDetail->lang.'-location'] = $seriesDetail->location;
+        }
+
+        $data = array(
+            'menu' => array('auction', 'auction.house.index'),
+            'title' => 'Modify',
+            'formMethod' => 'PUT',
+            'action' => 'tvadmin/auction/series/'.$id,
+            'series' => $series,
+            'houses' => $houses,
+        );
+
+        return view('backend.auctions.series.form', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $series = App\AuctionSeries::find($id);
+        $series->slug = $request->slug;
+        $series->total_lots = 0;
+        $series->start_date = $request->start_date;
+        $series->end_date = $request->end_date;
+        $series->auction_house_id = $request->auction_house_id;
+        $series->status = $request->status;
+        $series->save();
+
+        $seriesDetails = $series->details;
+
+        foreach($seriesDetails as $seriesDetail) {
+            $lang = $seriesDetail->lang;
+
+            $name = $lang.'-name';
+            $country = $lang.'-country';
+            $location = $lang.'-location';
+
+            $seriesDetail->name = $request->$name;
+            $seriesDetail->country = $request->$country;
+            $seriesDetail->location = $request->$location;
+
+            $seriesDetail->save();
+        }
+
+        return redirect('tvadmin/auction/series')->with('alert-success', 'Series was successful updated!');;
+    }
+
     public function destroy($id)
     {
         $series = App\AuctionSeries::findOrFail($id);

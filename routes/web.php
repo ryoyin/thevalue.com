@@ -99,6 +99,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/christie/capture', 'Backend\Crawler\ChristieController@capture')->name('backend.auction.christie.capture');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/downloadImages', 'Backend\Crawler\ChristieController@downloadImages')->name('backend.auction.christie.capture.downloadImages');
+    Route::post('tvadmin/auction/crawler/christie/import/sale/{intSaleID}', 'Backend\Crawler\ChristieController@importSale')->name('backend.auction.christie.import.sale');
 
     // Auction YiDu Crawler
     Route::get('tvadmin/auction/crawler/yidu', 'Backend\Crawler\YiDuController@index')->name('backend.auction.yidu.index');

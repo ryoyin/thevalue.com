@@ -38,7 +38,8 @@
                   <th>ID</th>
                   <th>Company Logo</th>
                   <th>Name</th>
-                  <th>Slug</th>
+                  <th>Country</th>
+                  <th>City</th>
                   <th>Status</th>
                   <th style="text-align: center;">Action</th>
                 </tr>
@@ -53,7 +54,8 @@
                     <td>{{ $house['id'] }}</td>
                     <td><img src="{{ asset($house['image_path']) }}" width="100px;"></td>
                     <td>{{ $houseDetail['name'] }}</td>
-                    <td>{{ $house['slug'] }}</td>
+                    <td>{{ $houseDetail['country'] }}</td>
+                    <td>{{ $houseDetail['city'] }}</td>
                     <td>{{ showStatusSim($house['status']) }}</td>
                     <td align="center">
                       <a href="{{ url('tvadmin/auction/house/'.$house->id.'/edit') }}" class="btn btn-warning">Modify</a>

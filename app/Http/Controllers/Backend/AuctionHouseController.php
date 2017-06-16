@@ -89,6 +89,8 @@ class AuctionHouseController extends Controller
         $house->tel_no = $request->tel_no;
         $house->fax_no = $request->fax_no;
         $house->email = $request->email;
+        $house->dollar_sign = $request->dollar_sign;
+        $house->currency_code = $request->currency_code;
         $house->status = $request->status;
 
         $house->save();
@@ -102,10 +104,14 @@ class AuctionHouseController extends Controller
             $houseDetail = New App\AuctionHouseDetail;
 
             $name = $lang.'-name';
+            $country = $lang.'-country';
+            $city = $lang.'-city';
             $address = $lang.'-address';
             $office_hour = $lang.'-office_hour';
 
             $houseDetail->name = $request->$name;
+            $houseDetail->country = $request->$country;
+            $houseDetail->city = $request->$city;
             $houseDetail->address = $request->$address;
             $houseDetail->office_hour = $request->$office_hour;
             $houseDetail->auction_house_id = $houseID;
@@ -126,6 +132,8 @@ class AuctionHouseController extends Controller
 
         foreach($houseDetails as $houseDetail) {
             $house[$houseDetail->lang.'-name'] = $houseDetail->name;
+            $house[$houseDetail->lang.'-country'] = $houseDetail->country;
+            $house[$houseDetail->lang.'-city'] = $houseDetail->city;
             $house[$houseDetail->lang.'-address'] = $houseDetail->address;
             $house[$houseDetail->lang.'-office_hour'] = $houseDetail->office_hour;
         }
@@ -175,13 +183,16 @@ class AuctionHouseController extends Controller
 
             }
 
+            $house->image_path = $alternative_path.$filename;
+
         }
 
         $house->slug = $request->slug;
-        $house->image_path = $alternative_path.$filename;
         $house->tel_no = $request->tel_no;
         $house->fax_no = $request->fax_no;
         $house->email = $request->email;
+        $house->dollar_sign = $request->dollar_sign;
+        $house->currency_code = $request->currency_code;
         $house->status = $request->status;
 
         $houseDetails = $house->details;
@@ -190,10 +201,14 @@ class AuctionHouseController extends Controller
             $lang = $houseDetail->lang;
 
             $name = $lang.'-name';
+            $country = $lang.'-country';
+            $city = $lang.'-city';
             $address = $lang.'-address';
             $office_hour = $lang.'-office_hour';
 
             $houseDetail->name = $request->$name;
+            $houseDetail->country = $request->$country;
+            $houseDetail->city = $request->$city;
             $houseDetail->address = $request->$address;
             $houseDetail->office_hour = $request->$office_hour;
 

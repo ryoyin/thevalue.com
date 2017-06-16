@@ -496,7 +496,7 @@ class ChristieController extends Controller
 
         $saleArray = json_decode($json, true);
 
-        dd($saleArray);
+//        dd($saleArray);
 
         $storePath = 'spider/christie/sale/'.$intSaleID.'/';
 
@@ -581,6 +581,15 @@ class ChristieController extends Controller
         $image_medium_path = $this->resizeImage($file, $storePath, 500);
         $image_small_path = $this->resizeImage($file, $storePath, 150);
         $image_fit_path = $this->createFitImage($file, $storePath, 250);
+
+        $image_path = array(
+            'large' => $image_large_path,
+            'medium' => $image_medium_path,
+            'small' => $image_small_path,
+            'fit' => $image_fit_path
+        );
+
+        return $image_path;
     }
 
     private function resizeImage($file, $resizePath, $width)
@@ -630,6 +639,170 @@ class ChristieController extends Controller
         $img = null;
 
         return $newPath;
+    }
+
+    public function importSale(Request $request, $intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+        $auctionSeriesID = trim($request->auction_series_id);
+
+        $series = App\AuctionSeries::find($auctionSeriesID);
+        $seriesDetails = $series->details();
+
+        $house = $series->house;
+
+        if(count($series) == 0) exit;
+
+        $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
+
+        // download sale cover image
+        $storePath = 'spider/christie/sale/'.$intSaleID.'/';
+        $link = $saleArray['sale']['image_path'];
+        $saleNumber = $saleArray['sale']['id'];
+
+        $image_path = $this->GetImageFromUrl($storePath, $link, 'christies-sale-'.$saleNumber);
+        $resize = $this->imgResize($intSaleID, 'christies-sale-'.$saleNumber);
+
+        // insert auction_sales
+        // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
+        $sale = New App\AuctionSale;
+
+        $slug = str_replace(' ', '-', $saleArray['sale']['en']['title']);
+        $slug = str_replace(' & ', '-and-', $slug);
+        $slug = str_replace('&', '-and-', $slug);
+
+        $sale->slug = $slug;
+        $sale->source_image_path = $saleArray['sale']['image_path'];
+        $sale->image_path = $resize['medium'];
+        $sale->number = $saleArray['sale']['id'];
+        $sale->total_lots = count($saleArray['lots']);
+        $sale->start_date = $saleArray['sale']['date']['datetime'];
+        $sale->end_date = $saleArray['sale']['date']['datetime'];
+        $sale->auction_series_id = $auctionSeriesID;
+
+        $sale->save();
+
+        // echo "sale id: ".$sale->id;
+        // echo '<br>';
+        $saleID = $sale->id;
+
+        // insert auction_sale_details
+        // type, title, country, location, lang, auction_sale_id
+        $supported_languages = config('app.supported_languages');
+        // sale detail type sale
+        foreach($supported_languages as $lang) {
+            $saleDetail = New App\AuctionSaleDetail;
+            $saleDetail->type = 'sale';
+            $saleDetail->title = $saleArray['sale'][$lang]['title'];
+            $houseDetail = $house->getDetailByLang($lang);
+            $saleDetail->country = $houseDetail->country;
+            $saleDetail->location = $saleArray['sale']['country'];
+            $saleDetail->lang = $lang;
+            $saleDetail->auction_sale_id = $saleID;
+            $saleDetail->save();
+        }
+
+        // sale detail type viewing
+        foreach($supported_languages as $lang) {
+            $saleDetail = New App\AuctionSaleDetail;
+            $saleDetail->type = 'viewing';
+            $saleDetail->title = $saleArray['sale'][$lang]['title'];
+            $houseDetail = $house->getDetailByLang($lang);
+            $saleDetail->country = $houseDetail->country;
+            $saleDetail->location = $saleArray['viewing']['location'];
+            $saleDetail->lang = $lang;
+            $saleDetail->auction_sale_id = $saleID;
+            $saleDetail->save();
+        }
+
+        // insert auction_sale_times
+        // type, lots, start_date, end_date, auction_sale_id
+        // sale date
+        $saleTime = New App\AuctionSaleTime;
+        $saleTime->type = 'sale';
+        $saleTime->start_date = $saleArray['sale']['date']['datetime'];
+        $saleTime->end_date = $saleArray['sale']['date']['datetime'];
+        $saleTime->auction_sale_id = $saleID;
+
+        $saleTime->save();
+
+        foreach($saleArray['viewing']['time'] as $viewTime) {
+            $viewingTime = New App\AuctionSaleTime;
+            $viewingTime->type = 'viewing';
+            $viewingTime->start_date = $viewTime['start_datetime'];
+            $viewingTime->end_date = $viewTime['end_datetime'];
+            $viewingTime->auction_sale_id = $saleID;
+            $viewingTime->save();
+        }
+
+        // insert auction_items
+        // slug, dimension, number,
+        // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
+        // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status, auction_sale_id
+
+        $image_path = 'images/auctions/christie/sale/'.$intSaleID.'/';
+
+        $counter = 10;
+
+        foreach($saleArray['lots'] as $lot) {
+            // filter dimension
+            $exMediumDimensions = explode("\r\n", $lot['medium-dimensions']);
+            $dimension = null;
+            foreach($exMediumDimensions as $dItem) {
+                if (stripos($dItem, "cm.") !== false) {
+                    $dimension = str_replace('Â', '', trim($dItem));
+                    //echo $dimension."\n";
+                    //echo '<br>';
+                    break;
+                }
+            }
+
+            $item = New App\AuctionItem;
+            $item->slug = $slug.'-'.$lot['number'];
+            $item->dimension = $dimension;
+            $item->number = $lot['number'];
+            $item->source_image_path = $lot['image_path'];
+            $item->image_path = $image_path.$lot['number'].'.jpg';
+            $item->image_fit_path = $image_path.$lot['number'].'-fit-250.jpg';
+            $item->image_large_path = $image_path.$lot['number'].'-1140.jpg';
+            $item->image_medium_path = $image_path.$lot['number'].'-500.jpg';
+            $item->image_small_path = $image_path.$lot['number'].'-150.jpg';
+            $item->currency_code = $house->currency_code;
+
+            $estimate = $lot['estimate'];
+
+            if($estimate == 'Estimate on request' || $estimate == '') {
+                $currencyCode = null;
+                $estimate_value_initial = null;
+                $estimate_value_end = null;
+            } else {
+                $exEstimate = explode('-', $estimate);
+                $estimate_value_initial = str_replace('Â£', '', trim($exEstimate[0]));
+                $estimate_value_initial = str_replace(',', '', $estimate_value_initial);
+                $estimate_value_end = str_replace('Â£', '', trim($exEstimate[1]));
+                $estimate_value_end = str_Replace(',', '', $estimate_value_end);
+            }
+
+            $item->estimate_value_initial = $estimate_value_initial;
+            $item->estimate_value_end = $estimate_value_end;
+            $item->sorting = $counter;
+            $item->status = 'pending';
+            $item->auction_sale_id = $saleID;
+
+            $item->save();
+
+            // insert auction_item_details
+            // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
+
+            $counter += 10;
+
+        }
+
     }
 
 }
