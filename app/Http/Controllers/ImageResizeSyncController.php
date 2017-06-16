@@ -26,7 +26,7 @@ class ImageResizeSyncController extends Controller
         $resizePath = $this->createResizePath($baseDirectory); //create resize path to images/yyyy/mm
 
         $fileArray = array();
-        $photos = Photo::where('resized', 0)->limit(15)->get();
+        $photos = Photo::where('resized', 0)->get();
         foreach($photos as $photo) {
 
             echo 'Resizing: '.$photo['image_path'];
