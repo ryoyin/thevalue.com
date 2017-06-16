@@ -92,6 +92,8 @@ class ImageResizeSyncController extends Controller
 
         }
 
+        $this->relinkArticleDescPhoto();
+
     }
 
     public function resizeImage($file, $resizePath, $filename, $fileExtension, $width, $blurVal)
