@@ -41,6 +41,8 @@ class SubscriptController extends Controller
 
         if($mobile != null) { // check device exists or not
 
+            echo 'here';
+
             // if diff locale
             if($mobile->locale != $userData['locale']) {
 
@@ -60,6 +62,8 @@ class SubscriptController extends Controller
                 $mobile->save();
 
             }
+
+            echo "mobile id: ".$mobile->id;
 
         } else {// else device not exists
 
@@ -92,6 +96,8 @@ class SubscriptController extends Controller
             $mobile->aws_sns_topic_id = $topicID;
             $mobile->subscription_arn = $subscriptionARN;
             $mobile->save();
+
+            echo "mobile id: ".$mobile->id;
 
         }
 
