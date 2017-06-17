@@ -73,6 +73,15 @@ class SubscriptController extends Controller
 
             // insert mobile data to DB
 
+
+
+            // subscribe topic
+            $topic = App\AWSSNSTopic::where('locale', $userData['locale'])->first();
+            $topicARN = $topic->topic_arn;
+            $topicID = $topic->id;
+//            $subscriptionARN = $this->subscribe($endpointARN, $topicARN);
+            $subscriptionARN = $this->subscribe($endpointARN, 'arn:aws:sns:ap-southeast-1:527599532354:ios-pn-fail');
+
             // os	type	token	user_data	locale	aws_sns_platform_id	endpoint_arn	aws_sns_topic_id	subscription_arn
             $mobile = new App\AWSSNSMobile;
             $mobile->uuid = $userData['uuid'];
@@ -86,13 +95,6 @@ class SubscriptController extends Controller
             $mobile->aws_sns_topic_id = $topicID;
             $mobile->subscription_arn = $subscriptionARN;
             $mobile->save();
-
-            // subscribe topic
-            $topic = App\AWSSNSTopic::where('locale', $userData['locale'])->first();
-            $topicARN = $topic->topic_arn;
-            $topicID = $topic->id;
-//            $subscriptionARN = $this->subscribe($endpointARN, $topicARN);
-            $subscriptionARN = $this->subscribe($endpointARN, 'arn:aws:sns:ap-southeast-1:527599532354:ios-pn-fail');
 
         }
 
