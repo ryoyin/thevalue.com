@@ -544,7 +544,7 @@ class IndexController extends Controller
 //        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
         $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->where('status', 'published')->get();
 
-        return $articleDetail;
+//        return $articleDetail;
 
         foreach($articleDetail as $detail) {
             $article = $detail->article;
