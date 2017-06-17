@@ -541,13 +541,19 @@ class IndexController extends Controller
     public function getSearchStories($keyword, $size = 'medium') {
         $articleList = array();
 //        echo $this->locale;
-//        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->get();
-        $articleDetail = App\ArticleDetail::where('lang', $this->locale)->where('title', 'like', '%'.$keyword.'%')->orWhere('description', 'like', '%'.$keyword.'%')->where('status', 'published')->get();
+        $articleDetail = App\ArticleDetail::where('lang', $this->locale)
+            ->where('status', 'published')
+            ->Where(function ($query) use ($keyword) {
+                $query->where('title', 'like', '%'.$keyword.'%')
+                    ->orWhere('description', 'like', '%'.$keyword.'%');
+            })->get();
 
 //        return $articleDetail;
 
         foreach($articleDetail as $detail) {
+
             $article = $detail->article;
+
             $photo = $article->photo;
 
             $image_path = "image_".$size."_path";
