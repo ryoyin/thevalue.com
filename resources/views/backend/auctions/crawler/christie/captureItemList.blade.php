@@ -59,27 +59,45 @@
                                                 <b>Sim</b> -{{ $saleArray['sale']['sim']['title'] }}
                                             </td>
                                             <td>
-                                                <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" id="int_sale_id" name="int_sale_id" value="{{ $intSaleID }}">
-                                                    <input type="submit" value="Try Again" class="btn btn-warning">
-                                                </form>
-                                                @if($saleArray !== false)
-                                                    <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
+                                                @if(isset($saleArray['db']))
+                                                    <p>
+                                                        <b>Series</b><br>
+                                                        ID: {{ $saleArray['db']['series']['main']['id'] }}<br>
+                                                        Name: {{ $saleArray['db']['series']['detail']['name'] }}
+                                                    <p>
+                                                        <b>Sale</b><br>
+                                                        ID: {{ $saleArray['db']['sale']['main']['id'] }}<br>
+                                                        Name: {{ $saleArray['db']['sale']['detail']['title'] }}
+                                                    <p>
+                                                    <a href="{{ route('backend.auction.christie.capture.uploadS3', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Push Image to S3</a>
+                                                @else
+
+                                                    <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" id="int_sale_id" name="int_sale_id" value="{{ $intSaleID }}">
+                                                        <input type="submit" value="Try Again" class="btn btn-warning">
+                                                    </form>
+                                                    @if($saleArray !== false)
+                                                        <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
+                                                    @endif
+                                                    <a href="{{ route('backend.auction.christie.capture.downloadImages', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Download Images</a>
+                                                    <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
+                                                    <p>
+
+                                                    {{--"series":{"7":{"id":14,"name":"\u502b\u6566\u4f73\u58eb\u5f972017\u62cd\u8ce3 - 7\u6708\u4efd","country":"\u82f1\u570b","location":"\u502b\u6566","lang":"trad","auction_series_id":7,"created_at":"2017-06-16 13:08:34","updated_at":"2017-06-16 13:08:34"}}}--}}
+
+
+                                                    <form method="POST" action="{{ route('backend.auction.christie.import.sale', ['intSaleID' => $intSaleID]) }}" class="form-group">
+                                                        {{ csrf_field() }}
+                                                        <div class="form-group">
+                                                            <label>Series</label>
+                                                            <input name="auction_series_id" type="text" class="form-control" placeholder="Enter ..." required>
+                                                        </div>
+                                                        <div class="form-footer">
+                                                            <input name="submit" type="submit" class="form-control">
+                                                        </div>
+                                                    </form>
                                                 @endif
-                                                <a href="{{ route('backend.auction.christie.capture.downloadImages', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Download Images</a>
-                                                <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
-                                                <p>
-                                                <form method="POST" action="{{ route('backend.auction.christie.import.sale', ['intSaleID' => $intSaleID]) }}" class="form-group">
-                                                    {{ csrf_field() }}
-                                                    <div class="form-group">
-                                                        <label>Series</label>
-                                                        <input name="auction_series_id" type="text" class="form-control" placeholder="Enter ..." required>
-                                                    </div>
-                                                    <div class="form-footer">
-                                                        <input name="submit" type="submit" class="form-control">
-                                                    </div>
-                                                </form>
 
                                             </td>
                                         </tr>
@@ -142,7 +160,7 @@
                                                 <div><b>Estimate:</b> {{ $lot['estimate'] }}</div>
                                                 <div><b>Realized:</b> {{ $lot['price'] }}</div>
                                                 <div>
-                                                    <img src="{{ asset('images/auctions/christie/sale/'.$intSaleID.'/'.$lot['number'].'-150.jpg') }}" class="img-responsive">
+                                                    <img src="{{ asset('images/auctions/christie/sale/'.$saleArray['sale']['id'].'/'.$lot['number'].'-150.jpg') }}" class="img-responsive">
                                                 </div>
                                             </td>
                                         </tr>

@@ -115,7 +115,7 @@ class ChristieController extends Controller
 
     public function getSaleByIntSaleID($intSaleID)
     {
-        set_time_limit(600);
+        set_time_limit(6000);
 
         echo "<p>";
         echo 'Spider '.$intSaleID.' start';
@@ -505,7 +505,7 @@ class ChristieController extends Controller
 
             echo $storePath.$lot['number'].'.jpg<br>';
 
-            $publicStoragePath = base_path().'/public/images/auctions/christie/sale/'.$intSaleID.'/';
+            $publicStoragePath = base_path().'/public/images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
 
             $existImage = array();
             $existImage[] = $publicStoragePath.$lot['number'].'-150.jpg';
@@ -534,13 +534,51 @@ class ChristieController extends Controller
 
             $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
 
-            $resize = $this->imgResize($intSaleID, $lot['number']);
+            $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
 
 //            exit;
 
         }
 
         return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+
+    }
+
+    public function uploadS3($intSaleID)
+    {
+        set_time_limit(6000);
+
+        $intSaleID = trim($intSaleID);
+
+        $locale = App::getLocale();
+
+        $path = 'spider/christie/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        echo $saleArray['sale']['id'];
+//        exit;
+
+        $saleID = $saleArray['db']['sale']['main']['id'];
+
+        $sale = App\AuctionSale::find($saleID);
+
+//        dd($sale);
+
+        $items = $sale->items;
+
+        foreach($items as $item) {
+
+            $baseDirectory = base_path().'/public';
+            $this->pushS3($baseDirectory, $item->image_fit_path);
+            $this->pushS3($baseDirectory, $item->image_large_path);
+            $this->pushS3($baseDirectory, $item->image_medium_path);
+            $this->pushS3($baseDirectory, $item->image_small_path);
+
+        }
+
+        return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
 
     }
 
@@ -562,7 +600,7 @@ class ChristieController extends Controller
         return $image_path;
     }
 
-    public function imgResize($intSaleID, $lotNumber)
+    public function imgResize($intSaleID, $lotNumber, $saleNumber)
     {
         $file = 'spider/christie/sale/'.$intSaleID.'/'.$lotNumber.'.jpg';
 
@@ -573,7 +611,7 @@ class ChristieController extends Controller
         $exFile = explode('/', $file);
         $christieIntSaleID = $exFile[3];
 
-        $storePath = 'images/auctions/christie/sale/' . $christieIntSaleID . '/';
+        $storePath = 'images/auctions/christie/sale/' . $saleNumber . '/';
 
         if(!file_exists(base_path().'/public/'.$storePath)) mkdir(base_path().'/public/'.$storePath);
 
@@ -658,7 +696,7 @@ class ChristieController extends Controller
 
         $saleArray = json_decode($json, true);
 
-//        dd($saleArray);
+        // dd($saleArray);
 
         // download sale cover image
         $storePath = 'spider/christie/sale/'.$intSaleID.'/';
@@ -666,7 +704,7 @@ class ChristieController extends Controller
         $saleNumber = $saleArray['sale']['id'];
 
         $image_path = $this->GetImageFromUrl($storePath, $link, 'christies-sale-'.$saleNumber);
-        $resize = $this->imgResize($intSaleID, 'christies-sale-'.$saleNumber);
+        $resize = $this->imgResize($intSaleID, 'christies-sale-'.$saleNumber, $saleNumber);
 
         // insert auction_sales
         // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
@@ -745,7 +783,7 @@ class ChristieController extends Controller
         // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
         // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status, auction_sale_id
 
-        $image_path = 'images/auctions/christie/sale/'.$intSaleID.'/';
+        $image_path = 'images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
 
         $counter = 10;
 
@@ -756,6 +794,7 @@ class ChristieController extends Controller
             foreach($exMediumDimensions as $dItem) {
                 if (stripos($dItem, "cm.") !== false) {
                     $dimension = str_replace('Â', '', trim($dItem));
+                    $dimension = str_replace('Ã¨', 'è', $dimension);
                     //echo $dimension."\n";
                     //echo '<br>';
                     break;
@@ -783,8 +822,10 @@ class ChristieController extends Controller
             } else {
                 $exEstimate = explode('-', $estimate);
                 $estimate_value_initial = str_replace('Â£', '', trim($exEstimate[0]));
+                $estimate_value_initial = str_replace('â¬', '', $estimate_value_initial);
                 $estimate_value_initial = str_replace(',', '', $estimate_value_initial);
                 $estimate_value_end = str_replace('Â£', '', trim($exEstimate[1]));
+                $estimate_value_end = str_replace('â¬', '', $estimate_value_end);
                 $estimate_value_end = str_Replace(',', '', $estimate_value_end);
             }
 
@@ -796,13 +837,55 @@ class ChristieController extends Controller
 
             $item->save();
 
+            $itemID = $item->id;
+            echo '<br>';
+            echo $itemID.'<br>';
+
             // insert auction_item_details
             // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
+            foreach($supported_languages as $lang) {
+                $itemDetail = New App\AuctionItemDetail;
+                $itemDetail->title = $lot[$lang]['title'];
+                $itemDetail->description = $lot[$lang]['description'];
+                $itemDetail->maker = $lot['maker'];
+                $itemDetail->misc = $lot[$lang]['secondary_title'];
+                $itemDetail->lang = $lang;
+                $itemDetail->auction_item_id = $itemID;
+                $itemDetail->save();
+            }
 
             $counter += 10;
 
         }
 
+
+        $saleArray['db']['series'] = array(
+            'main' => $series,
+            'detail' => $series->getDetailByLang('trad')
+        );
+
+        $saleArray['db']['sale'] = array(
+            'main' => $sale,
+            'detail' => $sale->getDetailByLang('trad')
+        );
+
+        $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        Storage::disk('local')->put($path, json_encode($saleArray));
+
+        // backend.auction.itemList
+        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+
+    }
+
+    public function pushS3($baseDirectory, $filePath)
+    {
+        $s3 = \Storage::disk('s3');
+        $localPath = $baseDirectory.'/'.$filePath;
+
+        echo $localPath;
+
+        $image = fopen($localPath, 'r+');
+        $s3->put('/'.$filePath, $image, 'public');
     }
 
 }

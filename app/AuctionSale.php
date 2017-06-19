@@ -19,6 +19,11 @@ class AuctionSale extends Model
         return $this->hasMany('App\AuctionSaleDetail');
     }
 
+    public function getDetailByLang($lang)
+    {
+        return $this->details()->where('lang', $lang)->first();
+    }
+
     public function times()
     {
         return $this->hasMany('App\AuctionSaleTime');
