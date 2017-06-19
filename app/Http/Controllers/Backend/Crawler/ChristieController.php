@@ -823,9 +823,11 @@ class ChristieController extends Controller
                 $exEstimate = explode('-', $estimate);
                 $estimate_value_initial = str_replace('Â£', '', trim($exEstimate[0]));
                 $estimate_value_initial = str_replace('â¬', '', $estimate_value_initial);
+                $estimate_value_initial = str_replace('$', '', $estimate_value_initial);
                 $estimate_value_initial = str_replace(',', '', $estimate_value_initial);
                 $estimate_value_end = str_replace('Â£', '', trim($exEstimate[1]));
                 $estimate_value_end = str_replace('â¬', '', $estimate_value_end);
+                $estimate_value_end = str_replace('$', '', $estimate_value_end);
                 $estimate_value_end = str_Replace(',', '', $estimate_value_end);
             }
 
