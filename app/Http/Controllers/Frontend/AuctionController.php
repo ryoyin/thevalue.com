@@ -105,7 +105,10 @@ class AuctionController extends Controller
             'menuBanner' => $menuBanner,
         );
 
-        if(count($seriesArray) == 0) return view('frontend.auction.company.empty', $data);
+        if(count($seriesArray) == 0) {
+            $data['auctionType'] = 'pre';
+            return view('frontend.auction.company.empty', $data);
+        }
 //        dd($seriesArray);
         $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->first();
 
@@ -151,9 +154,10 @@ class AuctionController extends Controller
 
         $house = App\AuctionHouse::where('slug', $house)->first();
         $houseDetail = $house->details()->where('lang', $locale)->first();
-        $seriesArray = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(100)->format('Y-m-d'))->orderBy('start_date')->get();
+        $seriesArray = $house->series()->whereDate('end_date', '<=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->get();
 //        dd($seriesArray);
-        $presetSeries = $house->series()->whereDate('end_date', '>=', Carbon::now()->subDays(100)->format('Y-m-d'))->orderBy('start_date')->first();
+
+        $presetSeries = $house->series()->whereDate('end_date', '<=', Carbon::now()->format('Y-m-d'))->orderBy('start_date')->first();
 
         $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
@@ -167,6 +171,11 @@ class AuctionController extends Controller
             'presetSeries' => $presetSeries,
             'menuBanner' => $menuBanner,
         );
+
+        if(count($seriesArray) == 0) {
+            $data['auctionType'] = 'post';
+            return view('frontend.auction.company.empty', $data);
+        }
 
         if($request->input('type') !== null) {
             switch ($request->input('type')) {

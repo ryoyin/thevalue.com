@@ -64,5 +64,6 @@ return [
     'bought-in' => '未成交',
     'withdraw' => '未成交',
     'no-upcoming-auction' => '未有预展拍卖记录',
+    'no-psot-auction' => '未有过往拍卖记录',
     'download-android-apk' => 'Android 软件平台下载',
 ];

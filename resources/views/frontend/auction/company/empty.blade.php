@@ -40,15 +40,29 @@
 
                 <div id="category-head" class="tab auction-menu">
                     <ul>
-                        <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-1 active">@lang('thevalue.pre-auction')</a></li>
-                        <li><a href="{{ route('frontend.auction.house.post', ['house' => $house->slug]) }}" class="tab-2">@lang('thevalue.post-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-1
+                         @if($auctionType == 'pre')
+                            active
+                        @endif
+                        ">@lang('thevalue.pre-auction')</a></li>
+                        <li><a href="{{ route('frontend.auction.house.post', ['house' => $house->slug]) }}" class="tab-2
+                        @if($auctionType == 'post')
+                                    active
+                                @endif
+                        ">@lang('thevalue.post-auction')</a></li>
                         <li><a href="{{ route('frontend.auction.house.upcoming', ['house' => $house->slug]) }}" class="tab-3">@lang('thevalue.about-us')</a></li>
                     </ul>
                 </div>
 
                 <div style="clear: both"></div>
 
-                <div style="padding: 100px; height: 300px; font-weight: bold; font-size: 30px; text-align: center;">@lang('thevalue.no-upcoming-auction')</div>
+                <div style="padding: 100px; height: 300px; font-weight: bold; font-size: 30px; text-align: center;">
+                    @if($auctionType == 'pre')
+                        @lang('thevalue.no-upcoming-auction')
+                    @else
+                        @lang('thevalue.no-post-auction')
+                    @endif
+                </div>
 
             </div>
 
