@@ -905,7 +905,7 @@ class ChristieController extends Controller
 
         foreach($items as $item) {
 
-            $content = $this->getLotLocale($int_sale_id, 'en', $item->number);
+            $content = $this->getLotLocale($intSaleID, 'en', $item->number);
 
             if(!$content) {
                 $item->sold_value = null;
