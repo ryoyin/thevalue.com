@@ -1,5 +1,5 @@
 <!-- Link Swiper's CSS -->
-<link rel="stylesheet" href="{{ asset('js/swiper/swiper.min.css') }}">
+<link rel="stylesheet" href="{{ asset('js/swiper/swiper.min.css?update=2017062101') }}">
 
 <!-- Swipe Custom styles -->
 <link rel="stylesheet" href="{{ asset('js/swiper/swiper.custom.css') }}">
@@ -39,7 +39,7 @@
         swiper[i].slideTo(slideTo);
     }*/
 
-    swiper.slideTo(2);
+//    swiper.slideTo(2);
 
     $(window).resize(function() {
         if(window.screen.availWidth <=460) {

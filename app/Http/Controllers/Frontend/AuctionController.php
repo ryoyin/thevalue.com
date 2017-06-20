@@ -31,12 +31,13 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
-        $auctionDateLogic = array('upcoming' => '>=', 'post' => '>=');
+        $auctionDateLogic = array('upcoming' => '>=', 'post' => '<');
 
         $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->get();
 
         if($slug == 'post') {
-            $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->subDays(100)->format('Y-m-d'))->get();
+            $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->get();
+            echo Carbon::now()->format('Y-m-d');
         }
 //        dd($series);
 

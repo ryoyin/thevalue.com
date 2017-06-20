@@ -1,7 +1,7 @@
 <div class="pre-auction-block pre-ab-1">
     @foreach($series as $auction)
         <?php
-            if($auction->id == 2) break;
+            if($auction->id == 2) continue;
             $house = $auction->house;
             $houseDetail = $house->details->where('lang', $locale)->first();
 
