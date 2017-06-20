@@ -890,4 +890,44 @@ class ChristieController extends Controller
         $s3->put('/'.$filePath, $image, 'public');
     }
 
+    public function getRealizedPrice($intSaleID)
+    {
+        $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+        $saleID =  $saleArray['db']['sale']['main']['id'];
+
+        $sale = App\AuctionSale::find($saleID);
+
+        $items = $sale->items;
+
+        foreach($items as $item) {
+
+            $content = $this->getLotLocale($int_sale_id, 'en', $item->number);
+
+            if(!$content) {
+                $item->sold_value = null;
+                $item->status = 'withdraw';
+                $item->save();
+                continue;
+            }
+
+            if($content['sold_value'] == null) {
+                $item->sold_value = null;
+                $item->status = 'bought in';
+                $item->save();
+                continue;
+            }
+
+            $item->sold_value = $this->convertValue($content['sold_value']);
+            $item->status = 'sold';
+            $item->save();
+
+        }
+    }
+
+
+
 }
