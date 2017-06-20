@@ -30,7 +30,9 @@
           @endif
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List</h3> <a href="{{ action('Backend\ArticleController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
+              <h3 class="box-title">List</h3>
+              <a href="{{ action('Backend\ArticleController@create') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>
+              <a href="{{ action('ImageResizeSyncController@index') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;" target="_blank">Image Resize</a>
             </div><!-- /.box-header -->
             <div class="box-body">
               {{ $articles->links() }}

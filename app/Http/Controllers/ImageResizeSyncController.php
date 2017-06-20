@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\ArticleDetail;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\File;
@@ -30,7 +31,7 @@ class ImageResizeSyncController extends Controller
         foreach($photos as $photo) {
 
             echo 'Resizing: '.$photo['image_path'];
-            echo "\n";
+            echo "\n<br>";
 
             if(strpos($photo['image_path'], 'gif')) {
                 $photo->resized = 1;
@@ -45,10 +46,10 @@ class ImageResizeSyncController extends Controller
 
             $imageOrg = $resizePath.'/'.$fullFilename;
 //            echo $imagePath;
-//            echo "\n";
+//            echo "\n<br>";
 //
 //            echo $imageOrg;
-//            echo "\n";
+//            echo "\n<br>";
 //            return;
 
             copy($imagePath, $imageOrg);
@@ -161,7 +162,7 @@ class ImageResizeSyncController extends Controller
 
         foreach($details as $detail) {
 
-//            echo $detail['description']."\n";
+//            echo $detail['description']."\n<br>";
 
             // find detail contain image or not
             $desc = $detail->description;
@@ -169,17 +170,17 @@ class ImageResizeSyncController extends Controller
 
             if($examine) { // found image
 
-                echo "Article ID: ".$detail['article_id']."\n";
+                echo "Article ID: ".$detail['article_id']."\n<br>";
 
                 $s3_path = config("app.s3_path");
-//                echo $s3_path."\n";
+//                echo $s3_path."\n<br>";
 
                 foreach($match[1] as $src) {
                     if(!strpos($src, $s3_path)) { // image not at S3
 
-//                        echo $src."\n";
+//                        echo $src."\n<br>";
                         $filename = basename($src);
-                        echo $filename."\n";
+                        echo $filename."\n<br>";
 
                         // search image at photo library
                         $photo = Photo::where('image_path', 'like', '%/'.$filename)->first();
@@ -190,11 +191,11 @@ class ImageResizeSyncController extends Controller
 
                             $new_image_path = $s3_path.$photo->image_medium_path;
 //                            echo $new_image_path;
-//                            echo "\n";
+//                            echo "\n<br>";
                             $desc = str_replace($src, $new_image_path, $desc);
 
                         } else {
-                            echo $src." not found in photo library!\n";
+                            echo $src." not found in photo library!\n<br>";
                         }
 
 //                        dd($photo);

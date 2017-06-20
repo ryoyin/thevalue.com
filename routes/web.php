@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/downloadImages', 'Backend\Crawler\ChristieController@downloadImages')->name('backend.auction.christie.capture.downloadImages');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/uploadS3', 'Backend\Crawler\ChristieController@uploadS3')->name('backend.auction.christie.capture.uploadS3');
+    Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/getRealizedPrice', 'Backend\Crawler\ChristieController@getRealizedPrice')->name('backend.auction.christie.capture.getRealizedPrice');
     Route::post('tvadmin/auction/crawler/christie/import/sale/{intSaleID}', 'Backend\Crawler\ChristieController@importSale')->name('backend.auction.christie.import.sale');
 
     // Auction YiDu Crawler
@@ -116,8 +117,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemUpdate')->name('backend.auction.itemUpdate');
 
     //get realized-price
-    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
-    Route::get('/christie-convert-price', 'Scripts\ImportChristieSaleController@convertPrice');
+//    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
+//    Route::get('/christie-convert-price', 'Scripts\ImportChristieSaleController@convertPrice');
 
 
 
@@ -131,6 +132,8 @@ Route::group(['middleware' => 'auth'], function() {
 //    Route::get('/bjac-insertItem5', 'Backend\BJAntiqueCityController@insertItem5');
 //    Route::get('/bjac-imgResize', 'Backend\BJAntiqueCityController@imgResize');
 //    Route::get('/bjac-imgResizeFill', 'Backend\BJAntiqueCityController@imgResize');
+
+    Route::get('tvadmin/articles/imageResize', 'ImageResizeSyncController@index')->name('backend.articles.imageResize');
 
 });
 
