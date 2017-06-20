@@ -928,6 +928,20 @@ class ChristieController extends Controller
         }
     }
 
+    private function convertValue($value)
+    {
+        $value = str_replace(',', '', $value);
+
+        $exValue = explode(' ', $value);
+
+        if(count($exValue) == 2) {
+            $value = $exValue[1];
+        }
+
+        $value = trim($value);
+
+        return $value;
+    }
 
 
 }
