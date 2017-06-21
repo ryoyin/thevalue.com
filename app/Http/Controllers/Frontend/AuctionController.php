@@ -37,7 +37,7 @@ class AuctionController extends Controller
 
         if($slug == 'post') {
             $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->get();
-            echo Carbon::now()->format('Y-m-d');
+//            echo Carbon::now()->format('Y-m-d');
         }
 //        dd($series);
 
