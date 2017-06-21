@@ -892,6 +892,8 @@ class ChristieController extends Controller
 
     public function getRealizedPrice($intSaleID)
     {
+        set_time_limit(6000);
+
         $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
         $json = Storage::disk('local')->get($path);
 
@@ -926,6 +928,55 @@ class ChristieController extends Controller
             $item->save();
 
         }
+
+        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+
+    }
+
+    public function getRealizedPrice2($intSaleID)
+    {
+        set_time_limit(6000);
+
+        $saleArray = $this->getJSONContent($intSaleID);
+
+        $saleID = $saleArray['db']['sale']['main']['id'];
+
+        $content = $this->getContent($intSaleID); // get content from christie
+
+        echo 'Spider '.$intSaleID.' start';
+        echo "\n<br>";
+
+        $saleArray = $this->makeSaleInfo($intSaleID, $content, false);
+
+        $sale = App\AuctionSale::find($saleID);
+
+        foreach($saleArray['lots'] as $lot) {
+            $item = $sale->items()->where('number', $lot['number'])->first();
+            if(count($item) > 0){
+                if($lot['price'] != null) {
+                    $item->sold_value = $this->convertValue2($lot['price']);
+                    $item->status = 'sold';
+                } else {
+                    $item->sold_value = null;
+                    $item->status = 'bought in';
+                }
+                $item->save();
+            }
+        }
+
+        $items = $sale->items()->where('status', 'pending')->get();
+
+        foreach($items as $item) {
+            $item->status = 'withdraw';
+            $item->save();
+        }
+
+
+        echo 'Spider '.$intSaleID.' end';
+        echo "\n<br>";
+
+        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+
     }
 
     private function convertValue($value)
@@ -941,6 +992,31 @@ class ChristieController extends Controller
         $value = trim($value);
 
         return $value;
+    }
+
+    private function convertValue2($value)
+    {
+        $value = str_replace(',', '', $value);
+
+        $exValue = explode('$', $value);
+
+        if(count($exValue) == 2) {
+            $value = $exValue[1];
+        }
+
+        $value = trim($value);
+
+        return $value;
+    }
+
+    private function getJSONContent($intSaleID)
+    {
+        $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+        return $saleArray;
     }
 
 

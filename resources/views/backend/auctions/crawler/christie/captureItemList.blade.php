@@ -70,7 +70,9 @@
                                                         Name: {{ $saleArray['db']['sale']['detail']['title'] }}
                                                     <p>
                                                     <a href="{{ route('backend.auction.christie.capture.uploadS3', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Push Image to S3</a>
-                                                    <a href="{{ route('backend.auction.christie.capture.getRealizedPrice', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Get Realized Price</a>
+                                                    <p>
+                                                    <a href="{{ route('backend.auction.christie.capture.getRealizedPrice', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Get Realized Price Method 1</a>
+                                                    <a href="{{ route('backend.auction.christie.capture.getRealizedPrice2', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Get Realized Price Method2</a>
                                                 @else
 
                                                     <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
