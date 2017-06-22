@@ -1053,13 +1053,20 @@ class ChristieController extends Controller
 
     private function convertValue2($value)
     {
+        trim($value);
+
         $value = str_replace(',', '', $value);
 
-        $exValue = explode('$', $value);
+        // $exValue = explode('$', $value);
 
-        if(count($exValue) == 2) {
+        $value = str_replace('$', '', $value);
+        $value = str_replace('Â£', '', $value);
+
+//        Â£
+
+        /*if(count($exValue) == 2) {
             $value = $exValue[1];
-        }
+        }*/
 
         $value = trim($value);
 
