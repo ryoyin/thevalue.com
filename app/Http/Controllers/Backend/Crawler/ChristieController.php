@@ -624,7 +624,7 @@ class ChristieController extends Controller
                 continue;
             }
 
-            if($item->image_fit_path == 'thevalue-no-image.jpeg') {
+            if(basename($item->image_fit_path) == 'thevalue-no-image.jpeg') {
                 continue;
             }
 
