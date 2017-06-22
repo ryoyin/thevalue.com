@@ -624,6 +624,10 @@ class ChristieController extends Controller
                 continue;
             }
 
+            if($item->image_fit_path == 'thevalue-no-image.jpeg') {
+                continue;
+            }
+
             $uploadedImages[] = $item->image_fit_path;
 
             $baseDirectory = base_path().'/public';
