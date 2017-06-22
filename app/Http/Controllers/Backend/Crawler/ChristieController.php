@@ -500,45 +500,89 @@ class ChristieController extends Controller
 
         $storePath = 'spider/christie/sale/'.$intSaleID.'/';
 
-        foreach($saleArray['lots'] as $lot) {
+        $downloadedImages = array();
+
+        foreach($saleArray['lots'] as $index => $lot) {
             $link = str_replace('s.jpg', 'a.jpg', $lot['image_path']);
 
-            echo $storePath.$lot['number'].'.jpg<br>';
+            if(basename($link) == 'no-image-75.jpg') {
 
-            $publicStoragePath = base_path().'/public/images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
+                $link = 'images/thevalue-no-image.jpeg';
+                $image_small_path = $link;
+                $image_medium_path = $link;
+                $image_large_path = $link;
+                $image_fit_path = $link;
 
-            $existImage = array();
-            $existImage[] = $publicStoragePath.$lot['number'].'-150.jpg';
-            $existImage[] = $publicStoragePath.$lot['number'].'-500.jpg';
-            $existImage[] = $publicStoragePath.$lot['number'].'-1140.jpg';
-            $existImage[] = $publicStoragePath.$lot['number'].'-fit-250.jpg';
+            } else {
 
-            $imageExists = false;
+                // search for existing image
+                $searchArray = array_search($link, $downloadedImages);
+                if ($searchArray) {
 
-            foreach($existImage as $image) {
-                echo $image;
-                echo '<br>';
-                if(file_exists($image)) {
-                    $imageExists = true;
-                    echo 'file exist';
-                    echo '<br>';
-                    continue;
+//                $storagePath = base_path().'/public/images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
+                    $spiderStoragePath = 'images/auctions/christie/sale/' . $saleArray['sale']['id'] . '/';
+
+                    $image_small_path = $spiderStoragePath . $searchArray . '-150.jpg';
+                    $image_medium_path = $spiderStoragePath . $searchArray . '-500.jpg';
+                    $image_large_path = $spiderStoragePath . $searchArray . '-1140.jpg';
+                    $image_fit_path = $spiderStoragePath . $searchArray . '-fit-250.jpg';
+
+                } else {
+                    $downloadedImages[$lot['number']] = $link;
+
+                    echo $storePath . $lot['number'] . '.jpg<br>';
+
+//                $publicStoragePath = base_path().'/public/images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
+                    $spiderStoragePath = 'images/auctions/christie/sale/' . $saleArray['sale']['id'] . '/';
+
+                    $existImage = array();
+
+                    $image_small_path = $spiderStoragePath . $lot['number'] . '-150.jpg';
+                    $image_medium_path = $spiderStoragePath . $lot['number'] . '-500.jpg';
+                    $image_large_path = $spiderStoragePath . $lot['number'] . '-1140.jpg';
+                    $image_fit_path = $spiderStoragePath . $lot['number'] . '-fit-250.jpg';
+
+                    $existImage[] = $image_small_path;
+                    $existImage[] = $image_medium_path;
+                    $existImage[] = $image_large_path;
+                    $existImage[] = $image_fit_path;
+
+                    $imageExists = false;
+
+                    foreach ($existImage as $image) {
+                        echo $image;
+                        echo '<br>';
+                        if (file_exists($image)) {
+                            $imageExists = true;
+                            echo 'file exist';
+                            echo '<br>';
+                            continue;
+                        }
+                    }
+
+                    if ($imageExists) {
+                        continue;
+                    }
+
+                    $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
+                    $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
+
                 }
             }
 
-            if($imageExists) {
-                continue;
-            }
+            $saleArray['lots'][$index]['saved_image_path'] = array(
+                'image_small_path' => $image_small_path,
+                'image_medium_path' => $image_medium_path,
+                'image_large_path' => $image_large_path,
+                'image_fit_path' => $image_fit_path
+            );
 
-//            exit;
-
-            $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
-
-            $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
-
-//            exit;
+            //test 10 photos
+            // if($index > 10) break;
 
         }
+
+        Storage::disk('local')->put($path, json_encode($saleArray));
 
         return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
 
@@ -568,9 +612,22 @@ class ChristieController extends Controller
 
         $items = $sale->items;
 
+        $uploadedImages = array();
+
         foreach($items as $item) {
 
+            if(in_array($item->image_fit_path, $uploadedImages)) {
+                echo $item->image_fit_path;
+                echo '<br>';
+                echo 'duplicated';
+                echo '<br>';
+                continue;
+            }
+
+            $uploadedImages[] = $item->image_fit_path;
+
             $baseDirectory = base_path().'/public';
+
             $this->pushS3($baseDirectory, $item->image_fit_path);
             $this->pushS3($baseDirectory, $item->image_large_path);
             $this->pushS3($baseDirectory, $item->image_medium_path);
@@ -578,7 +635,7 @@ class ChristieController extends Controller
 
         }
 
-        return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
+//        return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
 
     }
 
@@ -806,11 +863,11 @@ class ChristieController extends Controller
             $item->dimension = $dimension;
             $item->number = $lot['number'];
             $item->source_image_path = $lot['image_path'];
-            $item->image_path = $image_path.$lot['number'].'.jpg';
-            $item->image_fit_path = $image_path.$lot['number'].'-fit-250.jpg';
-            $item->image_large_path = $image_path.$lot['number'].'-1140.jpg';
-            $item->image_medium_path = $image_path.$lot['number'].'-500.jpg';
-            $item->image_small_path = $image_path.$lot['number'].'-150.jpg';
+            $item->image_path = $lot['image_path'];
+            $item->image_fit_path = $lot['saved_image_path']['image_fit_path'];
+            $item->image_large_path = $lot['saved_image_path']['image_large_path'];
+            $item->image_medium_path = $lot['saved_image_path']['image_medium_path'];
+            $item->image_small_path = $lot['saved_image_path']['image_small_path'];
             $item->currency_code = $house->currency_code;
 
             $estimate = $lot['estimate'];

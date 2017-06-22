@@ -163,7 +163,12 @@
                                                 <div><b>Estimate:</b> {{ $lot['estimate'] }}</div>
                                                 <div><b>Realized:</b> {{ $lot['price'] }}</div>
                                                 <div>
-                                                    <img src="{{ asset('images/auctions/christie/sale/'.$saleArray['sale']['id'].'/'.$lot['number'].'-150.jpg') }}" class="img-responsive">
+                                                    <?php
+//                                                        dd($lot);
+                                                    ?>
+                                                    @if(isset($lot['saved_image_path']))
+                                                        <img src="{{ asset($lot['saved_image_path']['image_small_path']) }}" class="img-responsive">
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
