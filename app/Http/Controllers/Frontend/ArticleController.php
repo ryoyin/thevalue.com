@@ -98,7 +98,7 @@ class ArticleController extends Controller
             'type' => "article",
             'title' => $articleDetails->title,
             "description" => $articleDetails->short_desc,
-            "image" => url($article->photo->image_path),
+            "image" => url($article->photo->image_large_path),
             "app_id" => "1149533345170108"
         );
 
