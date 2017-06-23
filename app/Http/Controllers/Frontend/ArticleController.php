@@ -92,14 +92,20 @@ class ArticleController extends Controller
 
 //        dd($appArticleBanner);
 
+        if($article->photo->image_large_path != null) {
+            $og_image_path = $article->photo->image_large_path;
+        } else {
+            $og_image_path = $article->photo->image_path;
+        }
+
         $fbMetaArray = array(
             'site_name' => "TheValue",
-            'url' => "https://www.thevalue.com/".$lang."/article/".$slug,
-            //'url' => route('frontend.article', ['slug' => $slug]),
+            //'url' => "https://www.thevalue.com/".$lang."/article/".$slug,
+            'url' => route('frontend.article', ['slug' => $slug]),
             'type' => "article",
             'title' => $articleDetails->title,
             "description" => $articleDetails->short_desc,
-            "image" => url($article->photo->image_large_path),
+            "image" => url($og_image_path),
             "app_id" => "1149533345170108"
         );
 
