@@ -48,10 +48,15 @@
                                                 <br>
                                                 <b>Sale ID:</b> {{ $saleArray['sale']['id'] }}<br>
                                                 <b>Auction Date:</b> {{ $saleArray['sale']['date']['datetime'] }}<br>
-                                                <b>Viewing Date:</b><br>
-                                                @foreach($saleArray['viewing']['time'] as $viewingTime)
-                                                    {{ $viewingTime['start_datetime'] }} - {{ $viewingTime['end_datetime'] }}<br>
-                                                @endforeach
+                                                @if(isset($saleArray['viewing']))
+                                                    <b>Viewing Date:</b><br>
+
+
+                                                    @foreach($saleArray['viewing']['time'] as $viewingTime)
+                                                        {{ $viewingTime['start_datetime'] }} - {{ $viewingTime['end_datetime'] }}<br>
+                                                    @endforeach
+
+                                                @endif
                                             </td>
                                             <td>
                                                 <b>EN</b> -{{ $saleArray['sale']['en']['title'] }}<br>
