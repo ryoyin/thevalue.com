@@ -1,6 +1,12 @@
 <div class="pre-auction-block pre-ab-1">
     @foreach($series as $auction)
         <?php
+            // check any active sale
+            $sales = $auction->sales()->where('end_date', '>=', Carbon\Carbon::now()->format('Y-m-d'))->get();
+            if(count($sales) == 0) continue;
+
+//            $sales = $auction->sale;
+
             $house = $auction->house;
             $houseDetail = $house->details->where('lang', $locale)->first();
 
@@ -36,7 +42,7 @@
                 <div class="datetime">@lang('thevalue.auction-date'): {{ $auctionDate[$locale] }}</div>
                 <div class="datetime">@lang('thevalue.auction-location'): {{ $auctionDetail->location }}</div>
                 <?php
-                    $sales = $auction->sales;
+//                $sales = $auction->sale;
 
                     $saleCounter = 0;
                 ?>

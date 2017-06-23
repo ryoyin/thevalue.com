@@ -52,19 +52,19 @@
         }
     });
 
-    /*function updateSwiper(slidesPerView, swiperTo) {
+    function updateSwiper(slidesPerView, swiperTo) {
         for(var i=0; i < swiper.length; i++) {
             swiper[i].params.slidesPerView = slidesPerView;
             swiper[i].update();
             swiper[i].slideTo(swiperTo);
         }
-    }*/
-
-    function updateSwiper(slidesPerView, swiperTo) {
-        swiper.params.slidesPerView = slidesPerView;
-        swiper.update();
-        swiper.slideTo(swiperTo);
     }
+
+//    function updateSwiper(slidesPerView, swiperTo) {
+//        swiper.params.slidesPerView = slidesPerView;
+//        swiper.update();
+//        swiper.slideTo(swiperTo);
+//    }
 
    //    console.log(swiper);
 </script>
