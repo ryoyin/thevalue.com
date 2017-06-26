@@ -547,25 +547,23 @@ class ChristieController extends Controller
                     $existImage[] = $image_large_path;
                     $existImage[] = $image_fit_path;
 
-                    $imageExists = false;
+                    $imageNotFound = false;
 
                     foreach ($existImage as $image) {
                         echo $image;
                         echo '<br>';
-                        if (file_exists($image)) {
-                            $imageExists = true;
+                        if (!file_exists($image)) {
+                            $imageNotFound = true;
                             echo 'file exist';
                             echo '<br>';
                             continue;
                         }
                     }
 
-                    if ($imageExists) {
-                        continue;
+                    if ($imageNotFound) {
+                        $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
+                        $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
                     }
-
-                    $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
-                    $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
 
                 }
             }
