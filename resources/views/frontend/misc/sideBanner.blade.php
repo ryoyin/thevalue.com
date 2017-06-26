@@ -95,13 +95,15 @@
 //            h: 400
 //        },
 
-        @foreach($bannerImages as $img)
-        {
-            src: '{{ asset($img['image_path']) }}',
-            w: {{ $img[0] }},
-            h: {{ $img[1] }}
-        },
-        @endforeach
+        @if(isset($bannerImages))
+                @foreach($bannerImages as $img)
+                {
+                    src: '{{ asset($img['image_path']) }}',
+                    w: {{ $img[0] }},
+                    h: {{ $img[1] }}
+                },
+                @endforeach
+        @endif
     ];
 
 
