@@ -862,6 +862,10 @@ class ChristieController extends Controller
                 }
             }
 
+            // filter "Provenance:" from medium-dimension
+            $exDimension = explode('Provenance', $dimension);
+            $dimension = $exDimension[0];
+
             $item = New App\AuctionItem;
             $item->slug = $slug.'-'.$lot['number'];
             $item->dimension = $dimension;
