@@ -1,6 +1,6 @@
 <ul class='ul-clean'>
     <li class='title' id="article-title">{{ $articleDetails['title'] }}</li>
-    <li>
+    {{--<li>
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-8545127753274353"
@@ -9,7 +9,7 @@
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-    </li>
+    </li>--}}
     <li class='notes' id="article-note">{{ $articleDetails['note'] }}</li>
     <li>
         <ul class='misc ul-clean'>
