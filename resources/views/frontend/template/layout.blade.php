@@ -20,7 +20,13 @@
             echo '<img src="'.$image_path.'" class="img-responsive">';
         ?>
     </div>
-@else
+@endif
+
+@include('frontend.template.dropdown-menu')
+
+<div class="container">
+
+
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-8545127753274353"
@@ -29,11 +35,7 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-@endif
 
-@include('frontend.template.dropdown-menu')
-
-<div class="container">
 
     @include('frontend.template.header')
 
