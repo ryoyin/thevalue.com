@@ -915,7 +915,14 @@ class ChristieController extends Controller
                 $itemDetail->title = $lot[$lang]['title'];
                 $itemDetail->description = $lot[$lang]['description'];
                 $itemDetail->maker = $lot['maker'];
-                $itemDetail->misc = $lot[$lang]['secondary_title'];
+
+
+                if(strlen($lot[$lang]['secondary_title']) <= 255) {
+                    $itemDetail->misc = $lot[$lang]['secondary_title'];
+                } else {
+                    $itemDetail->misc = '';
+                }
+
                 $itemDetail->lang = $lang;
                 $itemDetail->auction_item_id = $itemID;
                 $itemDetail->save();
