@@ -2,7 +2,7 @@
     @foreach($series as $auction)
         <?php
             // check any active sale
-            $sales = $auction->sales()->where('end_date', '>=', Carbon\Carbon::now()->format('Y-m-d'))->get();
+            $sales = $auction->sales()->where('end_date', '>=', Carbon\Carbon::now()->format('Y-m-d'))->orderBy('start_date')->get();
             if(count($sales) == 0) continue;
 
 //            $sales = $auction->sale;

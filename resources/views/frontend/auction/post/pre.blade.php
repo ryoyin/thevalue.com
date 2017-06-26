@@ -1,7 +1,7 @@
 <div class="pre-auction-block pre-ab-1">
     @foreach($series as $auction)
         <?php
-            $sales = $auction->sales()->where('end_date', '<', Carbon\Carbon::now()->format('Y-m-d'))->get();
+            $sales = $auction->sales()->where('end_date', '<', Carbon\Carbon::now()->format('Y-m-d'))->orderBy('start_date')->get();
             if(count($sales) == 0) continue;
 
             if($auction->id == 2) continue;

@@ -40,7 +40,7 @@
                         <div class="input-group selection">
                             <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
                             <?php
-                            $seriesSales = $series->sales()->orderBy('start_date')->get();
+                            $seriesSales = $series->sales()->orderBy('start_date', 'desc')->get();
                             ?>
                             <select class="form-control" id="sel1" aria-describedby="basic-addon1" onchange="redirectExhibit(this);">
                                 @foreach($seriesSales as $seriesSale)
