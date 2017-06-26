@@ -864,6 +864,10 @@ class ChristieController extends Controller
             $exDimension = explode('Provenance', $dimension);
             $dimension = $exDimension[0];
 
+            if(strlen($dimension) > 255) {
+                $dimension = '';
+            }
+
             $item = New App\AuctionItem;
             $item->slug = $slug.'-'.$lot['number'];
             $item->dimension = $dimension;
