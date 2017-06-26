@@ -1,14 +1,17 @@
 <ul id="advert" class="ul-clean">
     <?php
-        foreach($sideBanners as $bIndex => $banner) {
-        $bannerImages[$bIndex] = getimagesize($banner['image_path']);
-        $bannerImages[$bIndex]['image_path'] = $banner['image_path'];
-        $image_path = $banner['s3'] ? config("app.s3_path").$banner['image_path'] : asset($banner['image_path']);
+        if(isset($sideBanners)) {
+
+                foreach($sideBanners as $bIndex => $banner) {
+                $bannerImages[$bIndex] = getimagesize($banner['image_path']);
+                $bannerImages[$bIndex]['image_path'] = $banner['image_path'];
+                $image_path = $banner['s3'] ? config("app.s3_path").$banner['image_path'] : asset($banner['image_path']);
     ?>
 
-        <li><img src='{{ $image_path }}' style='width: 100%' class='img-responsive banner-image' onclick="galleryInit(this)"></li>
+                <li><img src='{{ $image_path }}' style='width: 100%' class='img-responsive banner-image' onclick="galleryInit(this)"></li>
 
     <?php
+                }
         }
     ?>
 </ul> <!-- advert -->
