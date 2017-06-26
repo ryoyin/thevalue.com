@@ -200,7 +200,7 @@ class YiDuController extends Controller
         $itemArray = json_decode($json, true);
 
 //        dd($saleArray);
-        $itemInfoArray = array();
+        $lotInfo = array();
 
         foreach($itemArray as $item ) {
             $html = Storage::disk('local')->get($item['filePath']);
@@ -209,17 +209,82 @@ class YiDuController extends Controller
 
             $dom->loadHTML($html);
 
+            // get image url
             $imageBlock = $dom->getElementById('detailImg-box');
-
             $imageBlock = $imageBlock->getElementsByTagName('a');
-
-//            $imageBlock = $imageBlock[0]->ownerDocument->saveHTML($imageBlock[0]);
-
             $imagePath = $imageBlock[0]->getAttribute('href');
 
+            echo 'Image Path: '.$imagePath.'<br>';
 
+            // get title detailTitle
+            $finder = new \DomXPath($dom);
+            $node = $finder->query("//*[contains(@class, 'detailTitle')]");
+//            $content = $dom->saveHTML($node->item(0));
+            $titleBlock = $node->item(0)->textContent;
 
-            exit;
+            // get lot number
+            $exTitle = explode(' ', $titleBlock);
+            $lotNumber = trim($exTitle[1]);
+
+            echo 'Lot Number: '.$lotNumber.'<br>';
+
+            $exTitle = explode($lotNumber, $titleBlock);
+            $title = $exTitle[1];
+
+            echo 'Title: '.$title.'<br>';
+
+            // estimate hd_xx 估价：
+            $finder = new \DomXPath($dom);
+            $node = $finder->query("//*[contains(@class, 'hd_xx')]");
+
+            $estimateBlock = $node->item(0)->textContent;
+            $exEstimateBlock = explode(' ', $estimateBlock);
+
+            $estimate = str_replace('估价：', '', $exEstimateBlock[0]);
+            echo "Estimate: ".$estimate."<br>";
+
+            $exEstimate = explode('-', $estimate);
+
+            // initial estimate
+            $estimateInitial = $exEstimate[0];
+            $estimateEnd = $exEstimate[1];
+
+            echo "Initial: ".$estimateInitial."<br>";
+            echo "End: ".$estimateEnd."<br>";
+
+            // Currency Code
+            $currencyCode = $exEstimateBlock[1];
+            echo "Currency Code: ".$currencyCode.'<br>';
+
+            // hd_mx
+            $finder = new \DomXPath($dom);
+            $node = $finder->query("//*[contains(@class, 'hd_mx')]");
+
+            $content = $node->item(0);
+
+            $paragraph = $content->getElementsByTagName('p');
+
+            $dimension = $paragraph[0]->textContent;
+            $description = $paragraph[2]->textContent;
+
+            echo 'Dimension: '.$dimension."<br>";
+            echo 'Description: '.$description.'<br>';
+
+            $lotInfo[] = array(
+                'source_image_path' => $imagePath,
+                'number' => $lotNumber,
+                'title' => $title,
+                'estimate_initial' => $estimateInitial,
+                'estimate_end' => $estimateEnd,
+                'currency_code' => $currencyCode,
+                'dimension' => $dimension,
+                'description' => $description
+            );
+
+//            exit;
+
         }
+
+        dd($lotInfo);
     }
 }
