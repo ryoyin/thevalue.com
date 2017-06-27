@@ -54,6 +54,9 @@
                             <th>HTML</th>
                             <th>JSON</th>
                             <th>Image</th>
+                            <th>Resize</th>
+                            <th>Push S3</th>
+                            <th>Import</th>
                             <th>Status</th>
                             <th>Auction</th>
                         </thead>
@@ -65,20 +68,35 @@
                                 <td>{{ isDone($sale->html) }}</td>
                                 <td>{{ isDone($sale->json) }}</td>
                                 <td>{{ isDone($sale->image) }}</td>
+                                <td>{{ isDone($sale->resize) }}</td>
+                                <td>{{ isDone($sale->pushS3) }}</td>
+                                <td>{{ isDone($sale->import) }}</td>
                                 <td>{{ $sale->status }}</td>
                                 <td>
-                                    @if(!$sale->html && !$sale->json && !$sale->image)
-                                    <a href="{{ route('backend.auction.yidu.crawler.capture', ['intSaleID' => $sale->int_sale_id]) }}"
-                                       class="btn btn-primary">
-                                        Capture</a>
-                                    @elseif($sale->html && !$sale->json && !$sale->image)
-                                    <a href="{{ route('backend.auction.yidu.crawler.capture.items', ['intSaleID' => $sale->int_sale_id]) }}"
-                                       class="btn btn-primary">
-                                        Capture</a>
-                                    @else
-                                    <a href="{{ route('backend.auction.yidu.crawler.capture.images', ['intSaleID' => $sale->int_sale_id]) }}"
-                                       class="btn btn-primary">
-                                        Capture</a>
+                                    @if(!$sale->html)
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Download HTML</a>
+                                    @elseif(!$sale->json)
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.items', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Prepare Info</a>
+                                    @elseif(!$sale->image)
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.images', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Download Images</a>
+                                    @elseif(!$sale->resize)
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.resize', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Resize Images</a>
+                                    @elseif(!$sale->pushS3)
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.pushS3', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Push Images S3</a>
+                                    @elseif(!$sale->import)
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.import', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Import</a>
                                     @endif
                                     <a href="{{ route('backend.auction.yidu.crawler.remove', ['intSaleID' => $sale->int_sale_id]) }}"
                                        class="btn btn-danger" onclick="return delete_sale({{$sale->int_sale_id}});">
