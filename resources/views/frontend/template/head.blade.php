@@ -79,7 +79,7 @@
     <meta property="og:description" content="{{ $fbMeta['description'] }}">
     <meta property="og:image" content="{{ $fbMeta['image'] }}">
     {{--<meta property="og:image:url" content="{{ $fbMeta['image'] }}">--}}
-    <meta property="og:image:secure_url" content="{{ $fbMeta['image'] }}">
+    {{--<meta property="og:image:secure_url" content="{{ $fbMeta['image'] }}">--}}
     <meta property="fb:app_id" content="{{ $fbMeta['app_id'] }}">
 
     @if(isset($fbMeta['image_width']) && isset($fbMeta['image_width']))
