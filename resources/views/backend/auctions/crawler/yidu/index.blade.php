@@ -90,13 +90,13 @@
                                            class="btn btn-primary">
                                             Resize Images</a>
                                     @elseif(!$sale->pushS3)
-                                        <a href="{{ route('backend.auction.yidu.crawler.capture.pushS3', ['intSaleID' => $sale->int_sale_id]) }}"
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.uploadS3', ['intSaleID' => $sale->int_sale_id]) }}"
                                            class="btn btn-primary">
                                             Push Images S3</a>
                                     @elseif(!$sale->import)
-                                        <a href="{{ route('backend.auction.yidu.crawler.capture.import', ['intSaleID' => $sale->int_sale_id]) }}"
+                                        <a href="{{ route('backend.auction.yidu.crawler.capture.examine', ['intSaleID' => $sale->int_sale_id]) }}"
                                            class="btn btn-primary">
-                                            Import</a>
+                                            Examine</a>
                                     @endif
                                     <a href="{{ route('backend.auction.yidu.crawler.remove', ['intSaleID' => $sale->int_sale_id]) }}"
                                        class="btn btn-danger" onclick="return delete_sale({{$sale->int_sale_id}});">

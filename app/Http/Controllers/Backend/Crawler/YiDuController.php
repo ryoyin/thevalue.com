@@ -576,7 +576,7 @@ class YiDuController extends Controller
         $newPath = $fullSalePath.'/sale_image.jpg';
         $img->save($newPath);
 
-        $saleArray['sale']['stored_image_path'] = $salePath.'/sale_images.jpg';
+        $saleArray['sale']['stored_image_path'] = $salePath.'/sale_image.jpg';
 
         foreach($saleArray['lots'] as $lKey => $lot) {
             echo $lot['number'].'<br>';
@@ -593,6 +593,8 @@ class YiDuController extends Controller
         $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
         $sale->resize = true;
         $sale->save();
+
+        return redirect()->route('backend.auction.yidu.index');
 
     }
 
@@ -637,6 +639,10 @@ class YiDuController extends Controller
             $constraint->upsize();
         })->save($newPath);
 
+        $img->heighten($width, function ($constraint) {
+            $constraint->upsize();
+        });
+
 //        Storage::disk('local')->put($newPath, $img);
 
         $img = null;
@@ -644,5 +650,275 @@ class YiDuController extends Controller
         return $newPath;
     }
 
+    public function uploadS3($intSaleID)
+    {
+        set_time_limit(60000);
+
+        $intSaleID = trim($intSaleID);
+        $locale = App::getLocale();
+
+        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
+        $storePath = 'spider/yidu/sale/'.$intSaleID.'/images/';
+
+//        echo $path;
+
+        $json = Storage::disk('local')->get($path);
+
+//        echo $json;
+
+        $saleArray = json_decode($json, true);
+
+        $baseDirectory = base_path().'/public';
+
+        foreach($saleArray['lots'] as $lot) {
+
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['fit']);
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['large']);
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['medium']);
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['small']);
+
+        }
+
+        Storage::disk('local')->put($path, $json);
+
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale->pushS3 = true;
+        $sale->save();
+
+        return redirect()->route('backend.auction.yidu.index');
+
+    }
+
+    public function pushS3($baseDirectory, $filePath)
+    {
+        $s3 = \Storage::disk('s3');
+        $localPath = $baseDirectory.'/'.$filePath;
+
+        echo $localPath;
+
+        $image = fopen($localPath, 'r+');
+        $s3->put('/'.$filePath, $image, 'public');
+    }
+
+    public function examine($intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+
+        $locale = App::getLocale();
+
+        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
+
+        $data = array(
+            'locale' => $locale,
+            'menu' => array('auction', 'christie.capture'),
+            'saleArray' => $saleArray,
+            'intSaleID' => $intSaleID,
+        );
+
+//        dd($saleArray);
+
+        return view('backend.auctions.crawler.yidu.captureItemList', $data);
+
+    }
+
+    /*public function import(Request $request, $intSaleID)
+    {
+
+        $intSaleID = trim($intSaleID);
+
+        $locale = App::getLocale();
+
+        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+        $auction_series_id = trim($request->auction_series_id);
+        $slug = trim($request->slug);
+
+        echo $auction_series_id;
+        echo '<br>';
+        echo $slug;
+        echo '<br>';
+
+    }*/
+
+    public function import(Request $request, $intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+
+        $auctionSeriesID = trim($request->auction_series_id);
+        $slug = trim($request->slug);
+
+        $series = App\AuctionSeries::find($auctionSeriesID);
+        $seriesDetails = $series->details();
+
+        $house = $series->house;
+
+        if(count($series) == 0) exit;
+
+        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
+
+        $saleSlug = $series->slug.'-'.$slug;
+
+//        exit;
+
+        // insert auction_sales
+        // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
+        $sale = New App\AuctionSale;
+
+        $sale->slug = $saleSlug;
+        $sale->source_image_path = $saleArray['sale']['source_image_path'];
+        $sale->image_path = $saleArray['sale']['stored_image_path'];
+        $sale->number = $intSaleID;
+        $sale->total_lots = count($saleArray['lots']);
+        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['auction_time']['start_time']);
+        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['auction_time']['end_time']);
+        $sale->auction_series_id = $auctionSeriesID;
+
+        $sale->save();
+
+//        exit;
+
+        // echo "sale id: ".$sale->id;
+        // echo '<br>';
+        $saleID = $sale->id;
+
+        // insert auction_sale_details
+        // type, title, country, location, lang, auction_sale_id
+        $supported_languages = config('app.supported_languages');
+        // sale detail type sale
+        foreach($supported_languages as $lang) {
+            $saleDetail = New App\AuctionSaleDetail;
+            $saleDetail->type = 'sale';
+            $saleDetail->title = $saleArray['sale']['title'];
+            $houseDetail = $house->getDetailByLang($lang);
+            $saleDetail->country = $houseDetail->country;
+            $saleDetail->location = $saleArray['sale']['auction_location'];
+            $saleDetail->lang = $lang;
+            $saleDetail->auction_sale_id = $saleID;
+            $saleDetail->save();
+        }
+
+        if($saleArray['sale']['viewing_time'] != '') {
+            // sale detail type viewing
+            foreach ($supported_languages as $lang) {
+                $saleDetail = New App\AuctionSaleDetail;
+                $saleDetail->type = 'viewing';
+                $saleDetail->title = $saleArray['sale']['title'];
+                $houseDetail = $house->getDetailByLang($lang);
+                $saleDetail->country = $houseDetail->country;
+                $saleDetail->location = $saleArray['sale']['viewing_location'];
+                $saleDetail->lang = $lang;
+                $saleDetail->auction_sale_id = $saleID;
+                $saleDetail->save();
+            }
+        }
+
+        // insert auction_sale_times
+        // type, lots, start_date, end_date, auction_sale_id
+        // sale date
+        $saleTime = New App\AuctionSaleTime;
+        $saleTime->type = 'sale';
+        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['auction_time']['start_time']);
+        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['auction_time']['end_time']);
+        $saleTime->auction_sale_id = $saleID;
+        $saleTime->save();
+
+        if($saleArray['sale']['viewing_time'] != '') {
+            $viewingStartTime = date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['start_time']);
+            $viewingEndTime = date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['end_time']);
+
+            $viewingTime = New App\AuctionSaleTime;
+            $viewingTime->type = 'viewing';
+            $viewingTime->start_date = $viewingStartTime;
+            $viewingTime->end_date = $viewingEndTime;
+            $viewingTime->auction_sale_id = $saleID;
+
+            $viewingTime->save();
+        }
+
+        // insert auction_items
+        // slug, dimension, number,
+        // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
+        // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status, auction_sale_id
+
+        $counter = 10;
+
+//        exit;
+
+        foreach($saleArray['lots'] as $lot) {
+            // filter dimension
+
+            $dimension = $lot['dimension'];
+
+            $item = New App\AuctionItem;
+            $item->slug = $slug.'-'.$lot['number'];
+            $item->dimension = $dimension;
+            $item->number = $lot['number'];
+            $item->source_image_path = $lot['source_image_path'];
+            $item->image_path = $lot['saved_image_path'];
+            $item->image_fit_path = $lot['stored_image_path']['fit'];
+            $item->image_large_path = $lot['stored_image_path']['large'];
+            $item->image_medium_path = $lot['stored_image_path']['medium'];
+            $item->image_small_path = $lot['stored_image_path']['small'];
+            $item->currency_code = $house->currency_code;
+
+            if($lot['currency_code'] == '') {
+                $estimate_value_initial = null;
+                $estimate_value_end = null;
+            } else {
+                $estimate_value_initial = str_replace(',', '', $lot['estimate_initial']);
+                $estimate_value_end = str_replace(',', '', $lot['estimate_end']);
+            }
+
+            $item->estimate_value_initial = $estimate_value_initial;
+            $item->estimate_value_end = $estimate_value_end;
+            $item->sorting = $counter;
+            $item->status = 'pending';
+            $item->auction_sale_id = $saleID;
+
+            $item->save();
+
+            $itemID = $item->id;
+            echo '<br>';
+            echo $itemID.'<br>';
+
+            // insert auction_item_details
+            // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
+            foreach($supported_languages as $lang) {
+                $itemDetail = New App\AuctionItemDetail;
+                $itemDetail->title = $lot['title'];
+                $itemDetail->description = $lot['description'];
+                $itemDetail->maker = null;
+                $itemDetail->misc = null;
+                $itemDetail->lang = $lang;
+                $itemDetail->auction_item_id = $itemID;
+                $itemDetail->save();
+            }
+
+            $counter += 10;
+
+        }
+
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale->import = true;
+        $sale->save();
+
+
+        // backend.auction.itemList
+        return redirect()->route('backend.auction.yidu.index');
+
+    }
 
 }

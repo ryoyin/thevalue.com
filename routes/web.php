@@ -111,8 +111,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/yidu/capture/items/{intSaleID}', 'Backend\Crawler\YiDuController@parseItems')->name('backend.auction.yidu.crawler.capture.items');
     Route::get('tvadmin/auction/crawler/yidu/capture/items/images/{intSaleID}', 'Backend\Crawler\YiDuController@downloadImages')->name('backend.auction.yidu.crawler.capture.images');
     Route::get('tvadmin/auction/crawler/yidu/capture/items/resize/{intSaleID}', 'Backend\Crawler\YiDuController@resize')->name('backend.auction.yidu.crawler.capture.resize');
-    Route::get('tvadmin/auction/crawler/yidu/capture/items/pushS3/{intSaleID}', 'Backend\Crawler\YiDuController@pushS3')->name('backend.auction.yidu.crawler.capture.pushS3');
-    Route::get('tvadmin/auction/crawler/yidu/capture/items/import/{intSaleID}', 'Backend\Crawler\YiDuController@import')->name('backend.auction.yidu.crawler.capture.import');
+    Route::get('tvadmin/auction/crawler/yidu/capture/items/uploadS3/{intSaleID}', 'Backend\Crawler\YiDuController@uploadS3')->name('backend.auction.yidu.crawler.capture.uploadS3');
+    Route::get('tvadmin/auction/crawler/yidu/capture/items/examine/{intSaleID}', 'Backend\Crawler\YiDuController@examine')->name('backend.auction.yidu.crawler.capture.examine');
+    Route::post('tvadmin/auction/crawler/yidu/capture/items/import/{intSaleID}', 'Backend\Crawler\YiDuController@import')->name('backend.auction.yidu.crawler.capture.import');
     Route::get('tvadmin/auction/crawler/yidu/crawler/remove/{intSaleID}', 'Backend\Crawler\YiDuController@crawlerRemove')->name('backend.auction.yidu.crawler.remove');
 
     // Auction Item
