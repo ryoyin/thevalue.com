@@ -93,7 +93,7 @@ class ArticleController extends Controller
 //        dd($appArticleBanner);
 
         if($article->photo->image_large_path != null) {
-            $og_image_path = $article->photo->image_medium_path;
+            $og_image_path = $article->photo->image_large_path;
         } else {
             $og_image_path = $article->photo->image_path;
         }
