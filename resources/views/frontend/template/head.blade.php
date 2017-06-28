@@ -79,6 +79,8 @@
     <meta property="og:description" content="{{ $fbMeta['description'] }}">
     <meta property="og:image" content="{{ $fbMeta['image'] }}">
     <meta property="fb:app_id" content="{{ $fbMeta['app_id'] }}">
+    <meta property="og:image:width" content="{{ $fbMeta['image_width'] }}">
+    <meta property="og:image:height" content="{{ $fbMeta['image_height'] }}">
     {{--<meta property="fb:admins" content="1136380453091512">--}}
 
     <!-- site icon -->

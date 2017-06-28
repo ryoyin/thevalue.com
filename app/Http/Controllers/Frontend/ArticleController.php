@@ -98,6 +98,10 @@ class ArticleController extends Controller
             $og_image_path = $article->photo->image_path;
         }
 
+        $og_image_size = getimagesize($og_image_path);
+
+//        dd($og_image_size);
+
         $fbMetaArray = array(
             'site_name' => "TheValue",
             //'url' => "https://www.thevalue.com/".$lang."/article/".$slug,
@@ -106,6 +110,8 @@ class ArticleController extends Controller
             'title' => $articleDetails->title,
             "description" => $articleDetails->short_desc,
             "image" => url($og_image_path),
+            "image_width" => $og_image_size[0],
+            "image_height" => $og_image_size[1],
             "app_id" => "1149533345170108"
         );
 
