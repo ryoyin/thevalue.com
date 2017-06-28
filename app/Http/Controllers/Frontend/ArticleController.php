@@ -109,7 +109,7 @@ class ArticleController extends Controller
             'type' => "article",
             'title' => $articleDetails->title,
             "description" => $articleDetails->short_desc,
-            "image" => config("app.s3_path").$og_image_path,
+            "image" => config("app.non_secure_s3_path").$og_image_path,
             "image_width" => $og_image_size[0],
             "image_height" => $og_image_size[1],
             "app_id" => "1149533345170108"
