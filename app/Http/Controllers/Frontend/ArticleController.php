@@ -110,8 +110,8 @@ class ArticleController extends Controller
             'title' => $articleDetails->title,
             "description" => $articleDetails->short_desc,
             "image" => url($og_image_path),
-            "image_width" => $og_image_size[0],
-            "image_height" => $og_image_size[1],
+//            "image_width" => $og_image_size[0],
+//            "image_height" => $og_image_size[1],
             "app_id" => "1149533345170108"
         );
 
