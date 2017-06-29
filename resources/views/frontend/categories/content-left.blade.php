@@ -44,14 +44,14 @@
                         $adCounter = 0;
                 ?>
                     <div style="height: 10px"></div>
-                    <ins class="adsbygoogle"
+                    {{--<ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-8545127753274353"
                          data-ad-slot="7391805026"
                          data-ad-format="auto"></ins>
                     <script>
                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                    </script>--}}
                     <div style="height: 20px"></div>
                 <?
                     } else {
