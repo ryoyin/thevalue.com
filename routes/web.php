@@ -116,6 +116,18 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('tvadmin/auction/crawler/yidu/capture/items/import/{intSaleID}', 'Backend\Crawler\YiDuController@import')->name('backend.auction.yidu.crawler.capture.import');
     Route::get('tvadmin/auction/crawler/yidu/crawler/remove/{intSaleID}', 'Backend\Crawler\YiDuController@crawlerRemove')->name('backend.auction.yidu.crawler.remove');
 
+    // Auction YiDu Crawler
+    Route::get('tvadmin/auction/crawler/sothebys', 'Backend\Crawler\SothebysController@index')->name('backend.auction.sothebys.index');
+    Route::post('tvadmin/auction/crawler/sothebys/crawler', 'Backend\Crawler\SothebysController@crawler')->name('backend.auction.sothebys.crawler');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/{intSaleID}', 'Backend\Crawler\SothebysController@makeSaleInfo')->name('backend.auction.sothebys.crawler.capture');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/items/{intSaleID}', 'Backend\Crawler\SothebysController@parseItems')->name('backend.auction.sothebys.crawler.capture.items');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/items/images/{intSaleID}', 'Backend\Crawler\SothebysController@downloadImages')->name('backend.auction.sothebys.crawler.capture.images');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/items/resize/{intSaleID}', 'Backend\Crawler\SothebysController@resize')->name('backend.auction.sothebys.crawler.capture.resize');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/items/uploadS3/{intSaleID}', 'Backend\Crawler\SothebysController@uploadS3')->name('backend.auction.sothebys.crawler.capture.uploadS3');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/items/examine/{intSaleID}', 'Backend\Crawler\SothebysController@examine')->name('backend.auction.sothebys.crawler.capture.examine');
+    Route::post('tvadmin/auction/crawler/sothebys/capture/items/import/{intSaleID}', 'Backend\Crawler\SothebysController@import')->name('backend.auction.sothebys.crawler.capture.import');
+    Route::get('tvadmin/auction/crawler/sothebys/crawler/remove/{intSaleID}', 'Backend\Crawler\SothebysController@crawlerRemove')->name('backend.auction.sothebys.crawler.remove');
+
     // Auction Item
     Route::get('tvadmin/auction/item/list/{saleID?}', 'Backend\AuctionController@itemList')->name('backend.auction.itemList');
     Route::get('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemEdit')->name('backend.auction.itemEdit');

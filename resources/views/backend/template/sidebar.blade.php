@@ -103,6 +103,12 @@
                   <li class="{{ isActiveMenu('yidu.index', $menu) }}"><a href="{{ route('backend.auction.yidu.index') }}"><i class="fa fa-dot-circle-o"></i> <span>YiDu   </span></a></li>
                 </ul>
               </li>
+              <li class="{{ isActiveMenu('sothebys.index', $menu) }}">
+                <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Sothebys</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li class="{{ isActiveMenu('sothebys.index', $menu) }}"><a href="{{ route('backend.auction.sothebys.index') }}"><i class="fa fa-dot-circle-o"></i> <span>Sothebys   </span></a></li>
+                </ul>
+              </li>
               <li class="{{ isActiveMenu('christie.index', $menu) }}">
                 <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Christie</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
