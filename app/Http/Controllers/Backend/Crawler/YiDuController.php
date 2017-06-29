@@ -372,9 +372,13 @@ class YiDuController extends Controller
 
                     $auctionStartTime = strtotime($auctionStartTime);
 
-                    $auctionEndTime = trim($exText[1]);
+                    if(count($exText) == 1) {
+                        $auctionEndTime = $auctionStartTime;
+                    } else {
+                        $auctionEndTime = trim($exText[1]);
+                    }
 
-                    if($auctionEndTime == '（时间顺延）') {
+                    if($auctionEndTime == '（时间顺延）' || $auctionEndTime == '(时间顺延）') {
                         $auctionEndTime = $auctionStartTime;
                     }
 
@@ -393,6 +397,8 @@ class YiDuController extends Controller
             }
 
         }
+
+//        exit;
 
         // get sale image http://www.yidulive.com/
         $seriesLink = str_replace('../', 'http://www.yidulive.com/', $seriesLink);
@@ -415,8 +421,8 @@ class YiDuController extends Controller
         $sale->json = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.yidu.index');
 //        dd($saleArray);
+        return redirect()->route('backend.auction.yidu.index');
     }
 
     private function getSeriesImage($url, $saleTitle)
@@ -637,11 +643,11 @@ class YiDuController extends Controller
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
-        })->save($newPath);
+        });
 
         $img->heighten($width, function ($constraint) {
             $constraint->upsize();
-        });
+        })->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 

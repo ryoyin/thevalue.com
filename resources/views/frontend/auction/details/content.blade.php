@@ -89,8 +89,8 @@
                                     $itemDetail = $item->details()->where('lang', $locale)->first()
                                 ?>
                                 <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 lot">
-                                    <div class="lot-block item" onclick="redirectItem(this)" url="{{ route('frontend.auction.house.sale.item', ['slug' => $slug, 'lot' => $item->id]) }}">
-                                        <div class=""><img data-original="{{ config('app.s3_path').$item->image_fit_path }}" class="img-responsive lazy"></div>
+                                    <div class="lot-block " onclick="redirectItem(this)" url="{{ route('frontend.auction.house.sale.item', ['slug' => $slug, 'lot' => $item->id]) }}">
+                                        <div class="item" style="display: table-cell; vertical-align: middle;"><img src="{{ config('app.s3_path').$item->image_fit_path }}" data-original="{{ config('app.s3_path').$item->image_fit_path }}" class="img-responsive lazy" style="margin: 0 auto;"></div>
                                         <div class="lot-detail">
                                             <?php
                                                 $itemTitleEN = mb_substr($itemDetail->title, 0, 70, 'utf-8');
@@ -165,9 +165,10 @@
     jQuery(function($) {
         $("img.lazy").lazyload();
     });
-    /*jQuery(function($) {
-     $('.item').matchHeight();
-     });*/
+
+    jQuery(function($) {
+        $('.item').matchHeight();
+    });
 
     function redirectExhibit(obj) {
         var url = $(obj).val();
