@@ -378,7 +378,9 @@ class YiDuController extends Controller
                         $auctionEndTime = trim($exText[1]);
                     }
 
+                    // echo $auctionEndTime;
                     if($auctionEndTime == '（时间顺延）' || $auctionEndTime == '(时间顺延）') {
+                        // echo 'detected';
                         $auctionEndTime = $auctionStartTime;
                     }
 
@@ -421,7 +423,7 @@ class YiDuController extends Controller
         $sale->json = true;
         $sale->save();
 
-//        dd($saleArray);
+        // dd($saleArray);
         return redirect()->route('backend.auction.yidu.index');
     }
 
@@ -643,11 +645,11 @@ class YiDuController extends Controller
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
-        });
+        })->save($newPath);
 
         $img->heighten($width, function ($constraint) {
             $constraint->upsize();
-        })->save($newPath);
+        });
 
 //        Storage::disk('local')->put($newPath, $img);
 
@@ -773,7 +775,7 @@ class YiDuController extends Controller
 
         $saleArray = json_decode($json, true);
 
-//        dd($saleArray);
+        // dd($saleArray);
 
         $saleSlug = $series->slug.'-'.$slug;
 
