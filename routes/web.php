@@ -19,12 +19,65 @@ Route::group(
 function()
 {
 
+    $locale = App::getLocale();
+
     Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
+
+    Route::get('/category/News', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/news'); });
+    Route::get('/category/Feature-Series', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/feature-series'); });
+    Route::get('/category/Education', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/education'); });
+    Route::get('/category/Auctions', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/auctions'); });
+    Route::get('/category/Exhibitions', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/exhibitions'); });
+    Route::get('/category/videos', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/videos'); });
+//    Route::get('/disclaimer', function() { return Redirect::to('https://hk.thevalue.com/disclaimer'); })->name('frontend.disclaimer');
+
     Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
-    Route::get('/category/videos', 'Frontend\CategoryController@video')->name('frontend.category.videos');
+//    Route::get('/category/videos', 'Frontend\CategoryController@video')->name('frontend.category.videos');
     Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
     Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
-    Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
+//    Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
     Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
     Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
     Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');

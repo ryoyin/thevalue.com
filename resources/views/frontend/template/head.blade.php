@@ -59,7 +59,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script src="{{ asset('js/general.js') }}?refresh=2017053101"></script>
+    <script src="{{ asset('js/general.js') }}?refresh=2017063001"></script>
 
     <!-- Google GA -->
     <script>
