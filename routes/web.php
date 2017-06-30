@@ -21,7 +21,15 @@ function()
 
     $locale = App::getLocale();
 
-    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
+//    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
+    Route::get('/', function() {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com'); })->name('frontend.index');
 
     Route::get('/category/News', function() {
         $locale = App::getLocale();
