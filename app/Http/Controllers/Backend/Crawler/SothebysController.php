@@ -44,7 +44,7 @@ class SothebysController extends Controller
     public function getSaleByURL($url)
     {
 
-        set_time_limit(600);
+        set_time_limit(60000);
 
         echo "Getting content from: ".$url;
         echo "<br>";
@@ -144,6 +144,33 @@ class SothebysController extends Controller
             )
         );
 
+        foreach($salesArray['sale']['en']['lots'] as $lot) {
+            $url = str_replace("'", '', $lot['condRep']);
+            $exURL = explode('#', $url);
+            $url = $exURL[0];
+
+            $salesArray['lots'][] = array(
+                // Useful Item: id, image, lowEst, highEst, salePrice, condRep (url)
+                'number' => str_replace("'", '', $lot['id']),
+                'image_path' => str_replace("'", '', $lot['image']),
+                'currency' => str_replace("'", '', $lot['currency']),
+                'estimate_initial' => str_replace("'", '', $lot['lowEst']),
+                'estimate_end' => str_replace("'", '', $lot['highEst']),
+                'realized_price' => str_replace("'", '', $lot['salePrice']),
+                'url' => $url
+            );
+        }
+
+        foreach($salesArray['lots'] as $lot) {
+            // get lot en content
+            $url = 'http://www.sothebys.com'.$lot['url'];
+            $this->getLotContentByLang($url, $intSaleID, 'en', $lot['number']);
+
+            // get lot zh content
+            $url = 'http://www.sothebys.com'.str_replace('/en', '/zh', $lot['url']);
+            $this->getLotContentByLang($url, $intSaleID, 'zh', $lot['number']);
+        }
+
         dd($salesArray);
 
         exit;
@@ -162,20 +189,37 @@ class SothebysController extends Controller
 
     private function parseMainContentByLang($intSaleID, $lang)
     {
-        // get en data
+        $contentArray = array(); // declare content array
+
+        // get raw html content
         $storePath = 'spider/sothebys/sale/'.$intSaleID.'/'.$lang.'/';
         $path = $storePath.$intSaleID.'.html';
-
         $html = Storage::disk('local')->get($path);
 
 //        echo $html;
-
-        $sale = array();
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $internalErrors = libxml_use_internal_errors(true);
         $dom->loadHTML($html);
 
+        $contentArray['title'] =  $this->getTitle($dom); // Get Title
+
+        $contentArray['auction']['datetime'] = $this->getAuctionDateTime($dom); // Get Auction Datetime
+
+        $contentArray['auction']['location'] = $this->getAuctionLocation($dom); // Get Auction Location - eventdetail-eventtime
+
+        $contentArray['viewing'] = $this->getViewingInfo($dom); // Get Viewing Datetime -  class: eventdetail-times > ul
+
+        // Get Lot Info
+        $dom->loadHTML($html); //resset load html
+        $contentArray['lots'] = $this->getLotInfo($dom);
+
+        return $contentArray;
+
+    }
+
+    private function getTitle($dom)
+    {
         $headerItems = $dom->getElementsByTagName('h1');
 
         $title = '';
@@ -189,14 +233,238 @@ class SothebysController extends Controller
         $title = str_replace('現在進行中', '', $title);
         $title = trim($title);
 
-        $contentArray = array(
-            'title' => $title,
-        );
+        return $title;
+    }
 
-        return $contentArray;
+    private function getAuctionDateTime($dom)
+    {
+        $timeItems = $dom->getElementsByTagName('time');
+
+        $time = '';
+
+        foreach($timeItems as $key => $item) {
+            if($time != '') $time .= ' ';
+            $time .= $item->textContent;
+        }
+
+        $time = strtotime($time);
+
+        return $time;
+    }
+
+    private function getAuctionLocation($dom)
+    {
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'eventdetail-eventtime')]");
+        $auctionLocBlock = $node->item(0)->textContent;
+
+        $exAuctionLoc = explode('|', $auctionLocBlock);
+        $auctionLocation = $exAuctionLoc[count($exAuctionLoc) - 1];
+
+        $auctionLocation = str_replace("\r\n", '', $auctionLocation);
+        $auctionLocation = trim($auctionLocation);
+
+        return $auctionLocation;
+    }
+
+    private function getViewingInfo($dom)
+    {
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'eventdetail-times')]");
+
+        if($node->length == 0) return false;
+
+        $content = $dom->saveHTML($node->item(0));
+
+        $locationBlock = $node->item(0)->textContent;
+
+//        echo $locationBlock;
+//        $locationBlock =
+        $exLocation = explode("\r\n", $locationBlock);
+
+        $foundItem = array();
+        foreach($exLocation as $key => $item) {
+            $parsed = trim(str_replace("\n", '', $item));
+            if($parsed != '') {
+                $foundItem[] = $parsed;
+            }
+        }
+
+        $location = $foundItem[1];
+
+//        echo $location;
+//        echo '<br>';
+
+        $dom->loadHTML($content);
+
+        $viewingItems = $dom->getElementsByTagName('li');
+
+        $viewingArray = array();
+        foreach($viewingItems as $key => $item) {
+            if($key > 0) {
+                $viewingArray[] = $item->textContent;
+            }
+        }
+
+        $viewingStartDatetime =  $viewingArray[0];
+        $viewingEndDatetime =  $viewingArray[count($viewingArray) -1];
+
+//        echo $viewingStartDatetime;
+//        echo '<br>';
+        $exViewingStart1 = explode(',', $viewingStartDatetime);
+        $exViewingStart2 = explode('|', $exViewingStart1[1]);
+
+//        echo $exViewingStart2[0];
+//        echo '<br>';
+//        echo $exViewingStart2[1];
+        $exViewingStart3 = explode('-', $exViewingStart2[1]);
+//        echo $exViewingStart3[0];
+//        echo '<br>';
+        $parsedViewingStartDatetime = $exViewingStart2[0].' '.$exViewingStart3[0].' BST';
+
+        $viewingStartDatetime = strtotime($parsedViewingStartDatetime);
+//        echo 'Viewing StartTime: '.$viewingStartDatetime;
+//        echo '<br>';
+
+        $exViewingEnd1 = explode(',', $viewingEndDatetime);
+        $exViewingEnd2 = explode('|', $exViewingEnd1[1]);
+        $exViewingEnd3 = explode('-', $exViewingEnd2[1]);
+
+        $parsedViewingEndDatetime = $exViewingEnd2[0].' '.$exViewingEnd3[1];
+        $viewingEndDatetime = strtotime($parsedViewingEndDatetime);
+
+//        echo '<br>';
+//        echo 'Viewing EndTime'.$viewingEndDatetime;
+//        echo '<br>';
+
+//        dd($viewingArray);
+
+        return array(
+            'location' => $location,
+            'datetime' => array(
+                'start' => $viewingStartDatetime,
+                'end' => $viewingEndDatetime
+            ),
+        );
 
     }
 
+    private function getLotInfo($dom)
+    {
+//        echo $dom->textContent;
+        $scriptBlock = $dom->getElementsByTagName('script');
 
+        foreach($scriptBlock as $key => $script){
+            $readScript = $script->textContent;
+            if(strpos($readScript, 'ECAT.lot')) {
+                $foundScript = $readScript;
+            }
+//            echo '<br>';
+        }
+//        echo $foundScript;
+
+        $exScript = explode('ECAT.', $foundScript);
+
+//        dd($exScript);
+
+        $rawLots = array();
+        foreach($exScript as $key => $item) {
+
+            if(strpos($item, 'lotItemId')) {
+//                echo $item;
+//                echo '<br>';
+//                echo '<br>';
+                $exItem = explode('=', $item);
+
+                $parsedItem = '';
+
+                foreach($exItem as $k => $i) {
+                    if($k > 0) {
+                        if($parsedItem != '') $parsedItem .= '=';
+                        $parsedItem .= $i;
+                    }
+                }
+
+                $item = substr($parsedItem, 1, -2);
+
+//                echo $item;
+//                echo '<br>';
+//                echo '<br>';
+
+                $item = str_getcsv($item, ',', "'");
+
+//                dd($item);
+
+                $rawLots[] = $item;
+            }
+        }
+
+//        echo '<pre>';
+//        print_r($rawLots);
+
+        $lots = array();
+        foreach($rawLots as $key => $item) {
+            $lot = array();
+//            dd($item);
+            foreach($item as $nKey => $node) {
+                $exNode = explode(':', $node);
+
+                if(count($exNode) > 1) {
+                    $lot[$exNode[0]] = $exNode[1];
+                } else {
+                    $lot[$exNode[0]] = '';
+                }
+            }
+            $lots[] = $lot;
+        }
+
+        // Useful Item: id, image, lowEst, highEst, salePrice, condRep (url)
+
+        return $lots;
+
+//        exit;
+
+    }
+
+    public function getLotContentByLang($url, $intSaleID, $lang, $number)
+    {
+        set_time_limit(60000);
+        
+//        echo $url;
+
+        $cSession = curl_init();
+
+        curl_setopt($cSession,CURLOPT_URL,$url);
+        curl_setopt($cSession, CURLOPT_HEADER, 0);
+        curl_setopt($cSession,CURLOPT_RETURNTRANSFER,1);
+
+        $headers = [
+            'Accept: application/json, text/javascript, */*; q=0.01',
+//            'Accept-Encoding: gzip, deflate',
+//            'Accept-Language: zh-CN,zh;q=0.8',
+            'Connection: keep-alive',
+            'Content-Length: 0',
+            'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
+            'Host: www.sothebys.com',
+            'Origin: http://www.sothebys.com',
+            'Referer: '.$url, //Your referrer address
+            'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+            'X-MicrosoftAjax: Delta=true',
+            'X-Requested-With: XMLHttpRequest',
+        ];
+
+        curl_setopt($cSession,CURLOPT_HTTPHEADER, $headers);
+
+        $content=curl_exec($cSession);
+
+//        echo $content;
+//
+//         exit;
+
+        $storePath = 'spider/sothebys/sale/' . $intSaleID . '/'.$lang.'/';
+
+        Storage::disk('local')->put($storePath . $number . '.html', $content);
+
+    }
 
 }
