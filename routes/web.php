@@ -178,10 +178,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('tvadmin/auction/crawler/yidu/capture/items/import/{intSaleID}', 'Backend\Crawler\YiDuController@import')->name('backend.auction.yidu.crawler.capture.import');
     Route::get('tvadmin/auction/crawler/yidu/crawler/remove/{intSaleID}', 'Backend\Crawler\YiDuController@crawlerRemove')->name('backend.auction.yidu.crawler.remove');
 
-    // Auction YiDu Crawler
+    // Auction Sothebys Crawler
     Route::get('tvadmin/auction/crawler/sothebys', 'Backend\Crawler\SothebysController@index')->name('backend.auction.sothebys.index');
     Route::post('tvadmin/auction/crawler/sothebys/crawler', 'Backend\Crawler\SothebysController@crawler')->name('backend.auction.sothebys.crawler');
-    Route::get('tvadmin/auction/crawler/sothebys/capture/{intSaleID}', 'Backend\Crawler\SothebysController@makeSaleInfo')->name('backend.auction.sothebys.crawler.capture');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/{intSaleID}', 'Backend\Crawler\SothebysController@downloadData')->name('backend.auction.sothebys.crawler.capture');
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/{intSaleID}', 'Backend\Crawler\SothebysController@parseItems')->name('backend.auction.sothebys.crawler.capture.items');
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/images/{intSaleID}', 'Backend\Crawler\SothebysController@downloadImages')->name('backend.auction.sothebys.crawler.capture.images');
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/resize/{intSaleID}', 'Backend\Crawler\SothebysController@resize')->name('backend.auction.sothebys.crawler.capture.resize');
