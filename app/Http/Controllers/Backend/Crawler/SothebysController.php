@@ -152,38 +152,152 @@ class SothebysController extends Controller
             $salesArray['lots'][] = array(
                 // Useful Item: id, image, lowEst, highEst, salePrice, condRep (url)
                 'number' => str_replace("'", '', $lot['id']),
-                'image_path' => str_replace("'", '', $lot['image']),
+                'image_path' => 'http://www.sothebys.com'.str_replace("'", '', $lot['image']),
                 'currency' => str_replace("'", '', $lot['currency']),
                 'estimate_initial' => str_replace("'", '', $lot['lowEst']),
                 'estimate_end' => str_replace("'", '', $lot['highEst']),
                 'realized_price' => str_replace("'", '', $lot['salePrice']),
-                'url' => $url
+                'url' => 'http://www.sothebys.com'.$url
             );
         }
 
         foreach($salesArray['lots'] as $lot) {
             // get lot en content
-            $url = 'http://www.sothebys.com'.$lot['url'];
+            $url = $lot['url'];
             $this->getLotContentByLang($url, $intSaleID, 'en', $lot['number']);
 
             // get lot zh content
-            $url = 'http://www.sothebys.com'.str_replace('/en', '/zh', $lot['url']);
+            $url = str_replace('/en', '/zh', $lot['url']);
             $this->getLotContentByLang($url, $intSaleID, 'zh', $lot['number']);
         }
 
-        dd($salesArray);
+//        dd($salesArray);
 
-        exit;
+//        exit;
 
-        $itemJSON = json_encode($itemArray);
+        $storePath = 'spider/sothebys/sale/'.$intSaleID.'/';
 
-        Storage::disk('local')->put($storePath . $intSaleID . '.json', $itemJSON);
+        Storage::disk('local')->put($storePath . $intSaleID . '.json', json_encode($salesArray));
 
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
         $sale->html = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.yidu.index');
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    public function parseItems($intSaleID)
+    {
+        $internalErrors = libxml_use_internal_errors(true);
+
+        $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+        $json = Storage::disk('local')->get($storePath);
+        $saleArray = json_decode($json, true);
+
+        // auction_sales - slug, *source_image_path, *image_path, number, start_date, end_date
+
+        // auction_sale_details - type (sale/viewing), title, country, location, lang
+
+        // auction_sale_times - type (sale/viewing), lots, start_date, end_date
+
+        // auction_items - slug, *dimension, number,
+        // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
+        // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status
+
+        // auction_item_details - title, description, *maker, misc, provenance, *post_lot_text, exhibited, lang
+
+//        dd($saleArray);
+
+        foreach($saleArray['lots'] as $key => $lot) {
+            $saleArray['lots'][$key] = $this->getLotDetailsByLang($intSaleID, $lot['number'], 'en', $lot);
+        }
+
+//        dd($saleArray);
+
+        $saleArray = json_encode($json);
+        Storage::disk('local')->put($storePath, $saleArray);
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->json = true;
+        $sale->save();
+
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    public function downloadImages($intSaleID)
+    {
+        $internalErrors = libxml_use_internal_errors(true);
+
+        $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+        $json = Storage::disk('local')->get($storePath);
+        $saleArray = json_decode($json, true);
+
+        dd($saleArray);
+
+    }
+
+    private function getLotDetailsByLang($intSaleID, $number, $lang, $lot)
+    {
+//        echo $number;
+//        echo '<br>';
+
+        // get raw html content
+        $storePath = 'spider/sothebys/sale/'.$intSaleID.'/'.$lang.'/';
+        $path = $storePath.$number.'.html';
+        $html = Storage::disk('local')->get($path);
+
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $internalErrors = libxml_use_internal_errors(true);
+        $dom->loadHTML($html);
+
+//        echo $html;
+
+        // get title - lotdetail-guarantee
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'lotdetail-guarantee')]");
+        $title = $node->item(0)->textContent;
+        $lot['title'] = $title;
+        // - title
+
+        // get misc - lotdetail-subtitle
+        $node = $finder->query("//*[contains(@class, 'lotdetail-subtitle')]");
+        if($node->length > 0) {
+            $misc = $node->item(0)->textContent;
+            $lot['misc'] = $misc;
+        }
+        // - misc
+
+        // get description - lotdetail-description
+        $node = $finder->query("//*[contains(@class, 'lotdetail-description-text')]");
+        $description = $node->item(0)->textContent;
+        $lot['description'] = trim(str_replace("\r\n", '', $description));
+        // - description
+
+        // get provenance - readmore-content
+        $node = $finder->query("//*[contains(@class, 'readmore-content')]");
+//        $provenanceBlock = $node->item(0)->ownerDocument->saveHTML($node->item(0));
+
+        foreach($node as $key => $item) {
+
+            if($key == 0) {
+                $provenance = $item->textContent;
+                $provenance = str_replace(";", ";<br>", $provenance);
+                $lot['provenance'] = $provenance;
+            }
+
+            if($key == 1) {
+                $exhibited = $item->textContent;
+                $exhibited = str_replace(";", ";<br>", $exhibited);
+                $lot['exhibited'] = $exhibited;
+            }
+
+        }
+
+//        dd($lot);
+
+        return $lot;
 
     }
 
@@ -429,7 +543,7 @@ class SothebysController extends Controller
     public function getLotContentByLang($url, $intSaleID, $lang, $number)
     {
         set_time_limit(60000);
-        
+
 //        echo $url;
 
         $cSession = curl_init();
