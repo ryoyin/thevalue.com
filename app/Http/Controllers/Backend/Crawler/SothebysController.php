@@ -229,7 +229,7 @@ class SothebysController extends Controller
     public function downloadImages(Request $request, $intSaleID)
     {
         set_time_limit(60000);
-        
+
         $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
         $json = Storage::disk('local')->get($storePath);
         $saleArray = json_decode($json, true);
@@ -263,10 +263,113 @@ class SothebysController extends Controller
         }
         // - Lot Image
 
-        dd($saleArray);
+//        dd($saleArray);
+
+        $saleArray = json_encode($saleArray);
+        Storage::disk('local')->put($storePath, $saleArray);
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->image = true;
+        $sale->save();
+
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    public function resize($intSaleID)
+    {
+        set_time_limit(60000);
+
+        $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+        $json = Storage::disk('local')->get($storePath);
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
+
+        // save sale image
+        $saleImagePath = $saleArray['sale']['image_path'];
+        $img = Image::make(base_path().'/'.'storage/app/'.$saleImagePath);
+
+        $salePath = 'images/auctions/sothebys/'.$intSaleID.'/';
+        $fullSalePath = base_path().'/public/'.$salePath;
+
+        // create directory
+        if(!file_exists($fullSalePath)) mkdir($fullSalePath);
+
+        $saleFilename = $intSaleID.'sale_image.jpg';
+
+        $newPath = $fullSalePath.'/'.$saleFilename;
+        $img->save($newPath);
+
+        $saleArray['sale']['stored_image_path'] = $salePath.'/'.$saleFilename;
+
+        foreach($saleArray['lots'] as $key => $lot) {
+            echo $lot['number'].'<br>';
+            $lotImage = $this->imgResize($lot['image_path'], $fullSalePath, $lot['number']);
+            $saleArray['lots'][$key]['stored_image_path'] = $lotImage;
+        }
+
+        $saleArray = json_encode($saleArray);
+        Storage::disk('local')->put($storePath, $saleArray);
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->resize = true;
+        $sale->save();
+
+        return redirect()->route('backend.auction.sothebys.index');
 
 
+    }
 
+    public function imgResize($savedImagePath, $salePath, $lotNumber)
+    {
+        ini_set('memory_limit','1024M');
+
+        $image_large_path = $this->resizeImage($savedImagePath, $salePath, $lotNumber, 1140);
+        $image_medium_path = $this->resizeImage($savedImagePath, $salePath, $lotNumber, 500);
+        $image_small_path = $this->resizeImage($savedImagePath, $salePath, $lotNumber, 150);
+        $image_fit_path = $this->resizeImage($savedImagePath, $salePath, $lotNumber, 250);
+
+        $image_path = array(
+            'large' => str_replace(base_path().'/public/', '', $image_large_path),
+            'medium' => str_replace(base_path().'/public/', '', $image_medium_path),
+            'small' => str_replace(base_path().'/public/', '', $image_small_path),
+            'fit' => str_replace(base_path().'/public/', '', $image_fit_path)
+        );
+
+        return $image_path;
+    }
+
+    private function resizeImage($file, $resizePath, $lotNumber, $width)
+    {
+
+//        echo $file;
+//        echo '<br>';
+//
+
+        echo 'resize: '.$resizePath;
+        echo '<br>';
+
+        $img = Image::make(base_path().'/'.'storage/app/'.$file);
+
+        $newPath = $resizePath.'/'.$lotNumber.'-'.$width.'.jpg';
+
+        echo $newPath;
+        echo "<br>";
+
+        $img->widen($width, function ($constraint) {
+            $constraint->upsize();
+        })->save($newPath);
+
+        $img->heighten($width, function ($constraint) {
+            $constraint->upsize();
+        });
+
+//        Storage::disk('local')->put($newPath, $img);
+
+        $img = null;
+
+        return $newPath;
     }
 
     private function getImageFromUrl($storePath, $link, $filename)
@@ -647,6 +750,54 @@ class SothebysController extends Controller
 
         Storage::disk('local')->put($storePath . $number . '.html', $content);
 
+    }
+
+    public function uploadS3($intSaleID)
+    {
+        set_time_limit(60000);
+
+        $intSaleID = trim($intSaleID);
+
+        $path = 'spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+
+//        echo $path;
+
+        $json = Storage::disk('local')->get($path);
+
+//        echo $json;
+
+        $saleArray = json_decode($json, true);
+
+        $baseDirectory = base_path().'/public';
+
+        foreach($saleArray['lots'] as $lot) {
+
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['fit']);
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['large']);
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['medium']);
+            $this->pushS3($baseDirectory, $lot['stored_image_path']['small']);
+
+        }
+
+        Storage::disk('local')->put($path, $json);
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->pushS3 = true;
+        $sale->save();
+
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    public function pushS3($baseDirectory, $filePath)
+    {
+        $s3 = \Storage::disk('s3');
+        $localPath = $baseDirectory.'/'.$filePath;
+
+        echo $localPath;
+
+        $image = fopen($localPath, 'r+');
+        $s3->put('/'.$filePath, $image, 'public');
     }
 
 }
