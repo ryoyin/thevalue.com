@@ -215,7 +215,7 @@ class SothebysController extends Controller
 
 //        dd($saleArray);
 
-        $saleArray = json_encode($json);
+        $saleArray = json_encode($saleArray);
         Storage::disk('local')->put($storePath, $saleArray);
 
         $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
@@ -226,16 +226,84 @@ class SothebysController extends Controller
 
     }
 
-    public function downloadImages($intSaleID)
+    public function downloadImages(Request $request, $intSaleID)
     {
-        $internalErrors = libxml_use_internal_errors(true);
-
+        set_time_limit(60000);
+        
         $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
         $json = Storage::disk('local')->get($storePath);
         $saleArray = json_decode($json, true);
 
+//        dd($saleArray);
+
+        $salePath = 'images/auctions/sothebys/'.$intSaleID.'/';
+
+        // Get Sale Image
+        $saleSourceImagePath = 'http://www.sothebys.com'.$request->sale_image_path;
+//        echo $saleSourceImagePath;
+
+        $saleFilename = $intSaleID.'_sale_image.jpg';
+
+        $saleImagePath = $this->getImageFromUrl($salePath, $saleSourceImagePath, $saleFilename);
+
+        $saleArray['sale']['source_image_path'] = $saleSourceImagePath;
+        $saleArray['sale']['image_path'] = $saleImagePath;
+
+        // - Sale Image
+
+        // Get Lot Image
+        foreach($saleArray['lots'] as $key => $lot) {
+            $saleArray['lots'][$key]['source_image_path'] = $lot['image_path'];
+            $lotImagePath = $lot['image_path'];
+
+            $lotFilename = $lot['number'].'.jpg';
+
+            $lotImagePath = $this->getImageFromUrl($salePath, $lotImagePath, $lotFilename);
+            $saleArray['lots'][$key]['image_path'] = $lotImagePath;
+        }
+        // - Lot Image
+
         dd($saleArray);
 
+
+
+    }
+
+    private function getImageFromUrl($storePath, $link, $filename)
+    {
+        $image_path = $storePath.$filename;
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$link);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+
+        $headers = [
+            'Accept: application/json, text/javascript, */*; q=0.01',
+//            'Accept-Encoding: gzip, deflate',
+//            'Accept-Language: zh-CN,zh;q=0.8',
+            'Connection: keep-alive',
+            'Content-Length: 0',
+            'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
+            'Host: www.sothebys.com',
+            'Origin: http://www.sothebys.com',
+            'Referer: '.$link, //Your referrer address
+            'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+            'X-MicrosoftAjax: Delta=true',
+            'X-Requested-With: XMLHttpRequest',
+        ];
+
+        curl_setopt($ch,CURLOPT_HTTPHEADER, $headers);
+
+        $image=curl_exec($ch);
+
+//        echo $image;
+
+        curl_close($ch);
+
+        Storage::disk('local')->put($image_path, $image);
+
+        return $image_path;
     }
 
     private function getLotDetailsByLang($intSaleID, $number, $lang, $lot)
