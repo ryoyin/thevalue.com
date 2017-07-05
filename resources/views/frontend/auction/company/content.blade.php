@@ -93,7 +93,7 @@
                                     <?php $saleDetail = $sale->details()->where('lang', $locale)->first(); ?>
                                     <div class="swiper-slide">
                                         <div class="row col-sm-6 col-md-4 item">
-                                            <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
+                                            <div class="col-xs-5" style="min-height: 100px;"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
                                             <div class="col-xs-7 detail">
 
                                                 <div class="misc" style="font-size: 12px">
@@ -112,13 +112,29 @@
                                                     <div class="sepline"></div>
                                                     <?php
                                                         $saleDateRaw = strtotime($sale->start_date);
+                                                        if($house->timezone != '') {
+                                                            $dateTime = new \DateTime(null, new DateTimeZone($house->timezone));
+                                                            $dateTime->setTimestamp($saleDateRaw);
+
+                                                            $saleDate = array(
+                                                                'en' => $dateTime->format('Y-m-d H:i:s T'),
+                                                                'trad' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                                                'sim' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                                            );
+                                                        } else {
+                                                            $saleDate = array(
+                                                                'en' => date('Y-m-d', $saleDateRaw),
+                                                                'trad' => date('Y年m月d日', $saleDateRaw),
+                                                                'sim' => date('Y年m月d日', $saleDateRaw),
+                                                            );
+                                                        }
                                                         $saleDateCount = date('Y/m/d H:i:s', $saleDateRaw);
-                                                        $saleDate = date('Y年m月d H:i:s', $saleDateRaw);
-                                                        $saleDate = array(
+//                                                        $saleDate = date('Y年m月d H:i:s', $saleDateRaw);
+                                                        /*$saleDate = array(
                                                             'en' => date('Y-m-d', $saleDateRaw),
                                                             'trad' => date('Y年m月d', $saleDateRaw),
                                                             'sim' => date('Y年m月d', $saleDateRaw),
-                                                        )
+                                                        )*/
                                                     ?>
 
                                                     <div>{{ $saleDate[$locale] }}</div>

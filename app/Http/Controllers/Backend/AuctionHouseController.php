@@ -91,6 +91,7 @@ class AuctionHouseController extends Controller
         $house->email = $request->email;
         $house->dollar_sign = $request->dollar_sign;
         $house->currency_code = $request->currency_code;
+        $house->timezone = $request->timezone;
         $house->status = $request->status;
 
         $house->save();
@@ -193,6 +194,7 @@ class AuctionHouseController extends Controller
         $house->email = $request->email;
         $house->dollar_sign = $request->dollar_sign;
         $house->currency_code = $request->currency_code;
+        $house->timezone = $request->timezone;
         $house->status = $request->status;
 
         $houseDetails = $house->details;

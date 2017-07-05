@@ -153,6 +153,10 @@
                   <input name="currency_code" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['currency_code'] }}" >
               </div>
               <div class="form-group">
+                  <label>Timezone</label>
+                  <input name="timezone" type="text" class="form-control" placeholder="Enter ..." value="{{ @$house['timezone'] }}" >
+              </div>
+              <div class="form-group">
                   <label>Status</label>
                   <select name="status" id="status" class="form-control">
                       <option

@@ -112,13 +112,31 @@
                                                     <div class="sepline"></div>
                                                     <?php
                                                         $saleDateRaw = strtotime($sale->start_date);
+
+                                                        if($house->timezone != '') {
+                                                            $dateTime = new \DateTime(null, new DateTimeZone($house->timezone));
+                                                            $dateTime->setTimestamp($saleDateRaw);
+
+                                                            $saleDate = array(
+                                                                'en' => $dateTime->format('Y-m-d H:i:s T'),
+                                                                'trad' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                                                'sim' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                                            );
+                                                        } else {
+                                                            $saleDate = array(
+                                                                'en' => date('Y-m-d', $saleDateRaw),
+                                                                'trad' => date('Y年m月d日', $saleDateRaw),
+                                                                'sim' => date('Y年m月d日', $saleDateRaw),
+                                                            );
+                                                        }
+
                                                         $saleDateCount = date('Y/m/d H:i:s', $saleDateRaw);
-                                                        $saleDate = date('Y年m月d H:i:s', $saleDateRaw);
+                                                        /*$saleDate = date('Y年m月d H:i:s', $saleDateRaw);
                                                         $saleDate = array(
                                                             'en' => date('Y-m-d', $saleDateRaw),
                                                             'trad' => date('Y年m月d', $saleDateRaw),
                                                             'sim' => date('Y年m月d', $saleDateRaw),
-                                                        )
+                                                        )*/
                                                     ?>
 
                                                     <div>{{ $saleDate[$locale] }}</div>

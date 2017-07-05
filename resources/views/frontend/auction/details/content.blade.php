@@ -58,11 +58,23 @@
                             <div class="cell-name">{{ $auctionTypeName }} - {{ $saleDetail->title }}</div>
                             <?php
                             $sDate = strtotime($sale->start_date);
-                            $sDate = array(
-                                'en' => date('Y-m-d', $sDate),
-                                'trad' => date('Y年m月d日', $sDate),
-                                'sim' => date('Y年m月d日', $sDate),
-                            );
+
+                            if($house->timezone != '') {
+                                $dateTime = new \DateTime(null, new DateTimeZone($house->timezone));
+                                $dateTime->setTimestamp($sDate);
+
+                                $sDate = array(
+                                    'en' => $dateTime->format('Y-m-d H:i:s T'),
+                                    'trad' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                    'sim' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                );
+                            } else {
+                                $sDate = array(
+                                    'en' => date('Y-m-d', $sDate),
+                                    'trad' => date('Y年m月d日', $sDate),
+                                    'sim' => date('Y年m月d日', $sDate),
+                                );
+                            }
                             ?>
 
                             <div style="float:left">@lang('thevalue.auction-date')： {{ $sDate[$locale] }}</div>

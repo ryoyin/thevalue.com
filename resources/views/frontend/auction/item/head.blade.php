@@ -8,9 +8,28 @@
 
             <?php
                 $saleDateRaw = strtotime($sale->start_date);
-                $saleDate = date('Y-m-d', $saleDateRaw);
+//                $saleDate = date('Y-m-d', $saleDateRaw);
+
+//                dd($house);
+
+                if($house->timezone != '') {
+                    $dateTime = new \DateTime(null, new DateTimeZone($house->timezone));
+                    $dateTime->setTimestamp($saleDateRaw);
+
+                    $saleDate = array(
+                        'en' => $dateTime->format('Y-m-d H:i:s T'),
+                        'trad' => $dateTime->format('Y年m月d日 H:i:s T'),
+                        'sim' => $dateTime->format('Y年m月d日 H:i:s T'),
+                    );
+                } else {
+                    $saleDate = array(
+                        'en' => date('Y-m-d', $saleDateRaw),
+                        'trad' => date('Y年m月d日', $saleDateRaw),
+                        'sim' => date('Y年m月d日', $saleDateRaw),
+                    );
+                }
             ?>
-            <div style="float:left">{{ $saleDate }}</div>
+            <div style="float:left">{{ $saleDate[$locale] }}</div>
             {{--<div id="date-counter-1" class="date-counter" style="float:left"></div>
             <script type="text/javascript">
                 $("#date-counter-1")

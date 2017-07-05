@@ -63,15 +63,28 @@
                                                 <div class="cell-name cell-title"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}">{{ $detail->title }}</a></div>
                                                 <?php
                                                     $sDate = strtotime($sale->start_date);
-                                                    $saleDate = array(
-                                                      'en' => date('Y-m-d', $sDate),
-                                                      'trad' => date('Y年m月d日', $sDate),
-                                                      'sim' => date('Y年m月d日', $sDate),
-                                                    );
+
+                                                    if($house->timezone != '') {
+                                                        $dateTime = new \DateTime(null, new DateTimeZone($house->timezone));
+                                                        $dateTime->setTimestamp($sDate);
+
+                                                        $saleDate = array(
+                                                            'en' => $dateTime->format('Y-m-d H:i:s T'),
+                                                            'trad' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                                            'sim' => $dateTime->format('Y年m月d日 H:i:s T'),
+                                                        );
+                                                    } else {
+                                                        $saleDate = array(
+                                                            'en' => date('Y-m-d', $sDate),
+                                                            'trad' => date('Y年m月d日', $sDate),
+                                                            'sim' => date('Y年m月d日', $sDate),
+                                                        );
+                                                    }
+
                                                 ?>
 
                                                 <div>{{ $saleDate[$locale] }}</div>
-{{--                                                <div id="date-counter-{{ $saleCounter }}" class="date-counter" date="{{ $sDate }}"></div>--}}
+                                                {{--<div id="date-counter-{{ $saleCounter }}" class="date-counter" date="{{ $sDate }}"></div>--}}
                                                 <div style="height: 15px"></div>
                                                 {{--拍卖地点：<span>{{ $detail->location }}</span><br>--}}
                                                 @lang('thevalue.total-lots')：<span>{{ $sale->total_lots }}</span><br>
