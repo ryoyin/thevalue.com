@@ -211,6 +211,7 @@ class SothebysController extends Controller
 
         foreach($saleArray['lots'] as $key => $lot) {
             $saleArray['lots'][$key] = $this->getLotDetailsByLang($intSaleID, $lot['number'], 'en', $lot);
+            $saleArray['lots'][$key] = $this->getLotDetailsByLang($intSaleID, $lot['number'], 'zh', $saleArray['lots'][$key]);
         }
 
 //        dd($saleArray);
@@ -352,18 +353,18 @@ class SothebysController extends Controller
 
         $img = Image::make(base_path().'/'.'storage/app/'.$file);
 
-        $newPath = $resizePath.'/'.$lotNumber.'-'.$width.'.jpg';
+        $newPath = $resizePath.$lotNumber.'-'.$width.'.jpg';
 
         echo $newPath;
         echo "<br>";
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
-        })->save($newPath);
+        });
 
         $img->heighten($width, function ($constraint) {
             $constraint->upsize();
-        });
+        })->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 
@@ -429,21 +430,21 @@ class SothebysController extends Controller
         $finder = new \DomXPath($dom);
         $node = $finder->query("//*[contains(@class, 'lotdetail-guarantee')]");
         $title = $node->item(0)->textContent;
-        $lot['title'] = $title;
+        $lot[$lang]['title'] = $title;
         // - title
 
         // get misc - lotdetail-subtitle
         $node = $finder->query("//*[contains(@class, 'lotdetail-subtitle')]");
         if($node->length > 0) {
             $misc = $node->item(0)->textContent;
-            $lot['misc'] = $misc;
+            $lot[$lang]['misc'] = $misc;
         }
         // - misc
 
         // get description - lotdetail-description
         $node = $finder->query("//*[contains(@class, 'lotdetail-description-text')]");
         $description = $node->item(0)->textContent;
-        $lot['description'] = trim(str_replace("\r\n", '', $description));
+        $lot[$lang]['description'] = trim(str_replace("\r\n", '', $description));
         // - description
 
         // get provenance - readmore-content
@@ -455,13 +456,13 @@ class SothebysController extends Controller
             if($key == 0) {
                 $provenance = $item->textContent;
                 $provenance = str_replace(";", ";<br>", $provenance);
-                $lot['provenance'] = $provenance;
+                $lot[$lang]['provenance'] = $provenance;
             }
 
             if($key == 1) {
                 $exhibited = $item->textContent;
                 $exhibited = str_replace(";", ";<br>", $exhibited);
-                $lot['exhibited'] = $exhibited;
+                $lot[$lang]['exhibited'] = $exhibited;
             }
 
         }
@@ -798,6 +799,221 @@ class SothebysController extends Controller
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');
+    }
+
+    public function examine($intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+
+        $locale = App::getLocale();
+
+        $path = 'spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
+
+        $data = array(
+            'locale' => $locale,
+            'menu' => array('auction', 'sothebys.index'),
+            'saleArray' => $saleArray,
+            'intSaleID' => $intSaleID,
+        );
+
+//        dd($saleArray);
+
+        return view('backend.auctions.crawler.sothebys.captureItemList', $data);
+
+    }
+
+
+    public function import(Request $request, $intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+        $auctionSeriesID = trim($request->auction_series_id);
+        $slug = trim($request->slug);
+
+//        echo $seriesID.'<br>';
+//        echo $slug.'<br>';
+
+        $saleArray = $this->getSaleArray($intSaleID);
+
+//        dd($saleArray);
+
+        // Get Series Info
+        $series = App\AuctionSeries::find($auctionSeriesID);
+//        $seriesDetails = $series->details();
+
+        $house = $series->house;
+
+        if(count($series) == 0) exit;
+
+        $saleSlug = $series->slug.'-'.$slug;
+
+        // insert auction_sales
+        // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
+        $sale = New App\AuctionSale;
+
+        $sale->slug = $saleSlug;
+        $sale->source_image_path = $saleArray['sale']['source_image_path'];
+        $sale->image_path = $saleArray['sale']['stored_image_path'];
+        $sale->number = $intSaleID;
+        $sale->total_lots = count($saleArray['lots']);
+        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $sale->auction_series_id = $auctionSeriesID;
+
+        $sale->save();
+
+        $saleID = $sale->id;
+
+        // insert auction_sale_details
+        // type, title, country, location, lang, auction_sale_id
+        $supported_languages = config('app.supported_languages');
+        // sale detail type sale
+        foreach($supported_languages as $lang) {
+
+            $useLang = $lang == 'en' ? 'en' : 'zh';
+
+            $saleDetail = New App\AuctionSaleDetail;
+            $saleDetail->type = 'sale';
+            $saleDetail->title = $saleArray['sale'][$useLang]['title'];
+            $houseDetail = $house->getDetailByLang($lang);
+            $saleDetail->country = $houseDetail->country;
+            $saleDetail->location = $saleArray['sale'][$useLang]['auction']['location'];
+            $saleDetail->lang = $lang;
+            $saleDetail->auction_sale_id = $saleID;
+            $saleDetail->save();
+        }
+
+        if($saleArray['sale']['en']['viewing']['datetime'] != '') {
+            // sale detail type viewing
+            foreach ($supported_languages as $lang) {
+
+                $useLang = $lang == 'en' ? 'en' : 'zh';
+
+                $saleDetail = New App\AuctionSaleDetail;
+                $saleDetail->type = 'viewing';
+                $saleDetail->title = $saleArray['sale'][$useLang]['title'];
+                $houseDetail = $house->getDetailByLang($lang);
+                $saleDetail->country = $houseDetail->country;
+                $saleDetail->location = $saleArray['sale'][$useLang]['viewing']['location'];
+                $saleDetail->lang = $lang;
+                $saleDetail->auction_sale_id = $saleID;
+                $saleDetail->save();
+            }
+        }
+
+        // insert auction_sale_times
+        // type, lots, start_date, end_date, auction_sale_id
+        // sale date
+        $saleTime = New App\AuctionSaleTime;
+        $saleTime->type = 'sale';
+        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $saleTime->auction_sale_id = $saleID;
+        $saleTime->save();
+
+        if($saleArray['sale']['en']['viewing']['datetime'] != '') {
+            $viewingStartTime = date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['start']);
+            $viewingEndTime = date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['end']);
+
+            $viewingTime = New App\AuctionSaleTime;
+            $viewingTime->type = 'viewing';
+            $viewingTime->start_date = $viewingStartTime;
+            $viewingTime->end_date = $viewingEndTime;
+            $viewingTime->auction_sale_id = $saleID;
+
+            $viewingTime->save();
+        }
+
+        // insert auction_items
+        // slug, dimension, number,
+        // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
+        // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status, auction_sale_id
+
+        $counter = 10;
+
+//        exit;
+
+        foreach($saleArray['lots'] as $lot) {
+            // filter dimension
+
+//            $dimension = $lot['dimension'];
+
+            $item = New App\AuctionItem;
+            $item->slug = $slug . '-' . $lot['number'];
+            $item->dimension = null;
+            $item->number = $lot['number'];
+            $item->source_image_path = $lot['source_image_path'];
+            $item->image_path = $lot['image_path'];
+            $item->image_fit_path = $lot['stored_image_path']['fit'];
+            $item->image_large_path = $lot['stored_image_path']['large'];
+            $item->image_medium_path = $lot['stored_image_path']['medium'];
+            $item->image_small_path = $lot['stored_image_path']['small'];
+            $item->currency_code = $house->currency_code;
+
+            $estimate_value_initial = str_replace(',', '', $lot['estimate_initial']);
+            $estimate_value_end = str_replace(',', '', $lot['estimate_end']);
+
+            $item->estimate_value_initial = $estimate_value_initial;
+            $item->estimate_value_end = $estimate_value_end;
+            $item->sorting = $counter;
+            $item->status = 'pending';
+            $item->auction_sale_id = $saleID;
+
+            $item->save();
+
+            $itemID = $item->id;
+            echo '<br>';
+            echo $itemID . '<br>';
+
+            // insert auction_item_details
+            // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
+            foreach($supported_languages as $lang) {
+
+                $useLang = $lang == 'en' ? 'en' : 'zh';
+
+                $itemDetail = New App\AuctionItemDetail;
+                $itemDetail->title = $lot[$useLang]['title'];
+                $itemDetail->description = $lot[$useLang]['description'];
+                $itemDetail->maker = null;
+                if(isset($lot[$useLang]['misc'])) {
+                    $itemDetail->misc = $lot[$useLang]['misc'];
+                }
+                if(isset($lot[$useLang]['provenance'])) {
+                    $itemDetail->provenance = $lot[$useLang]['provenance'];
+                }
+                if(isset($lot[$useLang]['exhibited'])) {
+                    $itemDetail->exhibited = $lot[$useLang]['exhibited'];
+                }
+                $itemDetail->lang = $lang;
+                $itemDetail->auction_item_id = $itemID;
+                $itemDetail->save();
+            }
+
+            $counter += 10;
+
+        }
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->import = true;
+        $sale->save();
+
+        // backend.auction.itemList
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    private function getSaleArray($intSaleID)
+    {
+        $path = 'spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+        return $saleArray;
     }
 
 }

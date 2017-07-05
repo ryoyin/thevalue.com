@@ -11,7 +11,7 @@
                 <li><a href="#"><i class="fa fa-dashboard"></i> Homepage</a></li>
                 <li> Auction</li>
                 <li> Crawler</li>
-                <li> YiDu</li>
+                <li> Sothebys</li>
                 <li> Examine</li>
                 <li class="active"> Item List</li>
             </ol>
@@ -34,7 +34,7 @@
                     @endif
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Sale Content From YiDu</h3>
+                            <h3 class="box-title">Sale Content From Sothebys</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
 
@@ -44,18 +44,16 @@
                                         <tr>
                                             <td><img src="{{ asset($saleArray['sale']['stored_image_path']) }}" height="150px"></td>
                                             <td>
-                                                <b>Yidu Internal ID:</b> {{ $intSaleID }}
+                                                <b>Sothebys Internal ID:</b> {{ $intSaleID }}
                                                 <br>
-                                                <b>Auction Date:</b> {{ $saleArray['sale']['auction_time']['start_time'] }}<br>
-                                                <b>Auction Location:</b> {{ $saleArray['sale']['auction_location'] }}<br>
-                                                <b>Viewing Date:</b> {{ $saleArray['sale']['viewing_time'] }}<br>
-                                                <b>Viewing Location:</b> {{ $saleArray['sale']['viewing_location'] }}<br>
+                                                <b>Sale Title:</b> {{ $saleArray['sale']['en']['title'] }}<br>
+                                                <b>Auction Date:</b> {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']) }}<br>
+                                                <b>Auction Location:</b> {{ $saleArray['sale']['en']['auction']['location'] }}<br>
+                                                <b>Viewing Date:</b> {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['start']) }} - {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['end']) }}<br>
+                                                <b>Viewing Location:</b> {{ $saleArray['sale']['en']['viewing']['location'] }}<br>
                                             </td>
                                             <td>
-                                                <b>Title</b> -{{ $saleArray['sale']['title'] }}
-                                            </td>
-                                            <td>
-                                                <form method="POST" action="{{ route('backend.auction.yidu.crawler.capture.import', ['intSaleID' => $intSaleID]) }}" class="form-group">
+                                                <form method="POST" action="{{ route('backend.auction.sothebys.crawler.capture.import', ['intSaleID' => $intSaleID]) }}" class="form-group">
                                                     {{ csrf_field() }}
                                                     <div class="form-group">
                                                         <label>Series</label>
@@ -96,10 +94,15 @@
                                         <tr>
                                             <td>{{ $lot['number'] }}</td>
                                             <td>
-                                                <b>Title:</b> {!! $lot['title'] !!}<br>
-                                                <b>Desc:</b> {!! $lot['description'] !!}
-                                                <div><b>Dimensions:</b> {{ $lot['dimension'] }}</div>
+                                                <b>Title:</b> {!! $lot['en']['title'] !!}<br>
+                                                <b>Desc:</b> {!! $lot['en']['description'] !!}
+                                                <hr>
+                                                <b>Title:</b> {!! $lot['zh']['title'] !!}<br>
+                                                <b>Desc:</b> {!! $lot['zh']['description'] !!}
+                                                <hr>
                                                 <div><b>Estimate:</b> {{ $lot['estimate_initial'] }} - {{ $lot['estimate_end'] }}</div>
+
+
                                             </td>
                                             <td>
                                                 <div><b>Image Path:</b> <a href="{{ $lot['source_image_path'] }}" target="_blank">{{ $lot['source_image_path'] }}</a></div>

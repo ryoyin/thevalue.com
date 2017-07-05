@@ -645,11 +645,11 @@ class YiDuController extends Controller
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
-        })->save($newPath);
+        });
 
         $img->heighten($width, function ($constraint) {
             $constraint->upsize();
-        });
+        })->save($newPath);
 
 //        Storage::disk('local')->put($newPath, $img);
 
@@ -723,7 +723,7 @@ class YiDuController extends Controller
 
         $data = array(
             'locale' => $locale,
-            'menu' => array('auction', 'christie.capture'),
+            'menu' => array('auction', 'yidu.index'),
             'saleArray' => $saleArray,
             'intSaleID' => $intSaleID,
         );
@@ -733,28 +733,6 @@ class YiDuController extends Controller
         return view('backend.auctions.crawler.yidu.captureItemList', $data);
 
     }
-
-    /*public function import(Request $request, $intSaleID)
-    {
-
-        $intSaleID = trim($intSaleID);
-
-        $locale = App::getLocale();
-
-        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
-        $json = Storage::disk('local')->get($path);
-
-        $saleArray = json_decode($json, true);
-
-        $auction_series_id = trim($request->auction_series_id);
-        $slug = trim($request->slug);
-
-        echo $auction_series_id;
-        echo '<br>';
-        echo $slug;
-        echo '<br>';
-
-    }*/
 
     public function import(Request $request, $intSaleID)
     {

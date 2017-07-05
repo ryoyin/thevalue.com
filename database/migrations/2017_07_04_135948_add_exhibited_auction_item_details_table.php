@@ -14,7 +14,7 @@ class AddExhibitedAuctionItemDetailsTable extends Migration
     public function up()
     {
         Schema::table('auction_item_details', function($table) {
-            $table->longtext('exhibited')->after('provenance');
+            $table->longtext('exhibited')->after('provenance')->nullable();
         });
     }
 
