@@ -61,7 +61,12 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Slug</label>
-                                                        <input name="slug" type="text" class="form-control" placeholder="Enter ..." required>
+                                                        <?php
+                                                            $preSlug = strtolower($saleArray['sale']['en']['title']);
+                                                            $preSlug = str_replace(' ', '-', $preSlug);
+                                                            $preSlug = str_replace('&', 'n', $preSlug);
+                                                        ?>
+                                                        <input name="slug" type="text" class="form-control" value="{{ $preSlug }}" required>
                                                     </div>
                                                     <div class="form-footer">
                                                         <input name="submit" type="submit" class="form-control">

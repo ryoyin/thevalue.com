@@ -152,7 +152,7 @@ class SothebysController extends Controller
             $salesArray['lots'][] = array(
                 // Useful Item: id, image, lowEst, highEst, salePrice, condRep (url)
                 'number' => str_replace("'", '', $lot['id']),
-                'image_path' => 'http://www.sothebys.com'.str_replace("'", '', $lot['image']),
+                'source_image_path' => 'http://www.sothebys.com'.str_replace("'", '', $lot['image']),
                 'currency' => str_replace("'", '', $lot['currency']),
                 'estimate_initial' => str_replace("'", '', $lot['lowEst']),
                 'estimate_end' => str_replace("'", '', $lot['highEst']),
@@ -162,12 +162,26 @@ class SothebysController extends Controller
         }
 
         foreach($salesArray['lots'] as $lot) {
-            // get lot en content
+
+//            http://www.sothebys.com/en/auctions/ecatalogue/2017/treasures-l17303/lot.1.html
+//            http://www.sothebys.com/zh/auctions/ecatalogue/lot.1.html/2017/treasures-l17303
+
             $url = $lot['url'];
+            // get lot en content
             $this->getLotContentByLang($url, $intSaleID, 'en', $lot['number']);
 
             // get lot zh content
-            $url = str_replace('/en', '/zh', $lot['url']);
+
+            $uri = str_replace('http://www.sothebys.com/en/auctions/ecatalogue/', '', $url);
+
+            $pattern = explode('/', $uri);
+
+            $urlPattern = $pattern[0].'/'.$pattern[1];
+
+            $zhURL = 'http://www.sothebys.com/en/auctions/ecatalogue/'.$pattern[2].'/'.$urlPattern;
+
+            $url = str_replace('/en/', '/zh/', $zhURL);
+
             $this->getLotContentByLang($url, $intSaleID, 'zh', $lot['number']);
         }
 
@@ -254,12 +268,26 @@ class SothebysController extends Controller
 
         // Get Lot Image
         foreach($saleArray['lots'] as $key => $lot) {
-            $saleArray['lots'][$key]['source_image_path'] = $lot['image_path'];
-            $lotImagePath = $lot['image_path'];
+            $lotImagePath = $lot['source_image_path'];
+
+            $lotImagePath = str_replace(" ", "%20", $lotImagePath);
 
             $lotFilename = $lot['number'].'.jpg';
 
-            $lotImagePath = $this->getImageFromUrl($salePath, $lotImagePath, $lotFilename);
+            echo "source: ".$lotImagePath;
+            echo '<br>';
+            echo "search: ".base_path().'/storage/app/'.$salePath.$lotFilename;
+            echo '<br>';
+
+            if(!file_exists(base_path().'/storage/app/'.$salePath.$lotFilename)) {
+                $lotImagePath = $this->getImageFromUrl($salePath, $lotImagePath, $lotFilename);
+                echo 'file not exist: '.$lotImagePath;
+                echo '<br>';
+            } else {
+                $lotImagePath = $salePath.$lotFilename;
+                echo 'file exist: '.$salePath.$lotFilename;
+                echo '<br>';
+            }
             $saleArray['lots'][$key]['image_path'] = $lotImagePath;
         }
         // - Lot Image
@@ -273,7 +301,7 @@ class SothebysController extends Controller
         $sale->image = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.sothebys.index');
+//        return redirect()->route('backend.auction.sothebys.index');
 
     }
 
@@ -412,8 +440,8 @@ class SothebysController extends Controller
 
     private function getLotDetailsByLang($intSaleID, $number, $lang, $lot)
     {
-//        echo $number;
-//        echo '<br>';
+        echo $number;
+        echo '<br>';
 
         // get raw html content
         $storePath = 'spider/sothebys/sale/'.$intSaleID.'/'.$lang.'/';
