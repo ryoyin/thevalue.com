@@ -110,6 +110,9 @@
                                            class="btn btn-primary">
                                             Confirm Realized Price</a>
                                     @endif
+                                    <a href="{{ route('backend.auction.sothebys.crawler.capture.sorting', ['intSaleID' => $sale->int_sale_id]) }}"
+                                       class="btn btn-primary">
+                                        Sorting</a>
                                     <a href="{{ route('backend.auction.sothebys.crawler.remove', ['intSaleID' => $sale->int_sale_id]) }}"
                                        class="btn btn-danger" onclick="return delete_sale({{$sale->int_sale_id}});">
                                         Remove</a>

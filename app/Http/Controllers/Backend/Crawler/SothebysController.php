@@ -1126,5 +1126,17 @@ class SothebysController extends Controller
         return redirect()->route('backend.auction.sothebys.index');
     }
 
+    public function sorting($intSaleID)
+    {
+        $sale = App\AuctionSale::where('number', $intSaleID)->first();
+        $items = $sale->items;
+
+        foreach($items as $item) {
+            $item->sorting = (INT) $item->number;
+            $item->save();
+        }
+
+        return redirect()->route('backend.auction.sothebys.index');
+    }
 
 }
