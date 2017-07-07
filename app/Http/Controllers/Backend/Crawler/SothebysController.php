@@ -1087,6 +1087,23 @@ class SothebysController extends Controller
 
 //        dd($saleArray);
 
+
+
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    public function confirmRealizedPrice($intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+
+        $path = 'spider/sothebys/sale/'.$intSaleID.'/auction_result.json';
+        $saleArray = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($saleArray, true);
+
+//        dd($saleArray);
+
         $sale = App\AuctionSale::where('number', $intSaleID)->first();
         $items = $sale->items;
         foreach($items as $key => $item) {
@@ -1102,21 +1119,9 @@ class SothebysController extends Controller
             $item->save();
         }
 
-        return redirect()->route('backend.auction.sothebys.index');
-
-    }
-
-    public function confirmRealizedPrice($intSaleID)
-    {
-        $intSaleID = trim($intSaleID);
-
-        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
-
-//        dd($sale);
-
-        $sale->status = 1;
-
-        $sale->save();
+        $sothebysSale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sothebysSale->status = 1;
+        $sothebysSale->save();
 
         return redirect()->route('backend.auction.sothebys.index');
     }
