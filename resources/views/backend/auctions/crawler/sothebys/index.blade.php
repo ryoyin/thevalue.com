@@ -99,6 +99,16 @@
                                         <a href="{{ route('backend.auction.sothebys.crawler.capture.examine', ['intSaleID' => $sale->int_sale_id]) }}"
                                            class="btn btn-primary">
                                             Examine</a>
+                                    @elseif(!$sale->status)
+                                        <form method="POST" action="{{ route('backend.auction.sothebys.crawler.capture.getRealizedPrice', ['intSaleID' => $sale->int_sale_id]) }}">
+                                            {{ csrf_field() }}
+                                            URL: <input type="text" name="url">
+                                            <input type="submit" value="Get Realized Price" class="btn btn-primary">
+                                        </form>
+                                        <br>
+                                        <a href="{{ route('backend.auction.sothebys.crawler.capture.confirmRealizedPrice', ['intSaleID' => $sale->int_sale_id]) }}"
+                                           class="btn btn-primary">
+                                            Confirm Realized Price</a>
                                     @endif
                                     <a href="{{ route('backend.auction.sothebys.crawler.remove', ['intSaleID' => $sale->int_sale_id]) }}"
                                        class="btn btn-danger" onclick="return delete_sale({{$sale->int_sale_id}});">

@@ -188,6 +188,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/uploadS3/{intSaleID}', 'Backend\Crawler\SothebysController@uploadS3')->name('backend.auction.sothebys.crawler.capture.uploadS3');
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/examine/{intSaleID}', 'Backend\Crawler\SothebysController@examine')->name('backend.auction.sothebys.crawler.capture.examine');
     Route::post('tvadmin/auction/crawler/sothebys/capture/items/import/{intSaleID}', 'Backend\Crawler\SothebysController@import')->name('backend.auction.sothebys.crawler.capture.import');
+    Route::post('tvadmin/auction/crawler/sothebys/capture/items/getRealizedPrice/{intSaleID}', 'Backend\Crawler\SothebysController@getRealizedPrice')->name('backend.auction.sothebys.crawler.capture.getRealizedPrice');
+    Route::get('tvadmin/auction/crawler/sothebys/capture/items/confirmRealizedPrice/{intSaleID}', 'Backend\Crawler\SothebysController@confirmRealizedPrice')->name('backend.auction.sothebys.crawler.capture.confirmRealizedPrice');
     Route::get('tvadmin/auction/crawler/sothebys/crawler/remove/{intSaleID}', 'Backend\Crawler\SothebysController@crawlerRemove')->name('backend.auction.sothebys.crawler.remove');
 
     // Auction Item

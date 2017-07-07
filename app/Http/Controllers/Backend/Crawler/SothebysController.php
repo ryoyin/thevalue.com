@@ -185,10 +185,6 @@ class SothebysController extends Controller
             $this->getLotContentByLang($url, $intSaleID, 'zh', $lot['number']);
         }
 
-//        dd($salesArray);
-
-//        exit;
-
         $storePath = 'spider/sothebys/sale/'.$intSaleID.'/';
 
         Storage::disk('local')->put($storePath . $intSaleID . '.json', json_encode($salesArray));
@@ -865,7 +861,7 @@ class SothebysController extends Controller
 //        echo $seriesID.'<br>';
 //        echo $slug.'<br>';
 
-        $saleArray = $this->getSaleArray($intSaleID);
+        $saleArray = $this->getSaleArray($intSaleID, 'sothebys');
 
 //        dd($saleArray);
 
@@ -1043,5 +1039,87 @@ class SothebysController extends Controller
 
         return $saleArray;
     }
+
+    public function getRealizedPrice(Request $request, $intSaleID)
+    {
+
+        $intSaleID = trim($intSaleID);
+        $url = trim($request->url);
+
+        echo $url;
+        echo '<br>';
+
+        $saleArray = $this->getSaleArray($intSaleID, 'sothebys');
+
+//        dd($saleArray);
+        $this->getMainContentByLang($url, $intSaleID, 'en');
+
+        $mainContentEN = $this->parseMainContentByLang($intSaleID, 'en');
+
+        $saleArray = array(
+            'sale' => array(
+                'en' => $mainContentEN,
+            )
+        );
+
+        foreach($saleArray['sale']['en']['lots'] as $key => $lot) {
+            $url = str_replace("'", '', $lot['condRep']);
+            $exURL = explode('#', $url);
+
+            $lotNumber = str_replace("'", '', $lot['id']);
+
+            $saleArray['lots']['realizedPrice'][$lotNumber] = str_replace("'", '', $lot['salePrice']);
+
+            /*if($lot['salePrice'] == 0) {
+                echo $lotNumber." withdraw";
+                echo '<br>';
+            } else {
+                echo 'Price: '.$lot['salePrice'];
+                echo '<br>';
+            }*/
+        }
+
+        // store auction result
+        $auctionResult = json_encode($saleArray);
+
+        $path = 'spider/sothebys/sale/'.$intSaleID.'/auction_result.json';
+        Storage::disk('local')->put($path, $auctionResult);
+
+//        dd($saleArray);
+
+        $sale = App\AuctionSale::where('number', $intSaleID)->first();
+        $items = $sale->items;
+        foreach($items as $key => $item) {
+            $itemNumber = $item->number;
+
+            if(isset($saleArray['lots']['realizedPrice'][$itemNumber])) {
+                $item->sold_value = $saleArray['lots']['realizedPrice'][$itemNumber];
+                $item->status = 'sold';
+            } else {
+                $item->status = 'withdraw';
+            }
+
+            $item->save();
+        }
+
+        return redirect()->route('backend.auction.sothebys.index');
+
+    }
+
+    public function confirmRealizedPrice($intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+
+//        dd($sale);
+
+        $sale->status = 1;
+
+        $sale->save();
+
+        return redirect()->route('backend.auction.sothebys.index');
+    }
+
 
 }
