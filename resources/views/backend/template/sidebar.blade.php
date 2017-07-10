@@ -106,7 +106,8 @@
               <li class="{{ isActiveMenu('sothebys.index', $menu) }}">
                 <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Sothebys</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                  <li class="{{ isActiveMenu('sothebys.index', $menu) }}"><a href="{{ route('backend.auction.sothebys.index') }}"><i class="fa fa-dot-circle-o"></i> <span>Sothebys   </span></a></li>
+                  <li class="{{ isActiveMenu('sothebys.index', $menu) }}"><a href="{{ route('backend.auction.sothebys.index') }}"><i class="fa fa-dot-circle-o"></i> <span>Spider   </span></a></li>
+                  <li class="{{ isActiveMenu('sothebys.importSaleIndex', $menu) }}"><a href="{{ route('backend.auction.sothebys.sale.importSaleIndex') }}"><i class="fa fa-dot-circle-o"></i> <span>Import Sale   </span></a></li>
                 </ul>
               </li>
               <li class="{{ isActiveMenu('christie.index', $menu) }}">

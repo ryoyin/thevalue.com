@@ -272,6 +272,10 @@ class SothebysController extends Controller
         $saleArray['sale']['source_image_path'] = $saleSourceImagePath;
         $saleArray['sale']['image_path'] = $saleImagePath;
 
+        File::copy(base_path().'/storage/app/'.$saleImagePath, base_path().'/storage/app/spider/sothebys/sale/'.$intSaleID.'/sale_image.jpg');
+
+//        exit;
+
         // - Sale Image
 
         // Get Lot Image
@@ -309,13 +313,15 @@ class SothebysController extends Controller
         $sale->image = true;
         $sale->save();
 
-//        return redirect()->route('backend.auction.sothebys.index');
+        return redirect()->route('backend.auction.sothebys.index');
 
     }
 
     public function resize($intSaleID)
     {
         set_time_limit(60000);
+
+
 
         $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
         $json = Storage::disk('local')->get($storePath);
@@ -353,8 +359,9 @@ class SothebysController extends Controller
         $sale->resize = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.sothebys.index');
+        $this->createGZipFile($intSaleID);
 
+        return redirect()->route('backend.auction.sothebys.index');
 
     }
 
@@ -1155,6 +1162,70 @@ class SothebysController extends Controller
         }
 
         return redirect()->route('backend.auction.sothebys.index');
+    }
+
+    public function importSaleIndex()
+    {
+        $sales = App\SothebysSale::all();
+
+        $data = array(
+            'menu' => array('auction', 'crawler', 'sothebys.importSaleIndex'),
+            'sales' => $sales
+        );
+
+        return view('backend.auctions.crawler.sothebys.sale.importSaleIndex', $data);
+    }
+
+    public function uploadSaleFile(Request $request)
+    {
+        $file = $request->file('upload_file');
+        $auctionSeriesID = $request->auction_series_id;
+
+        $store_path = base_path().'/storage/app/spider/sothebys/import/uploads/';
+//        exit;
+
+        $file->move($store_path, $file->getClientOriginalName());
+
+    }
+
+    public function createGZipFile($intSaleID)
+    {
+        $command = 'set PATH=%PATH%;C:\Program Files\7-Zip';
+
+//        exec($command);
+
+        $filePath = base_path().'/storage/app/spider/sothebys/sale/'.$intSaleID;
+        $tarExportPath = base_path().'/storage/app/spider/sothebys/export/'.$intSaleID.'.tar';
+        $gzExportPath = base_path().'/storage/app/spider/sothebys/export/'.$intSaleID.'.tar.gz';
+
+        echo $filePath;
+        echo '<br>';
+        echo $tarExportPath;
+        echo '<br>';
+
+        // create tar file
+        $command = '"C:\Program Files\7-Zip\7z.exe" a -ttar '.$tarExportPath.' '.$filePath;
+
+        echo $command;
+        echo '<br>';
+
+//        $command = 'dir';
+
+        echo exec($command);
+        echo '<br>';
+
+//        echo $return;
+
+//        echo '<pre>';
+//        print_r($output);
+
+//        exit;
+
+        $command = '"C:\Program Files\7-Zip\7z.exe" a -tgzip '.$gzExportPath.' '.$tarExportPath;
+        echo exec($command);
+        echo '<br>';
+
+//        return true;
     }
 
 }

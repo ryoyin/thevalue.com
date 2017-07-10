@@ -11,7 +11,8 @@
                 <li><a href="#"><i class="fa fa-dashboard"></i> Homepage</a></li>
                 <li> Auction</li>
                 <li> Crawler</li>
-                <li class="active"> Sothebys</li>
+                <li> Sothebys</li>
+                <li class="active"> Spider</li>
             </ol>
         </section>
 

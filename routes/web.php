@@ -193,6 +193,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/sorting/{intSaleID}', 'Backend\Crawler\SothebysController@sorting')->name('backend.auction.sothebys.crawler.capture.sorting');
     Route::get('tvadmin/auction/crawler/sothebys/crawler/remove/{intSaleID}', 'Backend\Crawler\SothebysController@crawlerRemove')->name('backend.auction.sothebys.crawler.remove');
 
+    Route::get('tvadmin/auction/crawler/sothebys/importSaleIndex', 'Backend\Crawler\SothebysController@importSaleIndex')->name('backend.auction.sothebys.sale.importSaleIndex');
+    Route::post('tvadmin/auction/crawler/sothebys/uploadSaleFile', 'Backend\Crawler\SothebysController@uploadSaleFile')->name('backend.auction.sothebys.sale.uploadSaleFile');
+
     // Auction Item
     Route::get('tvadmin/auction/item/list/{saleID?}', 'Backend\AuctionController@itemList')->name('backend.auction.itemList');
     Route::get('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemEdit')->name('backend.auction.itemEdit');
