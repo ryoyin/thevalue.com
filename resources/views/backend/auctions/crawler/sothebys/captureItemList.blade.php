@@ -100,10 +100,14 @@
                                             <td>{{ $lot['number'] }}</td>
                                             <td>
                                                 <b>Title:</b> {!! $lot['en']['title'] !!}<br>
-                                                <b>Desc:</b> {!! $lot['en']['description'] !!}
+                                                @if(isset($lot['en']['description']))
+                                                    <b>Desc:</b> {!! $lot['en']['description'] !!}
+                                                @endif
                                                 <hr>
                                                 <b>Title:</b> {!! $lot['zh']['title'] !!}<br>
-                                                <b>Desc:</b> {!! $lot['zh']['description'] !!}
+                                                @if(isset($lot['zh']['description']))
+                                                    <b>Desc:</b> {!! $lot['zh']['description'] !!}
+                                                @endif
                                                 <hr>
                                                 <div><b>Estimate:</b> {{ $lot['estimate_initial'] }} - {{ $lot['estimate_end'] }}</div>
 

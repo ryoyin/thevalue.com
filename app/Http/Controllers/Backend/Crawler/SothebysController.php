@@ -77,11 +77,15 @@ class SothebysController extends Controller
             $sale->int_sale_id = $intSaleID;
         }
 
+        $sale->url = $url;
+        $sale->title = '';
         $sale->html = false;
         $sale->json = false;
         $sale->image = false;
         $sale->resize = false;
         $sale->pushS3 = false;
+        $sale->import = false;
+        $sale->import = false;
         $sale->import = false;
         $sale->status = 0;
         $sale->save();
@@ -189,8 +193,16 @@ class SothebysController extends Controller
 
         Storage::disk('local')->put($storePath . $intSaleID . '.json', json_encode($salesArray));
 
+//        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+//        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+
+//        dd($salesArray);
+
         $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
         $sale->html = true;
+        $sale->title = $salesArray['sale']['en']['title'];
+        $sale->start_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']);
+        $sale->end_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']);
         $sale->save();
 
         return redirect()->route('backend.auction.sothebys.index');
@@ -467,8 +479,10 @@ class SothebysController extends Controller
 
         // get description - lotdetail-description
         $node = $finder->query("//*[contains(@class, 'lotdetail-description-text')]");
-        $description = $node->item(0)->textContent;
-        $lot[$lang]['description'] = trim(str_replace("\r\n", '', $description));
+        if($node->length > 0) {
+            $description = $node->item(0)->textContent;
+            $lot[$lang]['description'] = trim(str_replace("\r\n", '', $description));
+        }
         // - description
 
         // get provenance - readmore-content
@@ -1001,7 +1015,11 @@ class SothebysController extends Controller
 
                 $itemDetail = New App\AuctionItemDetail;
                 $itemDetail->title = $lot[$useLang]['title'];
-                $itemDetail->description = $lot[$useLang]['description'];
+                if(isset($lot[$useLang]['description'])) {
+                    $itemDetail->description = $lot[$useLang]['description'];
+                } else {
+                    $itemDetail->description = '';
+                }
                 $itemDetail->maker = null;
                 if(isset($lot[$useLang]['misc'])) {
                     $itemDetail->misc = $lot[$useLang]['misc'];

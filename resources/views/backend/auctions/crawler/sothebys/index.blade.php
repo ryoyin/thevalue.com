@@ -51,12 +51,14 @@
                         <thead>
                             <th>ID</th>
                             <th>Int Sale ID</th>
+                            <th>Info</th>
                             <th>HTML</th>
                             <th>JSON</th>
                             <th>Image</th>
                             <th>Resize</th>
                             <th>Push S3</th>
                             <th>Import</th>
+                            <th>Auction Date</th>
                             <th>Status</th>
                             <th>Auction</th>
                         </thead>
@@ -65,12 +67,32 @@
                             <tr>
                                 <td>{{ $sale->id }}</td>
                                 <td>{{ $sale->int_sale_id }}</td>
+                                <td>
+                                    {{ $sale->url }}<br>
+                                    {{ $sale->title }}
+                                </td>
                                 <td>{{ isDone($sale->html) }}</td>
                                 <td>{{ isDone($sale->json) }}</td>
                                 <td>{{ isDone($sale->image) }}</td>
                                 <td>{{ isDone($sale->resize) }}</td>
                                 <td>{{ isDone($sale->pushS3) }}</td>
                                 <td>{{ isDone($sale->import) }}</td>
+                                <?php
+
+                                    if($sale->start_date != null) {
+                                        $start_date_timestamp = strtotime($sale->start_date);
+                                        $end_date_timestamp = strtotime($sale->end_date);
+
+                                        $startDatetime = date('Y-m-d H:i:s T', $start_date_timestamp);
+                                        $endDatetime = date('Y-m-d H:i:s T', $end_date_timestamp);
+                                    } else {
+                                        $startDatetime = 'N.A.';
+                                        $endDatetime = 'N.A.';
+                                    }
+
+                                ?>
+                                <td>{{ $startDatetime }}<br>
+                                    {{ $endDatetime }}</td>
                                 <td>{{ $sale->status }}</td>
                                 <td>
                                     @if(!$sale->html)
