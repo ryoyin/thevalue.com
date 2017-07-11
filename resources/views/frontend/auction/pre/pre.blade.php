@@ -21,7 +21,7 @@
             }
         ?>
         <div style="position: relative;">
-            <div class="store-name"><img src="{{ asset($house->image_path) }}"><span>{{ $houseDetail->name }}</span></div>
+            <div class="store-name"><img src="{{ config('app.s3_path').$house->image_path }}"><span>{{ $houseDetail->name }}</span></div>
             <div class="more"><a href="{{ $browseMore }}" {{ $target }}>@lang('thevalue.browse')</a></div>
             <div class="series">
                 <?php $auctionDetail = $auction->details->where('lang', $locale)->first(); ?>
@@ -56,7 +56,7 @@
                                 ?>
                                 <div class="swiper-slide">
                                     <div class="row">
-                                        <div class="col-xs-5"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></a></div>
+                                        <div class="col-xs-5"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></a></div>
                                         <div class="col-xs-7 detail">
 
                                             <a class="cell-name" href="{{ $browseMore }}">{{ $houseDetail->name }}</a><br>

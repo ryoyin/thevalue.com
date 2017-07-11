@@ -344,7 +344,7 @@ class SothebysController extends Controller
         $newPath = $fullSalePath.'/'.$saleFilename;
         $img->save($newPath);
 
-        $saleArray['sale']['stored_image_path'] = $salePath.'/'.$saleFilename;
+        $saleArray['sale']['stored_image_path'] = $salePath.$saleFilename;
 
         foreach($saleArray['lots'] as $key => $lot) {
             echo $lot['number'].'<br>';
@@ -1166,11 +1166,25 @@ class SothebysController extends Controller
 
     public function importSaleIndex()
     {
-        $sales = App\SothebysSale::all();
+//        $sales = App\SothebysSale::all();
+
+        // Get uploaded Sothebys Sale
+        $store_path = base_path().'/storage/app/spider/sothebys/import/uploads/';
+        $list = scandir($store_path);
+
+        // Get Directory
+        $importSaleArray = $this->getDirectoryList($store_path, $list);
+
+        $storagePath = 'spider/sothebys/import/uploads/';
+        $salesArray = array();
+        foreach($importSaleArray as $key => $node) {
+            $json = Storage::get($storagePath.$node.'/'.$node.'/'.$node.'.json');
+            $salesArray[$node] = json_decode($json, true);
+        }
 
         $data = array(
             'menu' => array('auction', 'crawler', 'sothebys.importSaleIndex'),
-            'sales' => $sales
+            'salesArray' => $salesArray,
         );
 
         return view('backend.auctions.crawler.sothebys.sale.importSaleIndex', $data);
@@ -1178,54 +1192,277 @@ class SothebysController extends Controller
 
     public function uploadSaleFile(Request $request)
     {
+        set_time_limit(60000);
+
         $file = $request->file('upload_file');
-        $auctionSeriesID = $request->auction_series_id;
 
-        $store_path = base_path().'/storage/app/spider/sothebys/import/uploads/';
-//        exit;
+        // get uploaded filename
+        $filename = $file->getClientOriginalName();
 
-        $file->move($store_path, $file->getClientOriginalName());
+        // get int sale id
+        $intSaleID = str_replace('.tar.gz', '', $filename);
+
+        // define store path
+        $store_path = base_path().'/storage/app/spider/sothebys/import/uploads/'.$intSaleID.'/';
+
+        // move uploaded file to store path
+        $file->move($store_path, $filename);
+
+        // define moved path
+        $filePath = $store_path.$filename;
+
+        // extract tar.gz file
+        if(strpos($_SERVER['SystemRoot'], 'WINDOWS')) { // set 7zip path for window
+            $zipPath = '"C:\Program Files\7-Zip\7z.exe"';
+        } else { // 7zip for linux
+            $zipPath = '/usr/bin/7z';
+        }
+
+        // ungzip
+        $command = $zipPath.' x '.$filePath.' -o'.$store_path;
+        exec($command);
+
+        //untar
+        $filePath = str_replace('.gz', '', $filePath); // remove .gz from {intSaleID}tar.gz
+        $command = $zipPath.' x '.$filePath.' -o'.$store_path;
+        exec($command);
+
+        return redirect()->route('backend.auction.sothebys.sale.importSaleIndex');
 
     }
 
     public function createGZipFile($intSaleID)
     {
-        $command = 'set PATH=%PATH%;C:\Program Files\7-Zip';
 
-//        exec($command);
-
+        // define path
         $filePath = base_path().'/storage/app/spider/sothebys/sale/'.$intSaleID;
         $tarExportPath = base_path().'/storage/app/spider/sothebys/export/'.$intSaleID.'.tar';
         $gzExportPath = base_path().'/storage/app/spider/sothebys/export/'.$intSaleID.'.tar.gz';
 
-        echo $filePath;
-        echo '<br>';
-        echo $tarExportPath;
-        echo '<br>';
-
         // create tar file
         $command = '"C:\Program Files\7-Zip\7z.exe" a -ttar '.$tarExportPath.' '.$filePath;
+        exec($command);
 
-        echo $command;
-        echo '<br>';
+        // create tar.gz file
+        $command = '"C:\Program Files\7-Zip\7z.exe" a -tgzip '.$gzExportPath.' '.$tarExportPath;
+        exec($command);
 
-//        $command = 'dir';
+        return true;
+    }
 
-        echo exec($command);
-        echo '<br>';
+    private function getDirectoryList($store_path, $list)
+    {
+        $importSaleArray = array();
+        foreach($list as $key => $node) {
 
-//        echo $return;
+            if($node == '.' || $node == '..') continue;
 
-//        echo '<pre>';
-//        print_r($output);
+            $testPath = $store_path.$node;
+            if(is_dir($testPath)) {
+                $importSaleArray[] = $node;
+            }
+        }
+
+        return $importSaleArray;
+    }
+
+    public function importSaleFile(Request $request, $intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+        $auctionSeriesID = trim($request->auction_series_id);
+        $slug = trim($request->slug);
+
+        $storePath = base_path().'/storage/app/spider/sothebys/import/uploads/'.$intSaleID;
+        $storagePath = 'spider/sothebys/import/uploads/'.$intSaleID;
+
+        $jsonFilePath = $storagePath.'/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($jsonFilePath);
+
+        $saleArray = json_decode($json, true);
+
+        $importResult = $this->importSale($intSaleID, $auctionSeriesID, $slug, $saleArray);
+
+        $saleImagePath = $storePath.'/'.$intSaleID.'/sale_image.jpg';
+        $targetPath = base_path().'/public/images/auctions/sothebys/'.$intSaleID.'/'.$intSaleID.'sale_image.jpg';
+        File::copy($saleImagePath, $targetPath);
+
+        Storage::deleteDirectory($storagePath);
+
+        return redirect()->route('backend.auction.sothebys.sale.importSaleIndex');
+
+    }
+
+    private function importSale($intSaleID, $auctionSeriesID, $slug, $saleArray)
+    {
+//        dd($saleArray);
+
+        // Get Series Info
+        $series = App\AuctionSeries::find($auctionSeriesID);
+//        $seriesDetails = $series->details();
+
+        $house = $series->house;
+
+        if(count($series) == 0) exit;
+
+        $saleSlug = $series->slug.'-'.$slug;
+
+        // insert auction_sales
+        // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
+        $sale = New App\AuctionSale;
+
+        $sale->slug = $saleSlug;
+        $sale->source_image_path = $saleArray['sale']['source_image_path'];
+        $sale->image_path = $saleArray['sale']['stored_image_path'];
+        $sale->number = $intSaleID;
+        $sale->total_lots = count($saleArray['lots']);
+        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $sale->auction_series_id = $auctionSeriesID;
+
+        $sale->save();
+
+        $saleID = $sale->id;
+
+        // insert auction_sale_details
+        // type, title, country, location, lang, auction_sale_id
+        $supported_languages = config('app.supported_languages');
+        // sale detail type sale
+        foreach($supported_languages as $lang) {
+
+            $useLang = $lang == 'en' ? 'en' : 'zh';
+
+            $saleDetail = New App\AuctionSaleDetail;
+            $saleDetail->type = 'sale';
+            $saleDetail->title = $saleArray['sale'][$useLang]['title'];
+            $houseDetail = $house->getDetailByLang($lang);
+            $saleDetail->country = $houseDetail->country;
+            $saleDetail->location = $saleArray['sale'][$useLang]['auction']['location'];
+            $saleDetail->lang = $lang;
+            $saleDetail->auction_sale_id = $saleID;
+            $saleDetail->save();
+        }
+
+        if($saleArray['sale']['en']['viewing']['datetime'] != '') {
+            // sale detail type viewing
+            foreach ($supported_languages as $lang) {
+
+                $useLang = $lang == 'en' ? 'en' : 'zh';
+
+                $saleDetail = New App\AuctionSaleDetail;
+                $saleDetail->type = 'viewing';
+                $saleDetail->title = $saleArray['sale'][$useLang]['title'];
+                $houseDetail = $house->getDetailByLang($lang);
+                $saleDetail->country = $houseDetail->country;
+                $saleDetail->location = $saleArray['sale'][$useLang]['viewing']['location'];
+                $saleDetail->lang = $lang;
+                $saleDetail->auction_sale_id = $saleID;
+                $saleDetail->save();
+            }
+        }
+
+        // insert auction_sale_times
+        // type, lots, start_date, end_date, auction_sale_id
+        // sale date
+        $saleTime = New App\AuctionSaleTime;
+        $saleTime->type = 'sale';
+        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $saleTime->auction_sale_id = $saleID;
+        $saleTime->save();
+
+        if($saleArray['sale']['en']['viewing']['datetime'] != '') {
+            $viewingStartTime = date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['start']);
+            $viewingEndTime = date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['end']);
+
+            $viewingTime = New App\AuctionSaleTime;
+            $viewingTime->type = 'viewing';
+            $viewingTime->start_date = $viewingStartTime;
+            $viewingTime->end_date = $viewingEndTime;
+            $viewingTime->auction_sale_id = $saleID;
+
+            $viewingTime->save();
+        }
+
+        // insert auction_items
+        // slug, dimension, number,
+        // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
+        // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status, auction_sale_id
+
+        $counter = 10;
 
 //        exit;
 
-        $command = '"C:\Program Files\7-Zip\7z.exe" a -tgzip '.$gzExportPath.' '.$tarExportPath;
-        echo exec($command);
-        echo '<br>';
+        foreach($saleArray['lots'] as $lot) {
+            // filter dimension
 
-//        return true;
+//            $dimension = $lot['dimension'];
+
+            $item = New App\AuctionItem;
+            $item->slug = $slug . '-' . $lot['number'];
+            $item->dimension = null;
+            $item->number = $lot['number'];
+            $item->source_image_path = $lot['source_image_path'];
+            $item->image_path = $lot['image_path'];
+            $item->image_fit_path = $lot['stored_image_path']['fit'];
+            $item->image_large_path = $lot['stored_image_path']['large'];
+            $item->image_medium_path = $lot['stored_image_path']['medium'];
+            $item->image_small_path = $lot['stored_image_path']['small'];
+            $item->currency_code = $house->currency_code;
+
+            $estimate_value_initial = str_replace(',', '', $lot['estimate_initial']);
+            $estimate_value_end = str_replace(',', '', $lot['estimate_end']);
+
+            $item->estimate_value_initial = $estimate_value_initial;
+            $item->estimate_value_end = $estimate_value_end;
+            $item->sorting = $counter;
+            $item->status = 'pending';
+            $item->auction_sale_id = $saleID;
+
+            $item->save();
+
+            $itemID = $item->id;
+            echo '<br>';
+            echo $itemID . '<br>';
+
+            // insert auction_item_details
+            // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
+            foreach($supported_languages as $lang) {
+
+                $useLang = $lang == 'en' ? 'en' : 'zh';
+
+                $itemDetail = New App\AuctionItemDetail;
+                $itemDetail->title = $lot[$useLang]['title'];
+                if(isset($lot[$useLang]['description'])) {
+                    $itemDetail->description = $lot[$useLang]['description'];
+                } else {
+                    $itemDetail->description = '';
+                }
+                $itemDetail->maker = null;
+                if(isset($lot[$useLang]['misc'])) {
+                    $itemDetail->misc = $lot[$useLang]['misc'];
+                }
+                if(isset($lot[$useLang]['provenance'])) {
+                    $itemDetail->provenance = $lot[$useLang]['provenance'];
+                }
+                if(isset($lot[$useLang]['exhibited'])) {
+                    $itemDetail->exhibited = $lot[$useLang]['exhibited'];
+                }
+                $itemDetail->lang = $lang;
+                $itemDetail->auction_item_id = $itemID;
+                $itemDetail->save();
+            }
+
+            $counter += 10;
+
+        }
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->import = true;
+        $sale->save();
+
+        // backend.auction.itemList
+//        return redirect()->route('backend.auction.sothebys.index');
+
     }
 
 }

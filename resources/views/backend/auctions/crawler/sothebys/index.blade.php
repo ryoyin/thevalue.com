@@ -58,7 +58,7 @@
                             <th>Image</th>
                             <th>Resize</th>
                             <th>Push S3</th>
-                            <th>Import</th>
+                            {{--<th>Import</th>--}}
                             <th>Auction Date</th>
                             <th>Status</th>
                             <th>Auction</th>
@@ -77,7 +77,7 @@
                                 <td>{{ isDone($sale->image) }}</td>
                                 <td>{{ isDone($sale->resize) }}</td>
                                 <td>{{ isDone($sale->pushS3) }}</td>
-                                <td>{{ isDone($sale->import) }}</td>
+                                {{--<td>{{ isDone($sale->import) }}</td>--}}
                                 <?php
 
                                     if($sale->start_date != null) {
@@ -118,11 +118,11 @@
                                         <a href="{{ route('backend.auction.sothebys.crawler.capture.uploadS3', ['intSaleID' => $sale->int_sale_id]) }}"
                                            class="btn btn-primary">
                                             Push Images S3</a>
-                                    @elseif(!$sale->import)
+                                    {{--@elseif(!$sale->import)
                                         <a href="{{ route('backend.auction.sothebys.crawler.capture.examine', ['intSaleID' => $sale->int_sale_id]) }}"
                                            class="btn btn-primary">
-                                            Examine</a>
-                                    @elseif(!$sale->status)
+                                            Examine</a>--}}
+                                    @elseif(!$sale->status && $sale->import == 1)
                                         <form method="POST" action="{{ route('backend.auction.sothebys.crawler.capture.getRealizedPrice', ['intSaleID' => $sale->int_sale_id]) }}">
                                             {{ csrf_field() }}
                                             URL: <input type="text" name="url">

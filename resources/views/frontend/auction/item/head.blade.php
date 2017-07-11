@@ -1,6 +1,6 @@
 <div class="row item-head" url="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}" onclick="redirectItem(this);">
     <div class="hidden-xs col-sm-2 col-md-2 col-lg-1">
-        <img src="{{ asset($sale->image_path) }}" class="img-responsive">
+        <img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive">
     </div>
     <div class="col-xs-12 col-sm-10 col-md-10 col-lg-11 item-head-right">
         <div class="misc">

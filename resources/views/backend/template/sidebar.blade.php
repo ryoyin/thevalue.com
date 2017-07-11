@@ -120,6 +120,7 @@
             </ul>
           </li>
           <li class="{{ isActiveMenu('items.list', $menu) }}"><a href="{{ route('backend.auction.itemList') }}"><i class="fa fa-dot-circle-o"></i> <span>Item List   </span></a></li>
+          <li class="{{ isActiveMenu('pushS3.list', $menu) }}"><a href="{{ route('backend.auction.sale.pushS3') }}"><i class="fa fa-dot-circle-o"></i> <span>Push S3   </span></a></li>
 
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
         </ul>

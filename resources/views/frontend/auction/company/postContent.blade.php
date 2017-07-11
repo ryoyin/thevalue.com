@@ -29,10 +29,7 @@
         <div id="block" style="border: 0px !important">
 
             <div class="logo">
-                <?php
-                $companyImage = str_replace('_30', '', $house->image_path);
-                ?>
-                <img src="{{ asset($companyImage) }}">
+                <img src="{{ config('app.s3_path').$house->image_path }}">
                 <div class="name">{{ $houseDetail->name }}</div>
             </div>
 
@@ -93,7 +90,7 @@
                                     <?php $saleDetail = $sale->details()->where('lang', $locale)->first(); ?>
                                     <div class="swiper-slide">
                                         <div class="row col-sm-6 col-md-4 item">
-                                            <div class="col-xs-5"><img src="{{ asset($sale->image_path) }}" class="img-responsive"></div>
+                                            <div class="col-xs-5"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></div>
                                             <div class="col-xs-7 detail">
 
                                                 <div class="misc" style="font-size: 12px">

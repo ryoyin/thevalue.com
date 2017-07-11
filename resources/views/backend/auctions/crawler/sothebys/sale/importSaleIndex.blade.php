@@ -40,13 +40,63 @@
                             <form method="POST" action="{{ route('backend.auction.sothebys.sale.uploadSaleFile') }}" class="form-group" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <label>Import Sale File: </label>
-                                <input type="text" name="auction_series_id" id="auction_series_id" class="form-control" required><br>
                                 <input type="file" id="upload_file" name="upload_file" class="form-control" required><br>
                                 <input type="submit">
                             </form>
 
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
+
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Sales waiting for import</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <table class="table table-bordered table-striped sale-header">
+                                    <tr>
+                                        <th>Int Sale ID</th>
+                                        <th>Title</th>
+                                        <th>Location</th>
+                                        <th>Auction Date</th>
+                                        <th>Total Lots</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    @foreach($salesArray as $intSaleID => $saleArray)
+                                        <tr>
+                                            <td>{{ $intSaleID }}</td>
+                                            <td>{{ $saleArray['sale']['en']['title'] }}</td>
+                                            <td>{{ $saleArray['sale']['en']['auction']['location'] }}</td>
+                                            <td>{{ date('Y-m-d H:i:s T', $saleArray['sale']['en']['auction']['datetime']) }}</td>
+                                            <td>{{ count($saleArray['sale']['en']['lots']) }}</td>
+                                            <td>
+                                                <form method="post" action="{{ route('backend.auction.sothebys.sale.importSaleFile', ['intSaleID' => $intSaleID]) }}">
+                                                    <?php
+                                                        $slug = strtolower($saleArray['sale']['en']['title']);
+                                                        $slug = str_replace(' ', '-', $slug);
+                                                        $slug = str_replace('&', 'n', $slug);
+                                                    ?>
+                                                    {{ csrf_field() }}
+                                                    <table class="table table-bordered table-striped sale-header">
+                                                        <tr>
+                                                            <th>Auction Series ID</th>
+                                                            <th>Slug</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input type="text" name="auction_series_id" required></td>
+                                                            <td><input type="text" name="slug" required value="{{ $slug }}"></td>
+                                                            <td><input type="submit" value="Import" class="btn btn-primary"></td>
+                                                        </tr>
+                                                    </table>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </table>
+
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
 
                 </div>
             </div>

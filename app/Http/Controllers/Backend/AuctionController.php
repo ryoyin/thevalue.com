@@ -125,6 +125,47 @@ class AuctionController extends Controller
             $detail->save();
         }
 
-        return redirect('tvadmin/auction/item/'.$itemID)->with('alert-success', 'Auction item was successful updated!');;
+        return redirect('tvadmin/auction/item/'.$itemID)->with('alert-success', 'Auction item was successful updated!');
+    }
+
+    public function pushS3Index()
+    {
+        $locale = App::getLocale();
+
+        $data = array(
+            'locale' => $locale,
+            'menu' => array('auction', 'pushS3.list'),
+        );
+
+        return view('backend.auctions.sale.index', $data);
+    }
+
+    public function pushS3Process()
+    {
+        $sales = App\AuctionSale::all();
+
+        $path = base_path().'/public/';
+
+        foreach($sales as $sale) {
+            $this->pushS3($path, $sale->image_path);
+        }
+
+        $houses = App\AuctionHouse::all();
+        foreach($houses as $house) {
+            $this->pushS3($path, $house->image_path);
+        }
+
+        return redirect()->route('backend.auction.sale.pushS3');
+    }
+
+    public function pushS3($baseDirectory, $filePath)
+    {
+        $s3 = \Storage::disk('s3');
+        $localPath = $baseDirectory.'/'.$filePath;
+
+        echo $localPath;
+
+        $image = fopen($localPath, 'r+');
+        $s3->put('/'.$filePath, $image, 'public');
     }
 }

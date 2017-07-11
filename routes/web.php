@@ -195,11 +195,16 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('tvadmin/auction/crawler/sothebys/importSaleIndex', 'Backend\Crawler\SothebysController@importSaleIndex')->name('backend.auction.sothebys.sale.importSaleIndex');
     Route::post('tvadmin/auction/crawler/sothebys/uploadSaleFile', 'Backend\Crawler\SothebysController@uploadSaleFile')->name('backend.auction.sothebys.sale.uploadSaleFile');
+    Route::post('tvadmin/auction/crawler/sothebys/importSaleFile/{intSaleID}', 'Backend\Crawler\SothebysController@importSaleFile')->name('backend.auction.sothebys.sale.importSaleFile');
 
     // Auction Item
     Route::get('tvadmin/auction/item/list/{saleID?}', 'Backend\AuctionController@itemList')->name('backend.auction.itemList');
     Route::get('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemEdit')->name('backend.auction.itemEdit');
     Route::post('tvadmin/auction/item/{itemID}', 'Backend\AuctionController@itemUpdate')->name('backend.auction.itemUpdate');
+
+    // Auction Sale Push S3 - backend.auction.sale.pushS3
+    Route::get('tvadmin/auction/sale/pushS3', 'Backend\AuctionController@pushS3Index')->name('backend.auction.sale.pushS3');
+    Route::get('tvadmin/auction/sale/pushS3/process', 'Backend\AuctionController@pushS3Process')->name('backend.auction.sale.pushS3Process');
 
     //get realized-price
 //    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
