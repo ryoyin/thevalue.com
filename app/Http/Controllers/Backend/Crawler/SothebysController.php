@@ -263,16 +263,20 @@ class SothebysController extends Controller
 
         // Get Sale Image
         $saleSourceImagePath = 'http://www.sothebys.com'.$request->sale_image_path;
-//        echo $saleSourceImagePath;
 
-        $saleFilename = $intSaleID.'_sale_image.jpg';
+        $saleImageName  = basename($request->sale_image_path);
+        $exSaleImageName = explode('.', $saleImageName);
+//        $extension = $exSaleImageName[count($exSaleImageName) -1];
+        $extension = 'jpg';
+
+        $saleFilename = $intSaleID.'_sale_image.'.$extension;
 
         $saleImagePath = $this->getImageFromUrl($salePath, $saleSourceImagePath, $saleFilename);
 
         $saleArray['sale']['source_image_path'] = $saleSourceImagePath;
         $saleArray['sale']['image_path'] = $saleImagePath;
 
-        File::copy(base_path().'/storage/app/'.$saleImagePath, base_path().'/storage/app/spider/sothebys/sale/'.$intSaleID.'/sale_image.jpg');
+        File::copy(base_path().'/storage/app/'.$saleImagePath, base_path().'/storage/app/spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'_sale_image.'.$extension);
 
 //        exit;
 
@@ -339,7 +343,9 @@ class SothebysController extends Controller
         // create directory
         if(!file_exists($fullSalePath)) mkdir($fullSalePath);
 
-        $saleFilename = $intSaleID.'sale_image.jpg';
+        $saleFilename = $intSaleID.'_sale_image.jpg';
+
+        echo $saleFilename;
 
         $newPath = $fullSalePath.'/'.$saleFilename;
         $img->save($newPath);
@@ -352,12 +358,20 @@ class SothebysController extends Controller
             $saleArray['lots'][$key]['stored_image_path'] = $lotImage;
         }
 
-        $saleArray = json_encode($saleArray);
-        Storage::disk('local')->put($storePath, $saleArray);
-
         $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
         $sale->resize = true;
         $sale->save();
+
+        $saleArray['db'] = array(
+            'url' => $sale->url,
+            'start_date' => $sale->start_date,
+            'end_date' => $sale->end_date,
+            'title' => $sale->title,
+            'int_sale_id' => $sale->int_sale_id
+        );
+
+        $saleArray = json_encode($saleArray);
+        Storage::disk('local')->put($storePath, $saleArray);
 
         $this->createGZipFile($intSaleID);
 
@@ -418,6 +432,12 @@ class SothebysController extends Controller
 
     private function getImageFromUrl($storePath, $link, $filename)
     {
+//        echo $storePath;
+//        echo '<br>';
+//        echo $link;
+//        echo '<br>';
+//        echo $filename;
+//        echo '<br>';
         $image_path = $storePath.$filename;
 
         $ch = curl_init();
@@ -445,6 +465,7 @@ class SothebysController extends Controller
         $image=curl_exec($ch);
 
 //        echo $image;
+//        exit;
 
         curl_close($ch);
 
@@ -813,6 +834,8 @@ class SothebysController extends Controller
 //        echo $json;
 
         $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
 
         $baseDirectory = base_path().'/public';
 
@@ -1282,9 +1305,9 @@ class SothebysController extends Controller
 
         $importResult = $this->importSale($intSaleID, $auctionSeriesID, $slug, $saleArray);
 
-        $saleImagePath = $storePath.'/'.$intSaleID.'/sale_image.jpg';
-        $targetPath = base_path().'/public/images/auctions/sothebys/'.$intSaleID.'/'.$intSaleID.'sale_image.jpg';
-        File::copy($saleImagePath, $targetPath);
+//        $saleImagePath = $storePath.'/'.$intSaleID.'/sale_image.jpg';
+//        $targetPath = base_path().'/public/images/auctions/sothebys/'.$intSaleID.'/'.$intSaleID.'sale_image.jpg';
+//        File::copy($saleImagePath, $targetPath);
 
         Storage::deleteDirectory($storagePath);
 
@@ -1456,8 +1479,24 @@ class SothebysController extends Controller
 
         }
 
-        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+/*        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
         $sale->import = true;
+        $sale->save();*/
+
+        $sale = New App\SothebysSale;
+        $sale->url = $saleArray['db']['url'];
+        $sale->start_date = $saleArray['db']['start_date'];
+        $sale->end_date = $saleArray['db']['end_date'];
+        $sale->title = $saleArray['db']['title'];
+        $sale->int_sale_id = $saleArray['db']['int_sale_id'];
+        $sale->html = true;
+        $sale->json = true;
+        $sale->image = true;
+        $sale->resize = true;
+        $sale->pushS3 = true;
+        $sale->import = true;
+        $sale->status = 0;
+
         $sale->save();
 
         // backend.auction.itemList
