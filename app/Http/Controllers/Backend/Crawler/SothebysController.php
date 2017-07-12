@@ -1235,7 +1235,7 @@ class SothebysController extends Controller
         $filePath = $store_path.$filename;
 
         // extract tar.gz file
-        if(strpos($_SERVER['SystemRoot'], 'WINDOWS')) { // set 7zip path for window
+        if(strpos($_SERVER['SERVER_NAME'], 'localhost')) { // set 7zip path for window
             $zipPath = '"C:\Program Files\7-Zip\7z.exe"';
         } else { // 7zip for linux
             $zipPath = '/usr/bin/7z';
