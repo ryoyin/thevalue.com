@@ -163,6 +163,12 @@ class SothebysController extends Controller
                 'realized_price' => str_replace("'", '', $lot['salePrice']),
                 'url' => 'http://www.sothebys.com'.$url
             );
+
+            if(str_replace("'", '', $lot['salePrice'] > 0)) {
+                $salesArray['db']['result'] = true;
+            }  else {
+                $salesArray['db']['result'] = false;
+            }
         }
 
         foreach($salesArray['lots'] as $lot) {
@@ -216,6 +222,8 @@ class SothebysController extends Controller
         $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
         $json = Storage::disk('local')->get($storePath);
         $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
 
         // auction_sales - slug, *source_image_path, *image_path, number, start_date, end_date
 
@@ -362,13 +370,19 @@ class SothebysController extends Controller
         $sale->resize = true;
         $sale->save();
 
-        $saleArray['db'] = array(
+        /*$saleArray['db'] = array(
             'url' => $sale->url,
             'start_date' => $sale->start_date,
             'end_date' => $sale->end_date,
             'title' => $sale->title,
             'int_sale_id' => $sale->int_sale_id
-        );
+        );*/
+
+        $saleArray['db']['url'] = $sale->url;
+        $saleArray['db']['start_date'] = $sale->start_date;
+        $saleArray['db']['end_date'] = $sale->end_date;
+        $saleArray['db']['title'] = $sale->title;
+        $saleArray['db']['int_sale_id'] = $sale->int_sale_id;
 
         $saleArray = json_encode($saleArray);
         Storage::disk('local')->put($storePath, $saleArray);
@@ -1235,7 +1249,8 @@ class SothebysController extends Controller
         $filePath = $store_path.$filename;
 
         // extract tar.gz file
-        if(strpos($_SERVER['SERVER_NAME'], 'localhost')) { // set 7zip path for window
+
+        if($_SERVER['SERVER_NAME'] == 'localhost') { // set 7zip path for window
             $zipPath = '"C:\Program Files\7-Zip\7z.exe"';
         } else { // 7zip for linux
             $zipPath = '/usr/bin/7z';
@@ -1317,7 +1332,7 @@ class SothebysController extends Controller
 
     private function importSale($intSaleID, $auctionSeriesID, $slug, $saleArray)
     {
-//        dd($saleArray);
+        // dd($saleArray);
 
         // Get Series Info
         $series = App\AuctionSeries::find($auctionSeriesID);
@@ -1437,8 +1452,20 @@ class SothebysController extends Controller
 
             $item->estimate_value_initial = $estimate_value_initial;
             $item->estimate_value_end = $estimate_value_end;
+
+            if($saleArray['db']['result']) {
+                $item->sold_value = $lot['realized_price'];
+                if($lot['realized_price'] == 0) {
+                    $item->status = 'withdraw';
+                } else {
+                    $item->status = 'sold';
+                }
+            } else {
+                $item->status = 'pending';
+            }
+
             $item->sorting = $counter;
-            $item->status = 'pending';
+
             $item->auction_sale_id = $saleID;
 
             $item->save();
@@ -1495,7 +1522,7 @@ class SothebysController extends Controller
         $sale->resize = true;
         $sale->pushS3 = true;
         $sale->import = true;
-        $sale->status = 0;
+        $sale->status = true;
 
         $sale->save();
 

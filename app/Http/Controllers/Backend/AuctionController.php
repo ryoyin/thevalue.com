@@ -147,12 +147,20 @@ class AuctionController extends Controller
         $path = base_path().'/public/';
 
         foreach($sales as $sale) {
-            $this->pushS3($path, $sale->image_path);
+            if(!$sale->image_pushS3) {
+                $this->pushS3($path, $sale->image_path);
+                $sale->image_pushS3 = true;
+                $sale->save();
+            }
         }
 
         $houses = App\AuctionHouse::all();
         foreach($houses as $house) {
-            $this->pushS3($path, $house->image_path);
+            if(!$house->image_pushS3) {
+                $this->pushS3($path, $house->image_path);
+                $house->image_pushS3 = true;
+                $house->save();
+            }
         }
 
         return redirect()->route('backend.auction.sale.pushS3');
