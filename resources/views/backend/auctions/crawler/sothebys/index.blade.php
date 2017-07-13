@@ -107,7 +107,7 @@
                                     @elseif(!$sale->image)
                                         <form method="POST" action="{{ route('backend.auction.sothebys.crawler.capture.images', ['intSaleID' => $sale->int_sale_id]) }}">
                                             {{ csrf_field() }}
-                                            Sale Image URL: <input type="text" name="sale_image_path">
+                                            {{--Sale Image URL: <input type="text" name="sale_image_path">--}}
                                             <input type="submit" class="btn btn-primary" value="Download Images">
                                         </form>
                                     @elseif(!$sale->resize)

@@ -207,8 +207,8 @@ class SothebysController extends Controller
         $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
         $sale->html = true;
         $sale->title = $salesArray['sale']['en']['title'];
-        $sale->start_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']);
-        $sale->end_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']);
+        $sale->start_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']['start_datetime']);
+        $sale->end_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']['end_datetime']);
         $sale->save();
 
         return redirect()->route('backend.auction.sothebys.index');
@@ -217,6 +217,8 @@ class SothebysController extends Controller
 
     public function parseItems($intSaleID)
     {
+        ini_set('memory_limit','1024M');
+
         $internalErrors = libxml_use_internal_errors(true);
 
         $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
@@ -266,11 +268,11 @@ class SothebysController extends Controller
         $saleArray = json_decode($json, true);
 
 //        dd($saleArray);
-
         $salePath = 'images/auctions/sothebys/'.$intSaleID.'/';
 
         // Get Sale Image
-        $saleSourceImagePath = 'http://www.sothebys.com'.$request->sale_image_path;
+//        $saleSourceImagePath = 'http://www.sothebys.com'.$request->sale_image_path;
+        $saleSourceImagePath = 'http://www.sothebys.com'.$saleArray['sale']['en']['image_path'];
 
         $saleImageName  = basename($request->sale_image_path);
         $exSaleImageName = explode('.', $saleImageName);
@@ -332,8 +334,6 @@ class SothebysController extends Controller
     public function resize($intSaleID)
     {
         set_time_limit(60000);
-
-
 
         $storePath = 'spider/sothebys/sale/' . $intSaleID . '/' . $intSaleID . '.json';
         $json = Storage::disk('local')->get($storePath);
@@ -576,12 +576,33 @@ class SothebysController extends Controller
 
         $contentArray['viewing'] = $this->getViewingInfo($dom); // Get Viewing Datetime -  class: eventdetail-times > ul
 
+        $contentArray['image_path'] = $this->getSaleImage($dom);
+
         // Get Lot Info
         $dom->loadHTML($html); //resset load html
         $contentArray['lots'] = $this->getLotInfo($dom);
 
+//        dd($contentArray);
+
         return $contentArray;
 
+    }
+
+    private function getSaleImage($dom)
+    {
+        // get sale photo - eventdetail-left
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'eventdetail-left')]");
+//        $eventBlock = $node->item(0)->textContent;
+        $eventBlock = $dom->saveHTML($node->item(0));
+        $dom->loadHTML($eventBlock);
+        $imgBlock = $dom->getElementsByTagName('img');
+
+        $imgSrc = $imgBlock[0]->getAttribute('src');
+
+        $imgSrc = str_replace('/original', '', $imgSrc);
+
+        return $imgSrc;
     }
 
     private function getTitle($dom)
@@ -606,16 +627,37 @@ class SothebysController extends Controller
     {
         $timeItems = $dom->getElementsByTagName('time');
 
-        $time = '';
-
         foreach($timeItems as $key => $item) {
-            if($time != '') $time .= ' ';
-            $time .= $item->textContent;
+
+            if($key == 0) {
+                if(strpos($item->textContent, '-')) {
+                    $exTime = explode('-', $item->textContent);
+                    $start_date = trim($exTime[0]);
+                    $end_date = trim($exTime[1]);
+                } else {
+                    $start_date = trim($item->textContent);
+                    $end_date = $start_date;
+                }
+            } elseif($key==1) {
+                $start_time = trim($item->textContent);
+                $end_time = $start_time;
+            }
         }
 
-        $time = strtotime($time);
+        $start_datetime = $start_date.' '.$start_time;
+        $end_datetime = $end_date.' '.$end_time;
 
-        return $time;
+        $start_datetime = strtotime($start_datetime);
+        $end_datetime = strtotime($end_datetime);
+
+        $timeArray = array(
+            'start_datetime' => $start_datetime,
+            'end_datetime' => $end_datetime
+        );
+
+        // dd($timeArray);
+
+        return $timeArray;
     }
 
     private function getAuctionLocation($dom)
@@ -1529,6 +1571,17 @@ class SothebysController extends Controller
         // backend.auction.itemList
 //        return redirect()->route('backend.auction.sothebys.index');
 
+    }
+
+    public function crawlerRemove($intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+//        echo $intSaleID;
+
+        $sale = App\SothebysSale::where('int_sale_id', $intSaleID)->first();
+        $sale->delete();
+
+        return redirect()->route('backend.auction.sothebys.index');
     }
 
 }
