@@ -66,7 +66,7 @@
                                             <td>{{ $intSaleID }}</td>
                                             <td>{{ $saleArray['sale']['en']['title'] }}</td>
                                             <td>{{ $saleArray['sale']['en']['auction']['location'] }}</td>
-                                            <td>{{ date('Y-m-d H:i:s T', $saleArray['sale']['en']['auction']['datetime']) }}</td>
+                                            <td>{{ date('Y-m-d H:i:s T', $saleArray['sale']['en']['auction']['datetime']['start_datetime']) }} - {{ date('Y-m-d H:i:s T', $saleArray['sale']['en']['auction']['datetime']['end_datetime']) }}</td>
                                             <td>{{ count($saleArray['sale']['en']['lots']) }}</td>
                                             <td>
                                                 <form method="post" action="{{ route('backend.auction.sothebys.sale.importSaleFile', ['intSaleID' => $intSaleID]) }}">

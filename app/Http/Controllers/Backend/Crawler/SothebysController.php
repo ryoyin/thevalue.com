@@ -294,6 +294,9 @@ class SothebysController extends Controller
 
         // Get Lot Image
         foreach($saleArray['lots'] as $key => $lot) {
+
+//            print_r($lot);
+
             $lotImagePath = $lot['source_image_path'];
 
             $lotImagePath = str_replace(" ", "%20", $lotImagePath);
@@ -497,6 +500,8 @@ class SothebysController extends Controller
         $storePath = 'spider/sothebys/sale/'.$intSaleID.'/'.$lang.'/';
         $path = $storePath.$number.'.html';
         $html = Storage::disk('local')->get($path);
+
+        if(trim($html) == '') return false;
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $internalErrors = libxml_use_internal_errors(true);
@@ -1395,8 +1400,8 @@ class SothebysController extends Controller
         $sale->image_path = $saleArray['sale']['stored_image_path'];
         $sale->number = $intSaleID;
         $sale->total_lots = count($saleArray['lots']);
-        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
-        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']);
+        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['end_datetime']);
         $sale->auction_series_id = $auctionSeriesID;
 
         $sale->save();
@@ -1445,8 +1450,8 @@ class SothebysController extends Controller
         // sale date
         $saleTime = New App\AuctionSaleTime;
         $saleTime->type = 'sale';
-        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
-        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']);
+        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['end_datetime']);
         $saleTime->auction_sale_id = $saleID;
         $saleTime->save();
 
