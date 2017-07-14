@@ -54,7 +54,7 @@
                                 ?>
                                 <div class="swiper-slide">
                                     <div class="row">
-                                        <div class="col-xs-5"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></a></div>
+                                        <div class="col-xs-5" style="min-height: 120px;"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></a></div>
                                         <div class="col-xs-7 detail">
 
                                             <a class="cell-name" href="{{ $browseMore }}">{{ $houseDetail->name }}</a><br>

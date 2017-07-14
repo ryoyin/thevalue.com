@@ -90,7 +90,7 @@
                                     <?php $saleDetail = $sale->details()->where('lang', $locale)->first(); ?>
                                     <div class="swiper-slide">
                                         <div class="row col-sm-6 col-md-4 item">
-                                            <div class="col-xs-5"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></div>
+                                            <div class="col-xs-5" style="min-height: 120px;"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></div>
                                             <div class="col-xs-7 detail">
 
                                                 <div class="misc" style="font-size: 12px">

@@ -19,7 +19,7 @@ class SothebysController extends Controller
     {
         $locale = App::getLocale();
 
-        $sales = App\SothebysSale::all();
+        $sales = App\SothebysSale::orderBy('id', 'desc')->get();
 
         $data = array(
             'locale' => $locale,
