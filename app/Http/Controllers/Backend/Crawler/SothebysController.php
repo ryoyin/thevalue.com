@@ -12,6 +12,13 @@ use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use App;
 
+// Run in tinker
+// php artisan tinker
+// $controller = app()->make('App\Http\Controllers\Backend\Crawler\SothebysController');
+// app()->call([$controller, 'crawler']);
+
+// app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
+
 class SothebysController extends Controller
 {
 
@@ -30,15 +37,30 @@ class SothebysController extends Controller
         return view('backend.auctions.crawler.sothebys.index', $data);
     }
 
-    public function crawler(Request $request)
+    public function crawler()
     {
-        $url = trim($request->url);
+//        $url = trim($request->url);
 
 //        echo $url;
 
-        $this->getSaleByURL($url);
+        $url = 'http://www.sothebys.com/en/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html';
 
-        return redirect()->route('backend.auction.sothebys.index');
+        $intSaleID = $this->getSaleByURL($url);
+
+        $downloadDataResult = $this->downloadData($intSaleID);
+
+        $parseItemsResult = $this->parseItems($intSaleID);
+
+        $downloadImagesResult = $this->downloadImages($intSaleID);
+
+        $resizeResult = $this->resize($intSaleID);
+
+        $uploadS3Result = $this->uploadS3($intSaleID);
+
+        return true;
+
+//        return redirect()->route('backend.auction.sothebys.index');
+
     }
 
     public function getSaleByURL($url)
@@ -47,7 +69,7 @@ class SothebysController extends Controller
         set_time_limit(60000);
 
         echo "Getting content from: ".$url;
-        echo "<br>";
+        echo "<br>\r\n";
 
         $filename = str_replace('.html', '', basename($url));
 
@@ -56,12 +78,12 @@ class SothebysController extends Controller
 
         echo "Int Sale ID: ".$intSaleID;
 
-        echo "<br>";
+        echo "<br>\r\n";
 
 //        exit;
 
         echo "try: ".$url;
-        echo "<br>";
+        echo "<br>\r\n";
 
         // get EN Content;
         $this->getMainContentByLang($url, $intSaleID, 'en');
@@ -91,9 +113,9 @@ class SothebysController extends Controller
         $sale->save();
 
         echo 'Spider '.$url.' end';
-        echo "<br>";
+        echo "<br>\r\n";
 
-        return true;
+        return $intSaleID;
 
     }
 
@@ -177,6 +199,10 @@ class SothebysController extends Controller
 //            http://www.sothebys.com/zh/auctions/ecatalogue/lot.1.html/2017/treasures-l17303
 
             $url = $lot['url'];
+
+            echo "Downloading: ".$url;
+            echo "<br>\r\n";
+
             // get lot en content
             $this->getLotContentByLang($url, $intSaleID, 'en', $lot['number']);
 
@@ -211,7 +237,9 @@ class SothebysController extends Controller
         $sale->end_date = date('Y-m-d H:i:s', $salesArray['sale']['en']['auction']['datetime']['end_datetime']);
         $sale->save();
 
-        return redirect()->route('backend.auction.sothebys.index');
+//        return redirect()->route('backend.auction.sothebys.index');
+
+        return true;
 
     }
 
@@ -255,11 +283,13 @@ class SothebysController extends Controller
         $sale->json = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.sothebys.index');
+//        return redirect()->route('backend.auction.sothebys.index');
+
+        return true;
 
     }
 
-    public function downloadImages(Request $request, $intSaleID)
+    public function downloadImages($intSaleID)
     {
         set_time_limit(60000);
 
@@ -274,8 +304,8 @@ class SothebysController extends Controller
 //        $saleSourceImagePath = 'http://www.sothebys.com'.$request->sale_image_path;
         $saleSourceImagePath = 'http://www.sothebys.com'.$saleArray['sale']['en']['image_path'];
 
-        $saleImageName  = basename($request->sale_image_path);
-        $exSaleImageName = explode('.', $saleImageName);
+//        $saleImageName  = basename($request->sale_image_path);
+//        $exSaleImageName = explode('.', $saleImageName);
 //        $extension = $exSaleImageName[count($exSaleImageName) -1];
         $extension = 'jpg';
 
@@ -304,18 +334,18 @@ class SothebysController extends Controller
             $lotFilename = $lot['number'].'.jpg';
 
             echo "source: ".$lotImagePath;
-            echo '<br>';
+            echo "<br>\r\n";
             echo "search: ".base_path().'/storage/app/'.$salePath.$lotFilename;
-            echo '<br>';
+            echo "<br>\r\n";
 
             if(!file_exists(base_path().'/storage/app/'.$salePath.$lotFilename)) {
                 $lotImagePath = $this->getImageFromUrl($salePath, $lotImagePath, $lotFilename);
                 echo 'file not exist: '.$lotImagePath;
-                echo '<br>';
+                echo "<br>\r\n";
             } else {
                 $lotImagePath = $salePath.$lotFilename;
                 echo 'file exist: '.$salePath.$lotFilename;
-                echo '<br>';
+                echo "<br>\r\n";
             }
             $saleArray['lots'][$key]['image_path'] = $lotImagePath;
         }
@@ -330,7 +360,9 @@ class SothebysController extends Controller
         $sale->image = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.sothebys.index');
+//        return redirect()->route('backend.auction.sothebys.index');
+
+        return true;
 
     }
 
@@ -356,7 +388,7 @@ class SothebysController extends Controller
 
         $saleFilename = $intSaleID.'_sale_image.jpg';
 
-        echo $saleFilename;
+        echo $saleFilename."<br>\r\n";
 
         $newPath = $fullSalePath.'/'.$saleFilename;
         $img->save($newPath);
@@ -364,7 +396,7 @@ class SothebysController extends Controller
         $saleArray['sale']['stored_image_path'] = $salePath.$saleFilename;
 
         foreach($saleArray['lots'] as $key => $lot) {
-            echo $lot['number'].'<br>';
+            echo $lot['number']."<br>\r\n";
             $lotImage = $this->imgResize($lot['image_path'], $fullSalePath, $lot['number']);
             $saleArray['lots'][$key]['stored_image_path'] = $lotImage;
         }
@@ -392,7 +424,9 @@ class SothebysController extends Controller
 
         $this->createGZipFile($intSaleID);
 
-        return redirect()->route('backend.auction.sothebys.index');
+        return true;
+
+//        return redirect()->route('backend.auction.sothebys.index');
 
     }
 
@@ -419,18 +453,18 @@ class SothebysController extends Controller
     {
 
 //        echo $file;
-//        echo '<br>';
+//        echo "<br>\r\n";
 //
 
         echo 'resize: '.$resizePath;
-        echo '<br>';
+        echo "<br>\r\n";
 
         $img = Image::make(base_path().'/'.'storage/app/'.$file);
 
         $newPath = $resizePath.$lotNumber.'-'.$width.'.jpg';
 
         echo $newPath;
-        echo "<br>";
+        echo "<br>\r\n";
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
@@ -450,11 +484,11 @@ class SothebysController extends Controller
     private function getImageFromUrl($storePath, $link, $filename)
     {
 //        echo $storePath;
-//        echo '<br>';
+//        echo "<br>\r\n";
 //        echo $link;
-//        echo '<br>';
+//        echo "<br>\r\n";
 //        echo $filename;
-//        echo '<br>';
+//        echo "<br>\r\n";
         $image_path = $storePath.$filename;
 
         $ch = curl_init();
@@ -494,7 +528,7 @@ class SothebysController extends Controller
     private function getLotDetailsByLang($intSaleID, $number, $lang, $lot)
     {
         echo $number;
-        echo '<br>';
+        echo "<br>\r\n";
 
         // get raw html content
         $storePath = 'spider/sothebys/sale/'.$intSaleID.'/'.$lang.'/';
@@ -540,13 +574,13 @@ class SothebysController extends Controller
 
             if($key == 0) {
                 $provenance = $item->textContent;
-                $provenance = str_replace(";", ";<br>", $provenance);
+                $provenance = str_replace(";", ";<br>\r\n", $provenance);
                 $lot[$lang]['provenance'] = $provenance;
             }
 
             if($key == 1) {
                 $exhibited = $item->textContent;
-                $exhibited = str_replace(";", ";<br>", $exhibited);
+                $exhibited = str_replace(";", ";<br>\r\n", $exhibited);
                 $lot[$lang]['exhibited'] = $exhibited;
             }
 
@@ -706,7 +740,7 @@ class SothebysController extends Controller
         $location = $foundItem[1];
 
 //        echo $location;
-//        echo '<br>';
+//        echo "<br>\r\n";
 
         $dom->loadHTML($content);
 
@@ -723,21 +757,21 @@ class SothebysController extends Controller
         $viewingEndDatetime =  $viewingArray[count($viewingArray) -1];
 
 //        echo $viewingStartDatetime;
-//        echo '<br>';
+//        echo "<br>\r\n";
         $exViewingStart1 = explode(',', $viewingStartDatetime);
         $exViewingStart2 = explode('|', $exViewingStart1[1]);
 
 //        echo $exViewingStart2[0];
-//        echo '<br>';
+//        echo "<br>\r\n";
 //        echo $exViewingStart2[1];
         $exViewingStart3 = explode('-', $exViewingStart2[1]);
 //        echo $exViewingStart3[0];
-//        echo '<br>';
+//        echo "<br>\r\n";
         $parsedViewingStartDatetime = $exViewingStart2[0].' '.$exViewingStart3[0].' BST';
 
         $viewingStartDatetime = strtotime($parsedViewingStartDatetime);
 //        echo 'Viewing StartTime: '.$viewingStartDatetime;
-//        echo '<br>';
+//        echo "<br>\r\n";
 
         $exViewingEnd1 = explode(',', $viewingEndDatetime);
         $exViewingEnd2 = explode('|', $exViewingEnd1[1]);
@@ -746,9 +780,9 @@ class SothebysController extends Controller
         $parsedViewingEndDatetime = $exViewingEnd2[0].' '.$exViewingEnd3[1];
         $viewingEndDatetime = strtotime($parsedViewingEndDatetime);
 
-//        echo '<br>';
+//        echo "<br>\r\n";
 //        echo 'Viewing EndTime'.$viewingEndDatetime;
-//        echo '<br>';
+//        echo "<br>\r\n";
 
 //        dd($viewingArray);
 
@@ -772,7 +806,7 @@ class SothebysController extends Controller
             if(strpos($readScript, 'ECAT.lot')) {
                 $foundScript = $readScript;
             }
-//            echo '<br>';
+//            echo "<br>\r\n";
         }
 //        echo $foundScript;
 
@@ -785,8 +819,8 @@ class SothebysController extends Controller
 
             if(strpos($item, 'lotItemId')) {
 //                echo $item;
-//                echo '<br>';
-//                echo '<br>';
+//                echo "<br>\r\n";
+//                echo "<br>\r\n";
                 $exItem = explode('=', $item);
 
                 $parsedItem = '';
@@ -801,8 +835,8 @@ class SothebysController extends Controller
                 $item = substr($parsedItem, 1, -2);
 
 //                echo $item;
-//                echo '<br>';
-//                echo '<br>';
+//                echo "<br>\r\n";
+//                echo "<br>\r\n";
 
                 $item = str_getcsv($item, ',', "'");
 
@@ -915,7 +949,9 @@ class SothebysController extends Controller
         $sale->pushS3 = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.sothebys.index');
+        return true;
+
+//        return redirect()->route('backend.auction.sothebys.index');
 
     }
 
@@ -963,8 +999,8 @@ class SothebysController extends Controller
         $auctionSeriesID = trim($request->auction_series_id);
         $slug = trim($request->slug);
 
-//        echo $seriesID.'<br>';
-//        echo $slug.'<br>';
+//        echo $seriesID."<br>\r\n";
+//        echo $slug."<br>\r\n";
 
         $saleArray = $this->getSaleArray($intSaleID, 'sothebys');
 
@@ -1095,8 +1131,8 @@ class SothebysController extends Controller
             $item->save();
 
             $itemID = $item->id;
-            echo '<br>';
-            echo $itemID . '<br>';
+            echo "<br>\r\n";
+            echo $itemID . "<br>\r\n";
 
             // insert auction_item_details
             // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
@@ -1156,7 +1192,7 @@ class SothebysController extends Controller
         $url = trim($request->url);
 
         echo $url;
-        echo '<br>';
+        echo "<br>\r\n";
 
         $saleArray = $this->getSaleArray($intSaleID, 'sothebys');
 
@@ -1181,10 +1217,10 @@ class SothebysController extends Controller
 
             /*if($lot['salePrice'] == 0) {
                 echo $lotNumber." withdraw";
-                echo '<br>';
+                echo "<br>\r\n";
             } else {
                 echo 'Price: '.$lot['salePrice'];
-                echo '<br>';
+                echo "<br>\r\n";
             }*/
         }
 
@@ -1518,8 +1554,8 @@ class SothebysController extends Controller
             $item->save();
 
             $itemID = $item->id;
-            echo '<br>';
-            echo $itemID . '<br>';
+            echo "<br>\r\n";
+            echo $itemID . "<br>\r\n";
 
             // insert auction_item_details
             // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
