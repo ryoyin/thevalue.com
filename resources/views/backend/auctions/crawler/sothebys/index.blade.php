@@ -37,7 +37,7 @@
                         </div><!-- /.box-header -->
                         <div class="box-body">
 
-                            <form method="POST" action="{{ route('backend.auction.sothebys.crawler') }}" class="form-group">
+                            <form method="POST" action="{{ route('backend.auction.sothebys.importURL') }}" class="form-group">
                                 {{ csrf_field() }}
                                 <label>Sale URL: </label>
                                 <input type="text" id="url" name="url" required>
@@ -46,6 +46,25 @@
 
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
+
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <th>ID</th>
+                            <th>URL</th>
+                            <th>Auction</th>
+                        </thead>
+                        @foreach($importList as $import)
+                            <tr>
+                                <td>{{ $import->id }}</td>
+                                <td>{{ $import->url }}</td>
+                                <td>
+                                    <a href="{{ route('backend.auction.sothebys.deleteImportURL', ['id' => $import->id]) }}"
+                                       class="btn btn-danger" onclick="return delete_id({{$import->id}});">
+                                        Remove</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
 
 
                     <table class="table table-bordered table-striped">
@@ -137,7 +156,7 @@
                                        class="btn btn-primary">
                                         Sorting</a>
                                     <a href="{{ route('backend.auction.sothebys.crawler.remove', ['intSaleID' => $sale->int_sale_id]) }}"
-                                       class="btn btn-danger" onclick="return delete_sale({{$sale->int_sale_id}});">
+                                       class="btn btn-danger" onclick="return delete_id({{$sale->int_sale_id}});">
                                         Remove</a>
                                 </td>
                             </tr>
@@ -170,7 +189,7 @@
             });
         });
 
-        function delete_sale(id) {
+        function delete_id(id) {
 
             var cfm = confirm("Are you sure delete ID: "+id);
 

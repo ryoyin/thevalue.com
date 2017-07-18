@@ -27,14 +27,36 @@ class SothebysController extends Controller
         $locale = App::getLocale();
 
         $sales = App\SothebysSale::orderBy('id', 'desc')->get();
+        $importList = App\SothebysImportList::where('status', 0)->get();
 
         $data = array(
             'locale' => $locale,
             'menu' => array('auction', 'crawler', 'sothebys.index'),
-            'sales' => $sales
+            'sales' => $sales,
+            'importList' => $importList
         );
 
         return view('backend.auctions.crawler.sothebys.index', $data);
+    }
+
+    public function importURL(Request $request)
+    {
+        $url = trim($request->url);
+
+        $import = New App\SothebysImportList;
+        $import->url = $url;
+        $import->save();
+
+        return redirect()->route('backend.auction.sothebys.index');
+    }
+
+    public function deleteImportURL($id)
+    {
+        $id = trim($id);
+        $import = App\SothebysImportList::find($id);
+        $import->delete();
+
+        return redirect()->route('backend.auction.sothebys.index');
     }
 
     public function crawler()
@@ -43,19 +65,29 @@ class SothebysController extends Controller
 
 //        echo $url;
 
-        $url = 'http://www.sothebys.com/en/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html';
+//        $url = 'http://www.sothebys.com/en/auctions/2017/qing-dynasty-jade-carvings-from-hong-kong-collection-hk0771.html';
 
-        $intSaleID = $this->getSaleByURL($url);
+        $urls = App\SothebysImportList::where('status', 0)->get();
 
-        $downloadDataResult = $this->downloadData($intSaleID);
+        foreach($urls as $url) {
 
-        $parseItemsResult = $this->parseItems($intSaleID);
+            $intSaleID = $this->getSaleByURL($url->url);
 
-        $downloadImagesResult = $this->downloadImages($intSaleID);
+            $downloadDataResult = $this->downloadData($intSaleID);
 
-        $resizeResult = $this->resize($intSaleID);
+            $parseItemsResult = $this->parseItems($intSaleID);
 
-        $uploadS3Result = $this->uploadS3($intSaleID);
+            $downloadImagesResult = $this->downloadImages($intSaleID);
+
+            $resizeResult = $this->resize($intSaleID);
+
+            $uploadS3Result = $this->uploadS3($intSaleID);
+
+            $url->status = 1;
+
+            $url->save();
+
+        }
 
         return true;
 
@@ -960,7 +992,7 @@ class SothebysController extends Controller
         $s3 = \Storage::disk('s3');
         $localPath = $baseDirectory.'/'.$filePath;
 
-        echo $localPath;
+        echo $localPath."<br>\r\n";
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');

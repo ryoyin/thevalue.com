@@ -76,6 +76,8 @@
                                                         $slug = str_replace('&', 'n', $slug);
                                                         $slug = str_replace(':', '', $slug);
                                                         $slug = str_replace(',', '', $slug);
+                                                        $slug = str_replace('’', '', $slug);
+                                                        $slug = str_replace('\'', '', $slug);
                                                     ?>
                                                     {{ csrf_field() }}
                                                     <table class="table table-bordered table-striped sale-header">

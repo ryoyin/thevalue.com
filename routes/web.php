@@ -180,7 +180,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     // Auction Sothebys Crawler
     Route::get('tvadmin/auction/crawler/sothebys', 'Backend\Crawler\SothebysController@index')->name('backend.auction.sothebys.index');
-    Route::post('tvadmin/auction/crawler/sothebys/crawler', 'Backend\Crawler\SothebysController@crawler')->name('backend.auction.sothebys.crawler');
+    Route::post('tvadmin/auction/crawler/sothebys/importURL', 'Backend\Crawler\SothebysController@importURL')->name('backend.auction.sothebys.importURL');
+    Route::get('tvadmin/auction/crawler/sothebys/deleteImportURL/{id}', 'Backend\Crawler\SothebysController@deleteImportURL')->name('backend.auction.sothebys.deleteImportURL');
+    Route::get('tvadmin/auction/crawler/sothebys/crawler', 'Backend\Crawler\SothebysController@crawler')->name('backend.auction.sothebys.crawler');
     Route::get('tvadmin/auction/crawler/sothebys/capture/{intSaleID}', 'Backend\Crawler\SothebysController@downloadData')->name('backend.auction.sothebys.crawler.capture');
     Route::get('tvadmin/auction/crawler/sothebys/capture/items/{intSaleID}', 'Backend\Crawler\SothebysController@parseItems')->name('backend.auction.sothebys.crawler.capture.items');
     Route::post('tvadmin/auction/crawler/sothebys/capture/items/images/{intSaleID}', 'Backend\Crawler\SothebysController@downloadImages')->name('backend.auction.sothebys.crawler.capture.images');
