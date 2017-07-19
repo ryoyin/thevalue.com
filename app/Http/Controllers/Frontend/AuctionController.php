@@ -33,10 +33,10 @@ class AuctionController extends Controller
 
         $auctionDateLogic = array('upcoming' => '>=', 'post' => '<');
 
-        $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->where('status', 'published')->get();
+        $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->where('status', 'published')->orderBy('start_date')->get();
 
         if($slug == 'post') {
-            $series = App\AuctionSeries::whereDate('start_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->where('status', 'published')->get();
+            $series = App\AuctionSeries::whereDate('start_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->where('status', 'published')->orderBy('start_date')->get();
 //            echo Carbon::now()->format('Y-m-d');
         }
 //        dd($series);

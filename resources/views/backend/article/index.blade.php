@@ -36,6 +36,9 @@
             </div><!-- /.box-header -->
             <div class="box-body">
               {{ $articles->links() }}
+              <form method="get" action="{{ url('tvadmin/articles')  }}">
+                Slug: <input type="text" name="search"> <input type="submit">
+              </form>
               <table id="research" class="table table-bordered table-striped">
                 {{--category_id, slug, photo_id, hit_counter, share_counter--}}
                 <thead>
@@ -117,7 +120,8 @@
           $("#research").DataTable({
               "order": [[0, "desc"]],
               "paging":   false,
-              "info":     false
+              "info":     false,
+              "searching": false,
           });
       });
 
