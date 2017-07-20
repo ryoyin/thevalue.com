@@ -79,15 +79,21 @@ class HomepageController extends Controller
     public function getFeaturedArticleList($size = 'medium') {
         $featuredArticleList = array();
         $featuredArticles = App\FeaturedArticle::orderBy('sorting')->get();
+
+        $validArticle = 0;
+
         foreach($featuredArticles as $featuredArticle) {
             $article = $featuredArticle->article;
             $detail = $article->details->where('lang', $this->locale)->first();
 
             if($this->locale == 'en') {
                 if(trim($detail->description) == '') continue;
+
+                $validArticle ++;
             } else {
-                $checkEnDetail = $article->details->where('lang', 'en')->first();
-                if(trim($checkEnDetail->description) != '' ) continue;
+                $validArticle ++;
+//                $checkEnDetail = $article->details->where('lang', 'en')->first();
+//                if(trim($checkEnDetail->description) != '' ) continue;
             }
 
             $photo = $article->photo;
@@ -117,6 +123,8 @@ class HomepageController extends Controller
                 'category_id' => $article->category_id,
                 'published_at' => $article->published_at->format('M d, Y')
             );
+
+            if($validArticle == 4) break;
         }
 
 //        dd($featuredArticleList);
