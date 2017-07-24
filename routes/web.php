@@ -90,7 +90,7 @@ function()
     Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
     Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
     Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');
-    Route::get('/auction/{slug}', 'Frontend\AuctionController@auction')->name('frontend.auction.auction');
+    Route::any('/auction/{slug}', 'Frontend\AuctionController@auction')->name('frontend.auction.auction');
     Route::get('/auction/{house}/upcoming', 'Frontend\AuctionController@houseUpcoming')->name('frontend.auction.house.upcoming');
     Route::get('/auction/{house}/post', 'Frontend\AuctionController@housePost')->name('frontend.auction.house.post');
 //    Route::get('/auction/{house}/about', 'Frontend\AuctionController@house')->name('frontend.auction.house');

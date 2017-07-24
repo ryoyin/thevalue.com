@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('js/swiper/swiper.min.css?update=2017062101') }}">
 
 <!-- Swipe Custom styles -->
-<link rel="stylesheet" href="{{ asset('js/swiper/swiper.custom.css') }}">
+<link rel="stylesheet" href="{{ asset('js/swiper/swiper.custom.css?update=20170724') }}">
 
 @include('frontend.auction.post.pre')
 

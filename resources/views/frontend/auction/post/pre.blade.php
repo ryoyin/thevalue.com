@@ -1,7 +1,99 @@
+<div class="panel-group" role="tablist" style="margin-right: -15px;">
+    <div class="panel panel-default">
+        {{--<div class="panel-heading" role="tab" id="collapseListGroupHeading1">--}}
+            {{--<h4 class="panel-title"> <a href="#collapseListGroup1" class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup1">--}}
+                    {{--Collapsible list group </a> </h4>--}}
+        {{--</div>--}}
+        <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
+            <h4 class="panel-title"> <a href="#collapseListGroup1" class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup1" style="width: 100%; display: inline-block">
+                    Advance Search
+                </a> </h4>
+        </div>
+        <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" aria-expanded="false" style="height: 0px;">
+            <div class="panel-body">
+                <div class="row">
+
+                    <form method="POST" action="{{ route('frontend.auction.auction', ['slug' => 'post']) }}">
+
+                        {{ csrf_field() }}
+
+                        <input type="hidden" name="advance_search">
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">House</div>
+                                <select class="form-control" name="house">
+                                    <option value="-"> -- please select -- </option>
+                                    @foreach($houses as $house)
+                                        <option value="{{ $house->slug }}"
+                                            @if($advanceSearch)
+                                                @if($searchCriteria['houseSlug'] == $house->slug)
+                                                    selected
+                                                @endif
+                                            @endif
+                                        >{{ $house->getDetailByLang($locale)->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">Date:</div>
+                                <input type="text" name="start_date" class="form-control date" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{ $rangeDatetime['start_date'] }}" required>
+                                <div class="input-group-addon">-</div>
+                                <input type="text" name="end_date" class="form-control date" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{ $rangeDatetime['end_date'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-1">
+                            <div class="input-group">
+                                <input type="submit" class="btn btn-normal">
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="input-group">
+                                <input type="button" class="btn btn-normal" value="reset" name="reset" onclick="reset_search(); return false;">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if($advanceSearch)
+    <script>
+        $(document).ready(function() {
+            $('.collapse').collapse();
+        });
+    </script>
+@endif
+
+<script>
+    function reset_search() {
+        window.location = '{{ route('frontend.auction.auction', ['slug' => 'post']) }}';
+    }
+</script>
+
 <div class="pre-auction-block pre-ab-1">
     @foreach($series as $auction)
         <?php
+
+//            dd($auction);
+
             $sales = $auction->sales()->where('end_date', '<', Carbon\Carbon::now()->format('Y-m-d'))->orderBy('start_date')->get();
+
             if(count($sales) == 0) continue;
 
             if($auction->id == 2) continue;

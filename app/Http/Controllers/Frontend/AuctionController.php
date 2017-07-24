@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App;
 use App\Category;
 use Carbon\Carbon;
+use DB;
 
 class AuctionController extends Controller
 {
@@ -31,17 +32,60 @@ class AuctionController extends Controller
             "app_id" => "1149533345170108"
         );
 
-        $auctionDateLogic = array('upcoming' => '>=', 'post' => '<');
+        $series = App\AuctionSeries::whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->where('status', 'published')->orderBy('start_date')->get();
 
-        $series = App\AuctionSeries::whereDate('end_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->where('status', 'published')->orderBy('start_date')->get();
+        $rangeDatetime = array(
+            'start_date' => date('Y-m-01'),
+            'end_date' => date('Y-m-d'),
+        );
+
+        $advanceSearch = false;
 
         if($slug == 'post') {
-            $series = App\AuctionSeries::whereDate('start_date', $auctionDateLogic[$slug], Carbon::now()->format('Y-m-d'))->where('status', 'published')->orderBy('start_date')->get();
-//            echo Carbon::now()->format('Y-m-d');
+
+            if(isset($request->advance_search)) $advanceSearch = true;
+
+            if($advanceSearch) {
+
+                // house start_date end_date
+
+                $houseSlug = $request->house;
+
+                if($houseSlug != '-') {
+                    $house = App\AuctionHouse::where('slug', $houseSlug)->first();
+                    $houseID = $house->id;
+
+                    $searchCriteria['houseSlug'] = $houseSlug;
+                }
+
+                $startDate = $request->start_date;
+                $endDate = $request->end_date;
+
+                $rangeDatetime['start_date'] = $startDate;
+                $rangeDatetime['end_date'] = $endDate;
+
+                if($startDate > date('Y-m-d')) $rangeDatetime['start_date'] = date('Y-m-d');
+                if($endDate > date('Y-m-d')) $rangeDatetime['end_date'] = date('Y-m-d');
+
+            }
+
+            $series = App\AuctionSeries::where('status', 'published');
+
+            if(isset($houseID)) {
+
+                $series->where('auction_house_id', '=', $houseID);
+
+            }
+
+            $series->whereDate('start_date', '>=', $rangeDatetime['start_date']);
+            $series->whereDate('start_date', '<', $rangeDatetime['end_date']);
+            $series = $series->get();
+
         }
-//        dd($series);
 
         $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
+
+        $houses = App\AuctionHouse::orderBy('slug')->get();
 
         $data = array(
             'locale' => App::getLocale(),
@@ -49,7 +93,14 @@ class AuctionController extends Controller
             'categories' => $this->getCategoriesList(),
             'series' => $series,
             'menuBanner' => $menuBanner,
+            'houses' => $houses,
+            'rangeDatetime' => $rangeDatetime,
+            'advanceSearch' => $advanceSearch,
         );
+
+        if($advanceSearch) {
+            $data['searchCriteria'] = $searchCriteria;
+        }
 
         if($request->input('type') !== null) {
             switch ($request->input('type')) {

@@ -8,9 +8,11 @@
     <title>TheValue.com</title>
 
     <script src="{{ asset('js/jquery/jquery-3.2.1.slim.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/bootstrap-datepicker.min.js') }}"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dist/css/bootstrap-datepicker.css') }}" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{{ asset('assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
@@ -113,5 +115,7 @@
             enable_page_level_ads: false
         });
     </script>
+
+    <link href="{{ asset('dist/css/bootstrap-datepicker.css') }}" rel="stylesheet">
 
 </head>
