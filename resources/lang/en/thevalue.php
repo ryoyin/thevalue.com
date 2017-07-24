@@ -70,4 +70,10 @@ return [
     'no-upcoming-auction' => 'No Upcoming Auction',
     'no-post-auction' => 'No Post Auction',
     'download-android-apk' => 'Download Android APK',
+    'advance-search' => 'Advance Search',
+    'house' => 'Auction House',
+    'please-select-2' => ' -- please select -- ',
+    'date' => 'Date',
+    'searchSubmit' => 'Search',
+    'searchReset' => 'Reset',
 ];

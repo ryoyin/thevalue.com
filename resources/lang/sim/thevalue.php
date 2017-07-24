@@ -66,4 +66,10 @@ return [
     'no-upcoming-auction' => '未有预展拍卖记录',
     'no-psot-auction' => '未有过往拍卖记录',
     'download-android-apk' => 'Android 软件平台下载',
+    'advance-search' => '进阶搜寻',
+    'house' => '拍卖行',
+    'please-select-2' => ' -- 请选择 -- ',
+    'date' => '日期',
+    'searchSubmit' => '搜寻',
+    'searchReset' => '重设',
 ];

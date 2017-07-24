@@ -67,6 +67,9 @@ class AuctionController extends Controller
                 if($startDate > date('Y-m-d')) $rangeDatetime['start_date'] = date('Y-m-d');
                 if($endDate > date('Y-m-d')) $rangeDatetime['end_date'] = date('Y-m-d');
 
+                $searchCriteria['start_date'] = $rangeDatetime['start_date'];
+                $searchCriteria['end_date'] = $rangeDatetime['end_date'];
+
             }
 
             $series = App\AuctionSeries::where('status', 'published');

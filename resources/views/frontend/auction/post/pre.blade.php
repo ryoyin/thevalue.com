@@ -5,8 +5,8 @@
                     {{--Collapsible list group </a> </h4>--}}
         {{--</div>--}}
         <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
-            <h4 class="panel-title"> <a href="#collapseListGroup1" class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup1" style="width: 100%; display: inline-block">
-                    Advance Search
+            <h4 class="panel-title"> <a href="#collapseListGroup1" class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup1" style="width: 100%; display: inline-block; text-decoration: none;">
+                    @lang('thevalue.advance-search')
                 </a> </h4>
         </div>
         <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" aria-expanded="false" style="height: 0px;">
@@ -21,13 +21,13 @@
 
                         <div class="col-md-4">
                             <div class="input-group">
-                                <div class="input-group-addon">House</div>
+                                <div class="input-group-addon">@lang('thevalue.house')</div>
                                 <select class="form-control" name="house">
-                                    <option value="-"> -- please select -- </option>
+                                    <option value="-">@lang('thevalue.please-select-2')</option>
                                     @foreach($houses as $house)
                                         <option value="{{ $house->slug }}"
                                             @if($advanceSearch)
-                                                @if($searchCriteria['houseSlug'] == $house->slug)
+                                                @if(isset($searchCriteria['houseSlug']) && $searchCriteria['houseSlug'] == $house->slug)
                                                     selected
                                                 @endif
                                             @endif
@@ -41,7 +41,7 @@
 
                         <div class="col-md-4">
                             <div class="input-group">
-                                <div class="input-group-addon">Date:</div>
+                                <div class="input-group-addon">@lang('thevalue.date')</div>
                                 <input type="text" name="start_date" class="form-control date" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{ $rangeDatetime['start_date'] }}" required>
                                 <div class="input-group-addon">-</div>
                                 <input type="text" name="end_date" class="form-control date" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{ $rangeDatetime['end_date'] }}" required>
@@ -52,13 +52,13 @@
 
                         <div class="col-md-1">
                             <div class="input-group">
-                                <input type="submit" class="btn btn-normal">
+                                <input type="submit" class="btn btn-normal" value="@lang('thevalue.searchSubmit')">
                             </div>
                         </div>
 
                         <div class="col-md-1">
                             <div class="input-group">
-                                <input type="button" class="btn btn-normal" value="reset" name="reset" onclick="reset_search(); return false;">
+                                <input type="button" class="btn btn-normal" value="@lang('thevalue.searchReset')" name="reset" onclick="reset_search(); return false;">
                             </div>
                         </div>
 

@@ -65,4 +65,10 @@ return [
     'no-upcoming-auction' => '未有預展拍賣記錄',
     'no-post-auction' => '未有過往拍賣記錄',
     'download-android-apk' => 'Android 軟件平台下載',
+    'advance-search' => '進階搜尋',
+    'house' => '拍賣行',
+    'please-select-2' => ' -- 請選擇 -- ',
+    'date' => '日期',
+    'searchSubmit' => '搜尋',
+    'searchReset' => '重設',
 ];
