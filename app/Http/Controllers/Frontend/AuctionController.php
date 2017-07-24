@@ -85,7 +85,7 @@ class AuctionController extends Controller
 
         $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 
-        $houses = App\AuctionHouse::orderBy('slug')->get();
+        $houses = App\AuctionHouse::where('status', 1)->orderBy('slug')->get();
 
         $data = array(
             'locale' => App::getLocale(),
