@@ -9,7 +9,7 @@
                     @lang('thevalue.advance-search')
                 </a> </h4>
         </div>
-        <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" aria-expanded="false" style="height: 0px;">
+        <div class="panel-collapse collapse auction-advance-search" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" aria-expanded="false" style="height: 0px;">
             <div class="panel-body">
                 <div class="row">
 
@@ -50,15 +50,12 @@
 
                         <div class="col-md-1"></div>
 
-                        <div class="col-md-1">
-                            <div class="input-group">
-                                <input type="submit" class="btn btn-normal" value="@lang('thevalue.searchSubmit')">
-                            </div>
-                        </div>
-
-                        <div class="col-md-1">
-                            <div class="input-group">
-                                <input type="button" class="btn btn-normal" value="@lang('thevalue.searchReset')" name="reset" onclick="reset_search(); return false;">
+                        <div class="col-md-1 pull-right">
+                            <div class="input-group" style="margin-left: -10px;">
+                                <input type="submit" class="btn btn-normal pull-right" value="@lang('thevalue.searchSubmit')" style="margin-right: 5px;">
+                                <span class="input-group-btn">
+                                    <input type="button" class="btn btn-normal" value="@lang('thevalue.searchReset')" name="reset" onclick="reset_search(); return false;">
+                                </span>
                             </div>
                         </div>
 
@@ -75,7 +72,7 @@
 @if($advanceSearch)
     <script>
         $(document).ready(function() {
-            $('.collapse').collapse();
+            $('.auction-advance-search').collapse();
         });
     </script>
 @endif
