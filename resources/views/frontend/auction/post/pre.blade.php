@@ -19,7 +19,7 @@
 
                         <input type="hidden" name="advance_search">
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="margin-bottom: 5px;">
                             <div class="input-group">
                                 <div class="input-group-addon">@lang('thevalue.house')</div>
                                 <select class="form-control" name="house">
@@ -39,7 +39,7 @@
 
                         <div class="col-md-1"></div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="margin-bottom: 5px;">
                             <div class="input-group">
                                 <div class="input-group-addon">@lang('thevalue.date')</div>
                                 <input type="text" name="start_date" class="form-control date" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="{{ $rangeDatetime['start_date'] }}" required>
@@ -48,10 +48,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1 pull-right">
-                            <div class="input-group" style="margin-left: -10px;">
+                        <div class="col-md-2 pull-right" style="margin-bottom: 5px;">
+                            <div class="input-group">
                                 <input type="submit" class="btn btn-normal pull-right" value="@lang('thevalue.searchSubmit')" style="margin-right: 5px;">
                                 <span class="input-group-btn">
                                     <input type="button" class="btn btn-normal" value="@lang('thevalue.searchReset')" name="reset" onclick="reset_search(); return false;">
