@@ -302,6 +302,10 @@
     }
   }
 
+  .auction-advance-search-block {
+    margin-left: -15px;
+  }
+
 }
 
 @media only screen and (max-width: 560px) {
@@ -1598,5 +1602,13 @@ body {
   }
   .android-apk-logo {
     height: 45px;
+  }
+}
+
+.auction-advance-search-block {
+  margin-left: -15px;
+
+  .panel {
+    border-radius: 0px;
   }
 }

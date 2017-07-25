@@ -212,6 +212,9 @@
   .popular-news-block #popular-news .right a {
     font-size: 14px;
   }
+  .auction-advance-search-block {
+    margin-left: -15px;
+  }
 }
 
 @media only screen and (max-width: 560px) {
@@ -1369,6 +1372,14 @@ body {
 
 .footer-download-link .android-apk-logo {
   height: 45px;
+}
+
+.auction-advance-search-block {
+  margin-left: -15px;
+}
+
+.auction-advance-search-block .panel {
+  border-radius: 0px;
 }
 
 /*# sourceMappingURL=web.css.map */

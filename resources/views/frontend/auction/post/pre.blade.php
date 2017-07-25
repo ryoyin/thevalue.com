@@ -1,4 +1,4 @@
-<div class="panel-group" role="tablist" style="margin-right: -15px;">
+<div class="panel-group auction-advance-search-block" role="tablist" style="margin-right: -15px;">
     <div class="panel panel-default">
         {{--<div class="panel-heading" role="tab" id="collapseListGroupHeading1">--}}
             {{--<h4 class="panel-title"> <a href="#collapseListGroup1" class="collapsed" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup1">--}}
