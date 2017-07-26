@@ -161,6 +161,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/christie/crawler/remove/{intSaleID}', 'Backend\Crawler\ChristieController@crawlerRemove')->name('backend.auction.christie.crawler.remove');
     Route::get('tvadmin/auction/crawler/christie/capture', 'Backend\Crawler\ChristieController@capture')->name('backend.auction.christie.capture');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
+    Route::get('tvadmin/auction/crawler/christie/capture/list/downloadImages', 'Backend\Crawler\ChristieController@listDownloadImages')->name('backend.auction.christie.capture.listDownloadImages');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/downloadImages', 'Backend\Crawler\ChristieController@downloadImages')->name('backend.auction.christie.capture.downloadImages');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/uploadS3', 'Backend\Crawler\ChristieController@uploadS3')->name('backend.auction.christie.capture.uploadS3');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/getRealizedPrice', 'Backend\Crawler\ChristieController@getRealizedPrice')->name('backend.auction.christie.capture.getRealizedPrice');

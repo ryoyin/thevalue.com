@@ -45,6 +45,7 @@
                                         <th>Int Sale ID</th>
                                         <th>Sale ID</th>
                                         <th>Title</th>
+                                        <th>DB</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </thead>
@@ -58,6 +59,14 @@
                                                     EN -{{ $sale['sale']['en']['title'] }}<br>
                                                     Trad -{{ $sale['sale']['trad']['title'] }}<br>
                                                     Sim -{{ $sale['sale']['sim']['title'] }}
+                                                </td>
+                                                <td>
+                                                    @if(isset($sale['db']))
+                                                        Series: {{ $sale['db']['series']['detail'] }}
+                                                        Sale: {{ $sale['db']['sale']['main'] }} - {{ $sale['db']['sale']['detail'] }}
+                                                    @else
+                                                        N.A.
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     @if($sale === false)

@@ -75,6 +75,7 @@ class ChristieController extends Controller
             $json = Storage::disk('local')->get($sale.'/'.$fileName);
 
             $salesArray[$intSaleID] = json_decode($json, true);
+
         }
 
         //dd($salesArray);
@@ -483,9 +484,38 @@ class ChristieController extends Controller
 
     }
 
-    public function downloadImages($intSaleID)
+    public function listDownloadImages()
     {
-        set_time_limit(6000);
+        $sales = File::directories(base_path().'/storage/app/spider/christie/sale');
+
+        $salesArray = array();
+
+        foreach($sales as $sale) {
+
+            $sale = str_replace(base_path().'/storage/app/', '', $sale);
+            $sale = str_replace('\\', '/', $sale);
+
+            $exSale = explode('/', $sale);
+            $intSaleID = $exSale[count($exSale) - 1];
+            $fileName = $intSaleID.'.json';
+
+            $json = Storage::disk('local')->get($sale.'/'.$fileName);
+
+            $saleArray = json_decode($json, true);
+            $salesArray[$intSaleID] = json_decode($json, true);
+
+            // dd($saleArray);
+
+            if(!isset($saleArray['db'])) {
+                $this->downloadImages($intSaleID, false);
+            }
+
+        }
+    }
+
+    public function downloadImages($intSaleID, $redirect = true)
+    {
+        set_time_limit(60000);
 
         $intSaleID = trim($intSaleID);
 
@@ -582,7 +612,11 @@ class ChristieController extends Controller
 
         Storage::disk('local')->put($path, json_encode($saleArray));
 
-        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+        if($redirect) {
+            return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+        } else {
+            return true;
+        }
 
     }
 
