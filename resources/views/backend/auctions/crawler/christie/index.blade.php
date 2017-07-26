@@ -45,6 +45,23 @@
 
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
+
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Get Sale List</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+
+                                <form method="POST" action="{{ route('backend.auction.christie.getList') }}" class="form-group">
+                                    {{ csrf_field() }}
+                                    <label>Please enter </label><br>
+                                    Year: <input type="text" id="year" name="year" required>
+                                    Month: <input type="text" id="month" name="month" required>
+                                    <input type="submit">
+                                </form>
+
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
                 </div>
             </div>
 

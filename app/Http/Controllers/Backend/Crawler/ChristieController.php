@@ -1066,6 +1066,7 @@ class ChristieController extends Controller
         $value = trim($value);
 
         return $value;
+
     }
 
     private function convertValue2($value)
@@ -1100,5 +1101,81 @@ class ChristieController extends Controller
         return $saleArray;
     }
 
+    public function getList(Request $request)
+    {
+
+        set_time_limit(600000);
+
+        $month = trim($request->month);
+        $year = trim($request->year);
+
+        $url = 'http://www.christies.com/results/?month='.$month.'&year='.$year;
+
+        echo $url;
+
+//        exit;
+
+        $result = $this->getSaleListByURL($url);
+
+//        echo $result;
+
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $internalErrors = libxml_use_internal_errors(true);
+        $dom->loadHTML($result);
+
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'sale-number')]");
+//        $title = $node->item(0)->textContent;
+
+        $spiderArray = array();
+        foreach($node as $item) {
+
+            $href = $item->getAttribute('href');
+
+            $exHref = explode('=', $href);
+
+            $spiderArray[] = $exHref[1];
+//            echo $exHref[1].'<br>';
+
+        }
+
+//        dd($spiderArray);
+
+        foreach($spiderArray as $intSaleID) {
+
+            $this->crawlerByID($intSaleID);
+
+            echo 'Spidering: '.$intSaleID;
+
+            echo '<br>';
+
+//            break;
+
+        }
+
+        dd($spiderArray);
+
+    }
+
+    private function getSaleListByURL($url)
+    {
+
+        $cSession = curl_init();
+
+        curl_setopt($cSession,CURLOPT_URL,$url);
+        curl_setopt($cSession,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($cSession,CURLOPT_HEADER, false);
+
+        $result=curl_exec($cSession);
+
+        return $result;
+    }
+
+    public function crawlerByID($intSaleID)
+    {
+        $this->getSaleByIntSaleID($intSaleID);
+
+        return true;
+    }
 
 }
