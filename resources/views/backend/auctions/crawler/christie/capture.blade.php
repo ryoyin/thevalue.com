@@ -61,12 +61,13 @@
                                                     Sim -{{ $sale['sale']['sim']['title'] }}
                                                 </td>
                                                 <td>
-                                                    @if(isset($sale['db']))
+                                                    {{--@if(isset($sale['db']))
                                                         Series: {{ $sale['db']['series']['detail'] }}
                                                         Sale: {{ $sale['db']['sale']['detail'] }}
                                                     @else
                                                         N.A.
-                                                    @endif
+                                                    @endif--}}
+                                                    N.A.
                                                 </td>
                                                 <td>
                                                     @if($sale === false)
