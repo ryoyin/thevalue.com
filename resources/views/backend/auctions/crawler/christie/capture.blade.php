@@ -63,7 +63,7 @@
                                                 <td>
                                                     @if(isset($sale['db']))
                                                         Series: {{ $sale['db']['series']['detail'] }}
-                                                        Sale: {{ $sale['db']['sale']['main'] }} - {{ $sale['db']['sale']['detail'] }}
+                                                        Sale: {{ $sale['db']['sale']['detail'] }}
                                                     @else
                                                         N.A.
                                                     @endif

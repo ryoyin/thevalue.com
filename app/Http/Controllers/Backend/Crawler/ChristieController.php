@@ -16,6 +16,7 @@ use Intervention\Image\Facades\Image;
 // php artisan tinker
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\ChristieController');
 // app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
+// app()->call([$controller, 'listDownloadImages']);
 
 class ChristieController extends Controller
 {
