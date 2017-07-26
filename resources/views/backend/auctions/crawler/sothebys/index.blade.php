@@ -44,13 +44,6 @@
                                 <input type="submit">
                             </form>
 
-                            <form method="POST" action="{{ route('backend.auction.sothebys.importURL') }}" class="form-group">
-                                {{ csrf_field() }}
-                                <label>Sale URL: </label>
-                                <input type="text" id="url" name="url" required>
-                                <input type="submit">
-                            </form>
-
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
