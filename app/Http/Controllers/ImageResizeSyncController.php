@@ -10,6 +10,10 @@ use Intervention\Image\Facades\Image;
 use App\Photo;
 use App\PhotoDetail;
 
+// php artisan tinker
+// $controller = app()->make('App\Http\Controllers\ImageResizeSyncController');
+// app()->call([$controller, 'index']);
+
 class ImageResizeSyncController extends Controller
 {
 
