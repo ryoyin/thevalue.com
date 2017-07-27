@@ -1158,7 +1158,7 @@ class ChristieController extends Controller
     {
         $endYear = '2016';
 
-        $lastRecord = App\ChristieSpider::orderBy('id', 'desc')->first();
+        $lastRecord = App\ChristieSpider::orderBy('year')->orderBy('month')->first();
 
 //        $lastDate = new \DateTime($lastRecord->year.'-'.$lastRecord->month);
 
@@ -1166,6 +1166,9 @@ class ChristieController extends Controller
 
         $year = $newDate->format('Y');
         $month = $newDate->format('n');
+
+//        echo $year.$month;
+//        exit;
 
         // echo $newDate->format('Yn');
         $insertRecord = New App\ChristieSpider;
