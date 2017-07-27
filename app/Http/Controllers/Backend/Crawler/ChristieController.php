@@ -1150,7 +1150,10 @@ class ChristieController extends Controller
 
         $christieSpiderID = $insertRecord->id;
 
-        $spiderResult = $this->getAutoList($month, $year, $christieSpiderID);
+        for($i=1; $i<=3; $i++) {
+            $url = 'http://www.christies.com/results/?month='.$month.'&year='.$year.'&locations=&scids=&action=paging&initialpageload=false&pg='.$i;
+            $spiderResult = $this->getAutoList($url, $month, $year, $christieSpiderID);
+        }
 
     }
 
@@ -1178,18 +1181,19 @@ class ChristieController extends Controller
 
         $christieSpiderID = $insertRecord->id;
 
-        $spiderResult = $this->getAutoList($month, $year, $christieSpiderID);
+        for($i=1; $i<=3; $i++) {
+            $url = 'http://www.christies.com/results/?month='.$month.'&year='.$year.'&locations=&scids=&action=paging&initialpageload=false&pg='.$i;
+            $spiderResult = $this->getAutoList($url, $month, $year, $christieSpiderID);
+        }
 
     }
 
-    public function getAutoList($month, $year, $christieSpiderID)
+    public function getAutoList($url, $month, $year, $christieSpiderID)
     {
 
         set_time_limit(600000);
 
-        $url = 'http://www.christies.com/results/?month='.$month.'&year='.$year;
-
-        echo $url;
+        echo $url."\n";
 
 //        exit;
 
@@ -1205,6 +1209,10 @@ class ChristieController extends Controller
 
         $finder = new \DomXPath($dom);
         $node = $finder->query("//*[contains(@class, 'location')]");
+
+        if($node->length == 0) {
+            return false;
+        }
 
         $spiderArray = array();
 
@@ -1239,11 +1247,17 @@ class ChristieController extends Controller
 
                 $intSaleID = $sale['int_sale_id'];
 
+                $checkDup = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
+
+                echo "dup count: ".count($checkDup)."\n";
+
+                if(count($checkDup) > 0) continue;
+
                 $this->crawlerByID($intSaleID);
 
                 echo 'Spidering: '.$intSaleID;
 
-                echo '<br>';
+                echo "<br>\n";
 
                 $sale = New App\ChristieSpiderSale;
                 $sale->int_sale_id = $intSaleID;
