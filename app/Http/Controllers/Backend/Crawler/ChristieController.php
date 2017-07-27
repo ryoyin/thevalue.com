@@ -17,6 +17,7 @@ use Intervention\Image\Facades\Image;
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\ChristieController');
 // app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
 // app()->call([$controller, 'autoGetList']);
+// app()->call([$controller, 'manualGetList'], ['year' => 2017, 'month' => 4]);
 // app()->call([$controller, 'listDownloadImages']);
 
 class ChristieController extends Controller
@@ -1137,6 +1138,20 @@ class ChristieController extends Controller
         $saleArray = json_decode($json, true);
 
         return $saleArray;
+    }
+
+    public function manualGetList($year, $month)
+    {
+
+        $insertRecord = New App\ChristieSpider;
+        $insertRecord->year = $year;
+        $insertRecord->month = $month;
+        $insertRecord->save();
+
+        $christieSpiderID = $insertRecord->id;
+
+        $spiderResult = $this->getAutoList($month, $year, $christieSpiderID);
+
     }
 
     public function autoGetList()
