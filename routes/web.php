@@ -137,7 +137,7 @@ Route::get('/app-qr-code', 'Frontend\PageController@RedirectQRCode')->name('fron
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-Route::get('register', '\App\Http\Controllers\Auth\LoginController@logout');
+//Route::get('register', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', 'HomeController@index');
@@ -157,6 +157,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Auction Christie Crawler
     Route::get('tvadmin/auction/crawler/christie', 'Backend\Crawler\ChristieController@index')->name('backend.auction.christie.index');
     Route::post('tvadmin/auction/crawler/christie/getList', 'Backend\Crawler\ChristieController@getList')->name('backend.auction.christie.getList');
+    Route::get('tvadmin/auction/crawler/christie/autoGetList', 'Backend\Crawler\ChristieController@autoGetList')->name('backend.auction.christie.autoGetList');
     Route::post('tvadmin/auction/crawler/christie/crawler', 'Backend\Crawler\ChristieController@crawler')->name('backend.auction.christie.crawler');
     Route::get('tvadmin/auction/crawler/christie/crawler/remove/{intSaleID}', 'Backend\Crawler\ChristieController@crawlerRemove')->name('backend.auction.christie.crawler.remove');
     Route::get('tvadmin/auction/crawler/christie/capture', 'Backend\Crawler\ChristieController@capture')->name('backend.auction.christie.capture');

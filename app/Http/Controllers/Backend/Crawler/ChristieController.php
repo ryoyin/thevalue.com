@@ -16,6 +16,7 @@ use Intervention\Image\Facades\Image;
 // php artisan tinker
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\ChristieController');
 // app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
+// app()->call([$controller, 'autoGetList']);
 // app()->call([$controller, 'listDownloadImages']);
 
 class ChristieController extends Controller
@@ -208,6 +209,8 @@ class ChristieController extends Controller
 
         // get exhibition time from en template
         $saleLandingEN = $this->GetSaleLanding($saleNumber, 'en');
+
+        //echo $saleLandingEN;
 
         $saleImagePathBlock = $saleLandingEN->getElementById('MainSaleImage');
         $saleImagePath = $saleImagePathBlock->getElementsByTagName('img');
@@ -1135,6 +1138,112 @@ class ChristieController extends Controller
 
         return $saleArray;
     }
+
+    public function autoGetList()
+    {
+        $endYear = '2016';
+
+        $lastRecord = App\ChristieSpider::orderBy('id', 'desc')->first();
+
+//        $lastDate = new \DateTime($lastRecord->year.'-'.$lastRecord->month);
+
+        $newDate = new \DateTime($lastRecord->year.'-'.($lastRecord->month - 1));
+
+        $year = $newDate->format('Y');
+        $month = $newDate->format('n');
+
+        // echo $newDate->format('Yn');
+        $insertRecord = New App\ChristieSpider;
+        $insertRecord->year = $year;
+        $insertRecord->month = $month;
+        $insertRecord->save();
+
+        $christieSpiderID = $insertRecord->id;
+
+        $spiderResult = $this->getAutoList($month, $year, $christieSpiderID);
+
+    }
+
+    public function getAutoList($month, $year, $christieSpiderID)
+    {
+
+        set_time_limit(600000);
+
+        $url = 'http://www.christies.com/results/?month='.$month.'&year='.$year;
+
+        echo $url;
+
+//        exit;
+
+        $result = $this->getSaleListByURL($url);
+
+//        echo $result;
+
+        // auction-info
+
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $internalErrors = libxml_use_internal_errors(true);
+        $dom->loadHTML($result);
+
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'location')]");
+
+        $spiderArray = array();
+
+        foreach($node as $key => $item) {
+            $type = $item->textContent;
+            $type = strtolower(trim($type));
+
+            $spiderArray[$key]['type'] = $type;
+        }
+
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'sale-number')]");
+//        $title = $node->item(0)->textContent;
+
+        foreach($node as $key => $item) {
+
+            $href = $item->getAttribute('href');
+
+            $exHref = explode('=', $href);
+
+            $spiderArray[$key]['int_sale_id'] = $exHref[1];
+//            echo $exHref[1].'<br>';
+
+        }
+
+//        dd($spiderArray);
+
+        foreach($spiderArray as $sale) {
+
+
+            if($sale['type'] != 'online') {
+
+                $intSaleID = $sale['int_sale_id'];
+
+                $this->crawlerByID($intSaleID);
+
+                echo 'Spidering: '.$intSaleID;
+
+                echo '<br>';
+
+                $sale = New App\ChristieSpiderSale;
+                $sale->int_sale_id = $intSaleID;
+                $sale->download_images = 0;
+                $sale->push_s3 = 0;
+                $sale->christie_spider_id = $christieSpiderID;
+                $sale->save();
+
+//                break;
+
+            }
+
+        }
+
+        return $spiderArray;
+
+    }
+
 
     public function getList(Request $request)
     {
