@@ -41,6 +41,34 @@
                                 <input type="submit">
                             </form>
                         </div><!-- /.box-header -->
+
+                        <hr>
+
+                        <div class="box-header">
+                            <h3 class="box-title">Spider Records</h3>
+                        </div><!-- /.box-header -->
+
+                        <div class="box-body">
+
+                            <table class="table table-bordered table-striped" id="records">
+                                <thead>
+                                <td>Year</td>
+                                <td>Month</td>
+                                </thead>
+                                <tbody>
+                                @foreach($spiderRecords as $record)
+                                    <tr>
+                                        <td>{{ $record->year }}</td>
+                                        <td>{{ $record->month }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+
+                        </div><!-- /.box-body -->
+
+                        <hr>
+
                         <div class="box-body">
 
                             @if(isset($sales))
@@ -133,8 +161,9 @@
 
     <script>
         $(function () {
-            $("#research").DataTable({
-                "order": [[0, "desc"]]
+            $("#records").DataTable({
+                "order": [[0, "desc"]],
+                "pageLength": 5
             });
         });
 

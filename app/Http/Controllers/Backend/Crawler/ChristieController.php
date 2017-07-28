@@ -26,9 +26,12 @@ class ChristieController extends Controller
     {
         $locale = App::getLocale();
 
+        $spiderRecords = App\ChristieSpider::orderBy('year', 'desc')->orderBy('month', 'desc')->get();
+
         $data = array(
             'locale' => $locale,
             'menu' => array('auction', 'crawler', 'christie.index'),
+            'spiderRecords' => $spiderRecords
         );
 
         return view('backend.auctions.crawler.christie.index', $data);
@@ -64,6 +67,8 @@ class ChristieController extends Controller
 
         $locale = App::getLocale();
 
+        $spiderRecords = App\ChristieSpider::orderBy('year', 'desc')->orderBy('month', 'desc')->get();
+
         if($year == '' || $month == '') {
             $spiderDate = App\ChristieSpider::orderBy('year', 'desc')->orderBy('month', 'desc')->first();
         } else {
@@ -97,6 +102,7 @@ class ChristieController extends Controller
                 'menu' => array('auction', 'christie.capture'),
                 'sales' => $sales,
                 'salesArray' => $salesArray,
+                'spiderRecords' => $spiderRecords,
             );
 
 
@@ -105,6 +111,7 @@ class ChristieController extends Controller
             $data = array(
                 'locale' => $locale,
                 'menu' => array('auction', 'christie.capture'),
+                'spiderRecords' => $spiderRecords,
             );
 
         }

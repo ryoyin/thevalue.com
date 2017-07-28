@@ -74,6 +74,32 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
+                    <div class="box">
+
+                        <div class="box-header">
+                            <h3 class="box-title">Spider Records</h3>
+                        </div><!-- /.box-header -->
+
+                        <div class="box-body">
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <td>Year</td>
+                                    <td>Month</td>
+                                </thead>
+                                <tbody>
+                                    @foreach($spiderRecords as $record)
+                                        <tr>
+                                            <td>{{ $record->year }}</td>
+                                            <td>{{ $record->month }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+
                 </div>
             </div>
 
