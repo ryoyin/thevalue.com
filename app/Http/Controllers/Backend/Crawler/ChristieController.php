@@ -57,39 +57,60 @@ class ChristieController extends Controller
 
     }
 
-    public function capture()
+    public function capture(Request $request)
     {
+        $year = trim($request->year);
+        $month = trim($request->month);
+
         $locale = App::getLocale();
 
-//        echo base_path();
+        if($year == '' || $month == '') {
+            $spiderDate = App\ChristieSpider::orderBy('year', 'desc')->orderBy('month', 'desc')->first();
+        } else {
+            $spiderDate = App\ChristieSpider::where('year', $year)->where('month', $month)->first();
+        }
 
-        $sales = File::directories(base_path().'/storage/app/spider/christie/sale');
+        // dd($spiderDate);
 
-        $salesArray = array();
+        if($spiderDate){
 
-        foreach($sales as $sale) {
-            $sale = str_replace(base_path().'/storage/app/', '', $sale);
-            $sale = str_replace('\\', '/', $sale);
+            $sales = $spiderDate->sales;
 
-            $exSale = explode('/', $sale);
-            $intSaleID = $exSale[count($exSale) - 1];
-            $fileName = $intSaleID.'.json';
+            // $sales = File::directories(base_path().'/storage/app/spider/christie/sale');
 
-            $json = Storage::disk('local')->get($sale.'/'.$fileName);
+            foreach($sales as $sale) {
 
-            $salesArray[$intSaleID] = json_decode($json, true);
+                $intSaleID = $sale->int_sale_id;
+
+                $fileName = $intSaleID.'.json';
+
+                $json = Storage::disk('local')->get('spider/christie/sale/'.$intSaleID.'/'.$fileName);
+
+                $salesArray[$intSaleID] = json_decode($json, true);
+
+            }
+
+            //dd($salesArray);
+
+            $data = array(
+                'locale' => $locale,
+                'menu' => array('auction', 'christie.capture'),
+                'sales' => $sales,
+                'salesArray' => $salesArray,
+            );
+
+
+        } else {
+
+            $data = array(
+                'locale' => $locale,
+                'menu' => array('auction', 'christie.capture'),
+            );
 
         }
 
-        //dd($salesArray);
-
-        $data = array(
-            'locale' => $locale,
-            'menu' => array('auction', 'christie.capture'),
-            'salesArray' => $salesArray,
-        );
-
         return view('backend.auctions.crawler.christie.capture', $data);
+
     }
 
     public function captureItemList($intSaleID)

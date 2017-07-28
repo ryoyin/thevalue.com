@@ -10,6 +10,6 @@ class ChristieSpider extends Model
 
     public function sales()
     {
-        return $this->hasMany('App\ChristieSpiderSales');
+        return $this->hasMany('App\ChristieSpiderSale');
     }
 }

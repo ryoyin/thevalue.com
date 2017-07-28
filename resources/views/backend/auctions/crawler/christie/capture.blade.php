@@ -34,65 +34,82 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Capture Sale Content From Christie</h3>
+                            <hr>
+                            <form action="{{ route('backend.auction.christie.capture') }}" method="get">
+                                Year: <input type="text" name="year" value="{{ @$_GET['year'] }}">
+                                Month: <input type="text" name="month" value="{{ @$_GET['month'] }}">
+                                <input type="submit">
+                            </form>
                         </div><!-- /.box-header -->
                         <div class="box-body">
 
-                            <div class="form-group">
+                            @if(isset($sales))
 
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <th>Image</th>
-                                        <th>Int Sale ID</th>
-                                        <th>Sale ID</th>
-                                        <th>Title</th>
-                                        <th>DB</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($salesArray as $intSaleID => $sale)
-                                            <tr>
-                                                <td><img src="{{ $sale['sale']['image_path'] }}" height="150px"></td>
-                                                <td>{{ $intSaleID }}</td>
-                                                <td>{{ $sale['sale']['id'] }}</td>
-                                                <td>
-                                                    EN -{{ $sale['sale']['en']['title'] }}<br>
-                                                    Trad -{{ $sale['sale']['trad']['title'] }}<br>
-                                                    Sim -{{ $sale['sale']['sim']['title'] }}
-                                                </td>
-                                                <td>
-                                                    {{--@if(isset($sale['db']))
-                                                        Series: {{ $sale['db']['series']['detail'] }}
-                                                        Sale: {{ $sale['db']['sale']['detail'] }}
-                                                    @else
-                                                        N.A.
-                                                    @endif--}}
-                                                    N.A.
-                                                </td>
-                                                <td>
-                                                    @if($sale === false)
-                                                        Bad
-                                                    @else
-                                                        Good
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
-                                                        {{ csrf_field() }}
-                                                        <input type="hidden" id="int_sale_id" name="int_sale_id" value="{{ $intSaleID }}">
-                                                        <input type="submit" value="Try Again" class="btn btn-warning">
-                                                    </form>
-                                                    @if($sale !== false)
-                                                        <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
-                                                    @endif
-                                                    <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div class="form-group">
 
-                            </div>
+                                    Sale Count: {{ count($sales) }}
+
+                                    <table class="table table-bordered table-striped">
+
+                                        <thead>
+                                            <th>Image</th>
+                                            <th>Int Sale ID</th>
+                                            <th>Sale ID</th>
+                                            <th>Title</th>
+                                            <th>Images</th>
+                                            <th>Push S3</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach($sales as $sale)
+                                                <?php
+                                                    $intSaleID = $sale->int_sale_id;
+                                                    $saleContent = $salesArray[$intSaleID];
+                                                ?>
+                                                <tr>
+                                                    <td><img src="{{ $saleContent['sale']['image_path'] }}" height="150px"></td>
+                                                    <td>{{ $intSaleID }}</td>
+                                                    <td>{{ $saleContent['sale']['id'] }}</td>
+                                                    <td>
+                                                        EN -{{ $saleContent['sale']['en']['title'] }}<br>
+                                                        Trad -{{ $saleContent['sale']['trad']['title'] }}<br>
+                                                        Sim -{{ $saleContent['sale']['sim']['title'] }}
+                                                    </td>
+                                                    <td>{{ $sale->download_images }}</td>
+                                                    <td>{{ $sale->push_s3 }}</td>
+                                                    <td>
+                                                        @if($saleContent === false)
+                                                            Bad
+                                                        @else
+                                                            Good
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <form method="POST" action="{{ route('backend.auction.christie.crawler') }}" class="form-group">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" id="int_sale_id" name="int_sale_id" value="{{ $intSaleID }}">
+                                                            <input type="submit" value="Try Again" class="btn btn-warning">
+                                                        </form>
+                                                        @if($saleContent !== false)
+                                                            <a href="{{ route('backend.auction.christie.capture.itemList', ['intSaleID' => $intSaleID]) }}" class="btn btn-primary">Examine</a>
+                                                        @endif
+                                                        <a href="{{ route('backend.auction.christie.crawler.remove', ['$intSaleID' => $intSaleID]) }}" class="btn btn-danger" onclick="return delete_sale({{$intSaleID}});">Remove</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            @else
+
+                                No result found!
+
+                            @endif
 
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
