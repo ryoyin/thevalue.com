@@ -30,9 +30,9 @@ class Kernel extends ConsoleKernel
 //        $schedule->call('App\Http\Controllers\ImageResizeSyncController@index')->everyMinute();
 //        $schedule->call('App\Http\Controllers\ImageResizeSyncController@relinkArticleDescPhoto')->everyMinute();
 
-//        $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@autoGetList')->hourlyAt(30);
+        $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@autoGetList')->hourlyAt(config('app.christie_spider_time'));
 
-        $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@dbDownloadImages')->everyMinute();
+//        $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@dbDownloadImages')->everyMinute();
     }
 
     /**
