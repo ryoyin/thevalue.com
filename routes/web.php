@@ -22,7 +22,7 @@ function()
     $locale = App::getLocale();
 
 //    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
-    /*Route::get('/', function() {
+    Route::get('/', function() {
         $locale = App::getLocale();
         $localeArr = array(
             'trad' => 'hk',
@@ -79,7 +79,7 @@ function()
             'en' => 'en'
         );
         return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/videos'); });
-    Route::get('/disclaimer', function() { return Redirect::to('https://hk.thevalue.com/disclaimer'); })->name('frontend.disclaimer');*/
+    Route::get('/disclaimer', function() { return Redirect::to('https://hk.thevalue.com/disclaimer'); })->name('frontend.disclaimer');
 
     Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
     Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');

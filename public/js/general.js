@@ -39,15 +39,41 @@ function showSearchBar() {
 function searchme(obj, e) {
     if (e.keyCode == 13) {
         var search = $(obj).val();
-        Cookies.set('search', search);
-        window.location = site_root+"search";
+
+        switch(site_lang) {
+            case 'trad':
+                var relang = 'hk';
+                break;
+            case 'sim':
+                var relang = 'cn';
+                break;
+            case 'en':
+                var relang = 'en';
+                break;
+        }
+
+        var target = "https://"+relang+".thevalue.com/search?item="+search;
+        window.location = target;
     }
 }
 
 function simple_search() {
     var search = $('#sim_search').val();
-    Cookies.set('search', search);
-    window.location = site_root+"search";
+
+    switch(site_lang) {
+        case 'trad':
+            var relang = 'hk';
+            break;
+        case 'sim':
+            var relang = 'cn';
+            break;
+        case 'en':
+            var relang = 'en';
+            break;
+    }
+
+    var target = "https://"+relang+".thevalue.com/search?item="+search;
+    window.location = target;
 }
 
 function getInfo(api_path) {
