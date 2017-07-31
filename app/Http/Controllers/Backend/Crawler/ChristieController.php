@@ -517,6 +517,63 @@ class ChristieController extends Controller
 
     }
 
+    public function checkPS()
+    {
+
+    }
+
+    public function dbDownloadImages(Request $request)
+    {
+
+        $last_download_time = Storage::disk('local')->get('spider/christie/last_download_time.txt');
+
+        $last_download_time = date("c", $last_download_time);
+        $start_date = new \DateTime($last_download_time);
+
+        $now_time = date("c", time());
+        $now_time = new \DateTime($now_time);
+
+        $since_start = $start_date->diff($now_time);
+
+        if($since_start->i < 5) exit;
+
+//        exit;
+
+        $dbSales = App\ChristieSpiderSale::where('download_images', 0)->get();
+
+//        $salesArray = array();
+
+        foreach($dbSales as $dbSale) {
+
+            $intSaleID = $dbSale->int_sale_id;
+
+            $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+
+            if(File::exists(base_path().'/storage/app/'.$filePath)) {
+
+                echo $intSaleID.'<br>\n';
+
+                $json = Storage::disk('local')->get($filePath);
+                Storage::disk('local')->put($filePath.'.bk', $json);
+
+//                $saleArray = json_decode($json, true);
+
+                $this->downloadImages($intSaleID, false);
+
+                $dbSale->download_images = true;
+
+                $dbSale->save();
+
+
+            }
+
+//            dd($salesArray);
+//            exit;
+        }
+
+//        dd($salesArray);
+    }
+
     public function listDownloadImages()
     {
         $sales = File::directories(base_path().'/storage/app/spider/christie/sale');
@@ -617,8 +674,8 @@ class ChristieController extends Controller
                         echo '<br>';
                         if (!file_exists($image)) {
                             $imageNotFound = true;
-                            echo 'file exist';
-                            echo '<br>';
+//                            echo 'file exist';
+//                            echo '<br>';
                             continue;
                         }
                     }
@@ -710,6 +767,8 @@ class ChristieController extends Controller
 
     private function GetImageFromUrl($storePath, $link, $image_name)
     {
+        Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
+
         $image_path = $storePath.$image_name.'.jpg';
 
         $ch = curl_init();
