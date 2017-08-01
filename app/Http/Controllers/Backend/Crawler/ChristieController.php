@@ -525,7 +525,7 @@ class ChristieController extends Controller
     public function dbDownloadImages(Request $request)
     {
 
-        $last_download_time = Storage::disk('local')->get('spider/christie/last_download_time.txt');
+        $last_download_time = (INT) Storage::disk('local')->get('spider/christie/last_download_time.txt');
 
         $last_download_time = date("c", $last_download_time);
         $start_date = new \DateTime($last_download_time);
