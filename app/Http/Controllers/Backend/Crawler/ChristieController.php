@@ -769,6 +769,8 @@ class ChristieController extends Controller
 
     private function GetImageFromUrl($storePath, $link, $image_name)
     {
+        ini_set('memory_limit','1024M');
+        
         Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
 
         $image_path = $storePath.$image_name.'.jpg';
@@ -789,6 +791,8 @@ class ChristieController extends Controller
 
     public function imgResize($intSaleID, $lotNumber, $saleNumber)
     {
+        ini_set('memory_limit','1024M');
+
         $file = 'spider/christie/sale/'.$intSaleID.'/'.$lotNumber.'.jpg';
 
         echo $file;
@@ -868,6 +872,8 @@ class ChristieController extends Controller
 
     public function importSale(Request $request, $intSaleID)
     {
+        ini_set('memory_limit','1024M');
+
         $intSaleID = trim($intSaleID);
         $auctionSeriesID = trim($request->auction_series_id);
 
