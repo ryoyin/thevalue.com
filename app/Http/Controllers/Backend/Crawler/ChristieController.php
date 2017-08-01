@@ -535,7 +535,7 @@ class ChristieController extends Controller
 
         $since_start = $start_date->diff($now_time);
 
-        echo 'started: '.$since_start.'\n';
+        echo 'started: '.$since_start->i.'\n';
 
         if($since_start->i < 5) exit;
 
