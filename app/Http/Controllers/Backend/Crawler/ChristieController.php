@@ -529,7 +529,7 @@ class ChristieController extends Controller
 
         if(!is_numeric($srvNumber)) exit;
 
-        $last_download_time = Storage::disk('local')->get('spider/christie/last_download_time.txt');
+        $last_download_time = (INT) Storage::disk('local')->get('spider/christie/last_download_time.txt');
 
         $last_download_time = date("c", $last_download_time);
         $start_date = new \DateTime($last_download_time);
@@ -538,6 +538,8 @@ class ChristieController extends Controller
         $now_time = new \DateTime($now_time);
 
         $since_start = $start_date->diff($now_time);
+
+        echo 'started: '.$since_start->i.'\n';
 
         if($since_start->i < 5) exit;
 
@@ -782,6 +784,8 @@ class ChristieController extends Controller
 
     private function GetImageFromUrl($storePath, $link, $image_name)
     {
+        ini_set('memory_limit','1024M');
+        
         Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
 
         $image_path = $storePath.$image_name.'.jpg';
@@ -802,6 +806,8 @@ class ChristieController extends Controller
 
     public function imgResize($intSaleID, $lotNumber, $saleNumber)
     {
+        ini_set('memory_limit','1024M');
+
         $file = 'spider/christie/sale/'.$intSaleID.'/'.$lotNumber.'.jpg';
 
         echo $file;
@@ -881,6 +887,8 @@ class ChristieController extends Controller
 
     public function importSale(Request $request, $intSaleID)
     {
+        ini_set('memory_limit','1024M');
+
         $intSaleID = trim($intSaleID);
         $auctionSeriesID = trim($request->auction_series_id);
 

@@ -251,5 +251,6 @@ return [
     'simple_status' => ['pending' => 'Pending', 'published' => 'Published', 'suspend' => 'Suspend'],
     's3_path' => 'https://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
     'non_secure_s3_path' => 'http://s3-ap-southeast-1.amazonaws.com/laravel-storage/',
+    env('christie_spider_time', 30),
 
 ];
