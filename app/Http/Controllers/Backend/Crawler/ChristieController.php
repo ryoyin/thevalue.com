@@ -526,7 +526,6 @@ class ChristieController extends Controller
     {
         $srvNumber = trim(env('SRV_NUMBER'));
 
-
         if(!is_numeric($srvNumber)) exit;
 
         $last_download_time = (INT) Storage::disk('local')->get('spider/christie/last_download_time.txt');
@@ -626,6 +625,9 @@ class ChristieController extends Controller
 
         $intSaleID = trim($intSaleID);
 
+        echo "Downloading Internal Sale ID: ".$intSaleID;
+        echo "\n";
+
         $locale = App::getLocale();
 
         $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
@@ -665,9 +667,14 @@ class ChristieController extends Controller
                     $image_fit_path = $spiderStoragePath . $searchArray . '-fit-250.jpg';
 
                 } else {
+
+                    if($lot['number'] < 184) continue;
+
+                    echo "lot: ".$lot['number']."\n";
+
                     $downloadedImages[$lot['number']] = $link;
 
-                    echo $storePath . $lot['number'] . '.jpg<br>';
+//                    echo $storePath . $lot['number'] . '.jpg<br>';
 
 //                $publicStoragePath = base_path().'/public/images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
                     $spiderStoragePath = 'images/auctions/christie/sale/' . $saleArray['sale']['id'] . '/';
@@ -687,8 +694,8 @@ class ChristieController extends Controller
                     $imageNotFound = false;
 
                     foreach ($existImage as $image) {
-                        echo $image;
-                        echo '<br>';
+//                        echo $image;
+//                        echo "\n";
                         if (!file_exists($image)) {
                             $imageNotFound = true;
 //                            echo 'file exist';
@@ -699,7 +706,9 @@ class ChristieController extends Controller
 
                     if ($imageNotFound) {
                         $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
-                        $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
+                        if($image_path !== false) {
+                            $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
+                        }
                     }
 
                 }
@@ -756,10 +765,10 @@ class ChristieController extends Controller
         foreach($items as $item) {
 
             if(in_array($item->image_fit_path, $uploadedImages)) {
-                echo $item->image_fit_path;
-                echo '<br>';
-                echo 'duplicated';
-                echo '<br>';
+//                echo $item->image_fit_path;
+//                echo '<br>';
+//                echo 'duplicated';
+//                echo '<br>';
                 continue;
             }
 
@@ -794,8 +803,15 @@ class ChristieController extends Controller
         curl_setopt($ch, CURLOPT_POST, 0);
         curl_setopt($ch, CURLOPT_URL,$link);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 
         $image=curl_exec($ch);
+
+        if(strpos($image, 'Object moved to') !== false) {
+            return false;
+        }
+
+//        list($header, $body) = explode("\r\n\r\n", $image, 2);
 
         curl_close($ch);
 
@@ -810,9 +826,9 @@ class ChristieController extends Controller
 
         $file = 'spider/christie/sale/'.$intSaleID.'/'.$lotNumber.'.jpg';
 
-        echo $file;
-        echo "\n";
-        echo '<br>';
+//        echo $file;
+//        echo "\n";
+//        echo '<br>';
 
         $exFile = explode('/', $file);
         $christieIntSaleID = $exFile[3];
@@ -839,11 +855,11 @@ class ChristieController extends Controller
     private function resizeImage($file, $resizePath, $width)
     {
 
-        echo $file;
-        echo '<br>';
+//        echo $file;
+//        echo '<br>';
 
-        echo base_path();
-        echo '<br>';
+//        echo base_path();
+//        echo '<br>';
 
         $img = Image::make(base_path().'/'.'storage/app/'.$file);
 
@@ -851,8 +867,8 @@ class ChristieController extends Controller
 
         $newPath = $resizePath.str_replace('.'.$fileExtension, '', basename($file)).'-'.$width.'.'.$fileExtension;
 
-        echo $newPath;
-        echo "\n";
+//        echo $newPath;
+//        echo "\n";
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
@@ -873,8 +889,8 @@ class ChristieController extends Controller
 
         $newPath = $resizePath.str_replace('.'.$fileExtension, '', basename($file)).'-fit-'.$width.'.'.$fileExtension;
 
-        echo $newPath;
-        echo "\n";
+//        echo $newPath;
+//        echo "\n";
 
         $img->fit($width)->save(base_path().'/public/'.$newPath);
 
