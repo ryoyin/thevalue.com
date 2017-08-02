@@ -694,9 +694,12 @@ class ChristieController extends Controller
                     $imageNotFound = false;
 
                     foreach ($existImage as $image) {
-//                        echo $image;
-//                        echo "\n";
-                        if (!file_exists($image)) {
+
+                        $iPath = base_path().'/public/'.$image;
+
+                        echo "Search image: ".$iPath;
+                        echo "\n";
+                        if (!file_exists($iPath)) {
                             $imageNotFound = true;
 //                            echo 'file exist';
 //                            echo '<br>';
@@ -799,6 +802,8 @@ class ChristieController extends Controller
         Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
 
         $image_path = $storePath.$image_name.'.jpg';
+
+        echo "Downloading image: ".$link."\n";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 0);
