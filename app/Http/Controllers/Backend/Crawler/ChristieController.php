@@ -524,6 +524,10 @@ class ChristieController extends Controller
 
     public function dbDownloadImages(Request $request)
     {
+        $srvNumber = trim(env('SRV_NUMBER'));
+
+
+        if(!is_numeric($srvNumber)) exit;
 
         $last_download_time = Storage::disk('local')->get('spider/christie/last_download_time.txt');
 
@@ -544,6 +548,17 @@ class ChristieController extends Controller
 //        $salesArray = array();
 
         foreach($dbSales as $dbSale) {
+
+            echo "found sale: ".$dbSale->int_sale_id;
+
+            if($dbSale->retrieve_server == null) {
+                $dbSale->retrieve_server = $srvNumber;
+                $dbSale->save();
+            } else {
+                if($dbSale->retrieve_server != $srvNumber) continue;
+            }
+
+//            exit;
 
             $intSaleID = $dbSale->int_sale_id;
 
