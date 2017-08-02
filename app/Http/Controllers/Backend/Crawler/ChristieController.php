@@ -668,7 +668,7 @@ class ChristieController extends Controller
 
                 } else {
 
-                    if($lot['number'] < 184) continue;
+//                    if($lot['number'] < 184) continue;
 
                     echo "lot: ".$lot['number']."\n";
 
@@ -705,6 +705,7 @@ class ChristieController extends Controller
                     }
 
                     if ($imageNotFound) {
+                        echo "image not found.\n";
                         $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
                         if($image_path !== false) {
                             $resize = $this->imgResize($intSaleID, $lot['number'], $saleArray['sale']['id']);
