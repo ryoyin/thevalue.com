@@ -550,7 +550,7 @@ class ChristieController extends Controller
 
         foreach($dbSales as $dbSale) {
 
-            echo "found sale: ".$dbSale->int_sale_id;
+            echo "found sale: ".$dbSale->int_sale_id."\n";
 
             if($dbSale->retrieve_server == null) {
                 $dbSale->retrieve_server = $srvNumber;
