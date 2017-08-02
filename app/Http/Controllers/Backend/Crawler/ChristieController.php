@@ -550,24 +550,22 @@ class ChristieController extends Controller
 
         foreach($dbSales as $dbSale) {
 
-            echo "found sale: ".$dbSale->int_sale_id."\n";
-
-            if($dbSale->retrieve_server == null) {
-                $dbSale->retrieve_server = $srvNumber;
-                $dbSale->save();
-            } else {
-                if($dbSale->retrieve_server != $srvNumber) continue;
-            }
-
-//            exit;
-
             $intSaleID = $dbSale->int_sale_id;
 
             $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
 
             if(File::exists(base_path().'/storage/app/'.$filePath)) {
 
-                echo $intSaleID.'<br>\n';
+                echo "found sale: ".$dbSale->int_sale_id."\n";
+
+                if($dbSale->retrieve_server == null) {
+                    $dbSale->retrieve_server = $srvNumber;
+                    $dbSale->save();
+                } else {
+                    if($dbSale->retrieve_server != $srvNumber) continue;
+                }
+
+                echo $intSaleID."\n";
 
                 $json = Storage::disk('local')->get($filePath);
                 Storage::disk('local')->put($filePath.'.bk', $json);
