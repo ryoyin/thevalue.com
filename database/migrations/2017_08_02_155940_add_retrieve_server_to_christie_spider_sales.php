@@ -14,7 +14,9 @@ class AddRetrieveServerToChristieSpiderSales extends Migration
     public function up()
     {
         Schema::table('christie_spider_sales', function (Blueprint $table) {
+
             $table->integer('retrieve_server')->after('push_s3')->nullable();
+
         });
     }
 

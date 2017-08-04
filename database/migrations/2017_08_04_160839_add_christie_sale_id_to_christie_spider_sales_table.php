@@ -14,7 +14,9 @@ class AddChristieSaleIdToChristieSpiderSalesTable extends Migration
     public function up()
     {
         Schema::table('christie_spider_sales', function($table) {
+
             $table->string('sale_id')->after('int_sale_id')->nullable();
+
         });
     }
 

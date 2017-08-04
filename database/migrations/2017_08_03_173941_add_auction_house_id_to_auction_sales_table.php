@@ -14,7 +14,9 @@ class AddAuctionHouseIdToAuctionSalesTable extends Migration
     public function up()
     {
         Schema::table('auction_sales', function (Blueprint $table) {
+
             $table->integer('auction_house_id')->after('end_date')->nullable();
+
         });
     }
 
