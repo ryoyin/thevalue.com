@@ -35,7 +35,8 @@
                 <div class="pre-auction-block">
                     <div class="store-name"><img src="{{ config('app.s3_path').$house->image_path }}"><span>{{ $houseDetail->name }}</span></div>
                     <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => $auctionType]) }}">@lang('thevalue.browse')</a></div>
-                    <div class="series">
+                    @if($series != null)
+                        <div class="series">
                         <div class="title">{{ $seriesDetail->name }}</div>
                         <div class="input-group selection">
                             <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
@@ -53,6 +54,7 @@
                                 @endforeach
                             </select>
                         </div>
+                    @endif
 
                         <div class="misc">
                             <div class="cell-name">{{ $auctionTypeName }} - {{ $saleDetail->title }}</div>

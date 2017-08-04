@@ -259,9 +259,17 @@ class AuctionController extends Controller
         $locale = App::getLocale();
         $sale = App\AuctionSale::where('slug', $slug)->first();
         $saleDetail = $sale->details()->where('lang', $locale)->first();
-        $series = $sale->series;
-        $seriesDetail = $series->details()->where('lang', $locale)->first();
-        $house = $series->house;
+
+        if($sale->auction_series_id == null) {
+            $series = null;
+            $seriesDetail = null;
+            $house = $sale->house;
+        } else {
+            $series = $sale->series;
+            $seriesDetail = $series->details()->where('lang', $locale)->first();
+            $house = $series->house;
+        }
+
         $houseDetail = $house->details()->where('lang', $locale)->first();
         $items = $sale->items()->orderBy('sorting')->paginate(48);
         $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
@@ -310,10 +318,19 @@ class AuctionController extends Controller
         $locale = App::getLocale();
         $sale = App\AuctionSale::where('slug', $slug)->first();
         $saleDetail = $sale->details()->where('lang', $locale)->first();
-        $series = $sale->series;
-        $seriesDetail = $series->details()->where('lang', $locale)->first();
-        $rSales = $series->sales()->inRandomOrder()->limit(4)->get();
-        $house = $series->house;
+
+        if($sale->auction_series_id == null) {
+            $series = null;
+            $seriesDetail = null;
+            $house = $sale->house;
+            $rSales = null;
+        } else {
+            $series = $sale->series;
+            $seriesDetail = $series->details()->where('lang', $locale)->first();
+            $house = $series->house;
+            $rSales = $series->sales()->inRandomOrder()->limit(4)->get();
+        }
+
         $houseDetail = $house->details()->where('lang', $locale)->first();
         $menuBanner = $this->getBannerList('indexMenuBanner', 'large');
 

@@ -35,23 +35,25 @@
                     <div class="store-name"><img src="{{ config('app.s3_path').$house->image_path }}"><span>{{ $houseDetail->name }}</span></div>
                     <div class="more"><a href="{{ route('frontend.auction.auction', ['slug' => $auctionType]) }}">@lang('thevalue.browse')</a></div>
                     <div class="series">
-                        <div class="title">{{ $seriesDetail->name }}</div>
-                        <div class="input-group selection">
-                            <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
-                            <?php
-                            $seriesSales = $series->sales()->orderBy('start_date')->get();
-                            ?>
-                            <select class="form-control" id="sel1" aria-describedby="basic-addon1" onchange="redirectExhibit(this);">
-                                @foreach($seriesSales as $seriesSale)
-                                    <?php $seriesSaleDetail = $seriesSale->details()->where('lang', $locale)->first(); ?>
-                                    <option
-                                            @if($seriesSale->slug == $sale->slug)
-                                            selected
-                                            @endif
-                                            value="{{ route('frontend.auction.house.sale', ['slug' => $seriesSale->slug]) }}">{{ $seriesSaleDetail->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if($series != null)
+                            <div class="title">{{ $seriesDetail->name }}</div>
+                            <div class="input-group selection">
+                                <span class="input-group-addon" id="basic-addon1">@lang('thevalue.please-select')</span>
+                                <?php
+                                $seriesSales = $series->sales()->orderBy('start_date')->get();
+                                ?>
+                                <select class="form-control" id="sel1" aria-describedby="basic-addon1" onchange="redirectExhibit(this);">
+                                    @foreach($seriesSales as $seriesSale)
+                                        <?php $seriesSaleDetail = $seriesSale->details()->where('lang', $locale)->first(); ?>
+                                        <option
+                                                @if($seriesSale->slug == $sale->slug)
+                                                selected
+                                                @endif
+                                                value="{{ route('frontend.auction.house.sale', ['slug' => $seriesSale->slug]) }}">{{ $seriesSaleDetail->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-9">
 
@@ -62,12 +64,18 @@
                                 <!-- Left Body -->
                             @include('frontend.auction.item.body')
 
-                            @include('frontend.auction.item.relatedLots')
+                            @if($sales != null)
+                                @include('frontend.auction.item.relatedLots')
+                            @endif
                             <!-- /Left Body -->
 
                             </div>
+
+
                             <div class="hidden-xs hidden-sm col-md-3">
-                                @include('frontend.auction.item.side')
+                                @if($series != null)
+                                    @include('frontend.auction.item.side')
+                                @endif
                             </div>
                         </div>
                     </div>

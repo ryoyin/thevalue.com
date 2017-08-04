@@ -39,4 +39,9 @@ class AuctionSale extends Model
         return $this->belongsTo('App\ChristieSale', 'number', 'sale_number');
     }
 
+    public function house()
+    {
+        return $this->belongsTo('App\AuctionHouse', 'auction_house_id');
+    }
+
 }
