@@ -830,7 +830,7 @@ class ChristieController extends Controller
     private function GetImageFromUrl($storePath, $link, $image_name)
     {
         ini_set('memory_limit','1024M');
-        
+
         Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
 
         $image_path = $storePath.$image_name.'.jpg';
@@ -1122,10 +1122,10 @@ class ChristieController extends Controller
                 }
 
 
-/*                $saleArray['db']['series'] = array(
-                    'main' => $series,
-                    'detail' => $series->getDetailByLang('trad')
-                );*/
+                /*                $saleArray['db']['series'] = array(
+                                    'main' => $series,
+                                    'detail' => $series->getDetailByLang('trad')
+                                );*/
 
                 $saleArray['db']['sale'] = array(
                     'main' => $sale,
