@@ -992,7 +992,7 @@ class ChristieController extends Controller
                 $slug = str_replace(' & ', '-and-', $slug);
                 $slug = str_replace('&', '-and-', $slug);
 
-                $sale->slug = strtolower($slug);
+                $sale->slug = strtolower($slug).'-'.$saleArray['sale']['id'];
                 $sale->source_image_path = $saleArray['sale']['image_path'];
                 $sale->image_path = $resize['medium'];
                 $sale->number = $saleArray['sale']['id'];
