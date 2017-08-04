@@ -168,6 +168,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/getRealizedPrice', 'Backend\Crawler\ChristieController@getRealizedPrice')->name('backend.auction.christie.capture.getRealizedPrice');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/getRealizedPrice2', 'Backend\Crawler\ChristieController@getRealizedPrice2')->name('backend.auction.christie.capture.getRealizedPrice2');
     Route::post('tvadmin/auction/crawler/christie/import/sale/{intSaleID}', 'Backend\Crawler\ChristieController@importSale')->name('backend.auction.christie.import.sale');
+    Route::get('tvadmin/auction/crawler/christie/autoimport', 'Backend\Crawler\ChristieController@autoImportSale')->name('backend.auction.christie.autoimport.sale');
 
     Route::get('tvadmin/auction/crawler/christie/dbDownloadImages', 'Backend\Crawler\ChristieController@dbDownloadImages')->name('backend.auction.christie.dbDownloadImages');
 

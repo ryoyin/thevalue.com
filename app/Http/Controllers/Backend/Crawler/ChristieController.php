@@ -19,6 +19,8 @@ use Intervention\Image\Facades\Image;
 // app()->call([$controller, 'autoGetList']);
 // app()->call([$controller, 'manualGetList'], ['year' => 2017, 'month' => 4]);
 // app()->call([$controller, 'listDownloadImages']);
+// app()->call([$controller, 'autoUploadS3']);
+// app()->call([$controller, 'autoImportSale']);
 
 class ChristieController extends Controller
 {
@@ -738,11 +740,38 @@ class ChristieController extends Controller
 
     }
 
-    public function uploadS3($intSaleID)
+    public function autoUploadS3()
+    {
+        ini_set('memory_limit','1024M');
+
+        $dbSales = App\ChristieSpiderSale::where('download_images', 1)->where('import', 1)->get();
+
+        foreach($dbSales as $dbSale) {
+
+            $intSaleID = $dbSale->int_sale_id;
+
+            $filePath = 'spider/christie/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+
+            if(File::exists(base_path() . '/storage/app/' . $filePath)) {
+                $christieSaleID = $this->uploadS3($intSaleID, false);
+            }
+
+            $dbSale->sale_id = $christieSaleID;
+            $dbSale->push_s3 = 1;
+            $dbSale->save();
+
+            exit;
+
+        }
+    }
+
+    public function uploadS3($intSaleID, $redirect = true)
     {
         set_time_limit(6000);
 
         $intSaleID = trim($intSaleID);
+
+        echo $intSaleID;
 
         $locale = App::getLocale();
 
@@ -754,6 +783,7 @@ class ChristieController extends Controller
 //        echo $saleArray['sale']['id'];
 //        exit;
 
+        $christieSaleID = $saleArray['sale']['id'];
         $saleID = $saleArray['db']['sale']['main']['id'];
 
         $sale = App\AuctionSale::find($saleID);
@@ -789,7 +819,11 @@ class ChristieController extends Controller
 
         }
 
-//        return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
+        if($redirect) {
+            return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
+        } else {
+            return $christieSaleID;
+        }
 
     }
 
@@ -903,6 +937,220 @@ class ChristieController extends Controller
         $img = null;
 
         return $newPath;
+    }
+
+    public function autoImportSale()
+    {
+        ini_set('memory_limit','1024M');
+
+        $dbSales = App\ChristieSpiderSale::where('download_images', 1)->where('import', null)->get();
+
+//        $salesArray = array();
+
+        foreach($dbSales as $dbSale) {
+
+            $intSaleID = $dbSale->int_sale_id;
+
+            $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+
+            if(File::exists(base_path().'/storage/app/'.$filePath)) {
+
+                $json = Storage::disk('local')->get($filePath);
+                Storage::disk('local')->put($filePath.'.import.bk', $json);
+
+                $saleArray = json_decode($json, true);
+
+                // dd($saleArray);
+
+                /*seperate line*/
+
+//                $intSaleID = $saleArray['sale']['id'];
+
+                $city = $saleArray['sale']['country'];
+
+                $houseDetail = App\AuctionHouseDetail::where('city', $city)->where('name', 'like', 'christie%')->where('lang', 'en')->first();
+
+                if($houseDetail == null) continue;
+
+                $house = $houseDetail->house;
+
+                $auctionHouseID = $house->id;
+
+                // download sale cover image
+                $storePath = 'spider/christie/sale/'.$intSaleID.'/';
+                $link = $saleArray['sale']['image_path'];
+                $saleNumber = $saleArray['sale']['id'];
+
+                $image_path = $this->GetImageFromUrl($storePath, $link, 'christies-sale-'.$saleNumber);
+                $resize = $this->imgResize($intSaleID, 'christies-sale-'.$saleNumber, $saleNumber);
+
+                // insert auction_sales
+                // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
+                $sale = New App\AuctionSale;
+
+                $slug = str_replace(' ', '-', $saleArray['sale']['en']['title']);
+                $slug = str_replace(' & ', '-and-', $slug);
+                $slug = str_replace('&', '-and-', $slug);
+
+                $sale->slug = strtolower($slug);
+                $sale->source_image_path = $saleArray['sale']['image_path'];
+                $sale->image_path = $resize['medium'];
+                $sale->number = $saleArray['sale']['id'];
+                $sale->total_lots = count($saleArray['lots']);
+                $sale->start_date = $saleArray['sale']['date']['datetime'];
+                $sale->end_date = $saleArray['sale']['date']['datetime'];
+                $sale->auction_house_id = $auctionHouseID;
+                $sale->auction_series_id = null;
+
+                $sale->save();
+
+                // echo "sale id: ".$sale->id;
+                // echo '<br>';
+                $saleID = $sale->id;
+
+                // insert auction_sale_details
+                // type, title, country, location, lang, auction_sale_id
+                $supported_languages = config('app.supported_languages');
+                // sale detail type sale
+                foreach($supported_languages as $lang) {
+                    $saleDetail = New App\AuctionSaleDetail;
+                    $saleDetail->type = 'sale';
+                    $saleDetail->title = $saleArray['sale'][$lang]['title'];
+                    $houseDetail = $house->getDetailByLang($lang);
+                    $saleDetail->country = $houseDetail->country;
+                    $saleDetail->location = $saleArray['sale']['country'];
+                    $saleDetail->lang = $lang;
+                    $saleDetail->auction_sale_id = $saleID;
+                    $saleDetail->save();
+                }
+
+                // insert auction_items
+                // slug, dimension, number,
+                // source_image_path, image_path, image_fit_path, image_large_path, image_medium_path, image_small_path,
+                // currency_code, estimate_value_initial, estimate_value_end, sold_value, sorting, status, auction_sale_id
+
+                $image_path = 'images/auctions/christie/sale/'.$saleArray['sale']['id'].'/';
+
+                $counter = 10;
+
+                foreach($saleArray['lots'] as $lot) {
+                    // filter dimension
+                    $exMediumDimensions = explode("\r\n", $lot['medium-dimensions']);
+                    $dimension = null;
+                    foreach($exMediumDimensions as $dItem) {
+                        if (stripos($dItem, "cm.") !== false) {
+                            $dimension = str_replace('Â', '', trim($dItem));
+                            $dimension = str_replace('Ã¨', 'è', $dimension);
+                            //echo $dimension."\n";
+                            //echo '<br>';
+                            break;
+                        }
+                    }
+
+                    // filter "Provenance:" from medium-dimension
+                    $exDimension = explode('Provenance', $dimension);
+                    $dimension = $exDimension[0];
+
+                    if(strlen($dimension) > 255) {
+                        $dimension = '';
+                    }
+
+                    $item = New App\AuctionItem;
+                    $item->slug = $slug.'-'.$lot['number'];
+                    $item->dimension = $dimension;
+                    $item->number = $lot['number'];
+                    $item->source_image_path = $lot['image_path'];
+                    $item->image_path = $lot['image_path'];
+                    $item->image_fit_path = $lot['saved_image_path']['image_fit_path'];
+                    $item->image_large_path = $lot['saved_image_path']['image_large_path'];
+                    $item->image_medium_path = $lot['saved_image_path']['image_medium_path'];
+                    $item->image_small_path = $lot['saved_image_path']['image_small_path'];
+                    $item->currency_code = $house->currency_code;
+
+                    $estimate = $lot['estimate'];
+
+                    if($estimate == 'Estimate on request' || $estimate == '') {
+                        $currencyCode = null;
+                        $estimate_value_initial = null;
+                        $estimate_value_end = null;
+                    } else {
+                        $exEstimate = explode('-', $estimate);
+                        $estimate_value_initial = str_replace('Â£', '', trim($exEstimate[0]));
+                        $estimate_value_initial = str_replace('â¬', '', $estimate_value_initial);
+                        $estimate_value_initial = str_replace('$', '', $estimate_value_initial);
+                        $estimate_value_initial = str_replace(',', '', $estimate_value_initial);
+                        $estimate_value_end = str_replace('Â£', '', trim($exEstimate[1]));
+                        $estimate_value_end = str_replace('â¬', '', $estimate_value_end);
+                        $estimate_value_end = str_replace('$', '', $estimate_value_end);
+                        $estimate_value_end = str_Replace(',', '', $estimate_value_end);
+                    }
+
+                    $item->estimate_value_initial = $estimate_value_initial;
+                    $item->estimate_value_end = $estimate_value_end;
+                    $item->sorting = $counter;
+                    $item->status = 'pending';
+                    $item->auction_sale_id = $saleID;
+
+                    $item->save();
+
+                    $itemID = $item->id;
+                    echo '<br>';
+                    echo $itemID.'<br>';
+
+                    // insert auction_item_details
+                    // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
+                    foreach($supported_languages as $lang) {
+                        $itemDetail = New App\AuctionItemDetail;
+                        $itemDetail->title = $lot[$lang]['title'];
+                        $itemDetail->description = $lot[$lang]['description'];
+                        $itemDetail->maker = $lot['maker'];
+
+
+                        if(strlen($lot[$lang]['secondary_title']) <= 255) {
+                            $itemDetail->misc = $lot[$lang]['secondary_title'];
+                        } else {
+                            $itemDetail->misc = '';
+                        }
+
+                        $itemDetail->lang = $lang;
+                        $itemDetail->auction_item_id = $itemID;
+                        $itemDetail->save();
+                    }
+
+                    $counter += 10;
+
+                }
+
+
+/*                $saleArray['db']['series'] = array(
+                    'main' => $series,
+                    'detail' => $series->getDetailByLang('trad')
+                );*/
+
+                $saleArray['db']['sale'] = array(
+                    'main' => $sale,
+                    'detail' => $sale->getDetailByLang('trad')
+                );
+
+//                dd($saleArray);
+
+                $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+                Storage::disk('local')->put($path, json_encode($saleArray));
+
+                $dbSale->import = 1;
+                $dbSale->save();
+
+//                exit;
+
+            }
+
+        }
+
+
+
+        // backend.auction.itemList
+//        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+
     }
 
     public function importSale(Request $request, $intSaleID)

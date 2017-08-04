@@ -1,12 +1,11 @@
 /node_modules
 /public/storage
-/public/images/*
+/public/images/
 /public/spider
-!/public/images/company_logo/
-/public/images/sales/
 /storage/*.key
 /vendor
 /.idea
 Homestead.json
 Homestead.yaml
 .env
+
