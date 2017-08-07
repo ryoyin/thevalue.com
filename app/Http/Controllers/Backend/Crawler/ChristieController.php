@@ -951,6 +951,8 @@ class ChristieController extends Controller
 
             $intSaleID = $dbSale->int_sale_id;
 
+            echo $intSaleID."\n";
+
             $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
 
             if(File::exists(base_path().'/storage/app/'.$filePath)) {
