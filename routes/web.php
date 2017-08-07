@@ -81,12 +81,23 @@ function()
         return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/categories/videos'); });
     Route::get('/disclaimer', function() { return Redirect::to('https://hk.thevalue.com/disclaimer'); })->name('frontend.disclaimer');
 
-    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
-    Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
-    Route::get('/category/videos', 'Frontend\CategoryController@video')->name('frontend.category.videos');
+//    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
+//    Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
+
+    Route::get('/article/{slug}', function($slug) {
+        $locale = App::getLocale();
+        $localeArr = array(
+            'trad' => 'hk',
+            'sim' => 'cn',
+            'en' => 'en'
+        );
+        return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/articles/'.$slug);
+    })->name('frontend.article');
+
+//    Route::get('/category/videos', 'Frontend\CategoryController@video')->name('frontend.category.videos');
     Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');
     Route::get('/tag/{slug}', 'Frontend\TagController@index')->name('frontend.tag');
-    Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
+//    Route::get('/search', 'Frontend\PageController@search')->name('frontend.search');
     Route::get('/contact-us', 'Frontend\PageController@aboutUS')->name('frontend.aboutus');
     Route::get('/disclaimer', 'Frontend\PageController@disclaimer')->name('frontend.disclaimer');
     Route::get('/auction', 'Frontend\AuctionController@index')->name('frontend.auction');

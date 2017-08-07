@@ -11,7 +11,7 @@
 
 <div style="height: 20px"></div>
 
-<div style="text-align: center" class="footer-download-link">
+{{--<div style="text-align: center" class="footer-download-link">
     <ul>
         <li><a href="https://itunes.apple.com/app/the-value/id1204432093" target="_blank"><img src="{{ asset('images/company_logo/app_store_download_icon.png') }}"></a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.thevaluecoreapp" target="_blank"><img src="{{ asset('images/company_logo/gp-logo.png') }}"></a></li>
@@ -22,7 +22,7 @@
             </a>
         </li>
     </ul>
-</div>
+</div>--}}
 <div id="footer" class="pull-right">
     <a href="{{ route('frontend.aboutus') }}">@lang('thevalue.contact-us')</a> |
     <a href="{{ route('frontend.disclaimer') }}">@lang('thevalue.disclaimer')</a> |
