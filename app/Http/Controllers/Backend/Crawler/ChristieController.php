@@ -1145,7 +1145,7 @@ class ChristieController extends Controller
                 $dbSale->import = 1;
                 $dbSale->save();
 
-                exit;
+//                exit;
 
             }
 
