@@ -970,7 +970,10 @@ class ChristieController extends Controller
 
                 $houseDetail = App\AuctionHouseDetail::where('city', $city)->where('name', 'like', 'christie%')->where('lang', 'en')->first();
 
-                if($houseDetail == null) continue;
+                if($houseDetail == null) {
+                    echo "house not found.\n";
+                    continue;
+                }
 
                 $house = $houseDetail->house;
 
@@ -1094,8 +1097,8 @@ class ChristieController extends Controller
                     $item->save();
 
                     $itemID = $item->id;
-                    echo '<br>';
-                    echo $itemID.'<br>';
+//                    echo "\n";
+//                    echo $itemID."\n";
 
                     // insert auction_item_details
                     // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
