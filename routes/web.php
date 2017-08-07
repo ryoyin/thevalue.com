@@ -82,9 +82,10 @@ function()
     Route::get('/disclaimer', function() { return Redirect::to('https://hk.thevalue.com/disclaimer'); })->name('frontend.disclaimer');
 
 //    Route::get('/', 'Frontend\HomepageController@index')->name('frontend.index');
-    Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
+//    Route::get('/article/{slug}', 'Frontend\ArticleController@index')->name('frontend.article');
+    Route::get('/preview/{slug}', 'Frontend\ArticleController@index')->name('frontend.preview');
 
-    /*Route::get('/article/{slug}', function($slug) {
+    Route::get('/article/{slug}', function($slug) {
         $locale = App::getLocale();
         $localeArr = array(
             'trad' => 'hk',
@@ -92,7 +93,7 @@ function()
             'en' => 'en'
         );
         return Redirect::to('https://'.$localeArr[$locale].'.thevalue.com/articles/'.$slug);
-    })->name('frontend.article');*/
+    })->name('frontend.article');
 
 //    Route::get('/category/videos', 'Frontend\CategoryController@video')->name('frontend.category.videos');
     Route::get('/category/{slug}', 'Frontend\CategoryController@index')->name('frontend.category');

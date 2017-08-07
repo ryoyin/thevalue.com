@@ -182,7 +182,7 @@
                       <button type="text" class="btn btn-primary" onclick="preview();">Preview</button>
                       <script>
                           function preview() {
-                              window.open('{{ route('frontend.article', ['slug' => $article['slug']]) }}','_blank');
+                              window.open('{{ route('frontend.preview', ['slug' => $article['slug']]) }}','_blank');
                           }
                       </script>
                   @endif
