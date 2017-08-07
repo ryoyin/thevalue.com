@@ -971,7 +971,7 @@ class ChristieController extends Controller
                 $houseDetail = App\AuctionHouseDetail::where('city', $city)->where('name', 'like', 'christie%')->where('lang', 'en')->first();
 
                 if($houseDetail == null) {
-                    echo "house not found.\n";
+                    echo "house not found: Christie ".$city."\n";
                     continue;
                 }
 
