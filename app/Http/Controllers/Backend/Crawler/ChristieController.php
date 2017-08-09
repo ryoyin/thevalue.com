@@ -771,7 +771,7 @@ class ChristieController extends Controller
 
         $intSaleID = trim($intSaleID);
 
-        echo $intSaleID;
+        echo "Uploading: ".$intSaleID."\n";
 
         $locale = App::getLocale();
 
@@ -1380,7 +1380,7 @@ class ChristieController extends Controller
         $s3 = \Storage::disk('s3');
         $localPath = $baseDirectory.'/'.$filePath;
 
-        echo $localPath;
+        echo $filePath."\n";
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');
