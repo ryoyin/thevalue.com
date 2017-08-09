@@ -796,6 +796,8 @@ class ChristieController extends Controller
 
         foreach($items as $item) {
 
+            print_r($item);
+
             if(in_array($item->image_fit_path, $uploadedImages)) {
 //                echo $item->image_fit_path;
 //                echo '<br>';
