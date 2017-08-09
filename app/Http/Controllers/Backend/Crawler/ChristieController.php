@@ -796,7 +796,9 @@ class ChristieController extends Controller
 
         foreach($items as $item) {
 
-            print_r($item);
+            echo "Item ID: ".$item->id."\n";
+
+//            print_r($item);
 
             if(in_array($item->image_fit_path, $uploadedImages)) {
 //                echo $item->image_fit_path;
@@ -1382,7 +1384,7 @@ class ChristieController extends Controller
         $s3 = \Storage::disk('s3');
         $localPath = $baseDirectory.'/'.$filePath;
 
-        echo $filePath."\n";
+        //echo $filePath."\n";
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');
