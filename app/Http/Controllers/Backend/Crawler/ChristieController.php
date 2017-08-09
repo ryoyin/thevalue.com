@@ -760,7 +760,7 @@ class ChristieController extends Controller
             $dbSale->push_s3 = 1;
             $dbSale->save();
 
-            exit;
+//            exit;
 
         }
     }
