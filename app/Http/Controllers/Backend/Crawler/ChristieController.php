@@ -744,7 +744,7 @@ class ChristieController extends Controller
     {
         ini_set('memory_limit','1024M');
 
-        $dbSales = App\ChristieSpiderSale::where('download_images', 1)->where('import', 1)->get();
+        $dbSales = App\ChristieSpiderSale::where('download_images', 1)->where('import', 1)->where('push_s3', 0)->get();
 
         foreach($dbSales as $dbSale) {
 
