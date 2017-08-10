@@ -950,6 +950,7 @@ class ChristieController extends Controller
         $dbSales = App\ChristieSpiderSale::where('download_images', 1)->where('import', null)->get();
 
 //        $salesArray = array();
+        
 
         foreach($dbSales as $dbSale) {
 
@@ -973,6 +974,8 @@ class ChristieController extends Controller
 //                $intSaleID = $saleArray['sale']['id'];
 
                 $city = $saleArray['sale']['country'];
+
+                $city = $this->parseCity($city);
 
                 $houseDetail = App\AuctionHouseDetail::where('city', $city)->where('name', 'like', 'christie%')->where('lang', 'en')->first();
 
@@ -1160,6 +1163,16 @@ class ChristieController extends Controller
         // backend.auction.itemList
 //        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
 
+    }
+
+    private function parseCity($city)
+    {
+        $exCity = explode(',', $city);
+        $city = $exCity[0];
+        $city = str_replace('Christie', '', $city);
+        $city = trim($city);
+
+        return $city;
     }
 
     public function importSale(Request $request, $intSaleID)
