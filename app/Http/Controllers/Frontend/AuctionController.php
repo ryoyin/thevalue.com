@@ -64,7 +64,7 @@ class AuctionController extends Controller
                 $rangeDatetime['start_date'] = $startDate;
                 $rangeDatetime['end_date'] = $endDate;
 
-                if($startDate > date('Y-m-d')) $rangeDatetime['start_date'] = date('Y-m-d');
+                if($startDate > date('Y-m-d')) $rangeDatetime['start_date'] = date('Y-6-d');
                 if($endDate > date('Y-m-d')) $rangeDatetime['end_date'] = date('Y-m-d');
 
                 $searchCriteria['start_date'] = $rangeDatetime['start_date'];
