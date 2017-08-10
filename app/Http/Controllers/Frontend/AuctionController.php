@@ -35,7 +35,7 @@ class AuctionController extends Controller
         $series = App\AuctionSeries::whereDate('end_date', '>=', Carbon::now()->format('Y-m-d'))->where('status', 'published')->orderBy('start_date')->get();
 
         $rangeDatetime = array(
-            'start_date' => date('Y-m-01'),
+            'start_date' => date('Y-6-01'),
             'end_date' => date('Y-m-d'),
         );
 
@@ -64,7 +64,7 @@ class AuctionController extends Controller
                 $rangeDatetime['start_date'] = $startDate;
                 $rangeDatetime['end_date'] = $endDate;
 
-                if($startDate > date('Y-m-d')) $rangeDatetime['start_date'] = date('Y-6-d');
+                if($startDate > date('Y-m-d')) $rangeDatetime['start_date'] = date('Y-m-d');
                 if($endDate > date('Y-m-d')) $rangeDatetime['end_date'] = date('Y-m-d');
 
                 $searchCriteria['start_date'] = $rangeDatetime['start_date'];
