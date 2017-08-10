@@ -1091,10 +1091,12 @@ class ChristieController extends Controller
                         $estimate_value_initial = str_replace('â¬', '', $estimate_value_initial);
                         $estimate_value_initial = str_replace('$', '', $estimate_value_initial);
                         $estimate_value_initial = str_replace(',', '', $estimate_value_initial);
+                        $estimate_value_initial = str_replace('HK', '', $estimate_value_initial);
                         $estimate_value_end = str_replace('Â£', '', trim($exEstimate[1]));
                         $estimate_value_end = str_replace('â¬', '', $estimate_value_end);
                         $estimate_value_end = str_replace('$', '', $estimate_value_end);
                         $estimate_value_end = str_Replace(',', '', $estimate_value_end);
+                        $estimate_value_end = str_Replace('HK', '', $estimate_value_end);
                     }
 
                     $item->estimate_value_initial = $estimate_value_initial;
