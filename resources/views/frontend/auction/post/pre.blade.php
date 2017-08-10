@@ -67,13 +67,12 @@
     </div>
 </div>
 
-@if($advanceSearch)
-    <script>
-        $(document).ready(function() {
-            $('.auction-advance-search').collapse();
-        });
-    </script>
-@endif
+
+<script>
+    $(document).ready(function() {
+        $('.auction-advance-search').collapse();
+    });
+</script>
 
 <script>
     function reset_search() {
