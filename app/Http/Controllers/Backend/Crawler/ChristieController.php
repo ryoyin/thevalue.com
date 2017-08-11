@@ -16,11 +16,12 @@ use Intervention\Image\Facades\Image;
 // php artisan tinker
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\ChristieController');
 // app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
-// app()->call([$controller, 'autoGetList']);
 // app()->call([$controller, 'manualGetList'], ['year' => 2017, 'month' => 4]);
+// app()->call([$controller, 'autoGetList']);
 // app()->call([$controller, 'listDownloadImages']);
-// app()->call([$controller, 'autoUploadS3']);
 // app()->call([$controller, 'autoImportSale']);
+// app()->call([$controller, 'autoUploadS3']);
+// app()->call([$controller, 'upload_sale_images']);
 
 class ChristieController extends Controller
 {
@@ -1790,6 +1791,7 @@ class ChristieController extends Controller
         foreach($sales as $sale) {
             $baseDirectory = base_path().'/public';
 
+            echo 'Uploading Sale Image: '.$sale->image_path;
             $this->pushS3($baseDirectory, $sale->image_path);
             $sale->image_pushS3 = 1;
             $sale->save();
