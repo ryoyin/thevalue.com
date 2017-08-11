@@ -1760,4 +1760,27 @@ class ChristieController extends Controller
         return true;
     }
 
+    public function removeUploadedImages()
+    {
+        set_time_limit(600000);
+
+        $path = base_path().'/public/images/auctions/christie/sale/';
+
+        $sales = App\ChristieSpiderSale::where('push_s3', 1)->get();
+        foreach($sales as $sale) {
+
+            $saleID = $sale->sale_id;
+
+            $target = $path.$sale->sale_id;
+            $success = File::deleteDirectory($target);
+
+            if($success) {
+                echo 'Removed folder: '.$saleID."\n";
+            } else {
+                echo 'Failed remove folder: '.$saleID."\n";
+            }
+
+        }
+    }
+
 }
