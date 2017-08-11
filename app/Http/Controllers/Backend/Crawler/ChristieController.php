@@ -1164,7 +1164,7 @@ class ChristieController extends Controller
 
         }
 
-        echo $notFoundCounter."\n";
+        echo "Sale not imported: ".$notFoundCounter."\n";
 
         // backend.auction.itemList
 //        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
