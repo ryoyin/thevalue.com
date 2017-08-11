@@ -1783,4 +1783,19 @@ class ChristieController extends Controller
         }
     }
 
+    public function upload_sale_images()
+    {
+        $sales = App\AuctionSale::where('image_pushS3', 0)->get();
+
+        foreach($sales as $sale) {
+            $baseDirectory = base_path().'/public';
+
+            $this->pushS3($baseDirectory, $sale->image_path);
+            $sale->image_pushS3 = 1;
+            $sale->save();
+
+            exit;
+        }
+    }
+
 }
