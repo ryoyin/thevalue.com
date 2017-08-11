@@ -9,7 +9,32 @@ use Carbon\Carbon;
 
 class AuctionController extends Controller
 {
-    public function itemList($saleID = null) {
+
+    public function saleList(Request $request)
+    {
+        $locale = App::getLocale();
+
+        $slug = trim($request->slug);
+
+        if($slug != '') {
+            $sales = App\AuctionSale::where('slug', 'like', '%'.$slug.'%')->orderBy('start_date', 'desc')->paginate(50);
+        } else {
+            $sales = App\AuctionSale::orderBy('start_date', 'desc')->paginate(50);
+        }
+
+        $data = array(
+            'locale' => $locale,
+            'menu' => array('auction', 'sale.list'),
+            'sales' => $sales,
+        );
+
+        return view('backend.auctions.sale.index', $data);
+
+    }
+
+    public function itemList($saleID) {
+
+        set_time_limit(60000);
 
         $locale = App::getLocale();
 
@@ -17,20 +42,18 @@ class AuctionController extends Controller
         $saleDetail = null;
         $items = array();
 
-        $sales = App\AuctionSale::all();
-
         if($saleID != null) {
             $sale = App\AuctionSale::where('id', $saleID)->first();
+//            exit;
             $saleDetail = $sale->details()->where('lang', $locale)->first();
-            $items = $sale->items()->orderBy('sorting')->get();
+            $items = $sale->items()->orderBy('sorting')->paginate(20);
         }
 
         $articles = array();
         $data = array(
             'locale' => $locale,
-            'menu' => array('auction', 'item.list'),
+            'menu' => array('auction', 'sale.list'),
             'articles' => $articles,
-            'sales' => $sales,
             'saleInfo' => array('sale' => $sale, 'saleDetail' => $saleDetail),
             'items' => $items
         );
@@ -137,7 +160,7 @@ class AuctionController extends Controller
             'menu' => array('auction', 'pushS3.list'),
         );
 
-        return view('backend.auctions.sale.index', $data);
+        return view('backend.auctions.sale.pushS3', $data);
     }
 
     public function pushS3Process()

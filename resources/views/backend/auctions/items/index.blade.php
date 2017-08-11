@@ -28,31 +28,34 @@
               <b>{!! session('alert-warning') !!}</b>
             </div>
           @endif
+
+          @if($saleInfo['sale'] != null)
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Sale Information</h3>
+              </div><!-- /.box-header -->
+              <div class="box-body">
+
+                  <div class="row">
+                    <div class="col-md-1"><b>ID:</b> {{ $saleInfo['sale']->id }}</div>
+                    <div class="col-md-1"><b>Number:</b> {{ $saleInfo['sale']->number }}</div>
+                    <div class="col-md-1"><b>Total Lots:</b> {{ $saleInfo['sale']->total_lots }}</div>
+                    <div class="col-md-2"><b>Date:</b> {{ $saleInfo['sale']->start_date }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6"><b>Slug:</b> {{ $saleInfo['sale']->slug }}</div>
+                  </div>
+
+              </div>
+            </div>
+          @endif
+
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Auction Item List</h3>
+              <h3 class="box-title">Item List</h3>
               {{--<a href="{{ route('backend.auction.items') }}" type="button" class="btn btn-primary" style="padding: 3px 10px; margin-left: 10px;">Add</a>--}}
             </div><!-- /.box-header -->
             <div class="box-body">
-
-              <div class="form-group">
-                <label>Sales: </label>
-                <select id="sales" class="form-control" onchange="redirectSale(this)">
-                  <option> -- please select -- </option>
-                  @foreach($sales as $sale)
-                    <?php
-                      $saleDetail = $sale->details()->where('lang', 'trad')->first();
-                    ?>
-                    <option value="{{ route('backend.auction.itemList', ['saleID' => $sale->id]) }}"
-                      @if($saleInfo['sale'] != null)
-                        @if($sale->id == $saleInfo['sale']->id)
-                          selected
-                        @endif
-                      @endif
-                    >{{ $saleDetail->title }}</option>
-                  @endforeach
-                </select>
-              </div>
 
               <table id="research" class="table table-bordered table-striped">
                 {{--category_id, slug, photo_id, hit_counter, share_counter--}}
@@ -114,7 +117,10 @@
   <script>
       $(function () {
           $("#research").DataTable({
-              "order": [[0, "desc"]]
+              "order": [[0, "desc"]],
+              "paging":   false,
+              "info":     false,
+              "searching": false,
           });
       });
 
