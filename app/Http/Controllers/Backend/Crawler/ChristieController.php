@@ -22,6 +22,7 @@ use Intervention\Image\Facades\Image;
 // app()->call([$controller, 'autoImportSale']);
 // app()->call([$controller, 'autoUploadS3']);
 // app()->call([$controller, 'upload_sale_images']);
+// app()->call([$controller, 'removeUploadedImages']);
 
 class ChristieController extends Controller
 {
