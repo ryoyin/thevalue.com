@@ -956,11 +956,13 @@ class ChristieController extends Controller
 
             $intSaleID = $dbSale->int_sale_id;
 
-            echo $intSaleID."\n";
+//            echo $intSaleID."\n";
 
             $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
 
             if(File::exists(base_path().'/storage/app/'.$filePath)) {
+
+                echo $intSaleID."\n";
 
                 $json = Storage::disk('local')->get($filePath);
                 Storage::disk('local')->put($filePath.'.import.bk', $json);
