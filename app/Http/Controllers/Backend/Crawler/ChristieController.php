@@ -950,7 +950,8 @@ class ChristieController extends Controller
         $dbSales = App\ChristieSpiderSale::where('download_images', 1)->where('import', null)->get();
 
 //        $salesArray = array();
-        
+
+        $notFoundCounter = 0;
 
         foreach($dbSales as $dbSale) {
 
@@ -983,6 +984,7 @@ class ChristieController extends Controller
 
                 if($houseDetail == null) {
                     echo "house not found: Christie ".$city."\n";
+                    $notFoundCounter ++;
                     continue;
                 }
 
@@ -1162,7 +1164,7 @@ class ChristieController extends Controller
 
         }
 
-
+        echo $notFoundCounter."\n";
 
         // backend.auction.itemList
 //        return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
