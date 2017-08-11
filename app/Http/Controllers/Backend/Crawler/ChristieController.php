@@ -1791,12 +1791,12 @@ class ChristieController extends Controller
         foreach($sales as $sale) {
             $baseDirectory = base_path().'/public';
 
-            echo 'Uploading Sale Image: '.$sale->image_path;
+            echo 'Uploading Sale Image: '.$sale->image_path."\n";
             $this->pushS3($baseDirectory, $sale->image_path);
             $sale->image_pushS3 = 1;
             $sale->save();
 
-            exit;
+//            exit;
         }
     }
 
