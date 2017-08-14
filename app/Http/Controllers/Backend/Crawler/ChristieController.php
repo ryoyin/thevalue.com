@@ -773,7 +773,7 @@ class ChristieController extends Controller
 
         $intSaleID = trim($intSaleID);
 
-        echo "Uploading: ".$intSaleID."\n";
+
 
         $locale = App::getLocale();
 
@@ -787,6 +787,9 @@ class ChristieController extends Controller
 
         $christieSaleID = $saleArray['sale']['id'];
         $saleID = $saleArray['db']['sale']['main']['id'];
+
+        echo "Uploading: ".$intSaleID." Sale ID: ".$christieSaleID."\n";
+
 
         $sale = App\AuctionSale::find($saleID);
 
