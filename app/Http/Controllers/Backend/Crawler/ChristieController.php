@@ -1792,10 +1792,18 @@ class ChristieController extends Controller
         foreach($sales as $sale) {
             $baseDirectory = base_path().'/public';
 
-            echo 'Uploading Sale Image: '.$sale->image_path."\n";
-            $this->pushS3($baseDirectory, $sale->image_path);
-            $sale->image_pushS3 = 1;
-            $sale->save();
+            $intSaleID = $sale->int_sale_id;
+
+//            echo $intSaleID."\n";
+
+            $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+
+            if(File::exists(base_path().'/storage/app/'.$filePath)) {
+                echo 'Uploading Sale Image: ' . $sale->image_path . "\n";
+                $this->pushS3($baseDirectory, $sale->image_path);
+                $sale->image_pushS3 = 1;
+                $sale->save();
+            }
 
 //            exit;
         }
