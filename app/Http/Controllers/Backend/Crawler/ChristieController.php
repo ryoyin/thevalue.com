@@ -1809,4 +1809,70 @@ class ChristieController extends Controller
         }
     }
 
+    public function deBugUploadS3($intSaleID, $redirect = true)
+    {
+        set_time_limit(6000);
+
+        $intSaleID = trim($intSaleID);
+
+        echo "Uploading: ".$intSaleID."\n";
+
+        $locale = App::getLocale();
+
+        $path = 'spider/christie/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        echo $saleArray['sale']['id'];
+//        exit;
+
+        $christieSaleID = $saleArray['sale']['id'];
+        $saleID = $saleArray['db']['sale']['main']['id'];
+
+        $sale = App\AuctionSale::find($saleID);
+
+//        dd($sale);
+
+        $items = $sale->items;
+
+        $uploadedImages = array();
+
+        foreach($items as $item) {
+
+            echo "Item ID: ".$item->id."\n";
+
+//            print_r($item);
+
+            if(in_array($item->image_fit_path, $uploadedImages)) {
+//                echo $item->image_fit_path;
+//                echo '<br>';
+//                echo 'duplicated';
+//                echo '<br>';
+                continue;
+            }
+
+            if(basename($item->image_fit_path) == 'thevalue-no-image.jpeg') {
+                continue;
+            }
+
+            $uploadedImages[] = $item->image_fit_path;
+
+            $baseDirectory = base_path().'/public';
+
+//            $this->pushS3($baseDirectory, $item->image_fit_path);
+//            $this->pushS3($baseDirectory, $item->image_large_path);
+//            $this->pushS3($baseDirectory, $item->image_medium_path);
+//            $this->pushS3($baseDirectory, $item->image_small_path);
+
+        }
+
+        if($redirect) {
+            return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
+        } else {
+            return $christieSaleID;
+        }
+
+    }
+
 }
