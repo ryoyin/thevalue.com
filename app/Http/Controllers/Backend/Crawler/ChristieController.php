@@ -756,11 +756,10 @@ class ChristieController extends Controller
 
             if(File::exists(base_path() . '/storage/app/' . $filePath)) {
                 $christieSaleID = $this->uploadS3($intSaleID, false);
+                $dbSale->sale_id = $christieSaleID;
+                $dbSale->push_s3 = 1;
+                $dbSale->save();
             }
-
-            $dbSale->sale_id = $christieSaleID;
-            $dbSale->push_s3 = 1;
-            $dbSale->save();
 
 //            exit;
 
