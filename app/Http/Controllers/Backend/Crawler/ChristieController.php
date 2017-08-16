@@ -827,6 +827,10 @@ class ChristieController extends Controller
 
         }
 
+        $baseDirectory = base_path().'/public';
+        $saleImagePath = $saleArray['db']['sale']['main']['image_path'];
+        $this->pushS3($baseDirectory, $saleImagePath);
+
         $christieSpiderSale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
         $christieSpiderSale->push_s3 = 1;
         $christieSpiderSale->save();
