@@ -43,7 +43,7 @@ class YiDuController extends Controller
     public function getSaleByIntSaleID($intSaleID)
     {
 
-        set_time_limit(600);
+        set_time_limit(6000);
 
         echo "<p>";
         echo 'Spider '.$intSaleID.' start';
@@ -206,6 +206,8 @@ class YiDuController extends Controller
 
         foreach($itemArray as $item ) {
 
+            echo $item['filePath']."<br>";
+
 //            echo '<p>';
 
             $html = Storage::disk('local')->get($item['filePath']);
@@ -282,7 +284,15 @@ class YiDuController extends Controller
             $paragraph = $content->getElementsByTagName('p');
 
             $dimension = $paragraph[0]->textContent;
+
+//            echo $dimension;
+
+            // exit;
+
             $description = $paragraph[2]->textContent;
+
+//            echo $description;
+//            exit;
 
 //            echo 'Dimension: '.$dimension."<br>";
 //            echo 'Description: '.$description.'<br>';
@@ -687,11 +697,17 @@ class YiDuController extends Controller
 
         }
 
+        $saleImagePath = $saleArray['sale']['stored_image_path'];
+
+        $this->pushS3($baseDirectory, $saleImagePath);
+
         Storage::disk('local')->put($path, $json);
 
         $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
         $sale->pushS3 = true;
         $sale->save();
+
+//        exit;
 
         return redirect()->route('backend.auction.yidu.index');
 
@@ -736,6 +752,8 @@ class YiDuController extends Controller
 
     public function import(Request $request, $intSaleID)
     {
+        set_time_limit(6000);
+
         $intSaleID = trim($intSaleID);
 
         $auctionSeriesID = trim($request->auction_series_id);
@@ -763,9 +781,12 @@ class YiDuController extends Controller
         // slug, source_image_path, image_path, number, total_lots, start_date, end_date, auction_series_id
         $sale = New App\AuctionSale;
 
+        if(!is_numeric($saleArray['sale']['auction_time']['end_time'])) $saleArray['sale']['auction_time']['end_time'] = $saleArray['sale']['auction_time']['start_time'];
+
         $sale->slug = $saleSlug;
         $sale->source_image_path = $saleArray['sale']['source_image_path'];
         $sale->image_path = $saleArray['sale']['stored_image_path'];
+        $sale->image_pushS3 = 1;
         $sale->number = $intSaleID;
         $sale->total_lots = count($saleArray['lots']);
         $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['auction_time']['start_time']);
