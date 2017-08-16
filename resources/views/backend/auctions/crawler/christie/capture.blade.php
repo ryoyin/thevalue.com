@@ -36,36 +36,11 @@
                             <h3 class="box-title">Capture Sale Content From Christie</h3>
                             <hr>
                             <form action="{{ route('backend.auction.christie.capture') }}" method="get">
-                                Year: <input type="text" name="year" value="{{ @$_GET['year'] }}">
-                                Month: <input type="text" name="month" value="{{ @$_GET['month'] }}">
+                                Internal Sale ID: <input type="text" name="int_sale_id" value="{{ @$_GET['int_sale_id'] }}">
+                                Sale ID: <input type="text" name="sale_id" value="{{ @$_GET['sale_id'] }}">
                                 <input type="submit">
                             </form>
                         </div><!-- /.box-header -->
-
-                        <hr>
-
-                        <div class="box-header">
-                            <h3 class="box-title">Spider Records</h3>
-                        </div><!-- /.box-header -->
-
-                        <div class="box-body">
-
-                            <table class="table table-bordered table-striped" id="records">
-                                <thead>
-                                <td>Year</td>
-                                <td>Month</td>
-                                </thead>
-                                <tbody>
-                                @foreach($spiderRecords as $record)
-                                    <tr>
-                                        <td>{{ $record->year }}</td>
-                                        <td>{{ $record->month }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-                        </div><!-- /.box-body -->
 
                         <hr>
 
@@ -93,6 +68,8 @@
                                         <tbody>
                                             @foreach($sales as $sale)
                                                 <?php
+
+//                                                        dd($sale);
                                                     $intSaleID = $sale->int_sale_id;
                                                     $saleContent = $salesArray[$intSaleID];
                                                 ?>

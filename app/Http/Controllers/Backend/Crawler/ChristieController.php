@@ -15,7 +15,7 @@ use Intervention\Image\Facades\Image;
 // Run in tinker
 // php artisan tinker
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\ChristieController');
-// app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
+// app()->call([$controller, 'downloadImages'], ['intSaleID' => 26251]);
 // app()->call([$controller, 'manualGetList'], ['year' => 2017, 'month' => 4]);
 // app()->call([$controller, 'autoGetList']);
 // app()->call([$controller, 'listDownloadImages']);
@@ -66,26 +66,18 @@ class ChristieController extends Controller
 
     public function capture(Request $request)
     {
-        $year = trim($request->year);
-        $month = trim($request->month);
+        $intSaleID = trim($request->int_sale_id);
+        $saleID = trim($request->sale_id);
 
         $locale = App::getLocale();
 
-        $spiderRecords = App\ChristieSpider::orderBy('year', 'desc')->orderBy('month', 'desc')->get();
-
-        if($year == '' || $month == '') {
-            $spiderDate = App\ChristieSpider::orderBy('year', 'desc')->orderBy('month', 'desc')->first();
-        } else {
-            $spiderDate = App\ChristieSpider::where('year', $year)->where('month', $month)->first();
-        }
+        $sales = App\ChristieSpiderSale::where('web_capture', 1)->paginate(20);
 
         // dd($spiderDate);
 
-        if($spiderDate){
+        $salesArray = null;
 
-            $sales = $spiderDate->sales;
-
-            // $sales = File::directories(base_path().'/storage/app/spider/christie/sale');
+        if($sales){
 
             foreach($sales as $sale) {
 
@@ -93,7 +85,9 @@ class ChristieController extends Controller
 
                 $fileName = $intSaleID.'.json';
 
-                $json = Storage::disk('local')->get('spider/christie/sale/'.$intSaleID.'/'.$fileName);
+                $path = 'spider/christie/sale/'.$intSaleID.'/'.$fileName;
+
+                $json = Storage::disk('local')->get($path);
 
                 $salesArray[$intSaleID] = json_decode($json, true);
 
@@ -101,24 +95,14 @@ class ChristieController extends Controller
 
             //dd($salesArray);
 
-            $data = array(
-                'locale' => $locale,
-                'menu' => array('auction', 'christie.capture'),
-                'sales' => $sales,
-                'salesArray' => $salesArray,
-                'spiderRecords' => $spiderRecords,
-            );
-
-
-        } else {
-
-            $data = array(
-                'locale' => $locale,
-                'menu' => array('auction', 'christie.capture'),
-                'spiderRecords' => $spiderRecords,
-            );
-
         }
+
+        $data = array(
+            'locale' => $locale,
+            'menu' => array('auction', 'christie.capture'),
+            'sales' => $sales,
+            'salesArray' => $salesArray,
+        );
 
         return view('backend.auctions.crawler.christie.capture', $data);
 
@@ -165,11 +149,24 @@ class ChristieController extends Controller
             return redirect('backend.auction.christie.index')->with('warning', 'Sale not exist!');
         }
 
+//        dd($saleArray);
+
         $saleJSON = json_encode($saleArray);
 
         $storePath = 'spider/christie/sale/' . $intSaleID . '/';
 
         Storage::disk('local')->put($storePath . $intSaleID . '.json', $saleJSON);
+
+        $saleID = $saleArray['sale']['id'];
+
+        $sale = New App\ChristieSpiderSale;
+        $sale->int_sale_id = $intSaleID;
+        $sale->sale_id = $saleID;
+        $sale->download_images = 0;
+        $sale->push_s3 = 0;
+        $sale->christie_spider_id = 0;
+        $sale->web_capture = 1;
+        $sale->save();
 
         echo 'Spider '.$intSaleID.' end';
         echo "<br>";
@@ -734,6 +731,11 @@ class ChristieController extends Controller
 
         Storage::disk('local')->put($path, json_encode($saleArray));
 
+        $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
+
+        $sale->download_images = 1;
+        $sale->save();
+
         if($redirect) {
             return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
         } else {
@@ -771,8 +773,6 @@ class ChristieController extends Controller
         set_time_limit(6000);
 
         $intSaleID = trim($intSaleID);
-
-
 
         $locale = App::getLocale();
 
@@ -826,6 +826,10 @@ class ChristieController extends Controller
             $this->pushS3($baseDirectory, $item->image_small_path);
 
         }
+
+        $christieSpiderSale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
+        $christieSpiderSale->push_s3 = 1;
+        $christieSpiderSale->save();
 
         if($redirect) {
             return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
@@ -1397,6 +1401,10 @@ class ChristieController extends Controller
         $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
         Storage::disk('local')->put($path, json_encode($saleArray));
 
+        $christieSpiderSale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
+        $christieSpiderSale->import = 1;
+        $christieSpiderSale->save();
+
         // backend.auction.itemList
         return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
 
@@ -1873,6 +1881,31 @@ class ChristieController extends Controller
             return redirect()->route('backend.auction.itemList', ['saleID' => $saleID]);
         } else {
             return $christieSaleID;
+        }
+
+    }
+
+    public function searchSaleImageByPath()
+    {
+
+        $sales = App\ChristieSpiderSale::all();
+
+        dd($sales);
+
+        foreach($sales as $sale) {
+
+            $intSaleID = $sale->int_sale_id;
+
+            $path = 'spider/christie/sale/' . $intSaleID . '/' . $intSaleID . '.json';
+
+            if(File::exists(base_path().'/storage/app/'.$path)) {
+                $json = Storage::disk('local')->get($path);
+
+                $saleArray = json_decode($json, true);
+
+                dd($saleArray);
+            }
+
         }
 
     }
