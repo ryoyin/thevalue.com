@@ -246,6 +246,22 @@ Route::group(['middleware' => 'auth'], function() {
 //    Route::get('/bjac-imgResizeFill', 'Backend\BJAntiqueCityController@imgResize');
 
     Route::get('tvadmin/articles/imageResize', 'ImageResizeSyncController@index')->name('backend.articles.imageResize');
+    Route::get('tvadmin/readJSON', function() {
+
+        $intSaleID = 'n09674';
+
+        $path = 'spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+        echo $saleArray['sale']['image_path'];
+
+        echo '<br>';
+
+        dd($saleArray);
+
+    });
 
 });
 

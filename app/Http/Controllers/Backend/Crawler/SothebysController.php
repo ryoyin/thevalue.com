@@ -578,6 +578,7 @@ class SothebysController extends Controller
         // get title - lotdetail-guarantee
         $finder = new \DomXPath($dom);
         $node = $finder->query("//*[contains(@class, 'lotdetail-guarantee')]");
+
         $title = $node->item(0)->textContent;
         $lot[$lang]['title'] = $title;
         // - title
@@ -647,6 +648,8 @@ class SothebysController extends Controller
 
         $contentArray['viewing'] = $this->getViewingInfo($dom); // Get Viewing Datetime -  class: eventdetail-times > ul
 
+        $dom->loadHTML($html);
+
         $contentArray['image_path'] = $this->getSaleImage($dom);
 
         // Get Lot Info
@@ -661,6 +664,9 @@ class SothebysController extends Controller
 
     private function getSaleImage($dom)
     {
+//        echo $dom->saveHTML();
+//
+//        exit;
         // get sale photo - eventdetail-left
         $finder = new \DomXPath($dom);
         $node = $finder->query("//*[contains(@class, 'eventdetail-left')]");
@@ -668,6 +674,8 @@ class SothebysController extends Controller
         $eventBlock = $dom->saveHTML($node->item(0));
         $dom->loadHTML($eventBlock);
         $imgBlock = $dom->getElementsByTagName('img');
+
+//        echo $imgBlock[0];
 
         $imgSrc = $imgBlock[0]->getAttribute('src');
 
@@ -954,15 +962,9 @@ class SothebysController extends Controller
 
         $path = 'spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'.json';
 
-//        echo $path;
-
         $json = Storage::disk('local')->get($path);
 
-//        echo $json;
-
         $saleArray = json_decode($json, true);
-
-//        dd($saleArray);
 
         $baseDirectory = base_path().'/public';
 
@@ -974,6 +976,9 @@ class SothebysController extends Controller
             $this->pushS3($baseDirectory, $lot['stored_image_path']['small']);
 
         }
+
+        $saleImagePath = $saleArray['sale']['image_path'];
+        $this->pushS3($baseDirectory, $saleImagePath);
 
         Storage::disk('local')->put($path, $json);
 
@@ -1421,6 +1426,8 @@ class SothebysController extends Controller
 
     public function importSaleFile(Request $request, $intSaleID)
     {
+        set_time_limit(60000);
+        
         $intSaleID = trim($intSaleID);
         $auctionSeriesID = trim($request->auction_series_id);
         $slug = trim($request->slug);
@@ -1467,6 +1474,7 @@ class SothebysController extends Controller
         $sale->source_image_path = $saleArray['sale']['source_image_path'];
         $sale->image_path = $saleArray['sale']['stored_image_path'];
         $sale->number = $intSaleID;
+        $sale->image_pushS3 = 1;
         $sale->total_lots = count($saleArray['lots']);
         $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']);
         $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['end_datetime']);
