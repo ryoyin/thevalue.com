@@ -2069,6 +2069,8 @@ class ChristieController extends Controller
 
         foreach($sales as $sale) {
             $intSaleID = $sale->int_sale_id;
+            $sale->retrieve_server = 99;
+            $sale->save();
 
             echo $intSaleID."\n";
 
