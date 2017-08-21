@@ -1686,6 +1686,7 @@ class ChristieController extends Controller
                 $sale->download_images = 0;
                 $sale->push_s3 = 0;
                 $sale->christie_spider_id = $christieSpiderID;
+                $sale->retrieve_server = env('SRV_NUMBER');
                 $sale->save();
 
 //                break;
@@ -2059,6 +2060,22 @@ class ChristieController extends Controller
                     $checkSale->save();
                 }
             }
+        }
+    }
+
+    public function downloadMissingSales()
+    {
+        $sales = App\ChristieSalesChecking::where('retrieve_server', null)->where('year', env('CHRISTIE_SPIDER_YEAR'))->get();
+
+        foreach($sales as $sale) {
+            $intSaleID = $sale->int_sale_id;
+
+            echo $intSaleID."\n";
+
+            $this->crawlerByID($intSaleID);
+            $sale->retrieve_server = env('SRV_NUMBER');
+
+            exit;
         }
     }
 
