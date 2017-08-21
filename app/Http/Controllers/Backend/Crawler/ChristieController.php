@@ -2032,4 +2032,31 @@ class ChristieController extends Controller
 
     }
 
+    public function updateSalesDownloadList()
+    {
+        $srvNumber = trim(env('SRV_NUMBER'));
+
+        $base_path = base_path().'/storage/app/';
+        $path = 'spider/christie/sale';
+
+        $sales = File::directories($base_path.$path);
+
+        foreach($sales as $sale ) {
+            $sale = str_replace(base_path().'/storage/app/', '', $sale);
+            $sale = str_replace('\\', '/', $sale);
+
+            $exSale = explode('/', $sale);
+            $intSaleID = $exSale[count($exSale) - 1];
+
+            echo $intSaleID."\n";
+
+            if($intSaleID != null) {
+                $checkSale = App\ChristieSalesChecking::where('int_sale_id', $intSaleID)->first();
+                $checkSale->downloaded = 1;
+                $checkSale->retrieve_server = $srvNumber;
+                $checkSale->save();
+            }
+        }
+    }
+
 }
