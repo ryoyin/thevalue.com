@@ -2052,9 +2052,12 @@ class ChristieController extends Controller
 
             if($intSaleID != null) {
                 $checkSale = App\ChristieSalesChecking::where('int_sale_id', $intSaleID)->first();
-                $checkSale->downloaded = 1;
-                $checkSale->retrieve_server = $srvNumber;
-                $checkSale->save();
+
+                if($checkSale != null) {
+                    $checkSale->downloaded = 1;
+                    $checkSale->retrieve_server = $srvNumber;
+                    $checkSale->save();
+                }
             }
         }
     }
