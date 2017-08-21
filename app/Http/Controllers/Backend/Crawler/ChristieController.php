@@ -1919,7 +1919,7 @@ class ChristieController extends Controller
         $lastYear = 2017;
         $lastMonth = 5;
 
-        $endYear = 1980;
+        $endYear = 1990;
 
         while($lastYear > $endYear) {
 
@@ -1949,7 +1949,7 @@ class ChristieController extends Controller
 
                             $checking = App\ChristieSalesChecking::where('int_sale_id', $intSaleID)->first();
 
-                            if($checking != null) {
+                            if($checking == null) {
 
         //                      $location = $spider['type'];
 
