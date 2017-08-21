@@ -1914,4 +1914,122 @@ class ChristieController extends Controller
 
     }
 
+    public function getSalesList()
+    {
+        $lastYear = 2017;
+        $lastMonth = 5;
+
+        $endYear = 1980;
+
+        while($lastYear > $endYear) {
+
+            $newDate = new \DateTime($lastYear.'-'.($lastMonth - 1));
+
+            $year = $newDate->format('Y');
+            $month = $newDate->format('n');
+
+    //        echo $year.$month;
+    //        exit;
+
+            // echo $newDate->format('Yn');
+
+    //        $spiderArray = array();
+
+            for($i=1; $i<=5; $i++) {
+                $url = 'http://www.christies.com/results/?month='.$month.'&year='.$year.'&locations=&scids=&action=paging&initialpageload=false&pg='.$i;
+                $spiderResult = $this->getSaleListByYearMonth($url);
+
+                if($spiderResult != false) {
+    //                dd($spiderResult);
+                    foreach($spiderResult as $spider) {
+
+                        if($spider['type'] != 'online') {
+
+                            $intSaleID = $spider['int_sale_id'];
+
+                            $checking = App\ChristieSalesChecking::where('int_sale_id', $intSaleID)->first();
+
+                            if($checking != null) {
+
+        //                      $location = $spider['type'];
+
+                                $checking = New App\ChristieSalesChecking;
+
+                                $checking->year = $year;
+                                $checking->month = $month;
+                                $checking->int_sale_id = $intSaleID;
+
+                                $checking->save();
+
+                            }
+
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            $lastYear = $year;
+            $lastMonth = $month;
+        }
+
+    }
+
+    public function getSaleListByYearMonth($url)
+    {
+
+        set_time_limit(600000);
+
+        echo $url."\n";
+
+//        exit;
+
+        $result = $this->getSaleListByURL($url);
+
+//        echo $result;
+
+        // auction-info
+
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $internalErrors = libxml_use_internal_errors(true);
+        $dom->loadHTML($result);
+
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'location')]");
+
+        if($node->length == 0) {
+            return false;
+        }
+
+        $spiderArray = array();
+
+        foreach($node as $key => $item) {
+            $type = $item->textContent;
+            $type = strtolower(trim($type));
+
+            $spiderArray[$key]['type'] = $type;
+        }
+
+        $finder = new \DomXPath($dom);
+        $node = $finder->query("//*[contains(@class, 'sale-number')]");
+//        $title = $node->item(0)->textContent;
+
+        foreach($node as $key => $item) {
+
+            $href = $item->getAttribute('href');
+
+            $exHref = explode('=', $href);
+
+            $spiderArray[$key]['int_sale_id'] = $exHref[1];
+//            echo $exHref[1].'<br>';
+
+        }
+
+//        dd($spiderArray);
+
+        return $spiderArray;
+
+    }
+
 }
