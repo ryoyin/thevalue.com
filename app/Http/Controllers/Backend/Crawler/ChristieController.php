@@ -2074,8 +2074,9 @@ class ChristieController extends Controller
 
             $this->crawlerByID($intSaleID);
             $sale->retrieve_server = env('SRV_NUMBER');
+            $sale->save();
 
-            exit;
+//            exit;
         }
     }
 
