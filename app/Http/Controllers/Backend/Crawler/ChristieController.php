@@ -454,6 +454,8 @@ class ChristieController extends Controller
 
     private function getLotLocale($saleNumber, $locale, $lotNumber)
     {
+        Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
+
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
         $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.str_replace(' ', '', $lotNumber).'&intsaleid='.$saleNumber;
         echo "Getting Lot Locale From: ".$url."<br>\n";
@@ -735,6 +737,93 @@ class ChristieController extends Controller
 
         $sale->download_images = 1;
         $sale->save();
+
+        if($redirect) {
+            return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
+        } else {
+            return true;
+        }
+
+    }
+
+    public function downloadImagesWithoutResize($intSaleID, $redirect = true)
+    {
+        set_time_limit(60000);
+
+        $intSaleID = trim($intSaleID);
+
+        echo "Downloading Internal Sale ID: ".$intSaleID;
+        echo "\n";
+
+        $locale = App::getLocale();
+
+        $path = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($path);
+
+        $saleArray = json_decode($json, true);
+
+//        dd($saleArray);
+
+        $storePath = 'spider/christie/sale/'.$intSaleID.'/';
+
+        $downloadedImages = array();
+
+        foreach($saleArray['lots'] as $index => $lot) {
+            $link = str_replace('s.jpg', 'a.jpg', $lot['image_path']);
+
+            if(basename($link) == 'no-image-75.jpg') {
+
+            } else {
+
+                // search for existing image
+                $searchArray = array_search($link, $downloadedImages);
+                if (!$searchArray) {
+
+                    echo "lot: ".$lot['number']."\n";
+
+                    $downloadedImages[$lot['number']] = $link;
+
+                    $exist_image_path = $storePath.$lot['number'].'.jpg';
+
+                    if(!File::exists(base_path() . '/storage/app/' . $exist_image_path)) {
+                        echo "image not found.\n";
+                        $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
+                    }
+
+                }
+            }
+
+        }
+
+//        Storage::disk('local')->put($path, json_encode($saleArray));
+
+        $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
+
+        $sale->download_images = 1;
+        $sale->save();
+
+        $baseDirectory = base_path().'/storage/app/';
+
+        // upload S3
+        foreach($saleArray['lots'] as $index => $lot) {
+            echo "Pushing ".$lot['image_path']."\n";
+
+            if(basename($lot['image_path']) != 'no-image-75.jpg') {
+                $imagePath = $storePath . $lot['number'] . '.jpg';
+                $this->pushS3($baseDirectory, $imagePath);
+            }
+//            exit;
+        }
+
+        // push json to S3
+        echo "Pushing JSON to S3 ".$baseDirectory.$storePath.$intSaleID.".json\n";
+        $returnPushJSONResult = $this->pushS3($baseDirectory, $storePath.$intSaleID.'.json');
+
+        //remove images
+        if($returnPushJSONResult) {
+            $storePath = 'spider/christie/sale/'.$intSaleID;
+            Storage::deleteDirectory($storePath);
+        }
 
         if($redirect) {
             return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
@@ -1423,6 +1512,8 @@ class ChristieController extends Controller
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');
+
+        return true;
     }
 
     public function getRealizedPrice($intSaleID)
@@ -2065,6 +2156,21 @@ class ChristieController extends Controller
 
     public function downloadMissingSales()
     {
+        // last download content
+        $last_download_time = (INT) Storage::disk('local')->get('spider/christie/last_download_content.txt');
+
+        $last_download_time = date("c", $last_download_time);
+        $start_date = new \DateTime($last_download_time);
+
+        $now_time = date("c", time());
+        $now_time = new \DateTime($now_time);
+
+        $since_start = $start_date->diff($now_time);
+
+        echo 'started: '.$since_start->i."\n";
+
+        if($since_start->i < 5) exit;
+
         $sales = App\ChristieSalesChecking::where('retrieve_server', null)->where('year', env('CHRISTIE_SPIDER_YEAR'))->get();
 
         foreach($sales as $sale) {
