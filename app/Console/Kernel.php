@@ -32,7 +32,13 @@ class Kernel extends ConsoleKernel
 
 //        $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@autoGetList')->hourlyAt(config('app.christie_spider_time'));
 
-        $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@dbDownloadImages')->everyMinute();
+        if(env('DOWNLOAD_CHRISTIE_IMAGE')) {
+            $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@dbDownloadImages')->everyMinute();
+        }
+
+        if(env('DOWNLOAD_CHRISTIE_SALE')) {
+            $schedule->call('App\Http\Controllers\Backend\Crawler\ChristieController@downloadMissingSales')->everyMinute();
+        }
     }
 
     /**

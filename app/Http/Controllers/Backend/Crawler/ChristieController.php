@@ -179,9 +179,8 @@ class ChristieController extends Controller
     {
         $url = 'http://www.christies.com/lotfinder/print_sale.aspx?saleid='.$intSaleID.'&lid=1';
 
-        echo "<br>";
         echo "Getting content from: ".$url;
-        echo "<br>";
+        echo "<br>\n";
 
         $cSession = curl_init();
 
@@ -2171,9 +2170,9 @@ class ChristieController extends Controller
 
         if($since_start->i < 5) exit;
 
-        $sales = App\ChristieSalesChecking::where('retrieve_server', null)->where('year', env('CHRISTIE_SPIDER_YEAR'))->get();
+        $sale = App\ChristieSalesChecking::where('retrieve_server', null)->where('year', env('CHRISTIE_SPIDER_YEAR'))->first();
 
-        foreach($sales as $sale) {
+        if($sale != null) {
             $intSaleID = $sale->int_sale_id;
             $sale->retrieve_server = 99;
             $sale->save();
@@ -2183,9 +2182,8 @@ class ChristieController extends Controller
             $this->crawlerByID($intSaleID);
             $sale->retrieve_server = env('SRV_NUMBER');
             $sale->save();
-
-//            exit;
         }
+
     }
 
 }
