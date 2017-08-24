@@ -2168,7 +2168,7 @@ class ChristieController extends Controller
 
         echo 'started: '.$since_start->i."\n";
 
-        if($since_start->i < 5) exit;
+        if($since_start->i < 2) exit;
 
         $sale = App\ChristieSalesChecking::where('retrieve_server', null)->where('year', env('CHRISTIE_SPIDER_YEAR'))->first();
 
