@@ -453,7 +453,7 @@ class ChristieController extends Controller
 
     private function getLotLocale($saleNumber, $locale, $lotNumber)
     {
-        Storage::disk('local')->put('spider/christie/last_download_time.txt', time());
+        Storage::disk('local')->put('spider/christie/last_download_content.txt', time());
 
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
         $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.str_replace(' ', '', $lotNumber).'&intsaleid='.$saleNumber;
