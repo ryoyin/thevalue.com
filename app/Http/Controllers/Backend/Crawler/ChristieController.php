@@ -26,6 +26,8 @@ use Intervention\Image\Facades\Image;
 
 class ChristieController extends Controller
 {
+    private $last_download_content_id;
+
     public function index()
     {
         $locale = App::getLocale();
@@ -453,7 +455,9 @@ class ChristieController extends Controller
 
     private function getLotLocale($saleNumber, $locale, $lotNumber)
     {
-        Storage::disk('local')->put('spider/christie/last_download_content.txt', time());
+        $last_download_time = App\ChristieLastDownload::find($this->last_download_content_id);
+        $last_download_time->download_time = date();
+        $last_download_time->save();
 
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
         $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.str_replace(' ', '', $lotNumber).'&intsaleid='.$saleNumber;
@@ -2153,22 +2157,51 @@ class ChristieController extends Controller
         }
     }
 
+    public function checkLastDownload()
+    {
+        $downloadTimes = App\ChristieLastDownload::where('server', env('SRV_NUMBER'))->get();
+
+        if(count($downloadTimes) == 0) {
+
+            // create 5 records
+            for($i=0;$i<5;$i++) {
+                $downloadTime = New App\ChristieLastDownload;
+                $downloadTime->download_time = date('Y-m-d H:i:s');
+                $downloadTime->server = env('SRV_NUMBER');
+                $downloadTime->save();
+            }
+
+            return false;
+
+        } else {
+
+            foreach($downloadTimes as $downloadTime) {
+
+                $start_date = new \DateTime($downloadTime->download_time);
+
+                $now_time = date("c", time());
+                $now_time = new \DateTime($now_time);
+
+                $since_start = $start_date->diff($now_time);
+
+                if($since_start->i < 2) {
+                    continue;
+                } else {
+                    $this->last_download_content_id = $downloadTime->id;
+                    return true;
+                }
+
+            }
+
+            return false;
+
+        }
+
+    }
+
     public function downloadMissingSales()
     {
-        // last download content
-        $last_download_time = (INT) Storage::disk('local')->get('spider/christie/last_download_content.txt');
-
-        $last_download_time = date("c", $last_download_time);
-        $start_date = new \DateTime($last_download_time);
-
-        $now_time = date("c", time());
-        $now_time = new \DateTime($now_time);
-
-        $since_start = $start_date->diff($now_time);
-
-        echo 'started: '.$since_start->i."\n";
-
-        if($since_start->i < 2) exit;
+        if(!$this->checkLastDownload()) exit;
 
         $sale = App\ChristieSalesChecking::where('retrieve_server', null)->where('year', env('CHRISTIE_SPIDER_YEAR'))->first();
 
