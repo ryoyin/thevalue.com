@@ -456,7 +456,7 @@ class ChristieController extends Controller
     private function getLotLocale($saleNumber, $locale, $lotNumber)
     {
         $last_download_time = App\ChristieLastDownload::find($this->last_download_content_id);
-        $last_download_time->download_time = date();
+        $last_download_time->download_time = date('Y-m-d H:i:s');
         $last_download_time->save();
 
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
