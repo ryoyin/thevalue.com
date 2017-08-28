@@ -800,7 +800,7 @@ class ChristieController extends Controller
 
             if(basename($lot['image_path']) == 'no-image-75.jpg') {
                 $valid_image = false;
-                exit;
+//                exit;
             }
 
             if(!File::exists($baseDirectory.$imagePath))
@@ -819,7 +819,7 @@ class ChristieController extends Controller
 
 //        exit;
 
-        echo "Update Spider Sale\n";
+//        echo "Update Spider Sale\n";
         $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
         if($sale == null) {
             $sale = New App\ChristieSpiderSale;
@@ -833,7 +833,7 @@ class ChristieController extends Controller
             $sale->retrieve_server = env('SRV_NUMBER');
         }
         $sale->save();
-        echo "Done Update Spider Sale\n";
+//        echo "Done Update Spider Sale\n";
 
         //remove images
         $storePath = 'spider/christie/sale/'.$intSaleID;
