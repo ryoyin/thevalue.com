@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
 
 // Run in tinker
 // php artisan tinker
@@ -523,11 +524,6 @@ class ChristieController extends Controller
 
     }
 
-    public function checkPS()
-    {
-
-    }
-
     public function dbDownloadImages(Request $request)
     {
         $srvNumber = trim(env('SRV_NUMBER'));
@@ -550,7 +546,11 @@ class ChristieController extends Controller
 
 //        exit;
 
-        $dbSales = App\ChristieSpiderSale::where('download_images', 0)->get();
+        $dbSales = DB::select('
+          SELECT c.int_sale_id, s.download_images FROM christie_sales_checking c 
+          LEFT JOIN christie_spider_sales s ON s.int_sale_id = c.int_sale_id
+          WHERE c.retrieve_server = '.env('SRV_NUMBER').' AND (s.download_images = 0 or s.download_images is null)');
+
 
 //        $salesArray = array();
 
@@ -558,37 +558,22 @@ class ChristieController extends Controller
 
             $intSaleID = $dbSale->int_sale_id;
 
+            echo 'Checking Int Sale ID: '.$intSaleID."\n";
+
             $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$intSaleID.'.json';
 
             if(File::exists(base_path().'/storage/app/'.$filePath)) {
 
-                echo "found sale: ".$dbSale->int_sale_id."\n";
+                echo "Int Sale found: ".$dbSale->int_sale_id."\n";
 
-                if($dbSale->retrieve_server == null) {
-                    $dbSale->retrieve_server = $srvNumber;
-                    $dbSale->save();
-                } else {
-                    if($dbSale->retrieve_server != $srvNumber) continue;
-                }
+                $this->downloadImagesWithoutResize($intSaleID, false);
 
-                echo $intSaleID."\n";
-
-                $json = Storage::disk('local')->get($filePath);
-                Storage::disk('local')->put($filePath.'.bk', $json);
-
-//                $saleArray = json_decode($json, true);
-
-                $this->downloadImages($intSaleID, false);
-
-                $dbSale->download_images = true;
-
-                $dbSale->save();
-
-
+            } else {
+                echo "Int Sale not found: ".$dbSale->int_sale_id."\n";
             }
 
 //            dd($salesArray);
-//            exit;
+            exit;
         }
 
 //        dd($salesArray);
@@ -800,12 +785,27 @@ class ChristieController extends Controller
 
 //        Storage::disk('local')->put($path, json_encode($saleArray));
 
+        echo "Update Spider Sale\n";
         $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
-
-        $sale->download_images = 1;
+        if($sale == null) {
+            $sale = New App\ChristieSpiderSale;
+            $sale->int_sale_id = $intSaleID;
+            $sale->download_images = 1;
+            $sale->push_s3 = 0;
+            $sale->retrieve_server = env('SRV_NUMBER');
+            $sale->christie_spider_id = 99;
+        } else {
+            $sale->download_images = 1;
+            $sale->retrieve_server = env('SRV_NUMBER');
+        }
         $sale->save();
+        echo "Done Update Spider Sale\n";
 
         $baseDirectory = base_path().'/storage/app/';
+
+        // push json to S3
+        echo "Pushing JSON to S3 ".$baseDirectory.$storePath.$intSaleID.".json\n";
+        $returnPushJSONResult = $this->pushS3($baseDirectory, $storePath.$intSaleID.'.json');
 
         // upload S3
         foreach($saleArray['lots'] as $index => $lot) {
@@ -818,15 +818,10 @@ class ChristieController extends Controller
 //            exit;
         }
 
-        // push json to S3
-        echo "Pushing JSON to S3 ".$baseDirectory.$storePath.$intSaleID.".json\n";
-        $returnPushJSONResult = $this->pushS3($baseDirectory, $storePath.$intSaleID.'.json');
-
         //remove images
-        if($returnPushJSONResult) {
-            $storePath = 'spider/christie/sale/'.$intSaleID;
-            Storage::deleteDirectory($storePath);
-        }
+        $storePath = 'spider/christie/sale/'.$intSaleID;
+        Storage::deleteDirectory($storePath);
+
 
         if($redirect) {
             return redirect('tvadmin/auction/crawler/christie/capture/'.$intSaleID.'/itemlist');
@@ -1515,6 +1510,7 @@ class ChristieController extends Controller
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');
+        fclose($image);
 
         return true;
     }
@@ -2213,6 +2209,7 @@ class ChristieController extends Controller
             echo $intSaleID."\n";
 
             $this->crawlerByID($intSaleID);
+            $sale->downloaded = 1;
             $sale->retrieve_server = env('SRV_NUMBER');
             $sale->save();
         }
