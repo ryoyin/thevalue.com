@@ -573,7 +573,7 @@ class ChristieController extends Controller
             }
 
 //            dd($salesArray);
-            exit;
+//            exit;
         }
 
 //        dd($salesArray);
