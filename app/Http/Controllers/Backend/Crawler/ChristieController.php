@@ -793,12 +793,27 @@ class ChristieController extends Controller
 
         // upload S3
         foreach($saleArray['lots'] as $index => $lot) {
+            $valid_image = true;
             echo "Pushing ".$lot['image_path']."\n";
 
-            if(basename($lot['image_path']) != 'no-image-75.jpg') {
+            if(basename($lot['image_path']) == 'no-image-75.jpg') {
+                $valid_image = false;
+                exit;
+            }
+
+            if(!File::exists($baseDirectory.$storePath.$lot['number'].jpg))
+            {
+                $valid_image = false;
+                echo 'file not found';
+                exit;
+            }
+
+            if($valid_image) {
                 $imagePath = $storePath . $lot['number'] . '.jpg';
                 $this->pushS3($baseDirectory, $imagePath);
             }
+
+
 //            exit;
         }
 
@@ -1508,7 +1523,7 @@ class ChristieController extends Controller
 
         //echo $filePath."\n";
 
-        $image = fopen(str_replace(" ", "\%20", $localPath), 'r+');
+        $image = fopen(str_replace(" ", "\x20", $localPath), 'r+');
         $s3->put('/'.$filePath, $image, 'public');
         fclose($image);
 
