@@ -1508,7 +1508,7 @@ class ChristieController extends Controller
 
         //echo $filePath."\n";
 
-        $image = fopen($localPath, 'r+');
+        $image = fopen(str_replace(" ", "\x20", $localPath), 'r+');
         $s3->put('/'.$filePath, $image, 'public');
         fclose($image);
 
