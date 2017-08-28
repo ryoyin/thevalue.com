@@ -796,25 +796,26 @@ class ChristieController extends Controller
             $valid_image = true;
             echo "Pushing ".$lot['image_path']."\n";
 
+            $imagePath = $storePath . $lot['number'] . '.jpg';
+
             if(basename($lot['image_path']) == 'no-image-75.jpg') {
                 $valid_image = false;
                 exit;
             }
 
-            if(!File::exists($baseDirectory.$storePath.$lot['number'].'jpg'))
+            if(!File::exists($baseDirectory.$imagePath))
             {
                 $valid_image = false;
-                echo 'file not found';
-                exit;
+                echo 'file not found: '.$imagePath."\n";
+//                exit;
             }
 
             if($valid_image) {
-                $imagePath = $storePath . $lot['number'] . '.jpg';
                 $this->pushS3($baseDirectory, $imagePath);
             }
 
 
-//            exit;
+            exit;
         }
 
         echo "Update Spider Sale\n";
