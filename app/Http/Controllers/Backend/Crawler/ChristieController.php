@@ -801,7 +801,7 @@ class ChristieController extends Controller
                 exit;
             }
 
-            if(!File::exists($baseDirectory.$storePath.$lot['number'].jpg))
+            if(!File::exists($baseDirectory.$storePath.$lot['number'].'jpg'))
             {
                 $valid_image = false;
                 echo 'file not found';
