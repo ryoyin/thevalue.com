@@ -785,22 +785,6 @@ class ChristieController extends Controller
 
 //        Storage::disk('local')->put($path, json_encode($saleArray));
 
-        echo "Update Spider Sale\n";
-        $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
-        if($sale == null) {
-            $sale = New App\ChristieSpiderSale;
-            $sale->int_sale_id = $intSaleID;
-            $sale->download_images = 1;
-            $sale->push_s3 = 0;
-            $sale->retrieve_server = env('SRV_NUMBER');
-            $sale->christie_spider_id = 99;
-        } else {
-            $sale->download_images = 1;
-            $sale->retrieve_server = env('SRV_NUMBER');
-        }
-        $sale->save();
-        echo "Done Update Spider Sale\n";
-
         $baseDirectory = base_path().'/storage/app/';
 
         // push json to S3
@@ -817,6 +801,22 @@ class ChristieController extends Controller
             }
 //            exit;
         }
+
+        echo "Update Spider Sale\n";
+        $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
+        if($sale == null) {
+            $sale = New App\ChristieSpiderSale;
+            $sale->int_sale_id = $intSaleID;
+            $sale->download_images = 1;
+            $sale->push_s3 = 0;
+            $sale->retrieve_server = env('SRV_NUMBER');
+            $sale->christie_spider_id = 99;
+        } else {
+            $sale->download_images = 1;
+            $sale->retrieve_server = env('SRV_NUMBER');
+        }
+        $sale->save();
+        echo "Done Update Spider Sale\n";
 
         //remove images
         $storePath = 'spider/christie/sale/'.$intSaleID;
