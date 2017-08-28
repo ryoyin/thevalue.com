@@ -814,9 +814,10 @@ class ChristieController extends Controller
                 $this->pushS3($baseDirectory, $imagePath);
             }
 
-
-            exit;
+//            exit;
         }
+
+        exit;
 
         echo "Update Spider Sale\n";
         $sale = App\ChristieSpiderSale::where('int_sale_id', $intSaleID)->first();
