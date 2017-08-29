@@ -825,7 +825,7 @@ class ChristieController extends Controller
 
         }
 
-        exit;
+//        exit;
 
 //        Storage::disk('local')->put($path, json_encode($saleArray));
 
