@@ -456,9 +456,9 @@ class ChristieController extends Controller
 
     private function getLotLocale($saleNumber, $locale, $lotNumber)
     {
-        $last_download_time = App\ChristieLastDownload::find($this->last_download_content_id);
+        /*$last_download_time = App\ChristieLastDownload::find($this->last_download_content_id);
         $last_download_time->download_time = date('Y-m-d H:i:s');
-        $last_download_time->save();
+        $last_download_time->save();*/
 
         $localeArr = array('trad'=>'zh/', 'sim'=>'zh-CN/', 'en' => '');
         $url = 'http://www.christies.com/'.$localeArr[$locale].'lotfinder/lot_details.aspx?hdnsaleid='.$saleNumber.'&ln='.str_replace(' ', '', $lotNumber).'&intsaleid='.$saleNumber;
@@ -474,7 +474,6 @@ class ChristieController extends Controller
 //        echo $spider_result;
 //        exit;
 
-        // get exhibition time
         $spider = new \DOMDocument();
         libxml_use_internal_errors(true);
         $spider->loadHTML($spider_result);
@@ -511,6 +510,23 @@ class ChristieController extends Controller
 
         // main_center_0_lblPriceRealizedPrimary
         $sold_value = $spider->getElementByID('main_center_0_lblPriceRealizedPrimary');
+
+        // get image path
+//        $dom = new \DOMDocument('1.0', 'UTF-8');
+//        $dom->loadHTML($spider_result);
+//
+//        $finder = new \DomXPath($dom);
+//        $nodes = $finder->query("//*[contains(@class, 'image-preview-container')]");
+//
+//        foreach($nodes as $node) {
+//
+//        }
+
+        $imageSources = $spider->getElementsByTagName('source');
+
+        $itemLink = $imageSources[0]->getAttribute('srcset');
+//        echo $itemLink."<br>\n";
+        $contentArray['image_path_in_detail'] = $itemLink;
 
         if($sold_value == null) {
             $sold_value = null;
@@ -550,7 +566,6 @@ class ChristieController extends Controller
           SELECT c.int_sale_id, s.download_images FROM christie_sales_checking c 
           LEFT JOIN christie_spider_sales s ON s.int_sale_id = c.int_sale_id
           WHERE c.retrieve_server = '.env('SRV_NUMBER').' AND (s.download_images = 0 or s.download_images is null)');
-
 
 //        $salesArray = array();
 
@@ -757,9 +772,34 @@ class ChristieController extends Controller
         $downloadedImages = array();
 
         foreach($saleArray['lots'] as $index => $lot) {
+
             $link = str_replace('s.jpg', 'a.jpg', $lot['image_path']);
 
-            if(basename($link) == 'no-image-75.jpg') {
+            $filename = basename($link);
+
+            if($filename == 'no-image-75.jpg') {
+
+            } elseif(pathinfo($filename, PATHINFO_EXTENSION) == 'gif') {
+
+                $lotContent = $this->getLotLocale($intSaleID, 'en', $lot['number']);
+                $link = $lotContent['image_path_in_detail'];
+
+                // search for existing image
+                $searchArray = array_search($link, $downloadedImages);
+                if (!$searchArray) {
+
+                    echo "lot: ".$lot['number']."\n";
+
+                    $downloadedImages[$lot['number']] = $link;
+
+                    $exist_image_path = $storePath.$lot['number'].'.jpg';
+
+                    if(!File::exists(base_path() . '/storage/app/' . $exist_image_path)) {
+                        echo "image not found.\n";
+                        $image_path = $this->GetImageFromUrl($storePath, $link, $lot['number']);
+                    }
+
+                }
 
             } else {
 
