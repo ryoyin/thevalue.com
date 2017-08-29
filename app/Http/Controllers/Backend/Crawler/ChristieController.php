@@ -781,6 +781,8 @@ class ChristieController extends Controller
 
             } elseif(pathinfo($filename, PATHINFO_EXTENSION) == 'gif') {
 
+                echo "Check Image Path From Detail\n";
+
                 $lotContent = $this->getLotLocale($intSaleID, 'en', $lot['number']);
                 $link = $lotContent['image_path_in_detail'];
 
@@ -822,6 +824,8 @@ class ChristieController extends Controller
             }
 
         }
+
+        exit;
 
 //        Storage::disk('local')->put($path, json_encode($saleArray));
 
