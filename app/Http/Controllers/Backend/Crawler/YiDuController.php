@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\File;
 
 use Intervention\Image\Facades\Image;
 
+// php artisan tinker
+// $controller = app()->make('App\Http\Controllers\Backend\Crawler\YiduController');
+// app()->call([$controller, 'crawlerPastSale'], ['intSaleID' => 3375]);
+// app()->call([$controller, 'makeSaleInfo'], ['intSaleID' => 3375, 'type' => 'past']);
+// app()->call([$controller, 'parseItems'], ['intSaleID' => 3375]);
+// app()->call([$controller, 'downloadImages'], ['intSaleID' => 3375]);
+
 class YiDuController extends Controller
 {
     public function index()
@@ -40,21 +47,36 @@ class YiDuController extends Controller
         return redirect()->route('backend.auction.yidu.index');
     }
 
-    public function getSaleByIntSaleID($intSaleID)
+    public function crawlerPastSale($intSaleID)
+    {
+        $intSaleID = trim($intSaleID);
+
+        $this->getSaleByIntSaleID($intSaleID, 'past');
+
+        $this->makeSaleInfo($intSaleID, 'past', false);
+
+        $this->parseItems($intSaleID, false);
+
+//        $this->downloadImages($intSaleID, false);
+
+    }
+
+    public function getSaleByIntSaleID($intSaleID, $type = 'live')
     {
 
         set_time_limit(6000);
 
-        echo "<p>";
         echo 'Spider '.$intSaleID.' start';
-        echo "<br>";
+        echo "<br>\n";
 
+        if($type == 'live') {
+            $url = 'http://www.yidulive.com/auctionlist/show.php?sid='.$intSaleID.'&counts=3000&o=0&plo=0&page=1';
+        } else {
+            $url = 'http://www.yidulive.com/auctionend/jgshow.php?sid='.$intSaleID.'&lot=&gj=&o=0&plo=0&counts=3000&page=1';
+        }
 
-        $url = 'http://www.yidulive.com/auctionlist/show.php?sid='.$intSaleID.'&counts=1000&o=0&plo=0&page=1';
-
-        echo "<br>";
         echo "Getting content from: ".$url;
-        echo "<br>";
+        echo "<br>\n";
 
         $cSession = curl_init();
 
@@ -86,13 +108,13 @@ class YiDuController extends Controller
         $sale->save();
 
         echo 'Spider '.$intSaleID.' end';
-        echo "<br>";
+        echo "<br>\n";
 
         return true;
 
     }
 
-    public function makeSaleInfo($intSaleID)
+    public function makeSaleInfo($intSaleID, $type = 'live', $redirect = true)
     {
         $storePath = 'spider/yidu/sale/'.$intSaleID.'/';
         $path = $storePath.$intSaleID.'.html';
@@ -119,11 +141,15 @@ class YiDuController extends Controller
 
         $itemArray = array();
 
+        if($type == 'live') {
+            $itemPath = 'http://www.yidulive.com/auctionlist/';
+        } else {
+            $itemPath = 'http://www.yidulive.com/auctionend/';
+        }
+
         foreach($items as $key => $item) {
             $getItemLink = $item->getElementsByTagName('span');
             $getItemLink = $getItemLink[0]->getElementsByTagName('a');
-
-            $itemPath = 'http://www.yidulive.com/auctionlist/';
 
             $itemLink = $getItemLink[0]->getAttribute('href');
 
@@ -146,7 +172,11 @@ class YiDuController extends Controller
         $sale->html = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.yidu.index');
+        if($redirect) {
+            return redirect()->route('backend.auction.yidu.index');
+        }
+
+        return true;
 
     }
 
@@ -154,9 +184,8 @@ class YiDuController extends Controller
     {
         set_time_limit(600);
 
-        echo "<br>";
         echo "Getting content from: ".$url;
-        echo "<br>";
+        echo "<br>\n";
 
         $cSession = curl_init();
 
@@ -193,7 +222,7 @@ class YiDuController extends Controller
 
     }
 
-    public function parseItems($intSaleID)
+    public function parseItems($intSaleID, $redirect = true)
     {
         $internalErrors = libxml_use_internal_errors(true);
 
@@ -206,7 +235,7 @@ class YiDuController extends Controller
 
         foreach($itemArray as $item ) {
 
-            echo $item['filePath']."<br>";
+            echo $item['filePath']."<br>\n";
 
 //            echo '<p>';
 
@@ -365,7 +394,35 @@ class YiDuController extends Controller
 
             switch($aKey) {
                 case 0:
-                    $auctionInfo['viewing_time'] = $text;
+
+                    $exViewing = explode('-', $text);
+                    if(count($exViewing) == 2) {
+                        $viewingStartTime = trim($exViewing[0]);
+
+                        $viewingStartTime = str_replace('年', '-', $viewingStartTime);
+                        $viewingStartTime = str_replace('月', '-', $viewingStartTime);
+                        $viewingStartTime = str_replace('日', '', $viewingStartTime);
+
+                        $viewingStartTime = strtotime($viewingStartTime);
+
+                        $auctionInfo['viewing_time']['start_time'] = $viewingStartTime;
+
+                        $exViewingStartTime = explode('月', $exViewing[0]);
+
+                        $viewingEndTime = trim($exViewingStartTime[0].'月'.$exViewing[1]);
+
+                        $viewingEndTime = str_replace('年', '-', $viewingEndTime);
+                        $viewingEndTime = str_replace('月', '-', $viewingEndTime);
+                        $viewingEndTime = str_replace('日', '', $viewingEndTime);
+
+                        $viewingEndTime = strtotime($viewingEndTime);
+
+                        $auctionInfo['viewing_time']['end_time'] = $viewingEndTime;
+                    } else {
+                        $auctionInfo['viewing_time']['start_time'] = $text;
+                        $auctionInfo['viewing_time']['end_time'] = $text;
+                    }
+
                     break;
                 case 1:
                     $text = trim(substr($text, 16, strlen($text))); // remove 拍卖地点：
@@ -410,6 +467,8 @@ class YiDuController extends Controller
 
         }
 
+//        dd($auctionInfo);
+
 //        exit;
 
         // get sale image http://www.yidulive.com/
@@ -434,7 +493,11 @@ class YiDuController extends Controller
         $sale->save();
 
         // dd($saleArray);
-        return redirect()->route('backend.auction.yidu.index');
+        if($redirect) {
+            return redirect()->route('backend.auction.yidu.index');
+        }
+
+        return true;
     }
 
     private function getSeriesImage($url, $saleTitle)
@@ -474,7 +537,7 @@ class YiDuController extends Controller
     }
 
 
-    public function downloadImages($intSaleID)
+    public function downloadImages($intSaleID, $redirect = true)
     {
         set_time_limit(6000);
 
@@ -500,7 +563,7 @@ class YiDuController extends Controller
 
         $saleImageName = 'sale_image.jpg';
 
-        echo 'Downloading Sale Image: '.$saleImageURL.'<br>';
+        echo 'Downloading Sale Image: '.$saleImageURL.'<br>\n';
         $saleImagePath = $this->getImageFromUrl($storePath, $saleImageURL, $saleImageName);
 
         $saleArray['sale']['saved_image_path'] = $saleImagePath;
@@ -516,11 +579,11 @@ class YiDuController extends Controller
 
             if(file_exists(base_path().'/storage/app/'.$lotImagePath)) {
 //                echo 'file exist<br>';
-                echo $lotImagePath.'<br>';
+                echo $lotImagePath.'<br>\n';
                 $saleArray['lots'][$lotKey]['saved_image_path'] = $lotImagePath;
             } else {
 //                echo 'file not exist<br>';
-                echo 'Downloading lot Image: '.$lot['source_image_path'].'<br>';
+                echo 'Downloading lot Image: '.$lot['source_image_path']."<br>\n";
                 $lotImagePath = $this->getImageFromUrl($storePath, $lot['source_image_path'], $lotFilename);
                 $saleArray['lots'][$lotKey]['saved_image_path'] = $lotImagePath;
             }
@@ -540,7 +603,11 @@ class YiDuController extends Controller
         $sale->image = true;
         $sale->save();
 
-        return redirect()->route('backend.auction.yidu.index');
+        if($redirect) {
+            return redirect()->route('backend.auction.yidu.index');
+        }
+
+        return true;
 
     }
 
@@ -597,7 +664,7 @@ class YiDuController extends Controller
         $saleArray['sale']['stored_image_path'] = $salePath.'/sale_image.jpg';
 
         foreach($saleArray['lots'] as $lKey => $lot) {
-            echo $lot['number'].'<br>';
+            echo $lot['number']."<br>\n";
             $lotImage = $this->imgResize($lot['saved_image_path'], $fullSalePath, $lot['number']);
             $saleArray['lots'][$lKey]['stored_image_path'] = $lotImage;
         }
@@ -644,14 +711,14 @@ class YiDuController extends Controller
 //
 
         echo 'resize: '.$resizePath;
-        echo '<br>';
+        echo "<br>\n";
 
         $img = Image::make(base_path().'/'.'storage/app/'.$file);
 
         $newPath = $resizePath.'/'.$lotNumber.'-'.$width.'.jpg';
 
         echo $newPath;
-        echo "<br>";
+        echo "<br>\n";
 
         $img->widen($width, function ($constraint) {
             $constraint->upsize();
@@ -771,9 +838,7 @@ class YiDuController extends Controller
 
         $saleArray = json_decode($json, true);
 
-        // dd($saleArray);
-
-        $saleSlug = $series->slug.'-'.$slug;
+         $saleSlug = $series->slug.'-'.$slug;
 
 //        exit;
 
@@ -898,8 +963,7 @@ class YiDuController extends Controller
             $item->save();
 
             $itemID = $item->id;
-            echo '<br>';
-            echo $itemID.'<br>';
+            echo $itemID."<br>\n";
 
             // insert auction_item_details
             // title, description, maker, misc, provenance, post_lot_text, lang, auction_item_id
