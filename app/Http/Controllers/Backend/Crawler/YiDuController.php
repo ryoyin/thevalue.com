@@ -907,7 +907,7 @@ class YiDuController extends Controller
         $saleTime->auction_sale_id = $saleID;
         $saleTime->save();
 
-        if($saleArray['sale']['viewing_time'] != '') {
+        if($saleArray['sale']['viewing_time']['start_time'] != '') {
             $viewingStartTime = date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['start_time']);
             $viewingEndTime = date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['end_time']);
 

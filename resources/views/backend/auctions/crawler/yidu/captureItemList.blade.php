@@ -48,7 +48,11 @@
                                                 <br>
                                                 <b>Auction Date:</b> {{ date('Y-m-d H:i:s', $saleArray['sale']['auction_time']['start_time']) }}<br>
                                                 <b>Auction Location:</b> {{ $saleArray['sale']['auction_location'] }}<br>
-                                                <b>Viewing Date:</b> {{ date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['start_time']) }} - {{ date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['end_time']) }}<br>
+                                                <b>Viewing Date:</b>
+                                                @if($saleArray['sale']['viewing_time']['start_time'] != '')
+                                                    {{ date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['start_time']) }} - {{ date('Y-m-d H:i:s', $saleArray['sale']['viewing_time']['end_time']) }}
+                                                @endif
+                                                <br>
                                                 <b>Viewing Location:</b> {{ $saleArray['sale']['viewing_location'] }}<br>
                                             </td>
                                             <td>
