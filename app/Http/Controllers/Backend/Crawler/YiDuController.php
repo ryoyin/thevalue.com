@@ -1076,7 +1076,7 @@ class YiDuController extends Controller
     {
         set_time_limit(60000000);
 
-        for($intSaleID=0; $intSaleID<10; $intSaleID++) {
+        for($intSaleID=0; $intSaleID<4000; $intSaleID++) {
             $url = 'http://www.yidulive.com/auctionend/jgshow.php?sid='.$intSaleID.'&lot=&gj=&o=0&plo=0&counts=3000&page=1';
             echo "Getting content from: ".$url;
             echo "<br>\n";
