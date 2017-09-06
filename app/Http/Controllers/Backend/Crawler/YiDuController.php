@@ -15,7 +15,7 @@ use Intervention\Image\Facades\Image;
 
 // php artisan tinker
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\YiduController');
-// app()->call([$controller, 'crawlerPastSale'], ['intSaleID' => 3375]);
+// app()->call([$controller, 'crawlerPastSale'], ['intSaleID' => 3397]);
 // app()->call([$controller, 'makeSaleInfo'], ['intSaleID' => 3375, 'type' => 'past']);
 // app()->call([$controller, 'parseItems'], ['intSaleID' => 3375]);
 // app()->call([$controller, 'downloadImages'], ['intSaleID' => 3375]);
@@ -25,7 +25,6 @@ class YiDuController extends Controller
     public function index()
     {
         $locale = App::getLocale();
-
 
         $sales = App\YiDuSale::all();
 
@@ -55,21 +54,29 @@ class YiDuController extends Controller
 
         $this->makeSaleInfo($intSaleID, 'past', false);
 
-        $this->parseItems($intSaleID, false);
+        $this->parseItems($intSaleID, false, 'past');
 
-//        $this->downloadImages($intSaleID, false);
+        $this->downloadImages($intSaleID, false, 'past');
 
     }
 
-    public function getSaleByIntSaleID($intSaleID, $type = 'live')
+    public function getSaleByIntSaleID($intSaleID, $type = 'upcoming')
     {
 
         set_time_limit(6000);
 
-        echo 'Spider '.$intSaleID.' start';
+        $intSaleID = trim($intSaleID);
+
+        if($type == 'upcoming') {
+            $pastPath = '';
+        } else {
+            $pastPath = 'past/';
+        }
+
+        echo 'Spider '.$type.' auction '.$intSaleID.' start';
         echo "<br>\n";
 
-        if($type == 'live') {
+        if($type == 'upcoming') {
             $url = 'http://www.yidulive.com/auctionlist/show.php?sid='.$intSaleID.'&counts=3000&o=0&plo=0&page=1';
         } else {
             $url = 'http://www.yidulive.com/auctionend/jgshow.php?sid='.$intSaleID.'&lot=&gj=&o=0&plo=0&counts=3000&page=1';
@@ -86,18 +93,25 @@ class YiDuController extends Controller
 
         $content=curl_exec($cSession);
 
-        $storePath = 'spider/yidu/sale/' . $intSaleID . '/';
+        $storePath = 'spider/yidu/sale/'.$pastPath . $intSaleID . '/';
 
         Storage::disk('local')->put($storePath . $intSaleID . '.html', $content);
 
+        if($type == 'upcoming') {
+            $upcoming = true;
+        } else {
+            $upcoming = false;
+        }
+
         // id	int_sale_id	html	json	image	import	status
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->where('upcoming', $upcoming)->first();
 
         if(count($sale) == 0) {
             $sale = New App\YiDuSale;
             $sale->int_sale_id = $intSaleID;
         }
 
+        $sale->upcoming = $upcoming;
         $sale->html = false;
         $sale->json = false;
         $sale->image = false;
@@ -114,9 +128,15 @@ class YiDuController extends Controller
 
     }
 
-    public function makeSaleInfo($intSaleID, $type = 'live', $redirect = true)
+    public function makeSaleInfo($intSaleID, $type = 'upcoming', $redirect = true)
     {
-        $storePath = 'spider/yidu/sale/'.$intSaleID.'/';
+        if($type == 'upcoming') {
+            $pastPath = '';
+        } else {
+            $pastPath = 'past/';
+        }
+
+        $storePath = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/';
         $path = $storePath.$intSaleID.'.html';
 
         $html = Storage::disk('local')->get($path);
@@ -141,9 +161,11 @@ class YiDuController extends Controller
 
         $itemArray = array();
 
-        if($type == 'live') {
+        if($type == 'upcoming') {
+            $upcoming = true;
             $itemPath = 'http://www.yidulive.com/auctionlist/';
         } else {
+            $upcoming = false;
             $itemPath = 'http://www.yidulive.com/auctionend/';
         }
 
@@ -157,7 +179,7 @@ class YiDuController extends Controller
 
             $itemArray[$key]['url'] = $itemURL;
 
-            $itemFilePath = $this->getItemByURL($intSaleID, $key, $itemURL);
+            $itemFilePath = $this->getItemByURL($intSaleID, $key, $itemURL, $pastPath);
 
             $itemArray[$key]['filePath'] = $itemFilePath;
 
@@ -166,9 +188,13 @@ class YiDuController extends Controller
 
         $itemJSON = json_encode($itemArray);
 
+        echo "Write to JSON Start\n";
+
         Storage::disk('local')->put($storePath . $intSaleID . '.json', $itemJSON);
 
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        echo "Write to JSON End\n";
+
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->where('upcoming', $upcoming)->first();
         $sale->html = true;
         $sale->save();
 
@@ -180,7 +206,7 @@ class YiDuController extends Controller
 
     }
 
-    private function getItemByURL($intSaleID, $key, $url)
+    private function getItemByURL($intSaleID, $key, $url, $pastPath)
     {
         set_time_limit(600);
 
@@ -195,7 +221,7 @@ class YiDuController extends Controller
 
         $content=curl_exec($cSession);
 
-        $storePath = 'spider/yidu/sale/'.$intSaleID.'/item/';
+        $storePath = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/item/';
 
         $filePath = $storePath.$key.'.html';
 
@@ -207,7 +233,7 @@ class YiDuController extends Controller
     public function crawlerRemove($intSaleID)
     {
 
-        $intSaleID = trim($intSaleID);
+        /*$intSaleID = trim($intSaleID);
 
         $path = 'spider/yidu/sale/'.$intSaleID;
 
@@ -218,16 +244,25 @@ class YiDuController extends Controller
 //        dd($sale);
         $sale->delete();
 
-        return redirect()->route('backend.auction.yidu.index');
+        return redirect()->route('backend.auction.yidu.index');*/
 
     }
 
-    public function parseItems($intSaleID, $redirect = true)
+    public function parseItems($intSaleID, $redirect = true, $type = 'upcoming')
     {
         $internalErrors = libxml_use_internal_errors(true);
 
-        $storePath = 'spider/yidu/sale/'.$intSaleID.'/'.$intSaleID.'.json';
-        $json = Storage::disk('local')->get($storePath);
+        if($type == 'upcoming') {
+            $upcoming = 1;
+            $pastPath = '';
+        } else {
+            $upcoming = 0;
+            $pastPath = 'past/';
+        }
+
+        $storePath = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/';
+        $storeJSONPath = $storePath.$intSaleID.'.json';
+        $json = Storage::disk('local')->get($storeJSONPath);
         $itemArray = json_decode($json, true);
 
 //        dd($saleArray);
@@ -484,11 +519,12 @@ class YiDuController extends Controller
 
         $json = json_encode($saleArray);
 
-        $storePath = 'spider/yidu/sale/' . $intSaleID . '/';
+//        $storePath = 'spider/yidu/sale/' . $intSaleID . '/';
+        echo 'Create saleinfo json: '.$storePath.'saleInfo.json';
         Storage::disk('local')->put($storePath . 'saleInfo.json', $json);
 
         //update sale progress
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->where('upcoming', $upcoming)->first();
         $sale->json = true;
         $sale->save();
 
@@ -537,7 +573,7 @@ class YiDuController extends Controller
     }
 
 
-    public function downloadImages($intSaleID, $redirect = true)
+    public function downloadImages($intSaleID, $redirect = true, $type = 'upcoming')
     {
         set_time_limit(6000);
 
@@ -545,11 +581,20 @@ class YiDuController extends Controller
 
         $locale = App::getLocale();
 
-        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
-        $storePath = 'spider/yidu/sale/'.$intSaleID.'/images/';
+        if($type == 'upcoming') {
+            $upcoming = true;
+            $pastPath = '';
+        } else {
+            $upcoming = false;
+            $pastPath = 'past/';
+        }
+
+        $defaultPath = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/';
+
+        $path = $defaultPath.'saleInfo.json';
+        $storePath = $defaultPath.'images/';
 
 //        echo $path;
-
 
         $json = Storage::disk('local')->get($path);
 
@@ -595,11 +640,10 @@ class YiDuController extends Controller
         // save image path to saleArray
         $json = json_encode($saleArray);
 
-        $storePath = 'spider/yidu/sale/' . $intSaleID . '/';
-        Storage::disk('local')->put($storePath . 'saleInfo.json', $json);
+        Storage::disk('local')->put($defaultPath . 'saleInfo.json', $json);
 
         //update sale progress
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->where('upcoming', $upcoming)->first();
         $sale->image = true;
         $sale->save();
 
@@ -629,15 +673,25 @@ class YiDuController extends Controller
         return $image_path;
     }
 
-    public function resize($intSaleID)
+    public function resize($intSaleID, $type = 'upcoming')
     {
         set_time_limit(60000);
+
+        if($type == 'upcoming') {
+            $upcoming = true;
+            $pastPath = '';
+        } else {
+            $upcoming = false;
+            $pastPath = 'past/';
+        }
 
         $intSaleID = trim($intSaleID);
         $locale = App::getLocale();
 
-        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
-        $storePath = 'spider/yidu/sale/'.$intSaleID.'/images/';
+        $defaultPath = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/';
+
+        $path = $defaultPath.'/saleInfo.json';
+        $storePath = $defaultPath.'images/';
 
 //        echo $path;
 
@@ -735,15 +789,24 @@ class YiDuController extends Controller
         return $newPath;
     }
 
-    public function uploadS3($intSaleID)
+    public function uploadS3($intSaleID, $type = 'upcoming')
     {
         set_time_limit(60000);
+
+        if($type == 'upcoming') {
+            $upcoming = true;
+            $pastPath = '';
+        } else {
+            $upcoming = false;
+            $pastPath = 'past/';
+        }
 
         $intSaleID = trim($intSaleID);
         $locale = App::getLocale();
 
-        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
-        $storePath = 'spider/yidu/sale/'.$intSaleID.'/images/';
+        $defaultPath = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/';
+        $path = $defaultPath.'saleInfo.json';
+        $storePath = $defaultPath.'images/';
 
 //        echo $path;
 
@@ -770,7 +833,7 @@ class YiDuController extends Controller
 
         Storage::disk('local')->put($path, $json);
 
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->where('upcoming', $upcoming)->first();
         $sale->pushS3 = true;
         $sale->save();
 
@@ -789,15 +852,24 @@ class YiDuController extends Controller
 
         $image = fopen($localPath, 'r+');
         $s3->put('/'.$filePath, $image, 'public');
+        fclose($image);
     }
 
-    public function examine($intSaleID)
+    public function examine($intSaleID, $type='upcoming')
     {
         $intSaleID = trim($intSaleID);
 
         $locale = App::getLocale();
 
-        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
+        if($type == 'upcoming') {
+            $upcoming = true;
+            $pastPath = '';
+        } else {
+            $upcoming = false;
+            $pastPath = 'past/';
+        }
+
+        $path = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/saleInfo.json';
         $json = Storage::disk('local')->get($path);
 
         $saleArray = json_decode($json, true);
@@ -817,11 +889,19 @@ class YiDuController extends Controller
 
     }
 
-    public function import(Request $request, $intSaleID)
+    public function import(Request $request, $intSaleID, $type = 'upcoming')
     {
         set_time_limit(6000);
 
         $intSaleID = trim($intSaleID);
+
+        if($type == 'upcoming') {
+            $upcoming = true;
+            $pastPath = '';
+        } else {
+            $upcoming = false;
+            $pastPath = 'past/';
+        }
 
         $auctionSeriesID = trim($request->auction_series_id);
         $slug = trim($request->slug);
@@ -833,7 +913,7 @@ class YiDuController extends Controller
 
         if(count($series) == 0) exit;
 
-        $path = 'spider/yidu/sale/'.$intSaleID.'/saleInfo.json';
+        $path = 'spider/yidu/sale/'.$pastPath.$intSaleID.'/saleInfo.json';
         $json = Storage::disk('local')->get($path);
 
         $saleArray = json_decode($json, true);
@@ -982,7 +1062,7 @@ class YiDuController extends Controller
 
         }
 
-        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->first();
+        $sale = App\YiDuSale::where('int_sale_id', $intSaleID)->where('upcoming', $upcoming)->first();
         $sale->import = true;
         $sale->save();
 
@@ -990,6 +1070,49 @@ class YiDuController extends Controller
         // backend.auction.itemList
         return redirect()->route('backend.auction.yidu.index');
 
+    }
+
+    public function getPastSaleList()
+    {
+        set_time_limit(60000000);
+
+        for($intSaleID=0; $intSaleID<10; $intSaleID++) {
+            $url = 'http://www.yidulive.com/auctionend/jgshow.php?sid='.$intSaleID.'&lot=&gj=&o=0&plo=0&counts=3000&page=1';
+            echo "Getting content from: ".$url;
+            echo "<br>\n";
+
+            $cSession = curl_init();
+
+            curl_setopt($cSession,CURLOPT_URL,$url);
+            curl_setopt($cSession,CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($cSession,CURLOPT_HEADER, false);
+
+            $content=curl_exec($cSession);
+
+            $dom = new \DOMDocument('1.0', 'UTF-8');
+            $internalErrors = libxml_use_internal_errors(true);
+            $dom->loadHTML($content);
+
+            $header = $dom->getElementsByTagName('h1');
+            $header = trim($header[0]->textContent);
+
+            if($header == '') {
+                echo "no content\n";
+                $record = New App\YiduSpider;
+
+                $record->int_sale_id = $intSaleID;
+                $record->status = 3;
+                $record->save();
+            } else {
+                echo $header."\n";
+                $record = New App\YiduSpider;
+
+                $record->int_sale_id = $intSaleID;
+                $record->status = 0;
+                $record->save();
+            }
+
+        }
     }
 
 }
