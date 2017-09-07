@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
 // php artisan tinker
-// $controller = app()->make('App\Http\Controllers\Backend\Crawler\YiduController');
+// $controller = app()->make('App\Http\Controllers\Backend\Crawler\YiDuController');
 // app()->call([$controller, 'crawlerPastSale'], ['intSaleID' => 3397]);
 // app()->call([$controller, 'makeSaleInfo'], ['intSaleID' => 3375, 'type' => 'past']);
 // app()->call([$controller, 'parseItems'], ['intSaleID' => 3375]);
@@ -22,6 +22,9 @@ use Intervention\Image\Facades\Image;
 
 class YiDuController extends Controller
 {
+
+    private $seriesPage = 1;
+
     public function index()
     {
         $locale = App::getLocale();
@@ -57,6 +60,13 @@ class YiDuController extends Controller
         $this->parseItems($intSaleID, false, 'past');
 
         $this->downloadImages($intSaleID, false, 'past');
+
+//        $this->rawPushS3($intSaleID);
+
+    }
+
+    public function rawPushS3($intSaleID)
+    {
 
     }
 
@@ -353,7 +363,12 @@ class YiDuController extends Controller
 
             // exit;
 
-            $description = $paragraph[2]->textContent;
+            $description = '';
+
+            if(isset($paragraph[2])){
+                $description = $paragraph[2]->textContent;
+            }
+
 
 //            echo $description;
 //            exit;
@@ -508,6 +523,9 @@ class YiDuController extends Controller
 
         // get sale image http://www.yidulive.com/
         $seriesLink = str_replace('../', 'http://www.yidulive.com/', $seriesLink);
+
+        $this->seriesPage = 1;
+
         $saleImagePath = $this->getSeriesImage($seriesLink, $saleTitle);
 
         $auctionInfo['source_image_path'] = $saleImagePath;
@@ -520,7 +538,7 @@ class YiDuController extends Controller
         $json = json_encode($saleArray);
 
 //        $storePath = 'spider/yidu/sale/' . $intSaleID . '/';
-        echo 'Create saleinfo json: '.$storePath.'saleInfo.json';
+        echo "\nCreate saleinfo json: '.$storePath.'saleInfo.json\n";
         Storage::disk('local')->put($storePath . 'saleInfo.json', $json);
 
         //update sale progress
@@ -552,6 +570,8 @@ class YiDuController extends Controller
 
         $dom->loadHTML($content);
 
+        echo $dom->loadHTML($content);
+
         // get auction time main_t > dd
         $finder = new \DomXPath($dom);
         $node = $finder->query("//*[contains(@class, 'context')]");
@@ -562,10 +582,26 @@ class YiDuController extends Controller
         $image_path = false;
 
         foreach($sales as $sKey => $sale) {
+//            echo "$sale->textContent"."\n";
+//            echo "search title: ".$saleTitle."\n";
             if(strpos($sale->textContent, $saleTitle)) {
                 $images = $sale->getElementsByTagName('img');
                 $image_path = 'http://www.yidulive.com'.$images[0]->getAttribute('src');
+//                echo $image_path."\n";
             }
+        }
+
+        $image_path = trim($image_path);
+
+//        echo $image_path;
+
+        if($image_path == '' && $this->seriesPage < 3) {
+            $this->seriesPage ++;
+            $url = $url.'&page='.$this->seriesPage;
+            echo $url;
+
+            $image_path = $this->getSeriesImage($url, $saleTitle);
+//            exit;
         }
 
         return $image_path;
@@ -608,8 +644,9 @@ class YiDuController extends Controller
 
         $saleImageName = 'sale_image.jpg';
 
-        echo 'Downloading Sale Image: '.$saleImageURL.'<br>\n';
+        echo "\nDownloading Sale Image: ".$saleImageURL."<br>\n";
         $saleImagePath = $this->getImageFromUrl($storePath, $saleImageURL, $saleImageName);
+//        exit;
 
         $saleArray['sale']['saved_image_path'] = $saleImagePath;
 
@@ -1111,6 +1148,29 @@ class YiDuController extends Controller
                 $record->status = 0;
                 $record->save();
             }
+
+        }
+    }
+
+    public function spiderDownloadContent()
+    {
+        $sales = App\YiduSpider::where('status', 0)->get();
+
+        foreach($sales as $sale) {
+            $intSaleID = $sale->int_sale_id;
+
+            // update status downloading
+            $sale->status = 1;
+            $sale->retrieve_server = env('SRV_NUMBER');
+            $sale->save();
+
+            $this->crawlerPastSale($intSaleID);
+
+            // update status downloading
+            $sale->status = 2;
+            $sale->save();
+
+//            exit;
 
         }
     }
