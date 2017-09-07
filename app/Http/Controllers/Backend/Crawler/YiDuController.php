@@ -92,7 +92,7 @@ class YiDuController extends Controller
             $url = 'http://www.yidulive.com/auctionend/jgshow.php?sid='.$intSaleID.'&lot=&gj=&o=0&plo=0&counts=3000&page=1';
         }
 
-        echo "Getting content from: ".$url;
+        echo "Getting sale content from: ".$url;
         echo "<br>\n";
 
         $cSession = curl_init();
@@ -218,9 +218,11 @@ class YiDuController extends Controller
 
     private function getItemByURL($intSaleID, $key, $url, $pastPath)
     {
+        Storage::disk('local')->put('spider/yidu/last_download_time.txt', time());
+
         set_time_limit(600);
 
-        echo "Getting content from: ".$url;
+        echo "Getting item content from: ".$url;
         echo "<br>\n";
 
         $cSession = curl_init();
@@ -325,7 +327,7 @@ class YiDuController extends Controller
 
 //            echo "Estimate: ".$estimate."<br>";
 
-            if(strpos($estimate, '无底价') === false) {
+            if(strpos($estimate, '无底价') === false && strpos($estimate, '估价待询') === false) {
 
                 $exEstimate = explode('-', $estimate);
 
@@ -694,6 +696,8 @@ class YiDuController extends Controller
 
     private function getImageFromUrl($storePath, $link, $filename)
     {
+        Storage::disk('local')->put('spider/yidu/last_download_time.txt', time());
+
         $image_path = $storePath.$filename;
 
         $ch = curl_init();
@@ -1115,7 +1119,7 @@ class YiDuController extends Controller
 
         for($intSaleID=0; $intSaleID<4000; $intSaleID++) {
             $url = 'http://www.yidulive.com/auctionend/jgshow.php?sid='.$intSaleID.'&lot=&gj=&o=0&plo=0&counts=3000&page=1';
-            echo "Getting content from: ".$url;
+            echo "Getting past content from: ".$url;
             echo "<br>\n";
 
             $cSession = curl_init();
@@ -1152,8 +1156,31 @@ class YiDuController extends Controller
         }
     }
 
+    public function checkRestartDownload()
+    {
+        //check last download time;
+        $last_download_time = (INT) Storage::disk('local')->get('spider/yidu/last_download_time.txt');
+
+        $last_download_time = date("c", $last_download_time);
+        $start_date = new \DateTime($last_download_time);
+
+        $now_time = date("c", time());
+        $now_time = new \DateTime($now_time);
+
+        $since_start = $start_date->diff($now_time);
+
+        echo 'started: '.$since_start->i."\n";
+
+        if($since_start->i < 5) return false;
+
+        return true;
+    }
+
     public function spiderDownloadContent()
     {
+
+        if(!$this->checkRestartDownload()) exit;
+
         $sales = App\YiduSpider::where('status', 0)->get();
 
         foreach($sales as $sale) {
