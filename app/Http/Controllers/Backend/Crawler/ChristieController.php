@@ -1567,7 +1567,7 @@ class ChristieController extends Controller
         $s3 = \Storage::disk('s3');
         $localPath = $baseDirectory.'/'.$filePath;
 
-        //echo $filePath."\n";
+        echo $filePath."\n";
 
         $image = @fopen(str_replace(" ", "\x20", $localPath), 'r+');
         $s3->put('/'.$filePath, $image, 'public');
@@ -2273,6 +2273,57 @@ class ChristieController extends Controller
             $sale->downloaded = 1;
             $sale->retrieve_server = env('SRV_NUMBER');
             $sale->save();
+        }
+
+    }
+
+    public function pushLocaleSaleToS3()
+    {
+        $default_path = base_path().'/storage/app/spider/christie/sale/';
+        $sales = File::directories($default_path);
+
+        foreach($sales as $sale) {
+
+            $exSale = explode('sale', $sale);
+            $intSaleID = str_replace('/', '',$exSale[1]);
+            $intSaleID = str_replace('\\', '',$intSaleID);
+
+            $path = '/spider/christie/sale/'.$intSaleID.'/';
+
+            echo $path."\n";
+
+            $result = Storage::disk('s3')->files($path);
+
+            $baseDirectory = base_path().'/storage/app';
+
+            if(count($result) == 0) {
+
+                // upload files
+                $files = File::files($default_path.$intSaleID);
+                foreach($files as $file) {
+
+                    echo $file."\n";
+
+                    $exFile = explode('/', $file);
+                    $file = $exFile[count($exFile) - 1];
+
+//                    echo $file."\n";
+
+                    $filePath = 'spider/christie/sale/'.$intSaleID.'/'.$file;
+
+//                    echo $filePath."\n";
+
+//                    exit;
+
+                    $this->pushS3($baseDirectory, $filePath);
+
+//                    exit;
+                }
+
+//                exit;
+
+            }
+
         }
 
     }
