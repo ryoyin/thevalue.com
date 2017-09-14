@@ -71,16 +71,22 @@ class SothebysController extends Controller
 
         foreach($urls as $url) {
 
+            echo "Get Sale By URL<br>\n";
             $intSaleID = $this->getSaleByURL($url->url);
 
+            echo "Download Data<br>\n";
             $downloadDataResult = $this->downloadData($intSaleID);
 
+            echo "Parse Items<br>\n";
             $parseItemsResult = $this->parseItems($intSaleID);
 
+            echo "Download Images<br>\n";
             $downloadImagesResult = $this->downloadImages($intSaleID);
 
+            echo "Resize<br>\n";
             $resizeResult = $this->resize($intSaleID);
 
+            echo "UploadS3<br>\n";
             $uploadS3Result = $this->uploadS3($intSaleID);
 
             $url->status = 1;
@@ -756,6 +762,8 @@ class SothebysController extends Controller
 
     private function getViewingInfo($dom)
     {
+//        echo "test";
+
         $finder = new \DomXPath($dom);
         $node = $finder->query("//*[contains(@class, 'eventdetail-times')]");
 
@@ -766,6 +774,8 @@ class SothebysController extends Controller
         $locationBlock = $node->item(0)->textContent;
 
 //        echo $locationBlock;
+//        exit;
+
 //        $locationBlock =
         $exLocation = explode("\r\n", $locationBlock);
 
@@ -789,15 +799,25 @@ class SothebysController extends Controller
         $viewingArray = array();
         foreach($viewingItems as $key => $item) {
             if($key > 0) {
+                if(preg_match('/\n|\r/',$item->textContent)){
+                    break;
+                }
                 $viewingArray[] = $item->textContent;
             }
         }
+
+//        dd($viewingArray);
 
         $viewingStartDatetime =  $viewingArray[0];
         $viewingEndDatetime =  $viewingArray[count($viewingArray) -1];
 
 //        echo $viewingStartDatetime;
 //        echo "<br>\r\n";
+
+        // get timezone
+        $exSpaceViewingTime = explode(' ', $viewingStartDatetime);
+        $timezone = $exSpaceViewingTime[count($exSpaceViewingTime)-1];
+
         $exViewingStart1 = explode(',', $viewingStartDatetime);
         $exViewingStart2 = explode('|', $exViewingStart1[1]);
 
@@ -805,13 +825,28 @@ class SothebysController extends Controller
 //        echo "<br>\r\n";
 //        echo $exViewingStart2[1];
         $exViewingStart3 = explode('-', $exViewingStart2[1]);
+
+        switch($timezone) {
+            case 'HKT':
+                $default_timezone = 'Asia/Hong_Kong';
+                break;
+            case 'BST':
+                $default_timezone = 'Europe/London';
+                break;
+        }
+
+        date_default_timezone_set($default_timezone);
 //        echo $exViewingStart3[0];
 //        echo "<br>\r\n";
-        $parsedViewingStartDatetime = $exViewingStart2[0].' '.$exViewingStart3[0].' BST';
+//        $parsedViewingStartDatetime = $exViewingStart2[0].' '.$exViewingStart3[0].' BST';
+        $parsedViewingStartDatetime = $exViewingStart2[0].' '.$exViewingStart3[0];
+//        echo $parsedViewingStartDatetime."<br>\n";
 
         $viewingStartDatetime = strtotime($parsedViewingStartDatetime);
-//        echo 'Viewing StartTime: '.$viewingStartDatetime;
+//        echo "Viewing StartDateTime: ".$viewingStartDatetime."<br>\n";
+//        echo 'Viewing EndDateTime   : '.$viewingEndDatetime."<br>\n";
 //        echo "<br>\r\n";
+//        exit;
 
         $exViewingEnd1 = explode(',', $viewingEndDatetime);
         $exViewingEnd2 = explode('|', $exViewingEnd1[1]);

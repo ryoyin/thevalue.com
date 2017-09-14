@@ -114,7 +114,8 @@
                 <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Christie</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                   <li class="{{ isActiveMenu('christie.index', $menu) }}"><a href="{{ route('backend.auction.christie.index') }}"><i class="fa fa-dot-circle-o"></i> <span>Christie   </span></a></li>
-                  <li class="{{ isActiveMenu('christie.capture', $menu) }}"><a href="{{ route('backend.auction.christie.capture') }}"><i class="fa fa-dot-circle-o"></i> <span>Christie Capture   </span></a></li>
+                  <li class="{{ isActiveMenu('christie.capture', $menu) }}"><a href="{{ route('backend.auction.christie.capture') }}"><i class="fa fa-dot-circle-o"></i> <span>Capture   </span></a></li>
+                  <li class="{{ isActiveMenu('christie.pastAuction', $menu) }}"><a href="{{ route('backend.auction.christie.pastAuction') }}"><i class="fa fa-dot-circle-o"></i> <span>Past Auction   </span></a></li>
                 </ul>
               </li>
             </ul>

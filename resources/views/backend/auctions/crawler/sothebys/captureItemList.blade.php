@@ -47,7 +47,14 @@
                                                 <b>Sothebys Internal ID:</b> {{ $intSaleID }}
                                                 <br>
                                                 <b>Sale Title:</b> {{ $saleArray['sale']['en']['title'] }}<br>
-                                                <b>Auction Date:</b> {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']) }}<br>
+                                                <b>Auction Date:</b>
+                                                @if(is_array($saleArray['sale']['en']['auction']['datetime']))
+                                                    {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']) }} <br>
+                                                    {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['end_datetime']) }}
+                                                @else
+                                                    {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']) }}
+                                                @endif
+                                                <br>
                                                 <b>Auction Location:</b> {{ $saleArray['sale']['en']['auction']['location'] }}<br>
                                                 <b>Viewing Date:</b> {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['start']) }} - {{ date('Y-m-d H:i:s', $saleArray['sale']['en']['viewing']['datetime']['end']) }}<br>
                                                 <b>Viewing Location:</b> {{ $saleArray['sale']['en']['viewing']['location'] }}<br>

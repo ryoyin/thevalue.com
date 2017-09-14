@@ -2328,4 +2328,18 @@ class ChristieController extends Controller
 
     }
 
+    public function pastAuction()
+    {
+        $sales = App\ChristieSalesChecking::where('year', '>', 1997)->orderBy('year', 'desc')->orderBy('month', 'asc')->paginate(20);
+
+//        dd($sales);
+
+        $data = array(
+            'menu' => array('auction', 'crawler', 'christie.pastAuction'),
+            'sales' => $sales
+        );
+
+        return view('backend.auctions.crawler.christie.pastAuction', $data);
+    }
+
 }
