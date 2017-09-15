@@ -833,6 +833,9 @@ class SothebysController extends Controller
             case 'BST':
                 $default_timezone = 'Europe/London';
                 break;
+            case 'EDT':
+                $default_timezone = 'America/New_York';
+                break;
         }
 
         date_default_timezone_set($default_timezone);
