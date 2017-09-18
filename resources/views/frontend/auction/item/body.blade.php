@@ -27,6 +27,8 @@
         ?>
         <div class="lot-estimate">{!! $estimate !!}</div>
 
+
+{{--        {{ $lot->status }}--}}
         <?php
             if($lot->status != 'pending') {
                 switch($lot->status) {

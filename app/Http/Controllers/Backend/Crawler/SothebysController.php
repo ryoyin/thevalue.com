@@ -945,6 +945,8 @@ class SothebysController extends Controller
 
         // Useful Item: id, image, lowEst, highEst, salePrice, condRep (url)
 
+//        dd($lots);
+
         return $lots;
 
 //        exit;
@@ -1293,7 +1295,15 @@ class SothebysController extends Controller
 
             $lotNumber = str_replace("'", '', $lot['id']);
 
-            $saleArray['lots']['realizedPrice'][$lotNumber] = str_replace("'", '', $lot['salePrice']);
+//            echo $lot['isSold'];
+//
+//             dd($lot);
+
+            if($lot['isSold'] == 'false') {
+                $saleArray['lots']['realizedPrice'][$lotNumber] = 0;
+            } else {
+                $saleArray['lots']['realizedPrice'][$lotNumber] = str_replace("'", '', $lot['salePrice']);
+            }
 
             /*if($lot['salePrice'] == 0) {
                 echo $lotNumber." withdraw";
@@ -1336,14 +1346,24 @@ class SothebysController extends Controller
 
             if(isset($saleArray['lots']['realizedPrice'][$itemNumber])) {
                 if($saleArray['lots']['realizedPrice'][$itemNumber] == 0) {
+                    $item->sold_value = null;
+//                    echo 'no show';
                     $item->status = 'noshow';
                 } else {
+//                    echo 'sold';
                     $item->sold_value = $saleArray['lots']['realizedPrice'][$itemNumber];
                     $item->status = 'sold';
                 }
             } else {
+
+//                echo 'no show';
+                $item->sold_value = null;
                 $item->status = 'noshow';
             }
+
+//            dd($saleArray);
+
+//            exit;
 
             $item->save();
         }

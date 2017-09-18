@@ -26,6 +26,9 @@
                                 case 'withdraw':
                                     $lotValue = trans('thevalue.withdraw');
                                     break;
+                                case 'noshow':
+                                    $lotValue = trans('thevalue.realised-price').': '.trans('thevalue.noshow');
+                                    break;
                                 default:
                                     $soldValue = number_format( (int)$item->sold_value, 0, ".", "," );
                                     $lotValue = trans('thevalue.realised-price').': '.$item->currency_code.' '.$soldValue;
