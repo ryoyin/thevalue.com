@@ -1070,6 +1070,8 @@ class SothebysController extends Controller
 
     public function import(Request $request, $intSaleID)
     {
+        set_time_limit(60000);
+
         $intSaleID = trim($intSaleID);
         $auctionSeriesID = trim($request->auction_series_id);
         $slug = trim($request->slug);
@@ -1100,8 +1102,11 @@ class SothebysController extends Controller
         $sale->image_path = $saleArray['sale']['stored_image_path'];
         $sale->number = $intSaleID;
         $sale->total_lots = count($saleArray['lots']);
-        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
-        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+
+        // dd($saleArray['sale']['en']['auction']['datetime']);
+
+        $sale->start_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']);
+        $sale->end_date = date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['end_datetime']);
         $sale->auction_series_id = $auctionSeriesID;
 
         $sale->save();
@@ -1150,8 +1155,8 @@ class SothebysController extends Controller
         // sale date
         $saleTime = New App\AuctionSaleTime;
         $saleTime->type = 'sale';
-        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
-        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']);
+        $saleTime->start_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']);
+        $saleTime->end_date =  date('Y-m-d H:i:s', $saleArray['sale']['en']['auction']['datetime']['start_datetime']);
         $saleTime->auction_sale_id = $saleID;
         $saleTime->save();
 
@@ -1330,10 +1335,14 @@ class SothebysController extends Controller
             $itemNumber = $item->number;
 
             if(isset($saleArray['lots']['realizedPrice'][$itemNumber])) {
-                $item->sold_value = $saleArray['lots']['realizedPrice'][$itemNumber];
-                $item->status = 'sold';
+                if($saleArray['lots']['realizedPrice'][$itemNumber] == 0) {
+                    $item->status = 'noshow';
+                } else {
+                    $item->sold_value = $saleArray['lots']['realizedPrice'][$itemNumber];
+                    $item->status = 'sold';
+                }
             } else {
-                $item->status = 'withdraw';
+                $item->status = 'noshow';
             }
 
             $item->save();

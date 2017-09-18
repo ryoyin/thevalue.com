@@ -62,6 +62,7 @@ return [
     'realised-price' => '成交價',
     'bought-in' => '未成交',
     'withdraw' => '未成交',
+    'noshow' => '-',
     'no-upcoming-auction' => '未有預展拍賣記錄',
     'no-post-auction' => '未有過往拍賣記錄',
     'download-android-apk' => 'Android 軟件平台下載',

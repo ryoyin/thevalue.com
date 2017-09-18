@@ -67,6 +67,7 @@ return [
     'realised-price' => 'Price Realised',
     'bought-in' => 'Bought In',
     'withdraw' => 'Withdraw',
+    'noshow' => '-',
     'no-upcoming-auction' => 'No Upcoming Auction',
     'no-post-auction' => 'No Post Auction',
     'download-android-apk' => 'Download Android APK',
