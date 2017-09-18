@@ -176,12 +176,15 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/itemlist', 'Backend\Crawler\ChristieController@captureItemList')->name('backend.auction.christie.capture.itemList');
     Route::get('tvadmin/auction/crawler/christie/capture/list/downloadImages', 'Backend\Crawler\ChristieController@listDownloadImages')->name('backend.auction.christie.capture.listDownloadImages');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/downloadImages', 'Backend\Crawler\ChristieController@downloadImages')->name('backend.auction.christie.capture.downloadImages');
+    Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/downloadImagesWithoutResize', 'Backend\Crawler\ChristieController@downloadImagesWithoutResize');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/uploadS3', 'Backend\Crawler\ChristieController@uploadS3')->name('backend.auction.christie.capture.uploadS3');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/getRealizedPrice', 'Backend\Crawler\ChristieController@getRealizedPrice')->name('backend.auction.christie.capture.getRealizedPrice');
     Route::get('tvadmin/auction/crawler/christie/capture/{intSaleID}/getRealizedPrice2', 'Backend\Crawler\ChristieController@getRealizedPrice2')->name('backend.auction.christie.capture.getRealizedPrice2');
     Route::post('tvadmin/auction/crawler/christie/import/sale/{intSaleID}', 'Backend\Crawler\ChristieController@importSale')->name('backend.auction.christie.import.sale');
 
     Route::get('tvadmin/auction/crawler/christie/dbDownloadImages', 'Backend\Crawler\ChristieController@dbDownloadImages')->name('backend.auction.christie.dbDownloadImages');
+
+    Route::get('tvadmin/auction/crawler/christie/auction/past', 'Backend\Crawler\ChristieController@pastAuction')->name('backend.auction.christie.pastAuction');
 
     // Auction YiDu Crawler
     Route::get('tvadmin/auction/crawler/yidu', 'Backend\Crawler\YiDuController@index')->name('backend.auction.yidu.index');
@@ -248,20 +251,18 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/articles/imageResize', 'ImageResizeSyncController@index')->name('backend.articles.imageResize');
     Route::get('tvadmin/readJSON', function() {
 
-        $intSaleID = 'n09674';
+        $intSaleID = '1963';
 
-        $path = 'spider/sothebys/sale/'.$intSaleID.'/'.$intSaleID.'.json';
+        $path = 'spider/yidu/sale/'.$intSaleID.'/saleinfo.json';
         $json = Storage::disk('local')->get($path);
 
         $saleArray = json_decode($json, true);
 
-        echo $saleArray['sale']['image_path'];
-
-        echo '<br>';
-
         dd($saleArray);
 
     });
+
+
 
 });
 
