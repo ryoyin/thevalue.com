@@ -16,8 +16,9 @@ use App;
 // php artisan tinker
 // $controller = app()->make('App\Http\Controllers\Backend\Crawler\SothebysController');
 // app()->call([$controller, 'crawler']);
+// app()->call([$controller, 'confirmRealizedPrice']);
 
-// app()->call([$controller, 'downloadImages'], ['intSaleID' => 26906]);
+// app()->call([$controller, 'confirmRealizedPrice'], ['intSaleID' => 'l17054']);
 
 class SothebysController extends Controller
 {

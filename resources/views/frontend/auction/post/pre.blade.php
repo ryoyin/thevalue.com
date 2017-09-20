@@ -96,17 +96,12 @@
 
             $customLocale = array('en' => 'en','trad' => 'zh','sim' => 'zh');
 
-            if($house->id == 2) {
-                $browseMore = 'http://www.sothebys.com/'.$customLocale[$locale].'/auctions.html';
-                $target = 'target="_blank"';
-            } else {
-                $browseMore = route('frontend.auction.house.post', ['slug' => $house->slug]);
-                $target = '';
-            }
+//            $browseMore = route('frontend.auction.house.post', ['slug' => $house->slug]);
+
         ?>
         <div style="position: relative;">
             <div class="store-name"><img src="{{ config('app.s3_path').$house->image_path }}"><span>{{ $houseDetail->name }}</span></div>
-            <div class="more"><a href="{{ $browseMore }}" {{ $target }}>@lang('thevalue.browse')</a></div>
+            <div class="more"><a href="{{ route('frontend.auction.house.post', ['slug' => $house->slug]) }}">@lang('thevalue.browse')</a></div>
             <div class="series">
                 <?php $auctionDetail = $auction->details->where('lang', $locale)->first(); ?>
                 <div class="title">{{ $auctionDetail->name }}</div>
@@ -140,10 +135,12 @@
                                 ?>
                                 <div class="swiper-slide">
                                     <div class="row">
-                                        <div class="col-xs-5" style="min-height: 120px;"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></a></div>
+                                        <div class="col-xs-5" style="min-height: 120px;">
+                                            <a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}"><img src="{{ config('app.s3_path').$sale->image_path }}" class="img-responsive"></a>
+                                        </div>
                                         <div class="col-xs-7 detail">
 
-                                            <a class="cell-name" href="{{ $browseMore }}">{{ $houseDetail->name }}</a><br>
+                                            <a class="cell-name" href="{{ route('frontend.auction.house.post', ['slug' => $house->slug]) }}">{{ $houseDetail->name }}</a><br>
 
                                             <div class="misc">
                                                 <div class="cell-name cell-title"><a href="{{ route('frontend.auction.house.sale', ['slug' => $sale->slug]) }}">{{ $detail->title }}</a></div>

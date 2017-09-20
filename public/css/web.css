@@ -1378,4 +1378,10 @@ body {
   border-radius: 0px;
 }
 
+.btn-l-back {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
 /*# sourceMappingURL=web.css.map */
