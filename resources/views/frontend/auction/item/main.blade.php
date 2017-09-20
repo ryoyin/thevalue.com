@@ -4,6 +4,6 @@
 
     @include('frontend.auction.item.content')
 
-    {!! link_to(URL::previous(), 'Back', ['class' => 'btn btn-default btn-l-back']) !!}
+    {!! link_to(route('frontend.auction.house.sale', ['slug' => $sale->slug]), 'Back', ['class' => 'btn btn-default btn-l-back']) !!}
 
 @endsection

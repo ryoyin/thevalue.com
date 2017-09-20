@@ -176,7 +176,7 @@
 
     </div>
 
-    {!! link_to(URL::previous(), 'Back', ['class' => 'btn btn-default btn-l-back']) !!}
+    {!! link_to(route('frontend.auction.auction', ['slug' => $auctionType]), 'Back', ['class' => 'btn btn-default btn-l-back']) !!}
 
 </div>
 
