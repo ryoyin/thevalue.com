@@ -1179,9 +1179,9 @@ class YiDuController extends Controller
     public function spiderDownloadContent()
     {
 
-        if(!$this->checkRestartDownload()) exit;
+//        if(!$this->checkRestartDownload()) exit;
 
-        $sales = App\YiduSpider::where('status', 0)->get();
+        $sales = App\YiduSpider::where('status', 0)->limit(1)->get();
 
         foreach($sales as $sale) {
             $intSaleID = $sale->int_sale_id;

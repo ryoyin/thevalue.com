@@ -122,6 +122,17 @@
           </li>
           <li class="{{ isActiveMenu('sale.list', $menu) }}"><a href="{{ route('backend.auction.sale.saleList') }}"><i class="fa fa-dot-circle-o"></i> <span>Sale List   </span></a></li>
           <li class="{{ isActiveMenu('pushS3.list', $menu) }}"><a href="{{ route('backend.auction.sale.pushS3') }}"><i class="fa fa-dot-circle-o"></i> <span>Push S3   </span></a></li>
+          <li class="treeview {{ isActiveMenu('past.auction', $menu) }}">
+            <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Past</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <ul class="treeview-menu">
+              <li class="{{ isActiveMenu('yidu.index', $menu) }}">
+                <a href="#" class="active"><i class="fa fa-dot-circle-o"></i> <span>Christie's</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li class="{{ isActiveMenu('backend.auction.past.christie.sales', $menu) }}"><a href="{{ route('backend.auction.past.christie.sales') }}"><i class="fa fa-dot-circle-o"></i> <span>Sales   </span></a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
 
           {{--<li class="{{ isActiveMenu('banner.create', $menu) }}"><a href="{{ action('Backend\BannerController@create') }}"><i class="fa fa-dot-circle-o"></i> <span>Add Banner   </span></a></li>--}}
         </ul>

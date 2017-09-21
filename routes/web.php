@@ -231,6 +231,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tvadmin/auction/sale/pushS3', 'Backend\AuctionController@pushS3Index')->name('backend.auction.sale.pushS3');
     Route::get('tvadmin/auction/sale/pushS3/process', 'Backend\AuctionController@pushS3Process')->name('backend.auction.sale.pushS3Process');
 
+    // Past Auction
+    Route::get('tvadmin/auction/past/christie/sales', 'Backend\Auction\Past\ChristieController@sales')->name('backend.auction.past.christie.sales');
+    Route::get('tvadmin/auction/past/christie/importSale', 'Backend\Auction\Past\ChristieController@importSale')->name('backend.auction.past.christie.importSale');
+
     //get realized-price
 //    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
 //    Route::get('/christie-convert-price', 'Scripts\ImportChristieSaleController@convertPrice');

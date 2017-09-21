@@ -15,3 +15,4 @@ function isDone($value) {
 function showStatusSim($value) {
     return $value == 1 ? 'On' : 'Off';
 }
+
