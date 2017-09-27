@@ -23,14 +23,19 @@ class ChristieSalesChecking extends Model
     {
         $intSaleID = $this->int_sale_id;
 
-        return Storage::disk('s3')->exists($this->getJSONPath($intSaleID));
+        return Storage::disk('local')->exists($this->getJSONPath($intSaleID));
     }
 
-    public function getJSON()
+    public function getJSON($decode = true)
     {
         $intSaleID = $this->int_sale_id;
 
-        return json_decode(Storage::disk('s3')->get($this->getJSONPath($intSaleID)), true);
+        if($decode) {
+            return json_decode(Storage::disk('local')->get('spider/christie/past/json/'.$intSaleID.'.json'), true);
+        } else {
+            return Storage::disk('s3')->get($this->getJSONPath($intSaleID));
+        }
+
     }
 
 }

@@ -234,6 +234,10 @@ Route::group(['middleware' => 'auth'], function() {
     // Past Auction
     Route::get('tvadmin/auction/past/christie/sales', 'Backend\Auction\Past\ChristieController@sales')->name('backend.auction.past.christie.sales');
     Route::get('tvadmin/auction/past/christie/importSale', 'Backend\Auction\Past\ChristieController@importSale')->name('backend.auction.past.christie.importSale');
+    Route::get('tvadmin/auction/past/christie/importLocation', 'Backend\Auction\Past\ChristieController@importLocation')->name('backend.auction.past.christie.importLocation');
+
+    //countries
+    Route::get('tvadmin/countries', 'CountriesController@import')->name('countries');
 
     //get realized-price
 //    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
