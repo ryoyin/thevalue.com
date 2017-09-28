@@ -230,6 +230,8 @@ class ChristieController extends Controller
         $sale['sale']['en']['title'] = trim($saleInfo_span->item(1)->textContent);
 
         // get date
+        echo $saleInfo_span->item(2)->textContent."\n";
+        exit;
         $sale_date_timestamp = strtotime(trim($saleInfo_span->item(2)->textContent));
 
         $year = date('Y', $sale_date_timestamp);
@@ -2341,5 +2343,39 @@ class ChristieController extends Controller
 
         return view('backend.auctions.crawler.christie.pastAuction', $data);
     }
+
+    public function getSaleByIntSaleIDTest($intSaleID)
+    {
+        set_time_limit(6000);
+
+        echo "<p>";
+        echo 'Spider '.$intSaleID.' start';
+        echo "<br>";
+
+        $content = $this->getContent($intSaleID); // get content from christie
+
+        $saleArray = $this->makeSaleInfo($intSaleID, $content, false);
+
+        if ($saleArray === false) {
+            return redirect('backend.auction.christie.index')->with('warning', 'Sale not exist!');
+        }
+
+//        dd($saleArray);
+
+        $saleJSON = json_encode($saleArray);
+
+        $storePath = 'spider/christie/sale/' . $intSaleID . '/';
+
+        Storage::disk('local')->put($storePath . $intSaleID . '.json', $saleJSON);
+
+        $saleID = $saleArray['sale']['id'];
+
+        echo 'Spider '.$intSaleID.' end';
+        echo "<br>";
+
+        return $saleArray;
+
+    }
+
 
 }

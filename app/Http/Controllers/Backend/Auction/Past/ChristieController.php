@@ -82,57 +82,27 @@ class ChristieController extends Controller
 
 //            dd($this->saleArray);
 
+            echo "Importing Internal Sale ID: ".$this->intSaleID."\n";
+
             // insert data to past_auction_sales table
             $this->insertPastAuctionSale();
 
             // insert data to past_auction_sale_details table
-            $this->importPastAuctionSaleDetails();
+            $this->insertPastAuctionSaleDetails();
 
             // insert data to past_auction_items table
-            foreach($saleArray['lots'] as $lot) {
+            $this->insertPastAuctionItems();
 
-                $item = New App\Model\Auction\Past\PastAuctionItem;
+            $sale->import = 1;
 
-                //item info
-                $item->slug = $this->slug.'-'.$lot['number'];
-                $item->number = $lot['number'];
-                $item->dimension = $lot['medium-dimensions'];
+            $sale->save();
 
-                $estimate = $this->getEstimate($lot['estimate']);
-
-                $item->estimate_value_initial = $estimate['estimate_value_initial'];
-                $item->estimate_value_end = $estimate['estimate_value_end'];
-                $item->sold_value = $this->convertValue($lot['price']);
-                $item->auction_sale_id = $this->sale->id;
-
-                // item image
-                $item->image_path = $lot['image_path'];
-                $item->image_fit_path = null;
-                $item->image_small_path = null;
-                $item->image_medium_path = null;
-                $item->image_large_path = null;
-
-                //pending, sold, bought in, withdraw, noshow
-                if($item->sold_value == null) {
-                    $item->status = 4;
-                } else {
-                    $item->status = 1;
-                }
-
-                $item->save();
-
-                foreach($this->languages as $language) {
-                    
-                }
-
-            }
-
-            // insert data to past_auction_item_details table
-
-            exit;
+//            exit;
 
         }
     }
+
+
 
     public function getEstimate($estimate)
     {
@@ -215,7 +185,7 @@ class ChristieController extends Controller
         $this->sale = $sale;
     }
 
-    public function importPastAuctionSaleDetails()
+    public function insertPastAuctionSaleDetails()
     {
         $saleArray = $this->saleArray;
 
@@ -229,6 +199,63 @@ class ChristieController extends Controller
             $saleDetail->past_auction_sale_id = $this->sale->id;
 
             $saleDetail->save();
+
+        }
+    }
+
+    public function insertPastAuctionItems()
+    {
+        foreach($this->saleArray['lots'] as $lot) {
+
+            echo "Lot Number: ".$lot['number']."\n";
+
+            $item = New App\Model\Auction\Past\PastAuctionItem;
+
+            //item info
+            $item->slug = $this->slug.'-'.$lot['number'];
+            $item->number = $lot['number'];
+            $item->dimension = $lot['medium-dimensions'];
+
+            $estimate = $this->getEstimate($lot['estimate']);
+
+            $item->estimate_value_initial = $estimate['estimate_value_initial'];
+            $item->estimate_value_end = $estimate['estimate_value_end'];
+            $item->sold_value = $this->convertValue($lot['price']);
+            $item->auction_sale_id = $this->sale->id;
+
+            // item image
+            // mobile: "500x500>", thumb: "42x42>", web: "1200x1200>", detail: "1920x1920>"
+            $item->image_path = $lot['image_path'];
+            $item->image_fit_path = null;
+            $item->image_small_path = null;
+            $item->image_medium_path = null;
+            $item->image_large_path = null;
+
+            //pending, sold, bought in, withdraw, noshow
+            if($item->sold_value == null) {
+                $item->status = 4;
+            } else {
+                $item->status = 1;
+            }
+
+            $item->save();
+
+//                dd($lot);
+
+            foreach($this->languages as $language) {
+
+                $itemDetails = New App\Model\Auction\Past\PastAuctionItemDetail;
+
+                $itemDetails->title = $lot[$language]['title'];
+                $itemDetails->description = $lot[$language]['description'];
+                $itemDetails->maker = $lot[$language]['secondary_title'];
+                $itemDetails->misc = ''.$lot[$language]['provenance'];
+                $itemDetails->lang = $language;
+                $itemDetails->past_auction_item_id = $item->id;
+
+                $itemDetails->save();
+
+            }
 
         }
     }

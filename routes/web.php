@@ -239,6 +239,8 @@ Route::group(['middleware' => 'auth'], function() {
     //countries
     Route::get('tvadmin/countries', 'CountriesController@import')->name('countries');
 
+    Route::get('tvadmin/calender/christie/{intSaleID}', 'Backend\Crawler\Calender\ChristieController@getSaleByIntSaleID');
+
     //get realized-price
 //    Route::get('/christie-get-realized-price', 'Scripts\ImportChristieSaleController@getRealizedPrice');
 //    Route::get('/christie-convert-price', 'Scripts\ImportChristieSaleController@convertPrice');
