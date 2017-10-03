@@ -74,7 +74,7 @@ class ChristieController extends Controller
 
         $locale = App::getLocale();
 
-        $sales = App\ChristieSpiderSale::where('web_capture', 1)->paginate(20);
+        $sales = App\ChristieSpiderSale::where('push_s3', 0)->where('web_capture', 1)->paginate(20);
 
         // dd($spiderDate);
 
