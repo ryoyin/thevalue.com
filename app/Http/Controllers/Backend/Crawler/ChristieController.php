@@ -230,8 +230,8 @@ class ChristieController extends Controller
         $sale['sale']['en']['title'] = trim($saleInfo_span->item(1)->textContent);
 
         // get date
-        echo $saleInfo_span->item(2)->textContent."\n";
-        exit;
+//        echo $saleInfo_span->item(2)->textContent."\n";
+//        exit;
         $sale_date_timestamp = strtotime(trim($saleInfo_span->item(2)->textContent));
 
         $year = date('Y', $sale_date_timestamp);
