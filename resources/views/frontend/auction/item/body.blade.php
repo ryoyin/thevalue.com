@@ -125,7 +125,7 @@
 </div>
 
 <?php
-    $imageSize = getimagesize(config('app.s3_path').$lot['image_large_path']);
+    $imageSize = getimagesize(config('app.s3_path').str_replace(' ', '%20', $lot['image_large_path']));
 ?>
 
 <script>
