@@ -29,20 +29,33 @@ class ChristieController extends Controller
 
         $nodes = $finder->query("//*[contains(@class, 'chr-result-block-inner')]");
 
+        $calenderInfo = array();
+
         echo '<pre>';
 
         foreach($nodes as $node) {
+
+//            echo $node->textContent;
+
+//            echo "\n";
+
             $links = $node->getElementsByTagName('a');
 
             if($this->isSale($intSaleID, $links)) {
 
                 $saleInfo = $this->getSaleInfoCSV($links);
+                if($saleInfo != null) {
+                    $calenderInfo[] = $saleInfo;
+                }
 
-                dd($saleInfo);
+//                dd($saleInfo);
 
-                echo $node->textContent;
+//                echo $node->textContent;
+
             }
         }
+
+        dd($calenderInfo);
 
         exit;
 
@@ -102,16 +115,67 @@ class ChristieController extends Controller
                 $info = str_replace('javascript:ShowSaleInfoContent_Multilanguage(','', $onclick);
                 $info = str_replace('); return false;','', $info);
                 $data = explode("',", $info);
+
+//                dd($data);
+
                 $rawSaleID = explode('-', $data[0]);
                 $rawSaleID = $rawSaleID[1];
 
+                $rawAuctionTime = $data[2]; //auction time
+
+                echo "paring auction time: \n";
+                $auctionTime = $this->getDatetime($rawAuctionTime);
+
+//                dd($exRawAuctionTime);
+
+                $exViewingTime = explode('~', str_replace('^', '', $data[3]));
+                $location = $exViewingTime[0];
+                $rawViewingTime = $exViewingTime[1];
+
+                echo "paring viewing time: \n";
+                $viewingTime = $this->getDatetime($rawViewingTime);
+
                 $info = array(
-                    'saleID' => $rawSaleID
+                    'saleID' => $rawSaleID,
+                    'location' => $location,
+                    'auction' => $auctionTime,
+                    'viewing' => $rawViewingTime
                 );
 
                 return $info;
             }
         }
+    }
+
+    private function getDatetime($rawAuctionTime)
+    {
+        $exRawAuctionTime = explode('|', $rawAuctionTime);
+
+        $auctionTime = array();
+
+        foreach($exRawAuctionTime as $i) {
+
+            echo 'start parsing'."\n";
+            echo $i."\n";
+
+            if($i != "") {
+                $exI = explode("#", $i);
+
+                $date = explode(" ", $exI[0]);
+
+                $datetime = $date[1].' '.str_replace("'", "", $date[0]).' 2017 '.$exI[1];
+
+//                        echo $datetime."\n";
+
+                $timestamp = strtotime($datetime);
+
+                $auctionTime[] = array('datetime' => $datetime, 'timestamp' => $timestamp, 'lot' => trim($exI[2]));
+
+//                        dd($exI);
+            }
+        }
+
+        return $auctionTime;
     }
 
     private function getContentByURL($url)
