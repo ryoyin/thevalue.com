@@ -23,8 +23,8 @@ return [
     barrier for our readers to understand the art industry. It serves as a resourceful platform which will
     publicize art knowledge, nurture future experts in the field, and transform the art markets for the
     digital age.</p>',
-    'googleMap' => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d326.32262602904586!2d114.15630777254734!3d22.281055397065355!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34040064d1e6b3dd%3A0xfccf787bb1d3579b!2z6I2K5aiB5buj5aC0!5e0!3m2!1sen!2shk!4v1486264132269" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
-    'address' => 'Level 19, Silver Fortune Plaza, 1 Wellington Street, Central, Hong Kong',
+    'googleMap' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230.73815727379744!2d114.1512747546604!3d22.285166463955395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3404007c14e48209%3A0x84b17dd87c53ba5e!2z5LiK55Kw56an5Yip6KGXMjfomZ_lr4zovJ3llYbmpa3kuK3lv4M!5e0!3m2!1szh-TW!2shk!4v1520250498540" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
+    'address' => 'Room 402, Fu Fai Commercial Center, 27 Hillier Street, Sheung Wan, Hong Kong',
     'address-title' => 'Address',
     'tel-title' => 'Tel.',
     'fax-title' => 'Fax',

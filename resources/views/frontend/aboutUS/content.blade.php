@@ -17,7 +17,7 @@
 
 <div id="block" style="border: 0px !important">
     <div>{{ trans('thevalue.address-title') }}: <span id="aboutus-address">@lang('thevalue.address')</span></div>
-    <div>{{ trans('thevalue.tel-title') }}: <span id="aboutus-tel">+852 3972 5725</span></div>
+    <div>{{ trans('thevalue.tel-title') }}: <span id="aboutus-tel">+852 2688 2411</span></div>
     {{--<div>{{ trans('thevalue.fax-title') }}: <span id="aboutus-fax"></span></div>--}}
-    <div>{{ trans('thevalue.email-title') }}: <span id="aboutus-email">itsupport@thevalue.com</span></div>
+    <div>{{ trans('thevalue.email-title') }}: <span id="aboutus-email">enquiry@thevalue.com</span></div>
 </div>
