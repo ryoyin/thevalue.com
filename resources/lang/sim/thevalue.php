@@ -19,7 +19,7 @@ return [
     自2016年成立以来，凭藉其专业背景和用心服务，TheValue.com一直为读者打破任何阻碍他们了解艺
     术产业的困障。TheValue.com提供了资讯丰富的平台，以普及艺术知识、培育业界人才，更将进一步
     带领艺术市场，迈步跨进数码时代。</p>',
-    'googleMap' => '<iframe src="http://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230.73815727379744!2d114.1512747546604!3d22.285166463955395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3404007c14e48209%3A0x84b17dd87c53ba5e!2z5LiK55Kw56an5Yip6KGXMjfomZ_lr4zovJ3llYbmpa3kuK3lv4M!5e0!3m2!1szh-TW!2shk!4v1520250498540" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
+    'googleMap' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230.73815727379744!2d114.1512747546604!3d22.285166463955395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3404007c14e48209%3A0x84b17dd87c53ba5e!2z5LiK55Kw56an5Yip6KGXMjfomZ_lr4zovJ3llYbmpa3kuK3lv4M!5e0!3m2!1szh-TW!2shk!4v1520250498540" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>',
     'address' => '香港上环禧利街27号 富辉商业中心 四楼二室',
     'address-title' => '地址',
     'tel-title' => '电话',
